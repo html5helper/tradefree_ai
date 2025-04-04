@@ -1,0 +1,417 @@
+app:
+  description: 将图片转为svg
+  icon: unicorn_face
+  icon_background: '#FBE8FF'
+  mode: workflow
+  name: 图片转svg
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/comfyui:0.0.4@8bb424227ceb2fef8f69c3505ab82b34d38a6291e385b482ab67a34c4cf2e656
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: tool
+      id: 1742989876879-source-1742989884722-target
+      selected: false
+      source: '1742989876879'
+      sourceHandle: source
+      target: '1742989884722'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: code
+      id: 1742989884722-source-1743070186528-target
+      selected: false
+      source: '1742989884722'
+      sourceHandle: source
+      target: '1743070186528'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: end
+      id: 1743070186528-source-1742990102549-target
+      source: '1743070186528'
+      sourceHandle: source
+      target: '1742990102549'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - image
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          label: 上传图片
+          max_length: 48
+          options: []
+          required: true
+          type: file
+          variable: img
+      height: 90
+      id: '1742989876879'
+      position:
+        x: 30
+        y: 271
+      positionAbsolute:
+        x: 30
+        y: 271
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Image prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            ja_JP: Image prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            pt_BR: Image prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            zh_Hans: 图像提示词，您可以查看 Stable Diffusion 或者 FLUX 的官方文档
+          label:
+            en_US: Prompt
+            ja_JP: Prompt
+            pt_BR: Prompt
+            zh_Hans: 提示词
+          llm_description: Image prompt, you should describe the image you want to
+            generate as a list of words as possible as detailed, the prompt must be
+            written in English.
+          max: null
+          min: null
+          name: positive_prompt
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Negative prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            ja_JP: Negative prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            pt_BR: Negative prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            zh_Hans: 负面提示词，您可以查看 Stable Diffusion 或者 FLUX 的官方文档
+          label:
+            en_US: Negative Prompt
+            ja_JP: Negative Prompt
+            pt_BR: Negative Prompt
+            zh_Hans: 负面提示词
+          llm_description: Negative prompt, you should describe the image you don't
+            want to generate as a list of words as possible as detailed, the prompt
+            must be written in English.
+          max: null
+          min: null
+          name: negative_prompt
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The input images
+            ja_JP: The input images
+            pt_BR: The input images
+            zh_Hans: 输入的图片
+          label:
+            en_US: Input Images
+            ja_JP: Input Images
+            pt_BR: Input Images
+            zh_Hans: 输入的图片
+          llm_description: The input images, used to transfer to the comfyui workflow
+            to generate another image.
+          max: null
+          min: null
+          name: images
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: files
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: exported from ComfyUI workflow
+            ja_JP: exported from ComfyUI workflow
+            pt_BR: exported from ComfyUI workflow
+            zh_Hans: 从ComfyUI的工作流中导出
+          label:
+            en_US: Workflow JSON
+            ja_JP: Workflow JSON
+            pt_BR: Workflow JSON
+            zh_Hans: Workflow JSON
+          llm_description: ''
+          max: null
+          min: null
+          name: workflow_json
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: When the workflow has multiple image nodes, enter the ID list of
+              these nodes, and the images will be passed to ComfyUI in the order of
+              the list.
+            ja_JP: When the workflow has multiple image nodes, enter the ID list of
+              these nodes, and the images will be passed to ComfyUI in the order of
+              the list.
+            pt_BR: When the workflow has multiple image nodes, enter the ID list of
+              these nodes, and the images will be passed to ComfyUI in the order of
+              the list.
+            zh_Hans: 当工作流有多个图片节点时，输入这些节点的ID列表，图片将按列表顺序传给ComfyUI
+          label:
+            en_US: Image Node ID List
+            ja_JP: Image Node ID List
+            pt_BR: Image Node ID List
+            zh_Hans: 图片节点ID列表
+          llm_description: ''
+          max: null
+          min: null
+          name: image_ids
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: If you need to generate different images each time, you need to
+              enter the ID of the seed node.
+            ja_JP: If you need to generate different images each time, you need to
+              enter the ID of the seed node.
+            pt_BR: If you need to generate different images each time, you need to
+              enter the ID of the seed node.
+            zh_Hans: 如果需要每次生成时使用不同的种子，需要输入包含种子的节点的ID
+          label:
+            en_US: Seed Node Id
+            ja_JP: Seed Node Id
+            pt_BR: Seed Node Id
+            zh_Hans: 种子节点ID
+          llm_description: ''
+          max: null
+          min: null
+          name: seed_id
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          image_ids: ''
+          images: ''
+          negative_prompt: ''
+          positive_prompt: ''
+          seed_id: ''
+          workflow_json: ''
+        provider_id: langgenius/comfyui/comfyui
+        provider_name: langgenius/comfyui/comfyui
+        provider_type: builtin
+        selected: false
+        title: 工作流
+        tool_configurations:
+          image_ids: '1'
+          seed_id: null
+          workflow_json: '{   "1": {     "inputs": {       "image": "81DjqvICxTL._AC_SL1500_.jpg",       "upload":
+            "image"     },     "class_type": "LoadImage",     "_meta": {       "title":
+            "加载图像"     }   },   "2": {     "inputs": {       "hierarchical": "stacked",       "mode":
+            "spline",       "filter_speckle": 4,       "color_precision": 6,       "layer_difference":
+            16,       "corner_threshold": 60,       "length_threshold": 4,       "max_iterations":
+            10,       "splice_threshold": 45,       "path_precision": 3,       "image":
+            [         "1",         0       ]     },     "class_type": "ConvertRasterToVectorColor",     "_meta":
+            {       "title": "Raster to Vector (SVG)Color"     }   },   "12": {     "inputs":
+            {       "seed": 975413732877972,       "steps": 20,       "cfg": 8,       "sampler_name":
+            "euler",       "scheduler": "normal",       "denoise": 1,       "positive":
+            [         "13",         0       ],       "negative": [         "13",         0       ]     },     "class_type":
+            "KSampler",     "_meta": {       "title": "K采样器"     }   },   "13": {     "inputs":
+            {       "text": "positive_prompt"     },     "class_type": "CLIPTextEncode",     "_meta":
+            {       "title": "CLIP文本编码（提示）"     }   },   "19": {     "inputs": {       "svg_strings":
+            [         "2",         0       ],       "filename_prefix": "{{positive_prompt}}",       "append_timestamp":
+            false,       "custom_output_path": "{{negative_prompt}}"     },     "class_type":
+            "SaveSVG",     "_meta": {       "title": "Save SVG"     }   } }'
+        tool_label: 工作流
+        tool_name: workflow
+        tool_parameters:
+          images:
+            type: variable
+            value:
+            - '1742989876879'
+            - img
+          negative_prompt:
+            type: mixed
+            value: /home/qinbinbin/ai_tools/dify/docker/volumes/certbot/www/svg
+          positive_prompt:
+            type: mixed
+            value: '{{#sys.workflow_run_id#}}'
+        type: tool
+      height: 142
+      id: '1742989884722'
+      position:
+        x: 334
+        y: 271
+      positionAbsolute:
+        x: 334
+        y: 271
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1743070186528'
+          - img_path
+          variable: img_path
+        selected: false
+        title: 结束
+        type: end
+      height: 90
+      id: '1742990102549'
+      position:
+        x: 960.2857142857142
+        y: 271
+      positionAbsolute:
+        x: 960.2857142857142
+        y: 271
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "\ndef main(arg1: str) -> dict:\n    return {\n        \"img_path\"\
+          : f\"![xxx](http://dify.html5core.com/svg/{arg1}.svg)\",\n    }\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          img_path:
+            children: null
+            type: string
+        selected: true
+        title: 代码执行
+        type: code
+        variables:
+        - value_selector:
+          - sys
+          - workflow_run_id
+          variable: arg1
+      height: 54
+      id: '1743070186528'
+      position:
+        x: 638
+        y: 271
+      positionAbsolute:
+        x: 638
+        y: 271
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: -163.60000000000002
+      y: 136.8
+      zoom: 0.7
