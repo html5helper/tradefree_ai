@@ -1,0 +1,487 @@
+app:
+  description: 将第一张图片的脸，迁移至第二张图片的角色上
+  icon: 'on'
+  icon_background: '#FBE8FF'
+  mode: workflow
+  name: face transplant
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/comfyui:0.0.4@8bb424227ceb2fef8f69c3505ab82b34d38a6291e385b482ab67a34c4cf2e656
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: tool
+      id: 1745288160036-source-1745288168631-target
+      source: '1745288160036'
+      sourceHandle: source
+      target: '1745288168631'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: end
+      id: 1745288168631-source-1745288196691-target
+      source: '1745288168631'
+      sourceHandle: source
+      target: '1745288196691'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - image
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          label: imgs
+          max_length: 2
+          options: []
+          required: true
+          type: file-list
+          variable: imgs
+      height: 90
+      id: '1745288160036'
+      position:
+        x: 116
+        y: 286
+      positionAbsolute:
+        x: 116
+        y: 286
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Image prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            ja_JP: Image prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            pt_BR: Image prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            zh_Hans: 图像提示词，您可以查看 Stable Diffusion 或者 FLUX 的官方文档
+          label:
+            en_US: Prompt
+            ja_JP: Prompt
+            pt_BR: Prompt
+            zh_Hans: 提示词
+          llm_description: Image prompt, you should describe the image you want to
+            generate as a list of words as possible as detailed, the prompt must be
+            written in English.
+          max: null
+          min: null
+          name: positive_prompt
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Negative prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            ja_JP: Negative prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            pt_BR: Negative prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            zh_Hans: 负面提示词，您可以查看 Stable Diffusion 或者 FLUX 的官方文档
+          label:
+            en_US: Negative Prompt
+            ja_JP: Negative Prompt
+            pt_BR: Negative Prompt
+            zh_Hans: 负面提示词
+          llm_description: Negative prompt, you should describe the image you don't
+            want to generate as a list of words as possible as detailed, the prompt
+            must be written in English.
+          max: null
+          min: null
+          name: negative_prompt
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The input images
+            ja_JP: The input images
+            pt_BR: The input images
+            zh_Hans: 输入的图片
+          label:
+            en_US: Input Images
+            ja_JP: Input Images
+            pt_BR: Input Images
+            zh_Hans: 输入的图片
+          llm_description: The input images, used to transfer to the comfyui workflow
+            to generate another image.
+          max: null
+          min: null
+          name: images
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: files
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: exported from ComfyUI workflow
+            ja_JP: exported from ComfyUI workflow
+            pt_BR: exported from ComfyUI workflow
+            zh_Hans: 从ComfyUI的工作流中导出
+          label:
+            en_US: Workflow JSON
+            ja_JP: Workflow JSON
+            pt_BR: Workflow JSON
+            zh_Hans: Workflow JSON
+          llm_description: ''
+          max: null
+          min: null
+          name: workflow_json
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: When the workflow has multiple image nodes, enter the ID list of
+              these nodes, and the images will be passed to ComfyUI in the order of
+              the list.
+            ja_JP: When the workflow has multiple image nodes, enter the ID list of
+              these nodes, and the images will be passed to ComfyUI in the order of
+              the list.
+            pt_BR: When the workflow has multiple image nodes, enter the ID list of
+              these nodes, and the images will be passed to ComfyUI in the order of
+              the list.
+            zh_Hans: 当工作流有多个图片节点时，输入这些节点的ID列表，图片将按列表顺序传给ComfyUI
+          label:
+            en_US: Image Node ID List
+            ja_JP: Image Node ID List
+            pt_BR: Image Node ID List
+            zh_Hans: 图片节点ID列表
+          llm_description: ''
+          max: null
+          min: null
+          name: image_ids
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: If you need to generate different images each time, you need to
+              enter the ID of the seed node.
+            ja_JP: If you need to generate different images each time, you need to
+              enter the ID of the seed node.
+            pt_BR: If you need to generate different images each time, you need to
+              enter the ID of the seed node.
+            zh_Hans: 如果需要每次生成时使用不同的种子，需要输入包含种子的节点的ID
+          label:
+            en_US: Seed Node Id
+            ja_JP: Seed Node Id
+            pt_BR: Seed Node Id
+            zh_Hans: 种子节点ID
+          llm_description: ''
+          max: null
+          min: null
+          name: seed_id
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          image_ids: ''
+          images: ''
+          negative_prompt: ''
+          positive_prompt: ''
+          seed_id: ''
+          workflow_json: ''
+        provider_id: langgenius/comfyui/comfyui
+        provider_name: langgenius/comfyui/comfyui
+        provider_type: builtin
+        selected: false
+        title: 工作流
+        tool_configurations:
+          image_ids: 176,75
+          seed_id: null
+          workflow_json: '{   "73": {     "inputs": {       "samples": [         "80",         0       ],       "vae":
+            [         "203",         0       ]     },     "class_type": "VAEDecode",     "_meta":
+            {       "title": "VAE解码"     }   },   "75": {     "inputs": {       "image":
+            "mote2.jpg",       "upload": "image"     },     "class_type": "LoadImage",     "_meta":
+            {       "title": "原图只能是单人照片，无需抠图"     }   },   "77": {     "inputs": {       "noise_mask":
+            true,       "positive": [         "133",         0       ],       "negative":
+            [         "269",         0       ],       "vae": [         "203",         0       ],       "pixels":
+            [         "230",         0       ],       "mask": [         "243",         0       ]     },     "class_type":
+            "InpaintModelConditioning",     "_meta": {       "title": "修复模型条件"     }   },   "80":
+            {     "inputs": {       "seed": 28744307157159,       "steps": 6,       "cfg":
+            1,       "sampler_name": "euler",       "scheduler": "sgm_uniform",       "denoise":
+            1,       "model": [         "272",         0       ],       "positive":
+            [         "377",         0       ],       "negative": [         "77",         1       ],       "latent_image":
+            [         "77",         2       ]     },     "class_type": "KSampler",     "_meta":
+            {       "title": "K采样器"     }   },   "133": {     "inputs": {       "guidance":
+            40,       "conditioning": [         "168",         0       ]     },     "class_type":
+            "FluxGuidance",     "_meta": {       "title": "Flux引导"     }   },   "168":
+            {     "inputs": {       "text": "positive_prompt",       "clip": [         "202",         0       ]     },     "class_type":
+            "CLIPTextEncode",     "_meta": {       "title": "CLIP文本编码（提示）"     }   },   "176":
+            {     "inputs": {       "image": "2 (2).jpg",       "upload": "image"     },     "class_type":
+            "LoadImage",     "_meta": {       "title": "必需是单人照片，背景尽量干净"     }   },   "202":
+            {     "inputs": {       "clip_name1": "clip_l.safetensors",       "clip_name2":
+            "t5-v1_1-xxl-encoder-Q4_K_S.gguf",       "type": "flux"     },     "class_type":
+            "DualCLIPLoaderGGUF",     "_meta": {       "title": "DualCLIPLoader (GGUF)"     }   },   "203":
+            {     "inputs": {       "vae_name": "ae.sft"     },     "class_type":
+            "VAELoader",     "_meta": {       "title": "加载VAE"     }   },   "217":
+            {     "inputs": {       "unet_name": "flux1-fill-dev-fp16-Q4_0-GGUF.gguf"     },     "class_type":
+            "UnetLoaderGGUF",     "_meta": {       "title": "Unet Loader (GGUF)"     }   },   "230":
+            {     "inputs": {       "direction": "left",       "match_image_size":
+            true,       "image1": [         "298",         0       ],       "image2":
+            [         "368",         0       ]     },     "class_type": "ImageConcanate",     "_meta":
+            {       "title": "Image Concatenate"     }   },   "232": {     "inputs":
+            {       "images": [         "230",         0       ]     },     "class_type":
+            "PreviewImage",     "_meta": {       "title": "图片合成"     }   },   "241":
+            {     "inputs": {       "direction": "left",       "match_image_size":
+            true,       "image1": [         "321",         0       ],       "image2":
+            [         "300",         0       ]     },     "class_type": "ImageConcanate",     "_meta":
+            {       "title": "Image Concatenate"     }   },   "242": {     "inputs":
+            {       "images": [         "241",         0       ]     },     "class_type":
+            "PreviewImage",     "_meta": {       "title": "蒙板合成"     }   },   "243":
+            {     "inputs": {       "channel": "red",       "image": [         "241",         0       ]     },     "class_type":
+            "ImageToMask",     "_meta": {       "title": "将图像转换为遮罩"     }   },   "262":
+            {     "inputs": {       "image": [         "230",         0       ]     },     "class_type":
+            "easy imageSize",     "_meta": {       "title": "ImageSize"     }   },   "269":
+            {     "inputs": {       "conditioning": [         "133",         0       ]     },     "class_type":
+            "ConditioningZeroOut",     "_meta": {       "title": "条件零化"     }   },   "272":
+            {     "inputs": {       "model": [         "361",         0       ]     },     "class_type":
+            "DifferentialDiffusion",     "_meta": {       "title": "差分扩散"     }   },   "277":
+            {     "inputs": {       "filename_prefix": "ComfyUI",       "images":
+            [         "351",         0       ]     },     "class_type": "SaveImage",     "_meta":
+            {       "title": "保存图像"     }   },   "298": {     "inputs": {       "upscale_method":
+            "bicubic",       "megapixels": [         "329",         0       ],       "image":
+            [         "347",         0       ]     },     "class_type": "ImageScaleToTotalPixels",     "_meta":
+            {       "title": "将图像缩放到总像素"     }   },   "300": {     "inputs": {       "width":
+            [         "336",         0       ],       "height": [         "336",         1       ],       "batch_size":
+            1,       "color": 0     },     "class_type": "EmptyImage",     "_meta":
+            {       "title": "空图像"     }   },   "318": {     "inputs": {       "image":
+            [         "347",         0       ]     },     "class_type": "easy imageSize",     "_meta":
+            {       "title": "ImageSize"     }   },   "320": {     "inputs": {       "mask":
+            [         "347",         1       ]     },     "class_type": "MaskToImage",     "_meta":
+            {       "title": "将遮罩转换为图像"     }   },   "321": {     "inputs": {       "upscale_method":
+            "bicubic",       "megapixels": [         "329",         0       ],       "image":
+            [         "320",         0       ]     },     "class_type": "ImageScaleToTotalPixels",     "_meta":
+            {       "title": "将图像缩放到总像素"     }   },   "323": {     "inputs": {       "operator":
+            "-",       "a": [         "262",         0       ],       "b": [         "355",         0       ]     },     "class_type":
+            "LayerUtility: NumberCalculator",     "_meta": {       "title": "LayerUtility:
+            Number Calculator"     }   },   "329": {     "inputs": {       "value":
+            1     },     "class_type": "easy float",     "_meta": {       "title":
+            "象素值（0.5-1）之间"     }   },   "336": {     "inputs": {       "image": [         "368",         0       ]     },     "class_type":
+            "easy imageSize",     "_meta": {       "title": "ImageSize"     }   },   "347":
+            {     "inputs": {       "invert_mask": false,       "detect": "mask_area",       "top_reserve":
+            40,       "bottom_reserve": 40,       "left_reserve": 40,       "right_reserve":
+            40,       "round_to_multiple": "8",       "image": [         "75",         0       ],       "mask":
+            [         "374",         0       ]     },     "class_type": "LayerUtility:
+            CropByMask V2",     "_meta": {       "title": "LayerUtility: CropByMask
+            V2"     }   },   "351": {     "inputs": {       "invert_mask": false,       "background_image":
+            [         "75",         0       ],       "croped_image": [         "352",         0       ],       "crop_box":
+            [         "347",         2       ],       "croped_mask": [         "347",         1       ]     },     "class_type":
+            "LayerUtility: RestoreCropBox",     "_meta": {       "title": "LayerUtility:
+            RestoreCropBox"     }   },   "352": {     "inputs": {       "upscale_method":
+            "bicubic",       "width": [         "318",         0       ],       "height":
+            [         "318",         1       ],       "crop": "disabled",       "image":
+            [         "356",         0       ]     },     "class_type": "ImageScale",     "_meta":
+            {       "title": "图像放大"     }   },   "355": {     "inputs": {       "image":
+            [         "298",         0       ]     },     "class_type": "easy imageSize",     "_meta":
+            {       "title": "ImageSize"     }   },   "356": {     "inputs": {       "width":
+            [         "355",         0       ],       "height": [         "355",         1       ],       "x":
+            [         "323",         0       ],       "y": 0,       "image": [         "73",         0       ]     },     "class_type":
+            "ImageCrop",     "_meta": {       "title": "图像裁剪"     }   },   "361":
+            {     "inputs": {       "lora_name": "Hyper-Flux.1-Dev-4-step-Lora.safetensors",       "strength_model":
+            1,       "model": [         "363",         0       ]     },     "class_type":
+            "LoraLoaderModelOnly",     "_meta": {       "title": "仅加载LoRA模型"     }   },   "363":
+            {     "inputs": {       "lora_name": "comfyui_portrait_lora64.safetensors",       "strength_model":
+            1,       "model": [         "217",         0       ]     },     "class_type":
+            "LoraLoaderModelOnly",     "_meta": {       "title": "仅加载LoRA模型"     }   },   "364":
+            {     "inputs": {       "model_name": "bbox/face_yolov8m.pt"     },     "class_type":
+            "UltralyticsDetectorProvider",     "_meta": {       "title": "UltralyticsDetectorProvider"     }   },   "365":
+            {     "inputs": {       "threshold": 0.6,       "dilation": 4,       "bbox_detector":
+            [         "364",         0       ],       "image": [         "176",         0       ]     },     "class_type":
+            "BboxDetectorCombined_v2",     "_meta": {       "title": "BBOX Detector
+            (combined)"     }   },   "367": {     "inputs": {       "invert_mask":
+            false,       "detect": "mask_area",       "top_reserve": 80,       "bottom_reserve":
+            80,       "left_reserve": 20,       "right_reserve": 20,       "round_to_multiple":
+            "8",       "image": [         "176",         0       ],       "mask":
+            [         "365",         0       ]     },     "class_type": "LayerUtility:
+            CropByMask V2",     "_meta": {       "title": "LayerUtility: CropByMask
+            V2"     }   },   "368": {     "inputs": {       "method": "mkl",       "strength":
+            0.2,       "image_ref": [         "347",         0       ],       "image_target":
+            [         "372",         0       ]     },     "class_type": "ColorMatch",     "_meta":
+            {       "title": "Color Match"     }   },   "369": {     "inputs": {       "model_name":
+            "bbox/face_yolov8m.pt"     },     "class_type": "UltralyticsDetectorProvider",     "_meta":
+            {       "title": "UltralyticsDetectorProvider"     }   },   "370": {     "inputs":
+            {       "threshold": 0.6,       "dilation": 4,       "bbox_detector":
+            [         "369",         0       ],       "image": [         "75",         0       ]     },     "class_type":
+            "BboxDetectorCombined_v2",     "_meta": {       "title": "BBOX Detector
+            (combined)"     }   },   "372": {     "inputs": {       "rem_mode": "RMBG-1.4",       "image_output":
+            "Hide",       "save_prefix": "ComfyUI",       "torchscript_jit": false,       "add_background":
+            "white",       "refine_foreground": false,       "images": [         "367",         0       ]     },     "class_type":
+            "easy imageRemBg",     "_meta": {       "title": "Image Remove Bg"     }   },   "374":
+            {     "inputs": {       "expand": 32,       "incremental_expandrate":
+            4,       "tapered_corners": true,       "flip_input": false,       "blur_radius":
+            16,       "lerp_alpha": 1,       "decay_factor": 1,       "fill_holes":
+            false,       "mask": [         "370",         0       ]     },     "class_type":
+            "GrowMaskWithBlur",     "_meta": {       "title": "Grow Mask With Blur"     }   },   "375":
+            {     "inputs": {       "style_model_name": "flux1-redux-dev.safetensors"     },     "class_type":
+            "StyleModelLoader",     "_meta": {       "title": "加载风格模型"     }   },   "376":
+            {     "inputs": {       "clip_name": "sigclip_vision_patch14_384.safetensors"     },     "class_type":
+            "CLIPVisionLoader",     "_meta": {       "title": "加载CLIP视觉"     }   },   "377":
+            {     "inputs": {       "downsampling_factor": 2,       "downsampling_function":
+            "area",       "mode": "keep aspect ratio",       "weight": 1,       "autocrop_margin":
+            0.1,       "conditioning": [         "77",         0       ],       "style_model":
+            [         "375",         0       ],       "clip_vision": [         "376",         0       ],       "image":
+            [         "368",         0       ]     },     "class_type": "ReduxAdvanced",     "_meta":
+            {       "title": "ReduxAdvanced"     }   } }'
+        tool_label: 工作流
+        tool_name: workflow
+        tool_parameters:
+          images:
+            type: variable
+            value:
+            - '1745288160036'
+            - imgs
+          positive_prompt:
+            type: mixed
+            value: Maintaining face,The twins look exactly the same in appearance,Surprising
+              similarity
+        type: tool
+      height: 142
+      id: '1745288168631'
+      position:
+        x: 494
+        y: 290
+      positionAbsolute:
+        x: 494
+        y: 290
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1745288168631'
+          - files
+          variable: files
+        selected: false
+        title: 结束
+        type: end
+      height: 90
+      id: '1745288196691'
+      position:
+        x: 889
+        y: 290
+      positionAbsolute:
+        x: 889
+        y: 290
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 44.79920488305788
+      y: -39.07246920294324
+      zoom: 0.9972312513520695
