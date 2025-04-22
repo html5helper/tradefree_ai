@@ -152,7 +152,7 @@ workflow:
       positionAbsolute:
         x: 1086
         y: 471
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -443,7 +443,9 @@ workflow:
             "Load Image From Url (mtb)",     "_meta": {       "title": "Load Image
             From Url (mtb)"     }   },   "152": {     "inputs": {       "image": "1
             (1).jpg",       "upload": "image"     },     "class_type": "LoadImage",     "_meta":
-            {       "title": "加载图像"     }   } }'
+            {       "title": "加载图像"     }   },   "153": {     "inputs": {       "images":
+            [         "149",         0       ]     },     "class_type": "Images to
+            RGB",     "_meta": {       "title": "Images to RGB"     }   } }'
         tool_label: 工作流
         tool_name: workflow
         tool_parameters:
@@ -465,7 +467,7 @@ workflow:
       positionAbsolute:
         x: 766
         y: 539
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
