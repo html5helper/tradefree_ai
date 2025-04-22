@@ -87,7 +87,7 @@
       "height": 800,
       "crop": "center",
       "image": [
-        "149",
+        "153",
         0
       ]
     },
@@ -210,11 +210,23 @@
   },
   "149": {
     "inputs": {
-      "url": "https://s.alicdn.com/@sc04/kf/Hd63aa8bc3dd642b6a2d2d984242d1e08N.jpg"
+      "url": "{{positive_prompt}}"
     },
     "class_type": "Load Image From Url (mtb)",
     "_meta": {
       "title": "Load Image From Url (mtb)"
+    }
+  },
+  "153": {
+    "inputs": {
+      "images": [
+        "149",
+        0
+      ]
+    },
+    "class_type": "Images to RGB",
+    "_meta": {
+      "title": "Images to RGB"
     }
   }
 }
