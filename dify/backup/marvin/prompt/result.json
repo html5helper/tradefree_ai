@@ -1,0 +1,25 @@
+{
+  "text": [
+    "Front-facing close-up shot of 74 high-quality vinyl PVC floral stickers featuring various floral designs; waterproof, scratch-proof, and sun-proof properties highlighted; stickers arranged neatly on a clean white background; no text or branding elements in the image; product centered with vibrant colors and glossy finish.",
+    "Angled top-down view of multiple floral stickers spread out on a smooth surface; showcasing the diversity of designs and shapes; waterproof and scratch-proof features visible under bright studio lighting; stickers partially overlapping to demonstrate quantity and variety; clean and minimalistic background.",
+    "Grouped composition of 5 packs of floral stickers overlapping slightly; each pack open to display different floral designs; zoom-in sections highlighting the vibrant colors and glossy texture of the vinyl PVC material; bright studio lighting emphasizing the durability and quality of the stickers; all elements arranged symmetrically with a clean background.",
+    "Floral vinyl PVC stickers placed on a laptop lid in a modern home office environment; natural lighting highlighting the smooth surface and clean sticker application; soft pastel tones creating a trendy and creative atmosphere; stickers positioned with a playful yet tidy aesthetic, reflecting the DIY decoration style.",
+    "Close-up of a water bottle decorated with floral vinyl PVC stickers; setting is a cozy kitchen environment with muted tones; lighting subtly reflects the waterproof and scratch-proof properties of the stickers; minimal accessories to maintain focus on the decorated water bottle.",
+    "Greeting card display stand in a boutique stationery store environment, embellished with an assortment of floral vinyl PVC stickers; stickers carefully applied in a balanced layout over card surfaces and edges; surrounding decor in soft neutral tones to keep focus on sticker vibrancy; artistic and modern visual style matching the 'Floral' and 'Trendy' design themes."
+  ],
+  "usage": {
+    "prompt_tokens": 2192,
+    "prompt_unit_price": "0.002",
+    "prompt_price_unit": "0.001",
+    "prompt_price": "0.004384",
+    "completion_tokens": 346,
+    "completion_unit_price": "0.008",
+    "completion_price_unit": "0.001",
+    "completion_price": "0.002768",
+    "total_tokens": 2538,
+    "total_price": "0.007152",
+    "currency": "RMB",
+    "latency": 13.292829785990762
+  },
+  "finish_reason": "stop"
+}

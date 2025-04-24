@@ -1,0 +1,559 @@
+app:
+  description: 基于amazon商品创建新品并发布_推荐热词版
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: singleCopyByAmzProduct
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/tongyi:0.0.14@d333909fe8d75a335b44da4b878d5120779b8703f12c21cf4730135d6864afbb
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 17434962209240-source-17434962480510-target
+      source: '17434962209240'
+      sourceHandle: source
+      target: '17434962480510'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: tool
+      id: 17434962480510-source-17434962613960-target
+      source: '17434962480510'
+      sourceHandle: source
+      target: '17434962613960'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: tool
+      id: 17434962613960-source-17434962687560-target
+      source: '17434962613960'
+      sourceHandle: source
+      target: '17434962687560'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: end
+      id: 17434962687560-source-1743485700810-target
+      source: '17434962687560'
+      sourceHandle: source
+      target: '1743485700810'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: code
+      id: 1743484650099-source-17434962209240-target
+      source: '1743484650099'
+      sourceHandle: source
+      target: '17434962209240'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: traceId
+          max_length: 200
+          options: []
+          required: true
+          type: text-input
+          variable: traceId
+        - label: product
+          max_length: 3000
+          options: []
+          required: true
+          type: paragraph
+          variable: product
+      height: 115
+      id: '1743484650099'
+      position:
+        x: -592.456899645123
+        y: 154.62895419266874
+      positionAbsolute:
+        x: -592.456899645123
+        y: 154.62895419266874
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '17434962687560'
+          - text
+          variable: output
+        selected: false
+        title: 结束
+        type: end
+      height: 89
+      id: '1743485700810'
+      position:
+        x: 1571.916987375261
+        y: 138.46420120004416
+      positionAbsolute:
+        x: 1571.916987375261
+        y: 138.46420120004416
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "import json\n\ndef main(product:str) -> dict:\n    item = json.loads(product)\n\
+          \    return {\n        \"product\": json.dumps(item)\n    }"
+        code_language: python3
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1743490511226'
+        outputs:
+          product:
+            children: null
+            type: string
+        selected: false
+        title: 解析商品信息
+        type: code
+        variables:
+        - value_selector:
+          - '1743484650099'
+          - product
+          variable: product
+      height: 53
+      id: '17434962209240'
+      position:
+        x: -171.55814464013395
+        y: 158.48490289952207
+      positionAbsolute:
+        x: -171.55814464013395
+        y: 158.48490289952207
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1743490511226'
+        model:
+          completion_params: {}
+          mode: chat
+          name: deepseek-v3
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 8207c270-950a-45d7-b18b-716cddb7810a
+          role: system
+          text: '# 角色设定
+
+            你是一个基于电商热词进行电商新品探索的助手。通过参考电商文案信息，生成新的电商商品文案。
+
+
+            # 输入
+
+            输入的参考电商文案信息，包括商品的关键词、标题、描述、图片、价格、ASIN码等。
+
+
+            ## 示例：
+
+            {
+
+            "keywords": "stickers for kids",
+
+            "title": "Fashion Angels 1000+ Ridiculously Cute Stickers for Kids - Fun
+            Craft Stickers for Scrapbooks, Planners, Gifts and Rewards, 40-Page Sticker
+            Book for Kids Ages 6+ and Up",
+
+            "description": "1000+ Fun Assorted Stickers - The Fashion Angels sticker
+            collection includes 1000+ high quality stickers with multiple themes.
+            Kids and teens will enjoy cute trendy sticker designs like colorful letters,
+            monsters, donuts, ice cream, taco, rainbows, tropical plants, space objects,
+            puppies, kittens, emojis, unicorns and more.Personalize Belongings - Your
+            tween''s playful and quirky side will definitely show with these fun assorted
+            stickers. Sticker bomb luggage, guitars, skateboards as they can be applied
+            on to most smooth surfaces. Make great laptop stickers.Promotes Self Expression
+            and Creativity - The 40-sheet sticker book for kids is exceptional for
+            designing scrapbooks, adding eye-catching reminders to planners, adding
+            to diaries or journals and decorating greeting cards.Perfect Gift for
+            Teachers, Teens & Children - Teachers can add to papers, or give out as
+            rewards or prizes. Teens will love expressing their style with these cool
+            stickers. Great for for kids parties.What''s included - 40 pages of unique
+            and strong adhesive stickers for kids, teens, and adults. Recommended
+            for boys and girls ages 6 and up.",
+
+            "img": ["https://m.media-amazon.com/images/I/91wdw7pERpL._AC_SL1500_.jpg",
+            "https://m.media-amazon.com/images/I/91EX84YWdhL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/810Sh33ohAL._AC_SL1500_.jpg",
+            "https://m.media-amazon.com/images/I/91n8C92a2uL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/81uR7cWKKVL._AC_SL1500_.jpg"],
+
+            "price": 4.99,
+
+            "asin": "B07BJ5L7N3"
+
+            }
+
+
+            # 输出
+
+            基于输入的参考电商文案信息，生成新的电商商品文案。各个字段符合阿里国际站各个字段的规范。
+
+            ## 生成规则
+
+            - 根据输入的参考电商文案信息，生成新的电商商品文案。不能额外添加未出现的其他想象信息。
+
+            - 生成的新的电商文案信息，以json格式输出。
+
+            - 基于title和description信息重新生成商品名称title字段。不能额外添加未出现的其他信息。
+
+            - 基于title和description信息重新生成商品描述description字段。不能额外添加未出现的其他信息。
+
+            - 基于title和description信息重新生成商品关键词tags字段。tags数量15个，且不能重复。tags总长度不能超过300个char。各个tag之间用2个空格分割。
+
+            - keywords，img，price，asin字段保持不变。
+
+
+            ## 特别限制
+
+            - 生成的json结构体要严格按照标准的json格式输出，字段里不能有标准json格式不支持的特殊字符，如双引号等。
+
+            - 类似3"x2"这种尺寸信息，需要转换成3x2这种格式。
+
+
+            ## 输出示例：
+
+            {
+
+            "keywords": "stickers for kids",
+
+            "title": "Fashion Angels 1000+ Cute Stickers Book - 40 Pages of Fun Stickers
+            for Kids, Planners & Crafts",
+
+            "description": "Discover over 1000 adorable and colorful stickers with
+            this Fashion Angels sticker book. Featuring playful designs like unicorns,
+            emojis, donuts, tacos, rainbows, and more, this 40-page collection is
+            perfect for decorating scrapbooks, planners, journals, and personal belongings.
+            Ideal for kids aged 6+, it''s a great gift for teachers, parents, or party
+            fun, encouraging creativity and self-expression.",
+
+            "tags": "cute stickers   kids stickers   sticker book   fun stickers   craft
+            stickers   planner stickers   scrapbook stickers   emoji stickers   unicorn
+            stickers   rainbow stickers   donut stickers   ice cream stickers   monster
+            stickers",
+
+            "img": [
+
+            "https://m.media-amazon.com/images/I/91wdw7pERpL._AC_SL1500_.jpg",
+
+            "https://m.media-amazon.com/images/I/91EX84YWdhL._AC_SL1500_.jpg",
+
+            "https://m.media-amazon.com/images/I/810Sh33ohAL._AC_SL1500_.jpg",
+
+            "https://m.media-amazon.com/images/I/91n8C92a2uL._AC_SL1500_.jpg",
+
+            "https://m.media-amazon.com/images/I/81uR7cWKKVL._AC_SL1500_.jpg"
+
+            ],
+
+            "price": 4.99,
+
+            "asin": "B07BJ5L7N3"
+
+            }'
+        - id: b61e139d-8fa5-476e-8eb2-8bae4b3f5af8
+          role: user
+          text: '{{#17434962209240.product#}}'
+        selected: false
+        title: 生成电商文案
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '17434962480510'
+      position:
+        x: 313.14895126800764
+        y: 150.40700201700898
+      positionAbsolute:
+        x: 313.14895126800764
+        y: 150.40700201700898
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      zIndex: 1002
+    - data:
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        is_team_authorization: true
+        iteration_id: '1743490511226'
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: 提示词
+            ja_JP: 提示词
+            pt_BR: 提示词
+            zh_Hans: 提示词
+          llm_description: ''
+          max: null
+          min: null
+          name: query
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        params:
+          query: ''
+        provider_id: 757274f0-69cf-48ab-9826-b3c8ad7537ae
+        provider_name: TextToImgFlux
+        provider_type: workflow
+        selected: false
+        title: 生成商品图片
+        tool_configurations: {}
+        tool_label: TextToImgFlux
+        tool_name: TextToImgFlux
+        tool_parameters:
+          query:
+            type: mixed
+            value: '{{#17434962480510.text#}}'
+        type: tool
+      height: 53
+      id: '17434962613960'
+      position:
+        x: 717.2230199456294
+        y: 152.03242854386986
+      positionAbsolute:
+        x: 717.2230199456294
+        y: 152.03242854386986
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      zIndex: 1002
+    - data:
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        is_team_authorization: true
+        iteration_id: '1743490511226'
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: workflow_run_id
+            ja_JP: workflow_run_id
+            pt_BR: workflow_run_id
+            zh_Hans: workflow_run_id
+          llm_description: ''
+          max: null
+          min: null
+          name: workflow_run_id
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: item
+            ja_JP: item
+            pt_BR: item
+            zh_Hans: item
+          llm_description: ''
+          max: null
+          min: null
+          name: item
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: img
+            ja_JP: img
+            pt_BR: img
+            zh_Hans: img
+          llm_description: ''
+          max: null
+          min: null
+          name: img
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: files
+        params:
+          img: ''
+          item: ''
+          workflow_run_id: ''
+        provider_id: 419f3059-7e8d-467f-aff6-ab6994d9bb61
+        provider_name: uploadImgProduct
+        provider_type: workflow
+        selected: false
+        title: 上传图片并发布商品
+        tool_configurations: {}
+        tool_label: uploadImgProduct
+        tool_name: uploadImgProduct
+        tool_parameters:
+          img:
+            type: variable
+            value:
+            - '17434962613960'
+            - files
+          item:
+            type: mixed
+            value: '{{#17434962480510.text#}}'
+          workflow_run_id:
+            type: mixed
+            value: '{{#sys.workflow_run_id#}}'
+        type: tool
+      height: 53
+      id: '17434962687560'
+      position:
+        x: 1198.494048973514
+        y: 148.79052671774656
+      positionAbsolute:
+        x: 1198.494048973514
+        y: 148.79052671774656
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      zIndex: 1002
+    viewport:
+      x: 501.67340023743157
+      y: 139.11040083961632
+      zoom: 0.772943271015416
