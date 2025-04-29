@@ -1,0 +1,748 @@
+app:
+  description: 使用flux1.dev fp8生图
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: Marvin_Picture_3_3_test
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/comfyui:0.0.4@8bb424227ceb2fef8f69c3505ab82b34d38a6291e385b482ab67a34c4cf2e656
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/tongyi:0.0.14@d333909fe8d75a335b44da4b878d5120779b8703f12c21cf4730135d6864afbb
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1744133908826'
+        sourceType: iteration-start
+        targetType: tool
+      id: 1744133908826start-source-1744134549493-target
+      selected: false
+      source: 1744133908826start
+      sourceHandle: source
+      target: '1744134549493'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInLoop: false
+        sourceType: iteration
+        targetType: end
+      id: 1744133908826-source-1743136880140-target
+      source: '1744133908826'
+      sourceHandle: source
+      target: '1743136880140'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: 1744182795168-source-1744133908826-target
+      source: '1744182795168'
+      sourceHandle: source
+      target: '1744133908826'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1744193917591-true-17441939880390-target
+      source: '1744193917591'
+      sourceHandle: 'true'
+      target: '17441939880390'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1744193917591-false-1743137199288-target
+      source: '1744193917591'
+      sourceHandle: 'false'
+      target: '1743137199288'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: variable-aggregator
+      id: 1743137199288-source-1744194034840-target
+      source: '1743137199288'
+      sourceHandle: source
+      target: '1744194034840'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: variable-aggregator
+        targetType: code
+      id: 1744194034840-source-1744182795168-target
+      source: '1744194034840'
+      sourceHandle: source
+      target: '1744182795168'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: variable-aggregator
+      id: 17441939880390-source-1744194034840-target
+      source: '17441939880390'
+      sourceHandle: source
+      target: '1744194034840'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: if-else
+      id: 1743136838751-source-1744193917591-target
+      source: '1743136838751'
+      sourceHandle: source
+      target: '1744193917591'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: true
+        title: 开始
+        type: start
+        variables:
+        - label: 提示词
+          max_length: 50000
+          options: []
+          required: true
+          type: paragraph
+          variable: query
+        - label: product_type
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: product_type
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - image
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          label: 填入你想要的一些场景，并用逗号分开。（如：黑板，玻璃门，瓷砖，课桌）
+          max_length: 2000
+          options: []
+          required: false
+          type: paragraph
+          variable: scenes
+      height: 142
+      id: '1743136838751'
+      position:
+        x: 30
+        y: 315
+      positionAbsolute:
+        x: 30
+        y: 315
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1744133908826'
+          - output
+          variable: output
+        selected: false
+        title: 结束
+        type: end
+      height: 90
+      id: '1743136880140'
+      position:
+        x: 1998
+        y: 315
+      positionAbsolute:
+        x: 1998
+        y: 315
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: qwen2.5-72b-instruct
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: e157730c-0bc1-490d-b2ac-b498b5828ae0
+          role: system
+          text: "你现在扮演一位 FLUX 模型提示词撰写专家，擅长创作各类高质量提示词。请从用户提供的数据里精准提取关键信息，为文本转图像的 FLUX\
+            \ 模型提供支撑。数据包含：“keywords” 代表产品适用场景，“keyword” 代表产品类型，“title” 为产品标题，“description”\
+            \ 是产品描述，“tags” 即产品标签。​\n基于上述信息，需生成六组 FLUX 所需的提示词。其中一组用于产品主图，要求对产品进行特写且不能有文字描述；另外五组为产品应用场景图提示词，需参考title和description构思应用场景，如将产品融于场景，每组提示词仅含一个场景且不重复。同时，产品要合理地分布在场景上，尽量少出现人物。\n\
+            具体要求如下：\n0. 每个场景都是为了展示产品而准备的，要突出产品本身。\n1. 在另外五组场景提示词中，务必包含主图的产品，而不是无关的其他物品。\n\
+            2. 尽可能减少人物在场景中的出现频率，除非产品的使用或场景展现必须有人物参与。\n3. 六组FLUX提示词应以列表形式返回，格式为 [\"\
+            a\",\"b\",\"c\"] ，绝对不要采用Markdown格式。\n4. 所有提示词均需用英文表述。\n5. 每组提示词的长度必须超过100字。\n\
+            6. 主图的呈现效果要清晰明了，极具吸引力，能够给人带来强烈的视觉冲击，让人一眼就聚焦于产品本身。 \n7. 不要出现低俗，色情，暴力的场景\n\
+            8. 每组提示词，只需要描述图片画面即可"
+        - id: 6dc85b5c-ce36-460c-8edd-950a7b6628d6
+          role: user
+          text: '{{#1743136838751.query#}}
+
+            product_type: {{#1743136838751.product_type#}}'
+        selected: false
+        title: LLM others
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1743137199288'
+      position:
+        x: 639.4285714285713
+        y: 410.7142857142857
+      positionAbsolute:
+        x: 639.4285714285713
+        y: 410.7142857142857
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        height: 230
+        is_parallel: true
+        iterator_selector:
+        - '1744182795168'
+        - result
+        output_selector:
+        - '1744134549493'
+        - files
+        output_type: array[file]
+        parallel_nums: 2
+        selected: false
+        start_node_id: 1744133908826start
+        title: 迭代
+        type: iteration
+        width: 388
+      height: 230
+      id: '1744133908826'
+      position:
+        x: 1550
+        y: 315
+      positionAbsolute:
+        x: 1550
+        y: 315
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 388
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1744133908826start
+      parentId: '1744133908826'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 1574
+        y: 383
+      selectable: false
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        is_team_authorization: true
+        iteration_id: '1744133908826'
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Image prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            ja_JP: Image prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            pt_BR: Image prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            zh_Hans: 图像提示词，您可以查看 Stable Diffusion 或者 FLUX 的官方文档
+          label:
+            en_US: Prompt
+            ja_JP: Prompt
+            pt_BR: Prompt
+            zh_Hans: 提示词
+          llm_description: Image prompt, you should describe the image you want to
+            generate as a list of words as possible as detailed, the prompt must be
+            written in English.
+          max: null
+          min: null
+          name: positive_prompt
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Negative prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            ja_JP: Negative prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            pt_BR: Negative prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            zh_Hans: 负面提示词，您可以查看 Stable Diffusion 或者 FLUX 的官方文档
+          label:
+            en_US: Negative Prompt
+            ja_JP: Negative Prompt
+            pt_BR: Negative Prompt
+            zh_Hans: 负面提示词
+          llm_description: Negative prompt, you should describe the image you don't
+            want to generate as a list of words as possible as detailed, the prompt
+            must be written in English.
+          max: null
+          min: null
+          name: negative_prompt
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The input images
+            ja_JP: The input images
+            pt_BR: The input images
+            zh_Hans: 输入的图片
+          label:
+            en_US: Input Images
+            ja_JP: Input Images
+            pt_BR: Input Images
+            zh_Hans: 输入的图片
+          llm_description: The input images, used to transfer to the comfyui workflow
+            to generate another image.
+          max: null
+          min: null
+          name: images
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: files
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: exported from ComfyUI workflow
+            ja_JP: exported from ComfyUI workflow
+            pt_BR: exported from ComfyUI workflow
+            zh_Hans: 从ComfyUI的工作流中导出
+          label:
+            en_US: Workflow JSON
+            ja_JP: Workflow JSON
+            pt_BR: Workflow JSON
+            zh_Hans: Workflow JSON
+          llm_description: ''
+          max: null
+          min: null
+          name: workflow_json
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: When the workflow has multiple image nodes, enter the ID list of
+              these nodes, and the images will be passed to ComfyUI in the order of
+              the list.
+            ja_JP: When the workflow has multiple image nodes, enter the ID list of
+              these nodes, and the images will be passed to ComfyUI in the order of
+              the list.
+            pt_BR: When the workflow has multiple image nodes, enter the ID list of
+              these nodes, and the images will be passed to ComfyUI in the order of
+              the list.
+            zh_Hans: 当工作流有多个图片节点时，输入这些节点的ID列表，图片将按列表顺序传给ComfyUI
+          label:
+            en_US: Image Node ID List
+            ja_JP: Image Node ID List
+            pt_BR: Image Node ID List
+            zh_Hans: 图片节点ID列表
+          llm_description: ''
+          max: null
+          min: null
+          name: image_ids
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: If you need to generate different images each time, you need to
+              enter the ID of the seed node.
+            ja_JP: If you need to generate different images each time, you need to
+              enter the ID of the seed node.
+            pt_BR: If you need to generate different images each time, you need to
+              enter the ID of the seed node.
+            zh_Hans: 如果需要每次生成时使用不同的种子，需要输入包含种子的节点的ID
+          label:
+            en_US: Seed Node Id
+            ja_JP: Seed Node Id
+            pt_BR: Seed Node Id
+            zh_Hans: 种子节点ID
+          llm_description: ''
+          max: null
+          min: null
+          name: seed_id
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          image_ids: ''
+          images: ''
+          negative_prompt: ''
+          positive_prompt: ''
+          seed_id: ''
+          workflow_json: ''
+        provider_id: langgenius/comfyui/comfyui
+        provider_name: langgenius/comfyui/comfyui
+        provider_type: builtin
+        selected: false
+        title: 工作流
+        tool_configurations:
+          image_ids: null
+          seed_id: null
+          workflow_json: '{   "63": {     "inputs": {       "seed": -1     },     "class_type":
+            "Seed (rgthree)",     "_meta": {       "title": "Seed (rgthree)"     }   },   "64":
+            {     "inputs": {       "text": "{{positive_prompt}}"     },     "class_type":
+            "CR Text",     "_meta": {       "title": "🔤 CR Text"     }   },   "131":
+            {     "inputs": {       "vae_name": "ae.safetensors"     },     "class_type":
+            "VAELoader",     "_meta": {       "title": "加载VAE"     }   },   "132":
+            {     "inputs": {       "clip_name1": "t5xxl_fp8_e4m3fn.safetensors",       "clip_name2":
+            "clip_l.safetensors",       "type": "flux"     },     "class_type": "DualCLIPLoader",     "_meta":
+            {       "title": "双CLIP加载器"     }   },   "133": {     "inputs": {       "unet_name":
+            "flux1-dev-fp8-e4m3fn.safetensors",       "weight_dtype": "fp8_e4m3fn"     },     "class_type":
+            "UNETLoader",     "_meta": {       "title": "加载扩散模型"     }   },   "134":
+            {     "inputs": {       "max_shift": 1.1500000000000001,       "base_shift":
+            0.5,       "width": 800,       "height": 800,       "model": [         "141",         0       ]     },     "class_type":
+            "ModelSamplingFlux",     "_meta": {       "title": "模型采样Flux"     }   },   "135":
+            {     "inputs": {       "seed": [         "63",         0       ],       "steps":
+            8,       "cfg": 1,       "sampler_name": "euler",       "scheduler": "sgm_uniform",       "denoise":
+            1,       "preview_method": "auto",       "vae_decode": "true",       "model":
+            [         "134",         0       ],       "positive": [         "136",         0       ],       "negative":
+            [         "137",         0       ],       "latent_image": [         "144",         0       ],       "optional_vae":
+            [         "131",         0       ]     },     "class_type": "KSampler
+            (Efficient)",     "_meta": {       "title": "KSampler (Efficient)"     }   },   "136":
+            {     "inputs": {       "clip_l": "",       "t5xxl": [         "64",         0       ],       "guidance":
+            3.5,       "clip": [         "132",         0       ]     },     "class_type":
+            "CLIPTextEncodeFlux",     "_meta": {       "title": "CLIP文本编码Flux"     }   },   "137":
+            {     "inputs": {       "conditioning": [         "136",         0       ]     },     "class_type":
+            "ConditioningZeroOut",     "_meta": {       "title": "条件零化"     }   },   "141":
+            {     "inputs": {       "lora_name": "Hyper-FLUX.1-dev-8steps-lora.safetensors",       "strength_model":
+            0.15,       "model": [         "133",         0       ]     },     "class_type":
+            "LoraLoaderModelOnly",     "_meta": {       "title": "仅加载LoRA模型"     }   },   "144":
+            {     "inputs": {       "width": 800,       "height": 800,       "batch_size":
+            1     },     "class_type": "EmptyLatentImage",     "_meta": {       "title":
+            "空潜空间图像"     }   } }'
+        tool_label: 工作流
+        tool_name: workflow
+        tool_parameters:
+          positive_prompt:
+            type: mixed
+            value: '{{#1744133908826.item#}}'
+        type: tool
+      height: 142
+      id: '1744134549493'
+      parentId: '1744133908826'
+      position:
+        x: 103.88548710189343
+        y: 68
+      positionAbsolute:
+        x: 1653.8854871018934
+        y: 383
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      zIndex: 1002
+    - data:
+        code: "import json\n\ndef main(arg1: str) -> dict:\n    result = json.loads(arg1)\n\
+          \    return {\n        \"result\": result,\n    }\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: array[string]
+        selected: false
+        title: 代码执行
+        type: code
+        variables:
+        - value_selector:
+          - '1744194034840'
+          - output
+          variable: arg1
+      height: 54
+      id: '1744182795168'
+      position:
+        x: 1246
+        y: 315
+      positionAbsolute:
+        x: 1246
+        y: 315
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: contains
+            id: a7944503-5947-4218-a4c7-08cb97ec59db
+            value: sticker
+            varType: string
+            variable_selector:
+            - '1743136838751'
+            - product_type
+          id: 'true'
+          logical_operator: and
+        desc: ''
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 126
+      id: '1744193917591'
+      position:
+        x: 334
+        y: 315
+      positionAbsolute:
+        x: 334
+        y: 315
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: deepseek-v3
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: e157730c-0bc1-490d-b2ac-b498b5828ae0
+          role: system
+          text: "你是black-forest-labs/FLUX模型提示词撰写专家，专精于创作Sticker电商商品图片的高质量提示词，需从用户提供的数据中精准提取关键信息以支持文本转图像。\
+            \  \n\n### 输入信息说明\n- **核心字段**：包含product_type（如sticker）、title产品标题（hotword）、（亚马逊热搜词）、description（商品描述）、tags（关键词）、applicable_scenes/scenes（使用场景，如日记本/吉他/课堂白板/手机背板等）、dimension（材质、特点、印刷工艺等，如Coated\
+            \ Paper、Self-Adhesive）。  \n- **格式示例**：  \n  ```json\n  {  \n    \"query\"\
+            : {  \n      \"product_type\": \"sticker\",  \n      \"hotword\": \"dot\
+            \ stickers\",  \n      \"title\": \"Wholesale 1400 PCS Colored Dot Stickers\
+            \ Round Color Coding Labels for Office Classroom and Craft Projects MOQ\
+            \ 200pcs\",\n      \"description\": \"1400 pieces of round color coding\
+            \ stickers in 10 bright colors...\",  \n      \"scenes\": \"Screen lid\
+            \ of laptop, Back of phone...\",  \n      \"dimension\": {  \n       \
+            \ \"Material\": \"Coated Paper\",  \n        \"Features\": \"Self-Adhesive\"\
+            ,  \n        \"Style\": \"Polka Dot\"  \n      }  \n    }  \n  }  \n \
+            \ ```\n\n### 输出要求\n生成**3个商品图片提示词**和**3个场景图片提示词**，需满足：  \n1. **英文输出**，每个提示词超100字，以列表形式呈现（如[\"\
+            a\",\"b\",\"c\"]，不要输出markdown格式）。  \n2. **商品图提示词规则**：  \n   - **主图**：特写视角（Close-up\
+            \ Portrait），突出材质、颜色和纹理，贴纸以圆形/螺旋形排列，展示全设计变体。  \n   - **变换图1**：广角视图（Wide-angle\
+            \ View），5-7张贴纸重叠呈瀑布式布局，体现层次感和质感。  \n   - **变换图2**：鸟瞰视图（Bird's Eye View），8-10张贴纸扇形陈列，模拟零售场景。\
+            \  \n3. **场景图提示词规则**：  \n   - 从用户输入中，尤其参考\"applicable_scenes\"/\"scenes\"\
+            字段中，随机选择或生成3个不重复的场景（如:日记本/吉他/滑板/白板/玻璃门窗/派对/信封/礼品包装盒/笔记本电脑/手机/等）并将贴纸合理的贴在场景上，贴纸需真实粘贴（显示边缘、阴影和立体感）。\n\
+            \   - 只在laptop的盖板上（sreen lib）设置logo为彩虹色的'fh'且居中。  \n   - 通用描述：“贴纸需呈现物理粘贴效果，边缘微凸，阴影自然，比例合理。”\
+            \  \n4. **重要提示**\n  - 禁止畸形的人物\n  - 禁止色情/暴力/血腥的场景\n  - 贴纸是贴在物体表面不是印刷\n\
+            \  - 减少人物出现\n\n### 输出格式示例\n```  \n[\"Flat round colored dot stickers,\
+            \ 1400 PCS on coated paper with self-adhesive and non-fading features;\
+            \ elements include 10 bright colors (red, blue, green, etc.) for labeling\
+            \ and crafts; polka dot style, offset printing, die-cut edges; flat type.\
+            \ Display from close-up portrait perspective: stickers arranged circularly,\
+            \ showing all colors and textures clearly. Each sticker has detailed patterns,\
+            \ visually appealing composition. No text in the image.\", \"Flat round\
+            \ colored dot stickers... Display 5-7 identical sheets in cascading waterfall\
+            \ layout, slightly overlapping to show depth and paper texture. Sheets\
+            \ at different angles to highlight realism. Clear and beautiful, no text.\"\
+            , \"Flat round colored dot stickers... Display 8-10 sheets in professional\
+            \ retail fan layout, some vertical, some flat, dynamic commercial presentation.\
+            \ Real-world display, clear and neat, no text.\", \"image scene: Plain\
+            \ laptop screen lib with a rainbow-colored 'fh' logo centered; image info:\
+            \ Flat round dot stickers, self-adhesive, polka dot style on coated paper;\
+            \ common desc: Stickers pasted realistically with 3D depth, edges, and\
+            \ shadows. Laptop is generic, no brand, surface clean.\",\"image scene:\
+            \ Plain water bottle; image info: vinyl PVC floral stickers, waterproof\
+            \ and scratch-proof, digital printing, various floral designs; common\
+            \ desc: Stickers pasted realistically with 3D depth, edges, and shadows.\
+            \ Water bottle is generic, no brand, surface clean.\"]  \n```\n\n### 关键优化点\n\
+            - **信息整合**：从dimension中优先提取风格（Style）、材质（Material）、特点（Features），从tags和description中提取颜色、用途等元素。\n\
+            - **视觉逻辑**：通过不同视角（特写/广角/鸟瞰）全面展示产品，场景图强调真实粘贴效果以增强代入感（The stickers should\
+            \ be clearly shown as physically applied to the surface of objects, with\
+            \ visible edges, subtle shadows, and natural light reflection, distinguishing\
+            \ them from printed designs directly on the objects.）。"
+        - id: 6dc85b5c-ce36-460c-8edd-950a7b6628d6
+          role: user
+          text: '{{#1743136838751.query#}}
+
+            product_type: {{#1743136838751.product_type#}}
+
+            scenes: {{#1743136838751.scenes#}}'
+        selected: false
+        title: LLM sticker
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '17441939880390'
+      position:
+        x: 629.5679359588236
+        y: 269.2857142857143
+      positionAbsolute:
+        x: 629.5679359588236
+        y: 269.2857142857143
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        output_type: string
+        selected: false
+        title: 变量聚合器
+        type: variable-aggregator
+        variables:
+        - - '17441939880390'
+          - text
+        - - '1743137199288'
+          - text
+      height: 131
+      id: '1744194034840'
+      position:
+        x: 942
+        y: 315
+      positionAbsolute:
+        x: 942
+        y: 315
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 126.90860650871673
+      y: 52.60910253477732
+      zoom: 0.9351683606233698

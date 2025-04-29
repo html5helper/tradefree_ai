@@ -1,0 +1,351 @@
+app:
+  description: 上传图片与发布商品
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: uploadImgProduct
+  use_icon_as_answer_icon: false
+dependencies: []
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: http-request
+      id: 1742964659927-source-1742964670786-target
+      source: '1742964659927'
+      sourceHandle: source
+      target: '1742964670786'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: http-request
+        targetType: code
+      id: 1742964670786-source-1742964900769-target
+      source: '1742964670786'
+      sourceHandle: source
+      target: '1742964900769'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: http-request
+      id: 1742964900769-source-1742965169136-target
+      source: '1742964900769'
+      sourceHandle: source
+      target: '1742965169136'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: http-request
+        targetType: end
+      id: 1742965169136-source-1742965330555-target
+      source: '1742965169136'
+      sourceHandle: source
+      target: '1742965330555'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: true
+        title: 开始
+        type: start
+        variables:
+        - label: workflow_run_id
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: workflow_run_id
+        - label: item
+          max_length: 50000
+          options: []
+          required: true
+          type: paragraph
+          variable: item
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - image
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          label: img
+          max_length: 10
+          options: []
+          required: true
+          type: file-list
+          variable: img
+      height: 142
+      id: '1742964659927'
+      position:
+        x: 13.726150605117823
+        y: 282
+      positionAbsolute:
+        x: 13.726150605117823
+        y: 282
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - file:
+            - '1742964659927'
+            - img
+            id: key-value-118
+            key: file
+            type: file
+            value: ''
+          type: form-data
+        desc: ''
+        headers: Authorization:Bearer al_xdR442**&XCc2&78llnm5%4bc7$8Yxxcss0&^uu90_product
+        method: post
+        params: workflow_run_id:{{#1742964659927.workflow_run_id#}}
+        retry_config:
+          max_retries: 3
+          retry_enabled: false
+          retry_interval: 100
+        selected: false
+        timeout:
+          connect: 300
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+          read: 600
+          write: 600
+        title: HTTP 请求
+        type: http-request
+        url: https://www.tradefree.ai/product/alibaba/img/upload
+        variables: []
+      height: 110
+      id: '1742964670786'
+      position:
+        x: 384
+        y: 282
+      positionAbsolute:
+        x: 384
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "import json\n\ndef main(tmp_item: str, files: str) -> dict:\n    if\
+          \ not tmp_item.strip():\n        raise ValueError(\"tmp_item 是空字符\")\n \
+          \   if not files.strip():\n        raise ValueError(\"files 是空字符串\")\n\n\
+          \    img_obj = json.loads(files)\n    item = json.loads(tmp_item)\n    return\
+          \ {\n        \"title\": item[\"title\"].strip(),\n        \"description\"\
+          : item[\"description\"].strip(),\n        \"tags\": item[\"tags\"].strip(),\n\
+          \        \"img_str\": img_obj[\"files_path\"].strip(),\n        \"product_type\"\
+          : item[\"product_type\"],\n        \"hotword\": item[\"hotword\"],\n   \
+          \     \"reference_product\": item[\"reference_product\"],\n        \"reference_product_platform\"\
+          : item[\"reference_product_platform\"],\n        \"employee\": item[\"employee\"\
+          ],\n        \"published_shop\": item[\"published_shop\"],\n        \"text\"\
+          : json.dumps(item).replace('\"',  '\\\\\"')\n    }"
+        code_language: python3
+        desc: ''
+        outputs:
+          description:
+            children: null
+            type: string
+          employee:
+            children: null
+            type: string
+          hotword:
+            children: null
+            type: string
+          img_str:
+            children: null
+            type: string
+          product_type:
+            children: null
+            type: string
+          published_shop:
+            children: null
+            type: string
+          reference_product:
+            children: null
+            type: string
+          reference_product_platform:
+            children: null
+            type: string
+          tags:
+            children: null
+            type: string
+          text:
+            children: null
+            type: string
+          title:
+            children: null
+            type: string
+        selected: false
+        title: 组合创建商品参数
+        type: code
+        variables:
+        - value_selector:
+          - '1742964659927'
+          - item
+          variable: tmp_item
+        - value_selector:
+          - '1742964670786'
+          - body
+          variable: files
+      height: 54
+      id: '1742964900769'
+      position:
+        x: 689.0195976829982
+        y: 282
+      positionAbsolute:
+        x: 689.0195976829982
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: key-value-120
+            key: ''
+            type: text
+            value: "{\n    \"title\": \"{{#1742964900769.title#}}\",\n    \"description\"\
+              :\"{{#1742964900769.description#}}\",\n    \"tags\":\"{{#1742964900769.tags#}}\"\
+              ,\n    \"img_str\":\"{{#1742964900769.img_str#}}\",\n    \"product_type\"\
+              : \"{{#1742964900769.product_type#}}\",\n    \"hotword\": \"{{#1742964900769.hotword#}}\"\
+              ,\n    \"reference_product\": \"{{#1742964900769.reference_product#}}\"\
+              ,\n    \"reference_product_platform\": \"{{#1742964900769.reference_product_platform#}}\"\
+              ,\n    \"employee\": \"{{#1742964900769.employee#}}\",\n    \"published_shop\"\
+              : \"{{#1742964900769.published_shop#}}\",\n    \"text\": \"{{#1742964900769.text#}}\"\
+              ,\n    \"workflow_run_id\": \"{{#1742964659927.workflow_run_id#}}\"\n\
+              }"
+          type: json
+        desc: ''
+        headers: Authorization:Bearer al_xdR442**&XCc2&78llnm5%4bc7$8Yxxcss0&^uu90_product
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: false
+          retry_interval: 100
+        selected: false
+        timeout:
+          connect: 300
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+          read: 600
+          write: 600
+        title: 发布商品
+        type: http-request
+        url: https://www.tradefree.ai/product/alibaba/publish/product
+        variables: []
+      height: 126
+      id: '1742965169136'
+      position:
+        x: 992
+        y: 282
+      positionAbsolute:
+        x: 992
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1742965169136'
+          - body
+          variable: body
+        selected: false
+        title: 结束
+        type: end
+      height: 90
+      id: '1742965330555'
+      position:
+        x: 1296
+        y: 282
+      positionAbsolute:
+        x: 1296
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 45.27429081134642
+      y: 40.22332885586644
+      zoom: 0.9019977709167101
