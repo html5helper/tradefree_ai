@@ -1,0 +1,22 @@
+{
+    "markdown.preview.breaks": true,
+    "markdown.preview.typographer": true,
+    "markdown.preview.mermaid.enabled": true,
+    "markdown.mermaid.enabled": true,
+    "markdown.preview.typographer": true,
+    "markdown.preview.typographer.enabled": true,
+    "markdown.preview.typographer.quotes": true,
+    "markdown.preview.typographer.dashes": true,
+    "markdown.preview.typographer.ellipses": true,
+    "markdown.preview.typographer.arrows": true,
+    "markdown.preview.typographer.math": true,
+    "markdown.preview.typographer.fractions": true,
+    "markdown.preview.typographer.smartypants": true,
+    "markdown.preview.typographer.quotes": true,
+    "markdown.preview.typographer.dashes": true,
+    "markdown.preview.typographer.ellipses": true,
+    "markdown.preview.typographer.arrows": true,
+    "markdown.preview.typographer.math": true,
+    "markdown.preview.typographer.fractions": true,
+    "markdown.preview.typographer.smartypants": true
+} 
