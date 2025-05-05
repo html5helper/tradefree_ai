@@ -7,4 +7,4 @@ source .venv/bin/activate
 export PYTHONPATH=$PYTHONPATH:$(pwd)
 
 # Start Celery worker
-celery -A ai.tasks worker --loglevel=info 
+celery -A ai.business.social2product.tasks worker --loglevel=info

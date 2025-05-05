@@ -4,7 +4,7 @@ from celery import Celery
 app = Celery('ai',
              broker='redis://localhost:6379/0',
              backend='redis://localhost:6379/0',
-             include=['ai.business.example.tasks'])
+             include=['ai.business.social2product.tasks'])
 
 # Optional configuration
 app.conf.update(
