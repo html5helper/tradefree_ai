@@ -1,13 +1,10 @@
 import os
-from flask import Flask, request, jsonify
 import cairosvg
+from flask import request, jsonify
 
-app = Flask(__name__)
-# 设置输出路径
-OUTPUT_DIR = "/home/qinbinbin/ai_tools/dify/docker/volumes/certbot/www/svg"
+from config import OUTPUT_DIR
 
-@app.route('/convert_svg_to_eps', methods=['POST'])
-def convert_svg_to_eps():
+def convert_svg_to_eps_route():
     # 检查请求中是否包含文件
     if 'svg_file' not in request.files:
         return jsonify({"error": "Missing 'svg_file' in the request"}), 400
@@ -35,6 +32,3 @@ def convert_svg_to_eps():
         return jsonify({"eps_name": f"{run_id}.eps"})
     except Exception as e:
         return jsonify({"error": f"An error occurred during conversion: {str(e)}"}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8080)
