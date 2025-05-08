@@ -1,0 +1,698 @@
+app:
+  description: Copy 1688 Product to 1688 Product with Chrome插件版
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: singleCopyAmzToAliProduct
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/tongyi:0.0.21@cb32d252bc1ebc61437c9134e22db2be5ccdd48223e08b9ea0deff4f0df0a187
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: code
+      id: 1745836846805-source-1745836852691-target
+      source: '1745836846805'
+      sourceHandle: source
+      target: '1745836852691'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1745836852691-source-1745836946323-target
+      source: '1745836852691'
+      sourceHandle: source
+      target: '1745836946323'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1745836946323-source-1745837001168-target
+      source: '1745836946323'
+      sourceHandle: source
+      target: '1745837001168'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: tool
+      id: 1745837001168-source-1745837020374-target
+      source: '1745837001168'
+      sourceHandle: source
+      target: '1745837020374'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: tool
+      id: 1745837020374-source-1745837041033-target
+      source: '1745837020374'
+      sourceHandle: source
+      target: '1745837041033'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: end
+      id: 1745837041033-source-1745837048263-target
+      source: '1745837041033'
+      sourceHandle: source
+      target: '1745837048263'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: traceId
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: traceId
+        - label: product
+          max_length: 50000
+          options: []
+          required: true
+          type: paragraph
+          variable: product
+      height: 116
+      id: '1745836846805'
+      position:
+        x: 24.987786472275673
+        y: 93
+      positionAbsolute:
+        x: 24.987786472275673
+        y: 93
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "import json\n\ndef main(product: str) -> dict:\n    product_json =\
+          \ json.loads(product)\n    return {\n        'title': product_json['title'].strip(),\n\
+          \        'description': product_json['description'].strip(),\n        'product_type':\
+          \ product_json['product_type'].strip(),\n        'reference_product_platform':\
+          \ product_json['reference_product_platform'].strip(),\n        'reference_product':\
+          \ product_json['prodid'].strip(),\n        'employee': product_json['employee'].strip(),\n\
+          \        'published_shop': product_json['published_shop'].strip()\n    }\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          description:
+            children: null
+            type: string
+          employee:
+            children: null
+            type: string
+          product_type:
+            children: null
+            type: string
+          published_shop:
+            children: null
+            type: string
+          reference_product:
+            children: null
+            type: string
+          reference_product_platform:
+            children: null
+            type: string
+          title:
+            children: null
+            type: string
+        selected: false
+        title: 解析商品信息
+        type: code
+        variables:
+        - value_selector:
+          - '1745836846805'
+          - product
+          variable: product
+      height: 54
+      id: '1745836852691'
+      position:
+        x: 52.38021720641751
+        y: 262
+      positionAbsolute:
+        x: 52.38021720641751
+        y: 262
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: deepseek-v3
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 7cccee92-7ab1-483c-a3d4-380b17e22c7c
+          role: system
+          text: "# 角色设定\n你是一个专业的跨境电商产品优化专家，擅长将亚马逊热销商品转化为阿里国际站的爆款商品。你具备深厚的电商运营经验，了解不同平台的用户习惯和产品展示特点。\n\
+            \n\n# 输入\n输入的参考亚马逊商品信息，包括商品的类型(product_type 必须是以下之一：sticker, label, card,\n\
+            \ markbook, envelop)、标题(title)、描述(description)、图片(imgs)、价格(price)、prodid(ASIN码)等,\n\
+            \ 请注意输入相关信息(title,description等)除英语外可能是日语、法语、西班牙语和阿拉伯语等,但包含元素和格式是相同的。\n\
+            \n\n## 输入示例\n{\n\"product_type\": \"sticker\",\n\"title\": \"50pcs Capybara\
+            \ Stickers for Teen, Cute Brown Animal Waterproof Vinyl Decal for Kids\
+            \ Adult Girl Laptop Skateboard Water Bottle Phone Case Guitar Laptop (Capybara)\"\
+            ,\n\"description\": \"【Easy Application】These semi-cured gel nail stickers\
+            \ are designed for quick and professional-looking results. Each pack includes\
+            \ 20 stickers in various sizes for a perfect fit.【Premium Quality】Made\
+            \ with salon-grade gel material, requires UV/LED light curing for long-lasting\
+            \ wear. Perfect for DIY nail art at home.【Time & Money Saving】Get salon-quality\
+            \ nails in minutes at home. More economical than regular salon visits\
+            \ while achieving professional results.【Package Contents】20 gel nail strips,\
+            \ detailed instruction guide. Suitable for both beginners and experienced\
+            \ users.【Important Note】UV/LED lamp required for curing (not included).\
+            \ Proper nail prep essential for best adhesion.\"\n\n# 商品参考维度\n## Material（材质）\n\
+            \n- paper\n- photo paper\n- rice paper\n- art paper\n- coated paper\n\
+            - writing paper\n- cardstock\n- biodegradable fire retardant paper\n-\
+            \ colorful foiled paper\n- kraft paper\n\n## Shape（形状）\n- Hexagon\n- ROUND\n\
+            - Oval\n\n- Animal\n- Customized\n- Cylinder\n- Rectangle\n- Heart\n-\
+            \ Diamond\n\n\n## Style（风格）\n- Angel\n- Folk Art\n- Artificial\n- Feng\
+            \ Shui\n- Religious\n\n- Animal\n- Buddhism\n- Cross\n- FAIRY\n- Flower\n\
+            - Letters\n- Love\n\n- MASCOT\n- Music\n- Patriotism\n- PYRAMID\n- Sports\n\
+            - TV & Movie Character\n\n\n## Scene/Holiday（适用场景或节日）\n- Art and Collectible\n\
+            - Wedding Decoration & Gift\n- Holiday Decoration & Gift\n- Souvenir\n\
+            - home decoration\n\n- Business Gift\n- April Fool\n- Back to School\n\
+            - Chinese New Year\n\n- Christmas\n- Earth Day\n- Easter\n- Father's Day\n\
+            - Graduation\n- Halloween\n\n- Mother's Day\n- New Year\n- Thanksgiving\n\
+            - Valentine's Day\n\n## Printing Method（印刷方式）\n- Thermal transfer printing\n\
+            - Offset printing\n- Silk screen printing\n- Gravure printing\n- Letterpress\
+            \ printing\n- Die cutting printing\n- UV printing\n- Embossing printing\n\
+            - Digital printing\n\n\n## Production Process（生产工艺）\n- COLLAGE\n- CUT\n\
+            - handmade\n- Carved\n\n- Origami\n- Quilling\n\n## Features（特点）\n- Waterproof\n\
+            - Reusable\n-\n Anti-UV\n- Eco-Friendly\n- Anti-static\n- Removable\n\
+            - tear resistant\n\n- Self-Adhesive\n- water & oil proof\n- withstands\
+            \ high and low temperature\n\n- writeable sticker\n- Breathable\n- Plus\
+            \ Size\n\n# 输出\n基于输入的亚马逊商品信息，生成适合阿里国际站的优化商品文案。输出内容需要符合阿里国际站的规范和买家习惯\n\n\
+            ## 生成规则\n- 根据输入的亚马逊商品信息，生成更具竞争力的阿里国际站商品文案。保持核心卖点，但针对国际站买家偏好优化表达方式\n- 生成的文案信息中\n\
+            \ title,description,tags 中避免出现屏蔽词集合中的屏蔽词，以免产生法律纠纷\n- 生成的新商品文案信息以 json\n\
+            \ 格式输出。\n\n- src_desc 字段\n  - 如果 description 字段是英文则用原文来填充该字段，如果description不是英文则翻译成英文\n\
+            \n\n- title 字段\n  - 结合原有商品信息中的核心关键词和主要卖点\n  - 可在商品维度信息中的特点、材质、适用场景或节日、风格中各选一个来丰富标题\n\
+            \n  - 不使用标点符号\n  - 第一个单词和主要单词的首字母需大写\n  - 小于 4 个字母的冠词/连词/介词需小写\n  - 长度必须在\n\
+            \ 128 个字符以内（包括空格）\n\n- description 字段\n  - 从原有商品信息中提取关键特性和使用场景。\n  - 可在商品维度信息中的特点、材质、适用场景或节日、风格中各选一个来进行产品的详细描述\n\
+            \n  - 采用简洁直接的表述，几句话描述清楚\n\n- tags 字段生成规则\n  - 核心规则：修饰词+产品中心词+应用场景， 比如：red\n\
+            \ flower stickers for wedding decoration\n  - 使用商品维度信息中的特点、材质、适用场景或节日、风格、形状和印刷方式来生成系统化的关键词\n\
+            \n  - 基于长尾关键词策略，覆盖 25 个以内不重复的标签\n  - 结合热门搜索词和买家习惯用语\n  - 各标签间用 2 个空格分隔\n\
+            \n  - 总长度不超过 384 字符，不少于 330 字符\n  - 优先使用高搜索量、低竞争度的关键词\n\n- applicable_scenes\n\
+            \ 字段生成规则\n  - 从提供的 surface_locations 列表中随机选取 3 个相关的场景词\n  - 确保选取的场景与商品的特性和用途相关\n\
+            \n  - 每个场景描述需尽量简洁，并有助于生成该商品在该场景下的实际效果图\n  - 场景描述应包括环境、活动和视觉元素，以便更好地指导图片生成\n\
+            \n  - 确保展示商品的多功能性和装饰性\n  - surface_locations 列表\n    - Laptop lid (top\n\
+            \ case)\n    - Back of phone case\n    - Tablet back cover\n    - Water\n\
+            \ bottle surface\n    - Notebook cover\n    - Diary cover\n    - Journal\n\
+            \ cover\n    - Planner cover\n    - Folder surface\n    - File organizer\n\
+            \n    - Storage box surface\n    - Gift box surface\n    - Greeting card\n\
+            \ surface\n    - Canvas bag front\n    - Tote bag surface\n    - Backpack\n\
+            \ surface\n    - Pencil case surface\n    - Window display surface\n \n\
+            \   - Mirror edge\n    - Wall surface (indoor)\n    - Door surface\n \n\
+            \   - Cabinet surface\n    - Locker surface\n    - Desk surface\n    -\n\
+            \ Shelf edge\n    - Book cover\n    - Calendar surface\n    - Photo frame\n\
+            \ edge\n    - Craft project surface\n    - Scrapbook page\n\n- dimension\n\
+            \ 字段生成规则\n  - 维度信息生成规则\n    - 从参考商品的特性中提取最具代表性的维度信息\n    - 确保每个维度的信息能够准确反映参考商品的核心特性\n\
+            \n    - 维度信息要与 title 和 description 中的描述信息保持一致\n    - 在生成新品信息时，基于提取的维度信息，确保生成的商品与参考商品在特性和描述上保持一致\n\
+            \n    - 维度包括\n      - Material（材质）：选择商品的主要材质\n      - Features（特点）：选择一个最突出的特点\n\
+            \n      - Printing Method（印刷方法）：选择主要的印刷方式\n      - Production Process（生产工艺）：选择一个关键的生产工艺\n\
+            \n      - Shape（形状）：选择商品的主要形状\n      - Style（风格）：选择一个最能代表商品风格的词\n    \
+            \ \n - Scene（场景）：选择一个最相关的使用场景\n\n  - 在创建新品时确保\n    - 维度信息的选择和描述与参考商品保持一致\n\
+            \n    - 生成的新品信息在特性、风格和用途上与参考商品相符\n    - 输出的新品信息能够准确传达商品的核心价值和市场定位\n\n\
+            ##\n 特别限制\n- 生成的 json 结构体必须符合标准 json 格式，避免特殊字符（如未转义的双引号）\n- 尺寸信息需规范化，如\
+            \ \"3\"x2\"\" 应转换为 \"3x2\"\n- 所有生成内容必须基于原始商品信息，不得虚构或添加未经验证的信息\n- 确保所有文案符合跨境电商平台的合规要求\n\
+            \n- 确保所有转义字符正确，特别是 emoji 和特殊符号\n- 当输出被嵌套在另一个 JSON 结构中时，确保所有转义字符都被正确处理\n\
+            \n- 输出不能包含 Markdown 代码块标记（如 ```json）或其他非 JSON 格式的文本\n- 输出 json 内容的前后不能添加\
+            \ ```json 或其他说明性信息\n- price 字段应保持简单格式，如 \"price\": 9.99，不应包含复杂的嵌套结构\n\
+            - 生成输出的内容必须是英文\n\n## 输出示例\n{\n    \"title\": \"OAUEE Semi Cured Gel Nail\
+            \ Strips | 20 Gel Nail Stickers | Gel Nail Stickers with UV Light Required\
+            \ | Salon Quality (Transparent Pink Ombre)\",\n    \"description\": \"\
+            Professional UV printed semi-cured gel nail stickers featuring self-adhesive,waterproof\
+            \ and reusable properties. Each pack includes 20 pieces of tear-resistant,\
+            \ high-temperature withstanding strips. Perfect for DIY nail art and salon\
+            \ beauty decoration.\",\n    \"src_desc\": \"【Easy Application】These semi-cured\
+            \ gel nail stickers are designed for quick and professional-looking results.\
+            \ Each pack includes 20 stickers in various sizes for a perfect fit.【Premium\
+            \ Quality】Made with salon-gradegel material, requires UV/LED light curing\
+            \ for long-lasting wear. Perfect for DIY nail art at home.【Time & Money\
+            \ Saving】Get salon-quality nails in minutes at home. More economical than\
+            \ regular salon visits while achieving professional results.【Package Contents】20\
+            \ gel nail strips, detailed instruction guide. Suitable for both beginners\
+            \ and experienced users.【Important Note】UV/LED lamp required for curing\
+            \ (not included). Proper nail prep essential for best adhesion.\",\n \
+            \   \"tags\": \"gel nail stickers waterproof nail stickers self-adhesive\
+            \ nail art uv printed stickers semi-cured gel strips diy nail decoration\
+            \ salon beauty supplies professional nail products reusable nail art tear\
+            \ resistant stickers high temperature resistant wholesale beauty supplies\
+            \ nail art materials custom nail designs beauty salon equipment nail decoration\
+            \ tools handmade application fashion nail art beauty accessories nail\
+            \ care products\",\n    \"applicable_scenes\": \"Laptop lid (top case),\
+            \ Back of phone case, Front of canvas shopping bag, Shop window static\
+            \ sticker, Greeting card display stand\",\n    \"dimension\": {\n    \
+            \    \"Material\": \"UV Gel\",\n        \"Features\": \"Waterproof\",\n\
+            \        \"Printing Method\": \"UV Printing\",\n        \"Production Process\"\
+            : \"Semi-cured\",\n        \"Shape\": \"Various\",\n        \"Style\"\
+            : \"Fashion\",\n        \"Scene\": \"DIY nail art\"\n    }\n}"
+        - id: 64c64d2d-aabd-4233-8d78-4db656f5438f
+          role: user
+          text: 'title: {{#1745836852691.title#}}
+
+            description: {{#1745836852691.description#}}
+
+            product_type: {{#1745836852691.product_type#}}'
+        selected: false
+        title: 生成商品文案
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1745836946323'
+      position:
+        x: 48
+        y: 411
+      positionAbsolute:
+        x: 48
+        y: 411
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "import json\n\ndef main(text: str, reference_product: str, reference_product_platform:\
+          \ str, employee: str, published_shop: str, product_type: str) -> dict:\n\
+          \    text_json = json.loads(text)\n    text_json['reference_product'] =\
+          \ reference_product\n    text_json['reference_product_platform'] = reference_product_platform\n\
+          \    text_json['employee'] = employee\n    text_json['published_shop'] =\
+          \ published_shop\n    text_json['product_type'] = product_type\n    text_json['hotword']\
+          \ = ''\n    \n    return {\n        'product': json.dumps(text_json),\n\
+          \        'img_sceans': text_json['applicable_scenes']\n    }\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          img_sceans:
+            children: null
+            type: string
+          product:
+            children: null
+            type: string
+        selected: false
+        title: 参数整理
+        type: code
+        variables:
+        - value_selector:
+          - '1745836946323'
+          - text
+          variable: text
+        - value_selector:
+          - '1745836852691'
+          - reference_product
+          variable: reference_product
+        - value_selector:
+          - '1745836852691'
+          - reference_product_platform
+          variable: reference_product_platform
+        - value_selector:
+          - '1745836852691'
+          - employee
+          variable: employee
+        - value_selector:
+          - '1745836852691'
+          - published_shop
+          variable: published_shop
+        - value_selector:
+          - '1745836852691'
+          - product_type
+          variable: product_type
+      height: 54
+      id: '1745837001168'
+      position:
+        x: 361
+        y: 93
+      positionAbsolute:
+        x: 361
+        y: 93
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: 提示词
+            ja_JP: 提示词
+            pt_BR: 提示词
+            zh_Hans: 提示词
+          llm_description: ''
+          max: null
+          min: null
+          name: query
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: product_type
+            ja_JP: product_type
+            pt_BR: product_type
+            zh_Hans: product_type
+          llm_description: ''
+          max: null
+          min: null
+          name: product_type
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: 填入你想要的一些场景，并用逗号分开。（如：黑板，玻璃门，瓷砖，课桌）
+            ja_JP: 填入你想要的一些场景，并用逗号分开。（如：黑板，玻璃门，瓷砖，课桌）
+            pt_BR: 填入你想要的一些场景，并用逗号分开。（如：黑板，玻璃门，瓷砖，课桌）
+            zh_Hans: 填入你想要的一些场景，并用逗号分开。（如：黑板，玻璃门，瓷砖，课桌）
+          llm_description: ''
+          max: null
+          min: null
+          name: scenes
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          product_type: ''
+          query: ''
+          scenes: ''
+        provider_id: e7ac0b50-331a-4c94-af03-3187218f3445
+        provider_name: Marvin_Picture_3_3_test
+        provider_type: workflow
+        selected: false
+        title: Marvin_Picture_3_3_test
+        tool_configurations: {}
+        tool_label: Marvin_Picture_3_3_test
+        tool_name: Marvin_Picture_3_3_test
+        tool_parameters:
+          product_type:
+            type: mixed
+            value: '{{#1745836852691.product_type#}}'
+          query:
+            type: mixed
+            value: '{{#1745836946323.text#}}'
+          scenes:
+            type: mixed
+            value: '{{#1745837001168.img_sceans#}}'
+        type: tool
+      height: 54
+      id: '1745837020374'
+      position:
+        x: 361
+        y: 203
+      positionAbsolute:
+        x: 361
+        y: 203
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: workflow_run_id
+            ja_JP: workflow_run_id
+            pt_BR: workflow_run_id
+            zh_Hans: workflow_run_id
+          llm_description: ''
+          max: null
+          min: null
+          name: workflow_run_id
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: item
+            ja_JP: item
+            pt_BR: item
+            zh_Hans: item
+          llm_description: ''
+          max: null
+          min: null
+          name: item
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: img
+            ja_JP: img
+            pt_BR: img
+            zh_Hans: img
+          llm_description: ''
+          max: null
+          min: null
+          name: img
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: files
+        params:
+          img: ''
+          item: ''
+          workflow_run_id: ''
+        provider_id: 419f3059-7e8d-467f-aff6-ab6994d9bb61
+        provider_name: uploadImgProduct
+        provider_type: workflow
+        selected: false
+        title: uploadImgProduct
+        tool_configurations: {}
+        tool_label: uploadImgProduct
+        tool_name: uploadImgProduct
+        tool_parameters:
+          img:
+            type: variable
+            value:
+            - '1745837020374'
+            - files
+          item:
+            type: mixed
+            value: '{{#1745837001168.product#}}'
+          workflow_run_id:
+            type: mixed
+            value: '{{#sys.workflow_run_id#}}'
+        type: tool
+      height: 54
+      id: '1745837041033'
+      position:
+        x: 361
+        y: 298
+      positionAbsolute:
+        x: 361
+        y: 298
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1745836846805'
+          - traceId
+          variable: output
+        selected: false
+        title: 结束
+        type: end
+      height: 90
+      id: '1745837048263'
+      position:
+        x: 356
+        y: 426
+      positionAbsolute:
+        x: 356
+        y: 426
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 132.82225355597768
+      y: 1.9408602669287234
+      zoom: 1.0976412211442232
