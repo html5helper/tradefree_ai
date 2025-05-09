@@ -1,44 +1,72 @@
 # celeryconfig.py
+from kombu import Exchange, Queue
+
+# Broker 和 Backend 配置
 broker_url = "redis://localhost:6379/0"
 result_backend = "redis://localhost:6379/1"
+
 task_serializer = 'json'
 result_serializer = 'json'
 accept_content = ['json']
 timezone = 'UTC'
 enable_utc = True
 
+# 定义交换机
+ex_src = Exchange('product_src', type='direct')
+ex_create = Exchange('product_create', type='direct')
+ex_public = Exchange('product_public', type='direct')
 
-# 定义交换机和队列
-default_exchange = Exchange('default', type='direct')
-social2product_exchange = Exchange('social2product', type='direct')
-reporting_exchange = Exchange('reporting', type='direct')
+# 定义队列
 task_queues = (
-    # 默认队列
-    Queue('default', default_exchange, routing_key='default'),
-    # social2product 工作流相关任务队列
-    Queue('social2product', social2product_exchange, routing_key='social2product'),
-    # 报表/统计相关任务队列
-    Queue('reporting', reporting_exchange, routing_key='reporting'),
+    Queue('product_social_queue', ex_src, routing_key='social2product'),
+    Queue('product_src_queue', ex_src, routing_key='product_src'),
+    Queue('product_listing_queue', ex_create, routing_key='product_listing'),
+    Queue('product_image_queue', ex_create, routing_key='product_image'),
+    Queue('product_upload_queue_ali', ex_create, routing_key='product_upload_ali'),
+    Queue('product_upload_queue_1688', ex_create, routing_key='product_upload_1688'),
+    Queue('product_public_queue_ali', ex_public, routing_key='product_public_ali'),
+    Queue('product_public_queue_1688', ex_public, routing_key='product_public_1688'),
 )
 
-# 根据任务名称将任务路由到不同队列
+# 路由配置
 task_routes = {
-    # 所有 social2product 相关的任务都走 social2product 队列
+
+    # social2product类任务
     'ai.business.social2product.tasks.*': {
-        'queue':        'social2product',
-        'exchange':     'social2product',
-        'routing_key':  'social2product',
+        'queue': 'product_social_queue',
+        'exchange': 'product_src',
+        'routing_key': 'social2product',
     },
-    # 报表统计类任务走 reporting 队列
-    'ai.business.reporting.tasks.*': {
-        'queue':       'reporting',
-        'exchange':    'reporting',
-        'routing_key': 'reporting',
+    # resource类任务
+    'ai.business.resource.tasks.*': {
+        'queue': 'product_src_queue',
+        'exchange': 'product_src',
+        'routing_key': 'product_src',
     },
-    # 其他所有任务都走 default
-    '*': {
-        'queue':       'default',
-        'exchange':    'default',
-        'routing_key': 'default',
+    # listing类任务
+    'ai.business.listing.tasks.*': {
+        'queue': 'product_listing_queue',
+        'exchange': 'product_create',
+        'routing_key': 'product_listing',
+    },
+    # image类任务
+    'ai.business.image.tasks.*': {
+        'queue': 'product_image_queue',
+        'exchange': 'product_create',
+        'routing_key': 'product_image',
+    },
+    # upload_img类任务
+    'ai.business.upload_img.tasks.*': {
+        'queue': 'product_upload_queue_ali',  # 或根据实际业务拆分
+        'exchange': 'product_create',
+        'routing_key': 'product_upload_ali',
+    },
+    # public类任务
+    'ai.business.public.tasks.*': {
+        'queue': 'product_public_queue_ali',  # 或根据实际业务拆分
+        'exchange': 'product_public',
+        'routing_key': 'product_public_ali',
     },
 }
+
+# 并发度建议通过worker启动参数 -c 指定

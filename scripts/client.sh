@@ -1,16 +1,55 @@
-# 触发一个 social2product 工作流
-curl -X POST http://localhost:8000/workflows/run \
-  -H "Content-Type: application/json" \
-  -d '{
-        "workflow": "social2product_total",
-        "payload": {
-          "platform": "tiktok",
-          "event_id": "82fb09b2-37d6-43e1-86a6-555aa9edde24"
-        },
-        "context": {
-          "platform": "tiktok"
-        }
-      }'
+#!/bin/bash
+
+for i in {1..20}
+do
+  # 测试 amz_to_ali 工作流
+  curl -X POST \
+    http://127.0.0.1:8000/workflow/run/amz_to_ali \
+    -H 'Content-Type: application/json' \
+    -d '{"trace_id": "test-trace-ali-'"$i"'", "event_type": "amz_to_ali", "payload": {}}'
+  echo -e "\n---\n"
+#   sleep 1
+done
+
+for i in {1..15}
+do
+  # 测试 amz_to_1688 工作流
+  curl -X POST \
+    http://127.0.0.1:8000/workflow/run/amz_to_1688 \
+    -H 'Content-Type: application/json' \
+    -d '{"trace_id": "test-trace-1688-'"$i"'", "event_type": "amz_to_1688", "payload": {}}'
+  echo -e "\n---\n"
+#   sleep 1
+done
+
+for i in {1..30}
+do
+  # 测试 1688_to_1688 工作流
+  curl -X POST \
+    http://127.0.0.1:8000/workflow/run/1688_to_1688 \
+    -H 'Content-Type: application/json' \
+    -d '{"trace_id": "test-trace-1688to1688-'"$i"'", "event_type": "1688_to_1688", "payload": {}}'
+  echo -e "\n---\n"
+#   sleep 1
+done
+
+for i in {1..25}
+do
+  # 测试 ali_to_ali 工作流
+  curl -X POST \
+    http://127.0.0.1:8000/workflow/run/ali_to_ali \
+    -H 'Content-Type: application/json' \
+    -d '{"trace_id": "test-trace-alitoali-'"$i"'", "event_type": "ali_to_ali", "payload": {}}'
+  echo -e "\n---\n"
+#   sleep 1
+done
+
+# 测试 social_to_ali 工作流
+curl -X POST \
+    http://127.0.0.1:8000/workflow/run/social_to_ali \
+    -H 'Content-Type: application/json' \
+    -d '{"trace_id": "test-trace-socialtoali", "event_type": "social_to_ali","context": {"platform": "tiktok"}, "payload": {}}'
+echo -e "\n---\n"
 
 # 查询状态
 # curl localhost:8000/workflows/<trace_id>/status
