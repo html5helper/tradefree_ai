@@ -31,6 +31,7 @@ def fetch_social_total(event_in):
     # 分页异步触发 chain
     for page in range(1, pages + 1):
         event_with_page = event_in.copy()
+        event_with_page['trace_id'] = str(uuid.uuid4())
         event_with_page['context']['page'] = page
         event_with_page['context']['page_size'] = page_size
         workflow = chain(
@@ -38,7 +39,7 @@ def fetch_social_total(event_in):
             app.signature('ai.business.listing.tasks.social_to_ali_listing'),
             app.signature('ai.business.image.tasks.social_to_ali_image'),
             app.signature('ai.business.upload_img.tasks.social_to_ali_upload'),
-            app.signature('ai.business.public.tasks.ali_to_ali_public'),
+            app.signature('ai.business.public.tasks.social_to_ali_public'),
         )
         workflow.apply_async()
     return {"status": "dispatched", "pages": pages}

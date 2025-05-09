@@ -1,5 +1,6 @@
 # celeryconfig.py
 from kombu import Exchange, Queue
+from celery.schedules import crontab
 
 # Broker 和 Backend 配置
 broker_url = "redis://localhost:6379/0"
@@ -69,4 +70,26 @@ task_routes = {
     },
 }
 
-# 并发度建议通过worker启动参数 -c 指定
+# 周期性执行任务
+beat_schedule = {
+    'run-social-to-ali-everyday-tiktok': {
+        'task': 'ai.business.social2product.tasks.fetch_social_total',
+        'schedule': crontab(hour=14, minute=22),
+        'args': [{
+            "trace_id": "cron-trace-socialtoali",
+            "event_type": "social_to_ali",
+            "context": {"platform": "tiktok"},
+            "payload": {}
+        }]
+    },
+    'run-social-to-ali-everyday-youtube': {
+        'task': 'ai.business.social2product.tasks.fetch_social_total',
+        'schedule': crontab(hour=14, minute=22),
+        'args': [{
+            "trace_id": "cron-trace-socialtoali",
+            "event_type": "social_to_ali",
+            "context": {"platform": "youtube"},
+            "payload": {}
+        }]
+    },
+}

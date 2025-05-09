@@ -1,4 +1,5 @@
 from ai.core.celery_app import app
+from ai.business.social2product.service import DifySocial2ProductService
 import time
 
 @app.task
@@ -32,6 +33,19 @@ def ali_to_ali_src(event):
 @app.task
 def social_to_ali_src(event):
     print("task: social_to_ali_src, event:", event)
+
+    payload = {
+        "platform": event['context']['platform'],
+        "page": event['context']['page'],
+        "page_size": event['context']['page_size'],
+        "trace_id": event['trace_id']
+    }
+
+    # 获取社媒信息
+    service = DifySocial2ProductService()
+    items = service.social_to_ali_src(payload)
+
     out_event = event.copy()
-    time.sleep(5)
+    out_event['result'] = {'items': items}
+
     return out_event 
