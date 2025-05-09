@@ -1,0 +1,48 @@
+.idea/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.swo
+.DS_Store
+.env
+venv/
+.envrc
+*.log
+*.sqlite3
+*.db
+*.egg-info/
+.cache/
+*.bak
+*.tmp
+*.orig
+*.vscode/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# macOS
+.AppleDouble
+.LSOverride
+Icon?
+
+# VSCode
+.vscode/
+
+# 单元测试覆盖率等
+htmlcov/
+.coverage
+coverage.xml
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# mypy
+.mypy_cache/
+
+# pytest
+.pytest_cache/
