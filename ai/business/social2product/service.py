@@ -1,4 +1,4 @@
-from ai.core.dify_client import DifyClient
+from ai.business.dify_client import DifyClient
 import json
 import datetime
 

@@ -2,38 +2,50 @@ from ai.core.celery_app import app
 from celery import chain, chord
 from ai.core.event import Event
 from ai.business.social2product.service import DifySocial2ProductService
+from ai.core.event_broker import EventBroker
+from ai.core.workflow_state import WorkflowState
 import json
 
-@app.task
-def step_fetch_social_record_total_count(event_in: dict) -> dict:
+@app.task(bind=True)
+def fetch_social_total(event_in: dict):
     """
     获取总记录数并设定分页大小
     """
-   
+    WorkflowState.mark_running(event_in["trace_id"], event_in["task_name"])
+
+  # event 为上述 Event JSON
+    trace_id = event_in["trace_id"]
+    platform = event_in["context"]["platform"] 
+    
     # 假设获取总记录数的逻辑
     service = DifySocial2ProductService()
     payload = {
-        "trace_id": event_in["trace_id"],
-        "platform": event_in["context"]["platform"]
+        "trace_id": trace_id,
+        "platform": platform
     }
     total = service.social_record_total_count(payload)
-    print("total:"+str(total))
 
     page_size = 30
     pages = (total + page_size - 1) // page_size  # 计算总页数
-    
-    # 更新上下文
-    event_out = event_in.copy()
-    event_out["context"]["total"] = total
-    event_out["context"]["page_size"] = page_size
-    event_out["context"]["pages"] = pages
+
+    event_out = {
+      **event_in,
+      "task_name": "step_fetch_total",
+      "status": "SUCCESS",
+      "result": {"total": total, "pages": pages, "page_size": page_size}
+    }
+
+    # 更新状态存储
+    WorkflowState.mark_finished(trace_id, event_in["task_name"], {"total": total, "pages": pages, "page_size": page_size})
 
     print("worker.event_out------------>:"+json.dumps(event_out))
-        
-    return event_out
+
+    # 上报完成事件给 Engine
+    EventBroker.publish(event_out)
+
 
 @app.task
-def step_create_products_from_social_page_records(event_in: dict, page: int) -> dict:
+def create_social_product_by_page(event_in: dict, page: int) -> dict:
     """
     根据页码处理分页记录
     """

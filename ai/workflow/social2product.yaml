@@ -1,0 +1,12 @@
+# workflows/social2product.yaml
+social2product_total:
+  tasks:
+    fetch_social_total:
+      next: []
+      concurrency: 1
+
+social2product_page:
+  tasks:
+    create_social_product_by_page:
+      next: []
+      concurrency: 1

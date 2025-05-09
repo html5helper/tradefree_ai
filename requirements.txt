@@ -1,4 +1,7 @@
 celery>=5.3.0
 redis>=4.5.0
 python-dotenv>=0.19.0
-requests>=2.26.0 
+requests>=2.26.0
+fastapi>=0.95.0
+pydantic>=1.10.0
+PyYAML>=6.0 
