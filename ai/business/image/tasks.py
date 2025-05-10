@@ -31,7 +31,6 @@ def ali_to_ali_image(event):
 
 @app.task
 def social_to_ali_image(event):
-    print("task: social_to_ali_image, event:", event)
+    print(f"task: social_to_ali_image, page: {event['context']['page']}, items count: {len(event['result']['items'])}")
     out_event = event.copy()
-    time.sleep(50)
     return out_event 

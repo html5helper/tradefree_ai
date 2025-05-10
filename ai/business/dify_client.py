@@ -20,7 +20,14 @@ class DifyClient:
             "response_mode": "blocking",
             "user": self.client_user
         }
-        response = requests.post(f'{self.base_url}/{self.endpoint}', headers=headers, json=payload,timeout=900)
-        response.raise_for_status()
-        return response.json()
+        
+        try:
+            response = requests.post(f'{self.base_url}/{self.endpoint}', headers=headers, json=payload,timeout=900)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.HTTPError as e:
+            print(f"Dify API Error - Status Code: {e.response.status_code}")
+            print(f"Response Body: {e.response.text}")
+            print(f"Request Payload: {json.dumps(payload, indent=2)}")
+            raise
 

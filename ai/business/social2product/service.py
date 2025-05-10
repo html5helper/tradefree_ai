@@ -41,14 +41,10 @@ class DifySocial2ProductService:
         run_workflow = "71012911-41b9-4d66-9c19-d666f2389d7e"
         api_key = "app-JMJ87fMuTgYtOPlRGJNk5DVH"
 
-        # Log the request
-        print("Request payload:", json.dumps(payload))
-
         # Send the request
         response = self.client.post( run_workflow, api_key, payload)
 
         # Handle the response
-        print("Response:", response)
         items = response["data"]["outputs"]["items"]
         return items
     
@@ -57,14 +53,10 @@ class DifySocial2ProductService:
         run_workflow = "71012911-41b9-4d66-9c19-d666f2389d7e"
         api_key = "app-JMJ87fMuTgYtOPlRGJNk5DVH"
 
-        # Log the request
-        print("Request payload:", json.dumps(payload))
-
         # Send the request
         response = self.client.post( run_workflow, api_key, payload)
 
         # Handle the response
-        print("Response:", response)
         items = response["data"]["outputs"]["items"]
         return items
         
