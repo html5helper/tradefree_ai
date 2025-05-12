@@ -1,0 +1,775 @@
+app:
+  description: 基于社媒热词数据的新品探索场景
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: 智能选品顾问_V1.0(social)
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/tongyi:0.0.14@d333909fe8d75a335b44da4b878d5120779b8703f12c21cf4730135d6864afbb
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: '我是你的专属新品开发顾问，可以提供基于社媒热点信息进行特定业务场景的电商新品开发及商品发布到阿里国际。请从下列的业务场景中选择一个具体业务:
+
+      '
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions:
+    - sticker
+    - envelope
+    - bookmark
+    - silicone
+    - magnetic
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: answer
+      id: 1741197625740-source-answer-target
+      source: '1741197625740'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: answer
+        targetType: llm
+      id: 1741693261411-source-1741197625740-target
+      selected: false
+      source: '1741693261411'
+      sourceHandle: source
+      target: '1741197625740'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: http-request
+        targetType: answer
+      id: 1742900429316-source-1741693261411-target
+      source: '1742900429316'
+      sourceHandle: source
+      target: '1741693261411'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: answer
+        targetType: code
+      id: answer-source-1742905672371-target
+      source: answer
+      sourceHandle: source
+      target: '1742905672371'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1742905584161'
+        sourceType: tool
+        targetType: answer
+      id: 1742969661341-source-1742906938343-target
+      source: '1742969661341'
+      sourceHandle: source
+      target: '1742906938343'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1742905584161'
+        sourceType: tool
+        targetType: answer
+      id: 1742964926580-source-1742973415035-target
+      source: '1742964926580'
+      sourceHandle: source
+      target: '1742973415035'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1742905584161'
+        sourceType: tool
+        targetType: tool
+      id: 1742964926580-source-1742969661341-target
+      source: '1742964926580'
+      sourceHandle: source
+      target: '1742969661341'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1742905584161'
+        sourceType: iteration-start
+        targetType: code
+      id: 1742905584161start-source-1742973704923-target
+      source: 1742905584161start
+      sourceHandle: source
+      target: '1742973704923'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1742905584161'
+        sourceType: code
+        targetType: answer
+      id: 1742973704923-source-1742973898416-target
+      source: '1742973704923'
+      sourceHandle: source
+      target: '1742973898416'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1742905584161'
+        sourceType: code
+        targetType: tool
+      id: 1742973704923-source-1742964926580-target
+      source: '1742973704923'
+      sourceHandle: source
+      target: '1742964926580'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: 1742905672371-source-1742905584161-target
+      source: '1742905672371'
+      sourceHandle: source
+      target: '1742905584161'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: http-request
+      id: 1741190988599-source-1742900429316-target
+      source: '1741190988599'
+      sourceHandle: source
+      target: '1742900429316'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables: []
+      height: 53
+      id: '1741190988599'
+      position:
+        x: 173.41095479244615
+        y: 276.5582452736762
+      positionAbsolute:
+        x: 173.41095479244615
+        y: 276.5582452736762
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        answer: '基于获取的热词信息分析并生成新品信息..
+
+
+
+          '
+        desc: ''
+        selected: false
+        title: 输出LLM返回结果
+        type: answer
+        variables: []
+      height: 117
+      id: answer
+      position:
+        x: 1494.1442475084384
+        y: 276.5582452736762
+      positionAbsolute:
+        x: 1494.1442475084384
+        y: 276.5582452736762
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 通过大模型基于一个场景获取该场景相关的关联热词
+        model:
+          completion_params: {}
+          mode: chat
+          name: deepseek-v3
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 62d37f70-b958-43cd-a9c6-a1063ea47174
+          role: system
+          text: "# 角色设定\n你是一个基于社媒热点关键词信息进行电商新品探索的助手。通过输入的社媒热词集合，你可以帮助用户生成新品推荐和电商文案。\n\
+            \n# 约束\n- 生成的新品推荐所依赖的社媒热词必须出现在输入的社媒热词集合中。\n- 不能凭空想象新品推荐，必须基于输入的社媒热词进行推荐。\n\
+            - 输出的json信息前后不能添加任何其他描述性文字。\n- 输出的内容以英文方式显示\n\n# 商品图片建议\n在生成的商品信息中，需要包含明确的商品图片建议信息(imageDescription字段)，需要从商品名称、商品描述、适用人群、推荐理由、标签和相关热词等信息中的关键词信息并重新组合生成。可以提供一些适用场景的描述信息。\n\
+            \n# 样例\n**输入：**\n{\"judge 66 sticker\":0.3287,\"the_judge66's sticker\"\
+            :0.3287}\n\n**输出：**\n\n[\n    {\n        \"textToPicture\": {\n      \
+            \      \"query\": {\n                \"name\": \"Personalized Judge-Themed\
+            \ Creative Sticker Set\",\n                \"suggestion\": \"This sticker\
+            \ set is themed around the judge profession, featuring multiple humorous\
+            \ and creative elements. It can be used to decorate notebooks, phone cases,\
+            \ water bottles, etc., blending legal elements into everyday life to enhance\
+            \ fun.\",\n                \"group\": \"Law students, legal practitioners,\
+            \ and legal enthusiasts\",\n                \"reason\": \"The social media\
+            \ hotword 'Judge' has a high popularity. Legally themed stickers have\
+            \ a unique appeal among young audiences as a way to express individuality.\"\
+            ,\n                \"tags\": [\n                    \"Judge\",\n     \
+            \               \"Creative\",\n                    \"Sticker\"\n     \
+            \           ],\n                \"relatedHotWords\": [\n             \
+            \       {\n                        \"hotword\": \"judge 66 sticker\",\n\
+            \                        \"score\": 0.3287\n                    }\n  \
+            \              ],\n                \"imageDescription\":\"A set of creative\
+            \ stickers with a judge theme, featuring humorous and creative elements.\
+            \ Ideal for decorating notebooks, phone cases, water bottles, etc.\"\n\
+            \            }\n        }\n    },\n    {\n        \"textToPicture\": {\n\
+            \            \"query\": {\n                \"name\": \"Judge Role-Play\
+            \ Sticker Set\",\n                \"suggestion\": \"This sticker set is\
+            \ specifically designed for role-playing enthusiasts, featuring judge\
+            \ badges, a gavel, and case files, ideal for use in cosplay events.\"\
+            ,\n                \"group\": \"Cosplay enthusiasts, theater club members,\
+            \ creative arts lovers\",\n                \"reason\": \"Role-play culture\
+            \ is on the rise in social media, and the judge role is popular due to\
+            \ its sense of authority and mystery.\",\n                \"tags\": [\n\
+            \                    \"Judge\",\n                    \"Role-Play\",\n\
+            \                    \"Sticker\"\n                ],\n               \
+            \ \"relatedHotWords\": [\n                    {\n                    \
+            \    \"hotword\": \"the_judge66's sticker\",\n                       \
+            \ \"score\": 0.354\n                    }\n                ],\n      \
+            \          \"imageDescription\":\"A set of role-play stickers featuring\
+            \ judge badges, a gavel, and case files, perfect for cosplay events.\"\
+            \n            }\n        }\n    }\n]"
+        - id: bed99807-e196-40bd-b171-3df69f69604d
+          role: user
+          text: '{{#1742900429316.body#}}'
+        selected: false
+        title: 社媒热词分析
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 133
+      id: '1741197625740'
+      position:
+        x: 1155.990589388965
+        y: 276.5582452736762
+      positionAbsolute:
+        x: 1155.990589388965
+        y: 276.5582452736762
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        answer: '获取【{{#sys.query#}}】场景下的社媒热词集合如下：
+
+          {{#1742900429316.body#}}
+
+
+
+          '
+        desc: ''
+        selected: false
+        title: 输出社媒热词集合信息
+        type: answer
+        variables: []
+      height: 138
+      id: '1741693261411'
+      position:
+        x: 821.6440462021862
+        y: 276.5582452736762
+      positionAbsolute:
+        x: 821.6440462021862
+        y: 276.5582452736762
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: key-value-43
+            key: ''
+            type: text
+            value: "{\n  \"keyword\": \"{{#sys.query#}}\",\n  \"country\": \"US\"\n\
+              }"
+          type: raw-text
+        desc: ''
+        headers: 'Authorization:Bearer tk_xde442**&XCcc78llnm54bc783xxcss0&^uu90
+
+          Content-Type:application/json'
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: 获取社媒热词
+        type: http-request
+        url: https://www.tradefree.ai/knowledge/social/search/retrieval
+        variables: []
+      height: 150
+      id: '1742900429316'
+      position:
+        x: 497.4971509910223
+        y: 276.5582452736762
+      positionAbsolute:
+        x: 497.4971509910223
+        y: 276.5582452736762
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        height: 388
+        is_parallel: false
+        iterator_selector:
+        - '1742905672371'
+        - production
+        output_selector:
+        - '1742969661341'
+        - text
+        output_type: array[string]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1742905584161start
+        title: 迭代生成商品信息
+        type: iteration
+        width: 1697
+      height: 388
+      id: '1742905584161'
+      position:
+        x: 459.045556002945
+        y: 701.7773970823589
+      positionAbsolute:
+        x: 459.045556002945
+        y: 701.7773970823589
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 1697
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1742905584161start
+      parentId: '1742905584161'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 483.045556002945
+        y: 769.7773970823589
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        code: "\nimport json\ndef main(json_string: str) -> dict:\n    return {\n\
+          \        \"production\": json.loads(json_string)\n    }"
+        code_language: python3
+        desc: ''
+        outputs:
+          production:
+            children: null
+            type: array[object]
+        selected: false
+        title: 解析为产品方案数组
+        type: code
+        variables:
+        - value_selector:
+          - '1741197625740'
+          - text
+          variable: json_string
+      height: 53
+      id: '1742905672371'
+      position:
+        x: 1820.19804796723
+        y: 276.5582452736762
+      positionAbsolute:
+        x: 1820.19804796723
+        y: 276.5582452736762
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        answer: '商品【{{#1742973704923.name#}}】发布结果:  {{#1742969661341.text#}}'
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1742905584161'
+        selected: false
+        title: 商品发布信息提示
+        type: answer
+        variables: []
+      height: 122
+      id: '1742906938343'
+      parentId: '1742905584161'
+      position:
+        x: 1385.63119037364
+        y: 182
+      positionAbsolute:
+        x: 1844.676746376585
+        y: 883.7773970823589
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      zIndex: 1002
+    - data:
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        is_team_authorization: true
+        iteration_id: '1742905584161'
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: query
+            ja_JP: query
+            pt_BR: query
+            zh_Hans: query
+          llm_description: ''
+          max: null
+          min: null
+          name: query
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        params:
+          query: ''
+        provider_id: 0890623e-9957-4304-bc4d-0dbdcfd00ac2
+        provider_name: textToPicture
+        provider_type: workflow
+        selected: false
+        title: 生成商品图片
+        tool_configurations: {}
+        tool_label: textToPicture
+        tool_name: textToPicture
+        tool_parameters:
+          query:
+            type: mixed
+            value: '{{#1742905584161.item#}}'
+        type: tool
+      height: 53
+      id: '1742964926580'
+      parentId: '1742905584161'
+      position:
+        x: 577.3158933330155
+        y: 68.33827874558057
+      positionAbsolute:
+        x: 1036.3614493359605
+        y: 770.1156758279394
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      zIndex: 1002
+    - data:
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        is_team_authorization: true
+        iteration_id: '1742905584161'
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: workflow_run_id
+            ja_JP: workflow_run_id
+            pt_BR: workflow_run_id
+            zh_Hans: workflow_run_id
+          llm_description: ''
+          max: null
+          min: null
+          name: workflow_run_id
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: item
+            ja_JP: item
+            pt_BR: item
+            zh_Hans: item
+          llm_description: ''
+          max: null
+          min: null
+          name: item
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        params:
+          item: ''
+          workflow_run_id: ''
+        provider_id: 419f3059-7e8d-467f-aff6-ab6994d9bb61
+        provider_name: uploadImgProduct
+        provider_type: workflow
+        selected: false
+        title: 发布商品到阿里国际站
+        tool_configurations:
+          item: null
+          workflow_run_id: ''
+        tool_label: uploadImgProduct
+        tool_name: uploadImgProduct
+        tool_parameters:
+          img:
+            type: variable
+            value:
+            - '1742964926580'
+            - files
+          item:
+            type: mixed
+            value: '{{#1742905584161.item#}}'
+          workflow_run_id:
+            type: mixed
+            value: '{{#sys.workflow_run_id#}}_{{#1742905584161.index#}}'
+        type: tool
+      height: 115
+      id: '1742969661341'
+      parentId: '1742905584161'
+      position:
+        x: 1048.5774484352037
+        y: 65
+      positionAbsolute:
+        x: 1507.6230044381487
+        y: 766.7773970823589
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      zIndex: 1002
+    - data:
+        answer: '成功生成【{{#1742973704923.name#}}】相关商图片。
+
+          '
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1742905584161'
+        selected: false
+        title: 图片信息提示
+        type: answer
+        variables: []
+      height: 119
+      id: '1742973415035'
+      parentId: '1742905584161'
+      position:
+        x: 865.2755339214477
+        y: 197.05781748209586
+      positionAbsolute:
+        x: 1324.3210899243927
+        y: 898.8352145644548
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      zIndex: 1002
+    - data:
+        code: "\nimport json\ndef main(item: dict) -> dict:\n    return {\n      \
+          \  \"name\":item[\"textToPicture\"][\"query\"][\"name\"]\n    }\n"
+        code_language: python3
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1742905584161'
+        outputs:
+          name:
+            children: null
+            type: string
+        selected: false
+        title: 初始化商品提示信息
+        type: code
+        variables:
+        - value_selector:
+          - '1742905584161'
+          - item
+          variable: item
+      height: 53
+      id: '1742973704923'
+      parentId: '1742905584161'
+      position:
+        x: 151.73561250062585
+        y: 65.82864249856459
+      positionAbsolute:
+        x: 610.7811685035708
+        y: 767.6060395809235
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      zIndex: 1002
+    - data:
+        answer: '开始处理编号为【{{#1742905584161.index#}}】的商品【{{#1742973704923.name#}}】..
+
+          '
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1742905584161'
+        selected: false
+        title: 商品信息提示
+        type: answer
+        variables: []
+      height: 138
+      id: '1742973898416'
+      parentId: '1742905584161'
+      position:
+        x: 450.4807943771184
+        y: 187.54600047883957
+      positionAbsolute:
+        x: 909.5263503800634
+        y: 889.3233975611985
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      zIndex: 1002
+    viewport:
+      x: -247.50339026885922
+      y: 111.99504858336672
+      zoom: 1.0938654749923347

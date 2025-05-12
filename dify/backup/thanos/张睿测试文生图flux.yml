@@ -1,0 +1,650 @@
+app:
+  description: 使用flux1.dev fp8生图
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: 张睿测试文生图flux
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/comfyui:0.0.4@8bb424227ceb2fef8f69c3505ab82b34d38a6291e385b482ab67a34c4cf2e656
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/tongyi:0.0.14@d333909fe8d75a335b44da4b878d5120779b8703f12c21cf4730135d6864afbb
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: 1744448370507-source-1744448382165-target
+      source: '1744448370507'
+      sourceHandle: source
+      target: '1744448382165'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1744448382165'
+        sourceType: iteration-start
+        targetType: tool
+      id: 1744448382165start-source-1744448439886-target
+      source: 1744448382165start
+      sourceHandle: source
+      target: '1744448439886'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInLoop: false
+        sourceType: iteration
+        targetType: end
+      id: 1744448382165-source-1743136880140-target
+      source: '1744448382165'
+      sourceHandle: source
+      target: '1743136880140'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: 1743136838751-source-1744457904183-target
+      source: '1743136838751'
+      sourceHandle: source
+      target: '1744457904183'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1744457904183-source-1744457998667-target
+      source: '1744457904183'
+      sourceHandle: source
+      target: '1744457998667'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1744457998667-source-1744448370507-target
+      source: '1744457998667'
+      sourceHandle: source
+      target: '1744448370507'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: 提示词
+          max_length: 50000
+          options: []
+          required: true
+          type: paragraph
+          variable: query
+      height: 90
+      id: '1743136838751'
+      position:
+        x: -524.0183139146211
+        y: 203.16899210484274
+      positionAbsolute:
+        x: -524.0183139146211
+        y: 203.16899210484274
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1744448382165'
+          - output
+          variable: output
+        selected: false
+        title: 结束
+        type: end
+      height: 90
+      id: '1743136880140'
+      position:
+        x: 1920.1835186051815
+        y: 213.09588428725726
+      positionAbsolute:
+        x: 1920.1835186051815
+        y: 213.09588428725726
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "import json\n\ndef main(arg1: str) -> dict:\n    result = json.loads(arg1)\n\
+          \    return {\n        \"result\": result,\n    }"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: array[string]
+        selected: false
+        title: 代码执行
+        type: code
+        variables:
+        - value_selector:
+          - '1744457998667'
+          - text
+          variable: arg1
+      height: 54
+      id: '1744448370507'
+      position:
+        x: 918.4516864550519
+        y: 181.25042470144285
+      positionAbsolute:
+        x: 918.4516864550519
+        y: 181.25042470144285
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        height: 542
+        is_parallel: false
+        iterator_selector:
+        - '1744448370507'
+        - result
+        output_selector:
+        - '1744448439886'
+        - files
+        output_type: array[file]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1744448382165start
+        title: 迭代
+        type: iteration
+        width: 388
+      height: 542
+      id: '1744448382165'
+      position:
+        x: 1335.1777938974155
+        y: 175.3126202843807
+      positionAbsolute:
+        x: 1335.1777938974155
+        y: 175.3126202843807
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 388
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1744448382165start
+      parentId: '1744448382165'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 1359.1777938974155
+        y: 243.3126202843807
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        is_team_authorization: true
+        iteration_id: '1744448382165'
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Image prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            ja_JP: Image prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            pt_BR: Image prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            zh_Hans: 图像提示词，您可以查看 Stable Diffusion 或者 FLUX 的官方文档
+          label:
+            en_US: Prompt
+            ja_JP: Prompt
+            pt_BR: Prompt
+            zh_Hans: 提示词
+          llm_description: Image prompt, you should describe the image you want to
+            generate as a list of words as possible as detailed, the prompt must be
+            written in English.
+          max: null
+          min: null
+          name: positive_prompt
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Negative prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            ja_JP: Negative prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            pt_BR: Negative prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            zh_Hans: 负面提示词，您可以查看 Stable Diffusion 或者 FLUX 的官方文档
+          label:
+            en_US: Negative Prompt
+            ja_JP: Negative Prompt
+            pt_BR: Negative Prompt
+            zh_Hans: 负面提示词
+          llm_description: Negative prompt, you should describe the image you don't
+            want to generate as a list of words as possible as detailed, the prompt
+            must be written in English.
+          max: null
+          min: null
+          name: negative_prompt
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The input images
+            ja_JP: The input images
+            pt_BR: The input images
+            zh_Hans: 输入的图片
+          label:
+            en_US: Input Images
+            ja_JP: Input Images
+            pt_BR: Input Images
+            zh_Hans: 输入的图片
+          llm_description: The input images, used to transfer to the comfyui workflow
+            to generate another image.
+          max: null
+          min: null
+          name: images
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: files
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: exported from ComfyUI workflow
+            ja_JP: exported from ComfyUI workflow
+            pt_BR: exported from ComfyUI workflow
+            zh_Hans: 从ComfyUI的工作流中导出
+          label:
+            en_US: Workflow JSON
+            ja_JP: Workflow JSON
+            pt_BR: Workflow JSON
+            zh_Hans: Workflow JSON
+          llm_description: ''
+          max: null
+          min: null
+          name: workflow_json
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: When the workflow has multiple image nodes, enter the ID list of
+              these nodes, and the images will be passed to ComfyUI in the order of
+              the list.
+            ja_JP: When the workflow has multiple image nodes, enter the ID list of
+              these nodes, and the images will be passed to ComfyUI in the order of
+              the list.
+            pt_BR: When the workflow has multiple image nodes, enter the ID list of
+              these nodes, and the images will be passed to ComfyUI in the order of
+              the list.
+            zh_Hans: 当工作流有多个图片节点时，输入这些节点的ID列表，图片将按列表顺序传给ComfyUI
+          label:
+            en_US: Image Node ID List
+            ja_JP: Image Node ID List
+            pt_BR: Image Node ID List
+            zh_Hans: 图片节点ID列表
+          llm_description: ''
+          max: null
+          min: null
+          name: image_ids
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: If you need to generate different images each time, you need to
+              enter the ID of the seed node.
+            ja_JP: If you need to generate different images each time, you need to
+              enter the ID of the seed node.
+            pt_BR: If you need to generate different images each time, you need to
+              enter the ID of the seed node.
+            zh_Hans: 如果需要每次生成时使用不同的种子，需要输入包含种子的节点的ID
+          label:
+            en_US: Seed Node Id
+            ja_JP: Seed Node Id
+            pt_BR: Seed Node Id
+            zh_Hans: 种子节点ID
+          llm_description: ''
+          max: null
+          min: null
+          name: seed_id
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          image_ids: ''
+          images: ''
+          negative_prompt: ''
+          positive_prompt: ''
+          seed_id: ''
+          workflow_json: ''
+        provider_id: langgenius/comfyui/comfyui
+        provider_name: langgenius/comfyui/comfyui
+        provider_type: builtin
+        selected: false
+        title: 工作流
+        tool_configurations:
+          image_ids: null
+          seed_id: null
+          workflow_json: '{   "63": {     "inputs": {       "seed": -1     },     "class_type":
+            "Seed (rgthree)",     "_meta": {       "title": "Seed (rgthree)"     }   },   "64":
+            {     "inputs": {       "text": "{{positive_prompt}}"     },     "class_type":
+            "CR Text",     "_meta": {       "title": "🔤 CR Text"     }   },   "131":
+            {     "inputs": {       "vae_name": "ae.safetensors"     },     "class_type":
+            "VAELoader",     "_meta": {       "title": "加载VAE"     }   },   "132":
+            {     "inputs": {       "clip_name1": "t5xxl_fp8_e4m3fn.safetensors",       "clip_name2":
+            "clip_l.safetensors",       "type": "flux"     },     "class_type": "DualCLIPLoader",     "_meta":
+            {       "title": "双CLIP加载器"     }   },   "133": {     "inputs": {       "unet_name":
+            "flux1-dev-fp8-e4m3fn.safetensors",       "weight_dtype": "fp8_e4m3fn"     },     "class_type":
+            "UNETLoader",     "_meta": {       "title": "加载扩散模型"     }   },   "134":
+            {     "inputs": {       "max_shift": 1.1500000000000001,       "base_shift":
+            0.5,       "width": 800,       "height": 800,       "model": [         "141",         0       ]     },     "class_type":
+            "ModelSamplingFlux",     "_meta": {       "title": "模型采样Flux"     }   },   "135":
+            {     "inputs": {       "seed": [         "63",         0       ],       "steps":
+            8,       "cfg": 1,       "sampler_name": "euler",       "scheduler": "sgm_uniform",       "denoise":
+            1,       "preview_method": "auto",       "vae_decode": "true",       "model":
+            [         "134",         0       ],       "positive": [         "136",         0       ],       "negative":
+            [         "137",         0       ],       "latent_image": [         "144",         0       ],       "optional_vae":
+            [         "131",         0       ]     },     "class_type": "KSampler
+            (Efficient)",     "_meta": {       "title": "KSampler (Efficient)"     }   },   "136":
+            {     "inputs": {       "clip_l": "",       "t5xxl": [         "64",         0       ],       "guidance":
+            3.5,       "clip": [         "132",         0       ]     },     "class_type":
+            "CLIPTextEncodeFlux",     "_meta": {       "title": "CLIP文本编码Flux"     }   },   "137":
+            {     "inputs": {       "conditioning": [         "136",         0       ]     },     "class_type":
+            "ConditioningZeroOut",     "_meta": {       "title": "条件零化"     }   },   "141":
+            {     "inputs": {       "lora_name": "Hyper-FLUX.1-dev-8steps-lora.safetensors",       "strength_model":
+            0.15,       "model": [         "133",         0       ]     },     "class_type":
+            "LoraLoaderModelOnly",     "_meta": {       "title": "仅加载LoRA模型"     }   },   "144":
+            {     "inputs": {       "width": 800,       "height": 800,       "batch_size":
+            1     },     "class_type": "EmptyLatentImage",     "_meta": {       "title":
+            "空潜空间图像"     }   } }'
+        tool_label: 工作流
+        tool_name: workflow
+        tool_parameters:
+          positive_prompt:
+            type: mixed
+            value: '{{#1744448382165.item#}}'
+        type: tool
+      height: 142
+      id: '1744448439886'
+      parentId: '1744448382165'
+      position:
+        x: 128
+        y: 68
+      positionAbsolute:
+        x: 1463.1777938974155
+        y: 243.3126202843807
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: qwen-max-0919
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 3b6b6547-214d-45ad-ae6a-c85e3ec0d5f3
+          role: system
+          text: "# 角色与任务\n你是一位专业的贴纸产品设计师，这个贴纸产品会在电商上销售，你需要根据用户的数据设计一款精美的适合在电商上销售的贴纸。\n\
+            \n# 提供的数据说明\n这是一款在某电商上销售的贴纸产品，其中\n\"title\" 是这个贴纸产品标题\n\"description\"\
+            \ 是这个产品的详情描述\n\n# 要求\n1. 要充分理解用户输入的信息,提到其中的关键信息, 根据这些信息设计一款类似的贴纸产品\n2.\
+            \ 设计的贴纸产品要符合电商平台的销售要求，不要出现低俗，色情，暴力的元素\n\n# 设计步骤\n这款贴纸产品的设计必须包含以下元素, 且必须要与用户给出产品的标题、描述等信息相符合,\
+            \ 选取的各元素之间要有合理的联系\n1. 市场定位与用户画像，可以不是以下选择，但必须要有定位与用户画像\n    儿童/学生/手账爱好者/母婴群体/年轻女性/年轻男性/文艺青年/手工爱好者/创意设计师等\n\
+            2. 贴纸的风格类型，可以不是以下选择，但必须要有一个固定的风格类型\n    现代/复古/极简/田园/工业/未来主义/抽象/卡通/写实/梦幻/扁平化/手绘涂鸦/像素风格/水彩风格/故障艺术/国潮风格等\n\
+            3. 贴纸的主体：水果/花草/云朵/彩虹/汽车/人物等等，根据用户的具体输入数据来选择2到3个\n4. 贴纸的颜色方案，可以不是以下选择，但必须要有一个固定的颜色方案\n\
+            \    Pantone年度色/CMYK高饱和色/专色系统/多巴胺配色/中性灰调/Y2K千禧风/警示标识色/隐形设计色/夜光色/透明材质色/金属质感色/和纸显色/季节限定色/文化主题色/专色荧光/烫金/烫银/浮雕效果色/减压治愈色/性别中性色等，有且只选择一种\n\
+            5. 贴纸的大小与排版\n6. 贴纸的材质，可以不是以下选择，但必须要有一个固定的材质\n    纸质/PVC/PET/PP/铜版纸/镜面铜版纸\
+            \ 等贴纸常用的材质，有且只选择一种\n7. 贴纸的印刷工艺， 可以不是以下选择，但必须要有一个固定的印刷工艺\n    胶印/丝网印刷/柔版印刷/模切/压纹/烫金/拉丝/镀层/UV/热转印/数码印刷等，有且只选择一种\n\
+            8. 贴纸的使用场景，可以不是以下选择，但必须根据用户的具体输入数据来选择2到3个合理的场景\n    水杯/笔记本/手机壳/电脑/图书/书桌/书架/行李箱/书包等合理的可以贴纸的物体\n\
+            9. 贴纸的分类: 1. 功能性贴纸 2. 装饰性贴纸 只能二选一\n10. 根据以上所选取的元素，结合用户的输入数据，设计出贴纸的详细设计文案，详细方案必须罗列以上9点，最后对贴纸图案做出详细的描述，字数在300字以上"
+        - id: c7a3c13e-69f4-4536-8110-d362c392126f
+          role: user
+          text: '{{#1743136838751.query#}}'
+        selected: false
+        title: 产品详情设计
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1744457904183'
+      position:
+        x: -27.134513931325955
+        y: 181.25042470144285
+      positionAbsolute:
+        x: -27.134513931325955
+        y: 181.25042470144285
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: qwen-max-0919
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: ca179a37-7785-4a76-824c-84e84edea973
+          role: system
+          text: '# 角色
+
+            你是一位 FLUX 模型提示词撰写专家，特别擅长在电商商品图上创作各类高质量提示词，尤其是针对贴纸这类印刷商品做过深入研究。
+
+
+            # 任务
+
+            请根据用户提供的贴纸详细设计方案生成 FLUX模型的文本生图像的专业英文提示词。
+
+
+            # 要求
+
+            1. 要充分理解用户给的详细设计, 生成六组FLUX文生图模型所需的提示词，前三组提示词用于产品主图，后三组提示词用于产品应用场景图
+
+            2. 特别注意贴纸设计方案里的材质、印刷工艺、风格类型、颜色方案、贴纸的大小与排版、使用场景等要素，确保每一组提示词中都要包含这些元素且每一组提示词都是一致的
+
+            3. 每组提示词都要清晰的表达图像的主要内容，丰富细节根据设计方案加入画质、风格、光影等修饰词，具体化颜色、材质、动作等细节，减少歧义和笼统词汇
+
+            4. 注意这六张图是同一款贴纸产品的不同展示，不能出现不同的贴纸，所以对贴纸的文字描述细节上要一致
+
+            5. 特别注意贴纸的材质，所以呈现的厚度要前后一致
+
+            6. 每组提示词长度要超过180字
+
+            7. 提示词中动词选择：优先用 applied, stuck, affixed，避免 "printed"、"embossed"、"painted"等暗示图案与物体一体的相关词汇。细节补充：加入材质（如
+            vinyl, glossy）、数量（over five）、粘贴状态（evenly, neatly）等，强化贴纸的独立性。
+
+            8. 不要出现低俗，色情，暴力的场景
+
+            ## 主图提示词要求
+
+            1. 要有产品进行特写，且图中不能有文字描述，可变换各种角度、各种排列顺序等，但对商品的主体描述是一致的
+
+            2. 主图呈现要清晰、明亮，排版规则、精美
+
+            ## 产品应用场景图提示词要求
+
+            1. 这是主图的贴纸产品的场景展示所以要包含主图里的贴纸产品，而不能是其他的贴纸产品
+
+            2. 贴纸产品数量要多于 5 张，并且要均匀、合理地粘贴在物体上，要特别注意是粘贴在物体上，所以要描述出粘贴的效果是怎样的，而不是印刷在物品上
+
+            3. 减少人物出现
+
+            4. 场景不能重复
+
+            5. 主图里的的贴纸产品要合理的应用到不同场景中，不能悬浮在空中，大小比例要符合真实世界的物理规律
+
+
+            # 输出格式要求
+
+            1. 六组FLUX提示词需以列表形式返回，格式必须为 ["aaaaaa","bbbbbbbb","ccccccc"]且提示词为英文，不要使用
+            Markdown 格式'
+        - id: c671b421-48a8-43ba-9b90-0df645d772dc
+          role: user
+          text: '{{#1744457904183.text#}}'
+        selected: true
+        title: FLUX文案
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1744457998667'
+      position:
+        x: 510.60953143762015
+        y: 166.63804643250955
+      positionAbsolute:
+        x: 510.60953143762015
+        y: 166.63804643250955
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 347.00224532914217
+      y: 339.6781667670149
+      zoom: 0.306933920978766
