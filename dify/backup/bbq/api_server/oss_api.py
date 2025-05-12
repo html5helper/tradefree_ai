@@ -5,7 +5,7 @@ from tools.upload2oss import OSSUploader
 
 # 初始化 OSS 上传器
 uploader = OSSUploader(
-    endpoint='oss-cn-beijing.aliyuncs.com',  # 根据实际情况修改
+    endpoint='https://oss-us-east-1.aliyuncs.com',  # 根据实际情况修改
     bucket_name='tradefree'  # 使用实际的bucket名称
 )
 
