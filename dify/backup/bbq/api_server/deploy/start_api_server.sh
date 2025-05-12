@@ -1,3 +1,7 @@
 #!/bin/bash
-cd /Users/qinbinbin/PycharmProjects/tradefree_ai/dify/backup/bbq/api_server
-/usr/local/bin/gunicorn -w 4 -b 0.0.0.0:8080 main:app
+set -a
+source /home/qinbinbin/ai_tools/web_server/.env
+set +a
+
+cd /home/qinbinbin/ai_tools/web_server
+/home/qinbinbin/anaconda3/envs/py3/bin/gunicorn -w 1 -b 0.0.0.0:8080 main:app
