@@ -1,0 +1,201 @@
+{
+	"22": {
+		"inputs": {
+			"model": ["140", 0],
+			"conditioning": ["148", 0]
+		},
+		"class_type": "BasicGuider",
+		"_meta": {
+			"title": "基本引导器"
+		}
+	},
+	"25": {
+		"inputs": {
+			"noise_seed": 233839400453978
+		},
+		"class_type": "RandomNoise",
+		"_meta": {
+			"title": "随机噪声"
+		}
+	},
+	"134": {
+		"inputs": {
+			"sampler_name": "euler"
+		},
+		"class_type": "KSamplerSelect",
+		"_meta": {
+			"title": "K采样器选择"
+		}
+	},
+	"136": {
+		"inputs": {
+			"noise": ["25", 0],
+			"guider": ["22", 0],
+			"sampler": ["134", 0],
+			"sigmas": ["177", 0],
+			"latent_image": ["178", 0]
+		},
+		"class_type": "SamplerCustomAdvanced",
+		"_meta": {
+			"title": "自定义采样器（高级）"
+		}
+	},
+	"140": {
+		"inputs": {
+			"max_shift": 1.1500000000000001,
+			"base_shift": 0.5000000000000001,
+			"width": ["178", 1],
+			"height": ["178", 2],
+			"model": ["142", 0]
+		},
+		"class_type": "ModelSamplingFlux",
+		"_meta": {
+			"title": "模型采样Flux"
+		}
+	},
+	"142": {
+		"inputs": {
+			"unet_name": "shuttle-3-diffusion-Q4_K_S.gguf"
+		},
+		"class_type": "UnetLoaderGGUF",
+		"_meta": {
+			"title": "Unet Loader (GGUF)"
+		}
+	},
+	"148": {
+		"inputs": {
+			"clip_l": "{{positive_prompt}}",
+			"t5xxl": ["179", 2],
+			"guidance": 3.5,
+			"clip": ["164", 0]
+		},
+		"class_type": "CLIPTextEncodeFlux",
+		"_meta": {
+			"title": "CLIP文本编码Flux"
+		}
+	},
+	"153": {
+		"inputs": {
+			"samples": ["136", 0],
+			"vae": ["166", 0]
+		},
+		"class_type": "VAEDecode",
+		"_meta": {
+			"title": "VAE解码"
+		}
+	},
+	"154": {
+		"inputs": {
+			"filename_prefix": "ComfyUI",
+			"images": ["184", 0]
+		},
+		"class_type": "SaveImage",
+		"_meta": {
+			"title": "保存图像"
+		}
+	},
+	"164": {
+		"inputs": {
+			"clip_name1": "t5-v1_1-xxl-encoder-Q4_K_S.gguf",
+			"clip_name2": "clip_l.safetensors",
+			"type": "flux"
+		},
+		"class_type": "DualCLIPLoaderGGUF",
+		"_meta": {
+			"title": "DualCLIPLoader (GGUF)"
+		}
+	},
+	"166": {
+		"inputs": {
+			"vae_name": "ae.sft"
+		},
+		"class_type": "VAELoader",
+		"_meta": {
+			"title": "加载VAE"
+		}
+	},
+	"177": {
+		"inputs": {
+			"scheduler": "sgm_uniform",
+			"steps": 4,
+			"denoise": 1,
+			"model": ["140", 0]
+		},
+		"class_type": "BasicScheduler",
+		"_meta": {
+			"title": "基本调度器"
+		}
+	},
+	"178": {
+		"inputs": {
+			"dimensions": "1024 x 1024 (1:1)",
+			"invert": false,
+			"batch_size": 4
+		},
+		"class_type": "EmptyLatentImagePresets",
+		"_meta": {
+			"title": "Empty Latent Image Presets"
+		}
+	},
+	"179": {
+		"inputs": {
+			"text_input": "",
+			"task": "more_detailed_caption",
+			"fill_mask": false,
+			"keep_model_loaded": false,
+			"max_new_tokens": 1024,
+			"num_beams": 3,
+			"do_sample": false,
+			"output_mask_select": "",
+			"seed": 488314453387853,
+			"image": ["180", 0],
+			"florence2_model": ["181", 0]
+		},
+		"class_type": "Florence2Run",
+		"_meta": {
+			"title": "Florence2Run"
+		}
+	},
+	"180": {
+		"inputs": {
+			"image": "mote2.jpg"
+		},
+		"class_type": "LoadImage",
+		"_meta": {
+			"title": "加载图像"
+		}
+	},
+	"181": {
+		"inputs": {
+			"model": "microsoft/Florence-2-large",
+			"precision": "fp16",
+			"attention": "sdpa"
+		},
+		"class_type": "DownloadAndLoadFlorence2Model",
+		"_meta": {
+			"title": "DownloadAndLoadFlorence2Model"
+		}
+	},
+	"182": {
+		"inputs": {
+			"image": ["180", 0]
+		},
+		"class_type": "GetImageSize+",
+		"_meta": {
+			"title": "🔧 Get Image Size"
+		}
+	},
+	"184": {
+		"inputs": {
+			"upscale_method": "area",
+			"width": ["182", 0],
+			"height": ["182", 1],
+			"crop": "center",
+			"image": ["153", 0]
+		},
+		"class_type": "ImageScale",
+		"_meta": {
+			"title": "缩放图像"
+		}
+	}
+}
