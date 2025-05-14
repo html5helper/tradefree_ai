@@ -2,7 +2,7 @@ import os
 import cairosvg
 from flask import request, jsonify
 
-from config import OUTPUT_DIR
+from config import output_dir
 
 def convert_svg_to_eps_route():
     # 检查请求中是否包含文件
@@ -23,7 +23,7 @@ def convert_svg_to_eps_route():
         svg_content = svg_file.read()
 
         # 生成 EPS 文件路径，以 run_id 命名
-        eps_filename = os.path.join(OUTPUT_DIR, f"{run_id}.eps")
+        eps_filename = os.path.join(output_dir, f"{run_id}.eps")
         os.makedirs(os.path.dirname(eps_filename), exist_ok=True)
 
         # 将 SVG 转换为 EPS
