@@ -34,12 +34,13 @@ def fetch_social_total(event_in):
         event_with_page['trace_id'] = str(uuid.uuid4())
         event_with_page['context']['page'] = page
         event_with_page['context']['page_size'] = page_size
+        app.send_task('ai.business.resource.tasks.social_to_ali_src', args=[event_with_page])
         workflow = chain(
             app.signature('ai.business.resource.tasks.social_to_ali_src', args=(event_with_page,)),
             app.signature('ai.business.listing.tasks.social_to_ali_listing'),
-            app.signature('ai.business.image.tasks.social_to_ali_image'),
-            app.signature('ai.business.upload_img.tasks.social_to_ali_upload'),
-            app.signature('ai.business.public.tasks.social_to_ali_public'),
-        )
+        #     app.signature('ai.business.image.tasks.social_to_ali_image'),
+        #     app.signature('ai.business.upload_img.tasks.social_to_ali_upload'),
+        #     app.signature('ai.business.public.tasks.social_to_ali_public'),
+         )
         workflow.apply_async()
     return {"status": "dispatched", "pages": pages}

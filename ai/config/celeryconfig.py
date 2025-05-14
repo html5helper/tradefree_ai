@@ -70,6 +70,38 @@ task_routes = {
     },
 }
 
+# Chain workflow configurations
+CHAIN_MAP = {
+    "amz_to_ali": [
+        'ai.business.resource.tasks.amz_to_ali_src',
+        'ai.business.listing.tasks.amz_to_ali_listing',
+        'ai.business.image.tasks.amz_to_ali_image',
+        'ai.business.upload_img.tasks.amz_to_ali_upload',
+        'ai.business.public.tasks.amz_to_ali_public',
+    ],
+    "amz_to_1688": [
+        'ai.business.resource.tasks.amz_to_1688_src',
+        'ai.business.listing.tasks.amz_to_1688_listing',
+        'ai.business.image.tasks.amz_to_1688_image',
+        'ai.business.upload_img.tasks.amz_to_1688_upload',
+        'ai.business.public.tasks.amz_to_1688_public',
+    ],
+    "1688_to_1688": [
+        'ai.business.resource.tasks._1688_to_1688_src',
+        'ai.business.listing.tasks._1688_to_1688_listing',
+        'ai.business.image.tasks._1688_to_1688_image',
+        'ai.business.upload_img.tasks._1688_to_1688_upload',
+        'ai.business.public.tasks._1688_to_1688_public',
+    ],
+    "ali_to_ali": [
+        'ai.business.resource.tasks.ali_to_ali_src',
+        'ai.business.listing.tasks.ali_to_ali_listing',
+        'ai.business.image.tasks.ali_to_ali_image',
+        'ai.business.upload_img.tasks.ali_to_ali_upload',
+        'ai.business.public.tasks.ali_to_ali_public',
+    ],
+}
+
 # 周期性执行任务
 beat_schedule = {
     'run-social-to-ali-everyday-tiktok': {

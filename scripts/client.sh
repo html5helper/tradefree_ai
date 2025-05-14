@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for i in {1..20}
+for i in {1..5}
 do
   # 测试 amz_to_ali 工作流
   curl -X POST \
@@ -11,7 +11,7 @@ do
 #   sleep 1
 done
 
-for i in {1..15}
+for i in {1..5}
 do
   # 测试 amz_to_1688 工作流
   curl -X POST \
@@ -22,7 +22,7 @@ do
 #   sleep 1
 done
 
-for i in {1..30}
+for i in {1..5}
 do
   # 测试 1688_to_1688 工作流
   curl -X POST \
@@ -33,7 +33,7 @@ do
 #   sleep 1
 done
 
-for i in {1..25}
+for i in {1..5}
 do
   # 测试 ali_to_ali 工作流
   curl -X POST \
@@ -45,11 +45,14 @@ do
 done
 
 # 测试 social_to_ali 工作流
-curl -X POST \
-    http://127.0.0.1:8000/workflow/run/social_to_ali \
-    -H 'Content-Type: application/json' \
-    -d '{"trace_id": "test-trace-socialtoali", "event_type": "social_to_ali","context": {"platform": "tiktok"}, "payload": {}}'
-echo -e "\n---\n"
+# curl -X POST \
+#     http://127.0.0.1:8000/workflow/run/social_to_ali \
+#     -H 'Content-Type: application/json' \
+#     -d '{"trace_id": "test-trace-socialtoali", "event_type": "social_to_ali","context": {"platform": "tiktok"}, "payload": {}}'
+# echo -e "\n---\n"
 
 # 查询状态
 # curl localhost:8000/workflows/<trace_id>/status
+
+# 重试任务
+# curl -X POST http://localhost:8000/workflows/tasks/retry/f5a7259e-2b26-44cd-928c-c68790b61c8c

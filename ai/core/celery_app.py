@@ -13,3 +13,6 @@ app.autodiscover_tasks([
     'ai.business.public',
     'ai.business.social2product'
 ])
+
+# 引入监听器来记录任务历史到MYSQL的task_history表
+import ai.core.history.task_listener
