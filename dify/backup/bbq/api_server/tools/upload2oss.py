@@ -40,7 +40,7 @@ class OSSUploader:
             headers: 上传时的HTTP头部,可选
             
         Returns:
-            str: 文件在OSS上的访问URL
+            str: 文件在OSS上的路径
         """
         if not os.path.exists(local_file_path):
             raise FileNotFoundError(f"本地文件不存在: {local_file_path}")
@@ -52,8 +52,8 @@ class OSSUploader:
         with open(local_file_path, 'rb') as f:
             self.bucket.put_object(oss_file_path, f, headers=headers)
             
-        # 返回文件URL
-        return self.bucket.sign_url('GET', oss_file_path, 3600)  # 默认1小时有效期
+        # 返回OSS路径
+        return oss_file_path
         
     def upload_bytes(self,
                     file_content: bytes,
@@ -68,10 +68,10 @@ class OSSUploader:
             headers: 上传时的HTTP头部,可选
             
         Returns:
-            str: 文件在OSS上的访问URL
+            str: 文件在OSS上的路径
         """
         self.bucket.put_object(oss_file_path, file_content, headers=headers)
-        return self.bucket.sign_url('GET', oss_file_path, 3600)  # 默认1小时有效期
+        return oss_file_path
 
 # 使用示例:
 """

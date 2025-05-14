@@ -58,9 +58,9 @@ def upload_file_to_oss_route():
                     print(f"[Error] 读取文件内容失败: {str(e)}")
                     raise
 
-                # 上传到OSS并获取URL
+                # 上传到OSS并获取路径
                 try:
-                    url = uploader.upload_bytes(file_content, oss_path)
+                    oss_path = uploader.upload_bytes(file_content, oss_path)
                     print(f"[Info] 文件上传成功: {oss_path}")
                 except Exception as e:
                     print(f"[Error] OSS上传失败: {str(e)}")
@@ -69,7 +69,6 @@ def upload_file_to_oss_route():
                 results.append({
                     "success": True,
                     "filename": file.filename,
-                    "url": url,
                     "oss_path": oss_path
                 })
 
