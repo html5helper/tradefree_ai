@@ -6,30 +6,28 @@ import json
 
 Session = sessionmaker(bind=engine)
 
-@task_sent.connect
-def task_sent_handler(sender=None, headers=None, **kwargs):
+@task_prerun.connect
+def before_task_run(sender=None, task_id=None, task=None, args=None, kwargs=None, **other):
     session = Session()
     try:
-        args = headers.get('args', [])
-        event = args[0] if args and isinstance(args[0], dict) else None
-        trace_id = event.get('trace_id') if isinstance(event, dict) else None
-        workflow_name = event.get('workflow_name') if isinstance(event, dict) else None
-
-        task = TaskHistory(
-            task_id=headers.get('id'),
-            task_name=headers.get('task'),
+        event = args[0] if args and isinstance(args[0], dict) else {}
+        trace_id = event.get('trace_id')
+        workflow_name = event.get('workflow_name')
+        task_history = TaskHistory(
+            task_id=task_id,
+            task_name=sender.name,
             args=args if args else None,
-            kwargs=headers.get('kwargs', {}),
-            status='PENDING',
+            kwargs=kwargs if kwargs else None,
+            status='STARTED',
             trace_id=trace_id,
             workflow_name=workflow_name,
             created_at=datetime.utcnow()
         )
-        session.add(task)
+        session.add(task_history)
         session.commit()
     except Exception as e:
         session.rollback()
-        print(f"Error recording task sent: {e}")
+        print(f"Error recording task prerun: {e}")
     finally:
         session.close()
 
