@@ -90,7 +90,11 @@ DIFY_CONFIG = {
     },
     "product_listing": {
         "workflow_id": "01835a12-cd11-4e24-a924-3b3fcc64ce77",
-        "api_key": "app-GvSm89L42OluDU2JFyaDOCvM"
+        "api_key": "app-RgHCjKMd6QqZTrkwvxoKmalX"
+    },
+    "product_listing2": {
+        "workflow_id": "2a78b74e-a267-4515-888e-8c083b5419b0",
+        "api_key": "app-3C1v5XMUl76hBsIqH03QZepb"
     },
     "text2img2oss": {
         "workflow_id": "47060be5-8ca9-4d91-97dd-6a364530e46b",
