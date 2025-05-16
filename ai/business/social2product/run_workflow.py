@@ -1,4 +1,4 @@
-from ai.core.event import Event
+from ai.core.data_event import Event
 from ai.business.social2product.tasks import run_workflow
 
 # Create event using the Event class

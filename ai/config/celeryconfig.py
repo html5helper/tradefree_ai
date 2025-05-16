@@ -70,6 +70,46 @@ task_routes = {
     },
 }
 
+# Dify workflow configurations
+DIFY_CONFIG = {
+    "social_record_total": {
+        "workflow_id": "b811f832-47e7-4a92-8aff-82a6859be328",
+        "api_key": "app-GvSm89L42OluDU2JFyaDOCvM"
+    },
+    "social_to_ali_src": {
+        "workflow_id": "c25c3f82-61d0-44f0-bc5a-d0bff52f8aa2",
+        "api_key": "app-23SX7AOxwVCZvaXvtupFDsaT"
+    },
+    "social_to_ali_listing": {
+        "workflow_id": "71012911-41b9-4d66-9c19-d666f2389d7e",
+        "api_key": "app-JMJ87fMuTgYtOPlRGJNk5DVH"
+    },
+    "social_to_ali_image": {
+        "workflow_id": "41635577-659f-4d56-ae1d-a67131c94185",
+        "api_key": "app-CrxTvw9sMXREZohs8jVqsEs3"
+    },
+    "product_listing": {
+        "workflow_id": "01835a12-cd11-4e24-a924-3b3fcc64ce77",
+        "api_key": "app-GvSm89L42OluDU2JFyaDOCvM"
+    },
+    "text2img2oss": {
+        "workflow_id": "47060be5-8ca9-4d91-97dd-6a364530e46b",
+        "api_key": "app-z59hZdjLSdi6DJcpU2Um8Jjq"
+    },
+    "img2text2img2oss": {
+        "workflow_id": "4209de2b-0c86-428c-8d99-2a17cc08fbfe",
+        "api_key": "app-aTDjyTnb0fOXgMr8TjNKHvSw"
+    },
+    "upload_photos": {
+        "workflow_id": "8bae616a-8be9-496b-b087-a300cd660210",
+        "api_key": "app-GvSm89L42OluDU2JFyaDOCvM"
+    },
+    "publish_product": {
+        "workflow_id": "1aeeb7f4-c7ff-48e0-9f29-749d764d5637",
+        "api_key": "app-q7bXCU359F464cgUMz5Q0zhK"
+    }
+}
+
 # Chain workflow configurations
 CHAIN_MAP = {
     "amz_to_ali": [

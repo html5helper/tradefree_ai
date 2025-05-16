@@ -1,40 +1,25 @@
 from ai.core.celery_app import app
-import time
+from ai.business.service.dify_service import DifyService
+
+service = DifyService()
+
 
 @app.task
-def amz_to_ali_image(event):
-    print("task: amz_to_ali_image, event:", event)
-    out_event = event.copy()
-    time.sleep(50)
-    out_event['result'] = {'name': 'amz_to_ali_image'}
-    return out_event
+def amz_to_ali_image(data: dict):
+    return service.run_task("text2img2oss",data)
 
 @app.task
-def amz_to_1688_image(event):
-    print("task: amz_to_1688_image, event:", event)
-    out_event = event.copy()
-    time.sleep(50)
-    out_event['result'] = {'name': 'amz_to_1688_image'}
-    return out_event
+def amz_to_1688_image(data: dict):
+    return service.run_task("text2img2oss",data)
 
 @app.task
-def _1688_to_1688_image(event):
-    print("task: _1688_to_1688_image, event:", event)
-    out_event = event.copy()
-    time.sleep(50)
-    out_event['result'] = {'name': '_1688_to_1688_image'}
-    return out_event
+def _1688_to_1688_image(data: dict):
+    return service.run_task("text2img2oss",data)
 
 @app.task
-def ali_to_ali_image(event):
-    print("task: ali_to_ali_image, event:", event)
-    out_event = event.copy()
-    time.sleep(50)
-    out_event['result'] = {'name': 'ali_to_ali_image'}
-    return out_event
+def ali_to_ali_image(data: dict):
+    return service.run_task("img2text2img2oss",data)
 
 @app.task
-def social_to_ali_image(event):
-    print(f"task: social_to_ali_image, page: {event['context']['page']}, items count: {len(event['result']['items'])}")
-    out_event = event.copy()
-    return out_event 
+def social_to_ali_image(data: dict):
+    return service.apply(data) 
