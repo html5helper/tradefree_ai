@@ -7,6 +7,7 @@ def amz_to_ali_listing(event):
     print("task: amz_to_ali_listing, event:", event)
     out_event = event.copy()
     time.sleep(30)
+    out_event['result'] = {'name': 'amz_to_ali_listing'}
     return out_event
 
 @app.task
@@ -14,6 +15,7 @@ def amz_to_1688_listing(event):
     print("task: amz_to_1688_listing, event:", event)
     out_event = event.copy()
     time.sleep(30)
+    out_event['result'] = {'name': 'amz_to_1688_listing'}
     return out_event
 
 @app.task
@@ -21,6 +23,7 @@ def _1688_to_1688_listing(event):
     print("task: _1688_to_1688_listing, event:", event)
     out_event = event.copy()
     time.sleep(30)
+    out_event['result'] = {'name': '_1688_to_1688_listing'}
     return out_event
 
 @app.task
@@ -28,6 +31,7 @@ def ali_to_ali_listing(event):
     print("task: ali_to_ali_listing, event:", event)
     out_event = event.copy()
     time.sleep(30)
+    out_event['result'] = {'name': 'ali_to_ali_listing'}
     return out_event
 
 @app.task

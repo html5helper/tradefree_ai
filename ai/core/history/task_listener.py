@@ -1,6 +1,6 @@
-from celery.signals import task_prerun, task_postrun, task_failure, task_sent, task_received, task_success, task_retry
+from celery.signals import task_prerun, task_postrun, task_failure
 from sqlalchemy.orm import sessionmaker
-from ai.core.history.task_history import TaskHistory, engine
+from ai.core.history.task_event import TaskEvent, engine
 from datetime import datetime
 import json
 
@@ -13,17 +13,17 @@ def before_task_run(sender=None, task_id=None, task=None, args=None, kwargs=None
         event = args[0] if args and isinstance(args[0], dict) else {}
         trace_id = event.get('trace_id')
         workflow_name = event.get('workflow_name')
-        task_history = TaskHistory(
+        task_event = TaskEvent(
             task_id=task_id,
             task_name=sender.name,
-            args=args if args else None,
-            kwargs=kwargs if kwargs else None,
-            status='STARTED',
+            task_input=args if args else None,
+            task_kwargs=kwargs if kwargs else None,
+            task_status='STARTED',
             trace_id=trace_id,
             workflow_name=workflow_name,
             created_at=datetime.utcnow()
         )
-        session.add(task_history)
+        session.add(task_event)
         session.commit()
     except Exception as e:
         session.rollback()
@@ -32,11 +32,15 @@ def before_task_run(sender=None, task_id=None, task=None, args=None, kwargs=None
         session.close()
 
 @task_postrun.connect
-def after_task_run(sender=None, task_id=None, **other):
+def after_task_run(sender=None, task_id=None, retval=None, **other):
     session = Session()
-    history = session.query(TaskHistory).filter_by(task_id=task_id).first()
+    history = session.query(TaskEvent).filter_by(task_id=task_id).first()
     if history:
-        history.status = 'SUCCESS'
+        history.task_status = 'SUCCESS'
+        if isinstance(retval, dict):
+            history.task_output = json.dumps(retval)
+        else:
+            history.task_output = str(retval)
         history.finished_at = datetime.utcnow()
         session.commit()
     session.close()
@@ -44,9 +48,9 @@ def after_task_run(sender=None, task_id=None, **other):
 @task_failure.connect
 def on_task_failure(sender=None, task_id=None, **other):
     session = Session()
-    history = session.query(TaskHistory).filter_by(task_id=task_id).first()
+    history = session.query(TaskEvent).filter_by(task_id=task_id).first()
     if history:
-        history.status = 'FAILURE'
+        history.task_status = 'FAILURE'
         history.finished_at = datetime.utcnow()
         session.commit()
     session.close()
