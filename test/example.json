@@ -2,13 +2,45 @@
   "imgs": "[\"https://s.alicdn.com/@sc04/kf/H6a89b5a266bb4f44ae9aa8389c7a6d1aY.png\", \"https://s.alicdn.com/@sc04/kf/H13b3b1644189475fa74c103643b56a115.png\", \"https://s.alicdn.com/@sc04/kf/Ha01b39a810004b30b2094a40a3b1f36e2.png\", \"https://s.alicdn.com/@sc04/kf/Hbdc17f49587a4410bb305bb427cc6a4fM.png\", \"https://s.alicdn.com/@sc04/kf/H4b34d09ad8ce435895dd4bc346659be9x.png\", \"https://s.alicdn.com/@sc04/kf/H9592d57e7aa5475ebadc45d0f48f4317a.png\"]",
   "product_type": "sticker",
   "price": "",
-  "description": "",
+  "description": "Custom die-cut holographic vinyl stickers with waterproof printing for packaging and branding. These high-gloss, durable stickers feature a shimmering finish and can be personalized with logos or designs. Ideal for product packaging, promotional materials, or branded giveaways, they offer a premium look and long-lasting performance in various environments.",
   "prodid": "https://www.alibaba.com/product-detail/Free-Proofing-Custom-Waterproof-Printing-logo_1600831251894.html",
   "reference_product_platform": "ali",
   "title": "Free Proofing Custom Waterproof Printing logo Packaging Gloss Vinyl Holographic Custom Die Cut Sticker",
   "employee": "thanos_zhang",
   "published_shop": "ali_shop2",
-  "trace_id": "44e95a60-e0e3-4075-8cf5-e362edea6ba3",
-  "task_id": "b97b0d84-234a-405f-ad1e-04cf3b964ef7",
-  "output": "{\n  \"title\": \"Free Proofing Custom Waterproof Printing logo Packaging Gloss Vinyl Holographic Custom Die Cut Sticker\",  \n  \"description\": \"Custom Die-Cut Holographic Stickers with Waterproof Gloss Vinyl - Featuring a high-gloss finish and holographic effects, these waterproof stickers are perfect for branding, packaging, or promotional use. Designed with free proofing options, they offer a professional look with customizable logos and shapes. Ideal for product packaging, event signage, or marketing materials, these stickers combine durability and visual appeal for a wide range of commercial applications.\",\n  \"tags\": \"custom die cut holographic sticker waterproof vinyl sticker glossy logo sticker packaging label holographic printing custom sticker free proofing die cut vinyl sticker commercial packaging sticker promotional stickers waterproof holographic labels glossy sticker design custom logo sticker die cut hologram sticker waterproof packaging sticker gloss vinyl decal custom holographic sticker waterproof brand sticker die cut sticker with logo holographic vinyl sticker for packaging\"\n}"
+  "trace_id": "a1349679-0320-473c-b8bc-12bcacdc2dc0",
+  "task_id": "7264c4ce-fe86-4ac4-8e6b-12967408135b",
+  "shot_description": "",
+  "applicable_scenes": "",
+  "tags": "custom holographic vinyl stickers waterproof die cut sticker packaging logo printing glossy stickers free proofing custom design stickers holographic sticker packaging promotional product stickers branded die cut vinyl stickers waterproof logo stickers high gloss stickers custom packaging stickers die cut holographic sticker promotional gift stickers luxury vinyl stickers waterproof holographic stickers custom die cut sticker for packaging custom logo vinyl stickers shiny sticker printing packaging decoration stickers",
+  "product_name": ""
+}
+
+{
+ "results": [{
+  "filename": "10902d2ce70d48b08d0514264ce461f7.png",
+  "oss_path": "comfyui/20250514/txt2img/10902d2ce70d48b08d0514264ce461f7.png",
+  "success": true
+ }, {
+  "filename": "928911e7425b44c8b6f64283a62773cc.png",
+  "oss_path": "comfyui/20250514/txt2img/928911e7425b44c8b6f64283a62773cc.png",
+  "success": true
+ }, {
+  "filename": "ff7418454a8d40dea9b840acb5d0ecb0.png",
+  "oss_path": "comfyui/20250514/txt2img/ff7418454a8d40dea9b840acb5d0ecb0.png",
+  "success": true
+ }, {
+  "filename": "a61d40832d52400ab1153d69b8111358.png",
+  "oss_path": "comfyui/20250514/txt2img/a61d40832d52400ab1153d69b8111358.png",
+  "success": true
+ }, {
+  "filename": "9da1f7ed37264169b99621d5adafafd9.png",
+  "oss_path": "comfyui/20250514/txt2img/9da1f7ed37264169b99621d5adafafd9.png",
+  "success": true
+ }, {
+  "filename": "17f8e66b4d6a400e9f847a3aed735161.png",
+  "oss_path": "comfyui/20250514/txt2img/17f8e66b4d6a400e9f847a3aed735161.png",
+  "success": true
+ }],
+ "success": true
 }

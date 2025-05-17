@@ -48,5 +48,9 @@ class DifyService:
         # Handle the response
         output = response["data"]["outputs"]
         
+        # 如果output为None，则抛出异常
+        if output is None:
+            raise Exception(f"Dify API returned None output for task {task_name}")
+        
         return {**payload, **output} 
  

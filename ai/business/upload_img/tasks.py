@@ -22,4 +22,4 @@ def ali_to_ali_upload(data: dict):
 
 @app.task
 def social_to_ali_upload(data: dict):
-    return service.apply(data)
+    return service.run_task("upload_photos",data)

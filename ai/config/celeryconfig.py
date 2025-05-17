@@ -72,22 +72,24 @@ task_routes = {
 
 # Dify workflow configurations
 DIFY_CONFIG = {
-    "social_record_total": {
+    # social methods
+    "social_fetch_total": {
         "workflow_id": "b811f832-47e7-4a92-8aff-82a6859be328",
         "api_key": "app-GvSm89L42OluDU2JFyaDOCvM"
+    },
+    "social_pages_listing": {
+        "workflow_id": "71012911-41b9-4d66-9c19-d666f2389d7e",
+        "api_key": "app-JMJ87fMuTgYtOPlRGJNk5DVH"
     },
     "social_to_ali_src": {
         "workflow_id": "c25c3f82-61d0-44f0-bc5a-d0bff52f8aa2",
         "api_key": "app-23SX7AOxwVCZvaXvtupFDsaT"
     },
-    "social_to_ali_listing": {
-        "workflow_id": "71012911-41b9-4d66-9c19-d666f2389d7e",
-        "api_key": "app-JMJ87fMuTgYtOPlRGJNk5DVH"
-    },
     "social_to_ali_image": {
         "workflow_id": "41635577-659f-4d56-ae1d-a67131c94185",
         "api_key": "app-CrxTvw9sMXREZohs8jVqsEs3"
     },
+    # normal product methods
     "product_listing": {
         "workflow_id": "01835a12-cd11-4e24-a924-3b3fcc64ce77",
         "api_key": "app-RgHCjKMd6QqZTrkwvxoKmalX"
@@ -106,7 +108,7 @@ DIFY_CONFIG = {
     },
     "upload_photos": {
         "workflow_id": "8bae616a-8be9-496b-b087-a300cd660210",
-        "api_key": "app-GvSm89L42OluDU2JFyaDOCvM"
+        "api_key": "app-Gxld5HWVZPOWYPu9B8BMrv9d"
     },
     "publish_product": {
         "workflow_id": "1aeeb7f4-c7ff-48e0-9f29-749d764d5637",
@@ -143,6 +145,17 @@ CHAIN_MAP = {
         'ai.business.image.tasks.ali_to_ali_image',
         'ai.business.upload_img.tasks.ali_to_ali_upload',
         'ai.business.public.tasks.ali_to_ali_public',
+    ],
+    "social_total": [
+        'ai.business.resource.tasks.social_to_ali_src'
+    ],
+    "social_pages": [
+        'ai.business.listing.tasks.social_to_ali_listing'
+    ],
+    "social_to_ali": [
+        'ai.business.image.tasks.social_to_ali_image',
+        'ai.business.upload_img.tasks.social_to_ali_upload',
+        'ai.business.public.tasks.social_to_ali_public',
     ],
 }
 

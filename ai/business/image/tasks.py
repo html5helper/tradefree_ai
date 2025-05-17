@@ -22,4 +22,4 @@ def ali_to_ali_image(data: dict):
 
 @app.task
 def social_to_ali_image(data: dict):
-    return service.apply(data) 
+    return service.run_task("text2img2oss",data)
