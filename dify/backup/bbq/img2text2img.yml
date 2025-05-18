@@ -1,0 +1,897 @@
+app:
+  description: 洗图
+  icon: 🪞
+  icon_background: '#FBE8FF'
+  mode: workflow
+  name: img2text2img
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/tongyi:0.0.21@cb32d252bc1ebc61437c9134e22db2be5ccdd48223e08b9ea0deff4f0df0a187
+- current_identifier: null
+  type: package
+  value:
+    plugin_unique_identifier: langgenius/comfyui:0.0.7@feedcaefaf51374167b2428fe5e8b37a1742ea1176acb268a52d5710b1c97175
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: tool
+      id: 1744791447374-source-1746694554786-target
+      source: '1744791447374'
+      sourceHandle: source
+      target: '1746694554786'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: llm
+      id: 1746694554786-source-1746692977184-target
+      source: '1746694554786'
+      sourceHandle: source
+      target: '1746692977184'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1746692977184-source-1746696696482-target
+      source: '1746692977184'
+      sourceHandle: source
+      target: '1746696696482'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: tool
+      id: 1746696696482-source-1746696734518-target
+      source: '1746696696482'
+      sourceHandle: source
+      target: '1746696734518'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: end
+      id: 1746696734518-source-1744791456210-target
+      source: '1746696734518'
+      sourceHandle: source
+      target: '1744791456210'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: if-else
+      id: 1744791447374-source-1747279014269-target
+      source: '1744791447374'
+      sourceHandle: source
+      target: '1747279014269'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1747279014269-true-1747279090849-target
+      source: '1747279014269'
+      sourceHandle: 'true'
+      target: '1747279090849'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1747279014269-d24d9ff3-2d00-4c7f-aa8e-72fec1b0ee21-1747279130214-target
+      source: '1747279014269'
+      sourceHandle: d24d9ff3-2d00-4c7f-aa8e-72fec1b0ee21
+      target: '1747279130214'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1747279014269-false-1747279157456-target
+      source: '1747279014269'
+      sourceHandle: 'false'
+      target: '1747279157456'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: variable-aggregator
+      id: 1747279090849-source-1747279193083-target
+      source: '1747279090849'
+      sourceHandle: source
+      target: '1747279193083'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: variable-aggregator
+      id: 1747279130214-source-1747279193083-target
+      source: '1747279130214'
+      sourceHandle: source
+      target: '1747279193083'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: variable-aggregator
+      id: 1747279157456-source-1747279193083-target
+      source: '1747279157456'
+      sourceHandle: source
+      target: '1747279193083'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: variable-aggregator
+        targetType: tool
+      id: 1747279193083-source-1746696734518-target
+      source: '1747279193083'
+      sourceHandle: source
+      target: '1746696734518'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: img_str
+          max_length: 50000
+          options: []
+          required: true
+          type: paragraph
+          variable: img_str
+        - label: product_type
+          max_length: 200
+          options:
+          - sticker
+          - silicone
+          - others
+          required: false
+          type: text-input
+          variable: product_type
+      height: 116
+      id: '1744791447374'
+      position:
+        x: 30
+        y: 271
+      positionAbsolute:
+        x: 30
+        y: 271
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1746696734518'
+          - files
+          variable: files
+        selected: false
+        title: 结束
+        type: end
+      height: 90
+      id: '1744791456210'
+      position:
+        x: 1550
+        y: 271
+      positionAbsolute:
+        x: 1550
+        y: 271
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            enable_thinking: false
+          mode: chat
+          name: qwen3-32b
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: 5dc179c8-81f4-488f-adaa-964921353b44
+          role: system
+          text: "  You are an expert in prompt refinement for AI image generation.\
+            \ You will be given a list of 6 raw image descriptions. These 6 prompts\
+            \ all describe the same product from different angles or settings.\n\n\
+            \  Your job is to **preserve the original content and meaning of each\
+            \ prompt**, and only enhance them by:\n  - Adding appropriate visual and\
+            \ photography details (e.g., flat lay, soft lighting, natural shadows,\
+            \ white background)\n  - Making the tone more consistent and professional,\
+            \ suitable for e-commerce product visuals\n  - Ensuring clean and uniform\
+            \ formatting across all prompts\n  - Avoiding changes to the core subject\
+            \ matter, objects, or original text content\n\n  Do NOT re-interpret or\
+            \ re-style the product itself. Focus only on polishing for visual presentation.\n\
+            \n  Final output must be:\n  - A Python list of 6 strings. \n  - No markdown,\
+            \ no explanations\n  - Such as [\"a\", \"b\", \"c\", ...]"
+        - id: 7dcd373c-e9c7-40ac-9f7e-3d1875c85dec
+          role: user
+          text: '{{#1746694554786.text#}}'
+        selected: false
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1746692977184'
+      position:
+        x: 638
+        y: 271
+      positionAbsolute:
+        x: 638
+        y: 271
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: 图片
+            ja_JP: 图片
+            pt_BR: 图片
+            zh_Hans: 图片
+          label:
+            en_US: img
+            ja_JP: img
+            pt_BR: img
+            zh_Hans: img
+          llm_description: 图片
+          max: null
+          min: null
+          name: img
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: file
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: 图片url列表
+            ja_JP: 图片url列表
+            pt_BR: 图片url列表
+            zh_Hans: 图片url列表
+          label:
+            en_US: img_url
+            ja_JP: img_url
+            pt_BR: img_url
+            zh_Hans: img_url
+          llm_description: 图片url列表
+          max: null
+          min: null
+          name: img_url
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          img: ''
+          img_url: ''
+        provider_id: fc807ec0-593e-46c7-9c5e-382b1cd16c44
+        provider_name: img2text
+        provider_type: workflow
+        selected: false
+        title: img2text
+        tool_configurations: {}
+        tool_label: img2text
+        tool_name: img2text
+        tool_parameters:
+          img_url:
+            type: mixed
+            value: '{{#1744791447374.img_str#}}'
+        type: tool
+      height: 54
+      id: '1746694554786'
+      position:
+        x: 334
+        y: 271
+      positionAbsolute:
+        x: 334
+        y: 271
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "import json\n\ndef main(arg1: str) -> str:\n    result = json.loads(arg1)\n\
+          \    return {\n        \"result\": \"\\n\".join(result),\n    }\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: true
+        title: 代码执行
+        type: code
+        variables:
+        - value_selector:
+          - '1746692977184'
+          - text
+          variable: arg1
+      height: 54
+      id: '1746696696482'
+      position:
+        x: 942
+        y: 271
+      positionAbsolute:
+        x: 942
+        y: 271
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Image prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            ja_JP: プロンプト
+            pt_BR: Image prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            zh_Hans: 图像提示词，您可以查看 Stable Diffusion 或者 FLUX 的官方文档
+          label:
+            en_US: Prompt
+            ja_JP: プロンプト
+            pt_BR: Prompt
+            zh_Hans: 提示词
+          llm_description: Image prompt, you should describe the image you want to
+            generate as a list of words as possible as detailed, the prompt must be
+            written in English.
+          max: null
+          min: null
+          name: positive_prompt
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Negative prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            ja_JP: ネガティブプロンプト
+            pt_BR: Negative prompt, you can check the official documentation of Stable
+              Diffusion or FLUX
+            zh_Hans: 负面提示词，您可以查看 Stable Diffusion 或者 FLUX 的官方文档
+          label:
+            en_US: Negative Prompt
+            ja_JP: Negative Prompt
+            pt_BR: Negative Prompt
+            zh_Hans: 负面提示词
+          llm_description: Negative prompt, you should describe the image you don't
+            want to generate as a list of words as possible as detailed, the prompt
+            must be written in English.
+          max: null
+          min: null
+          name: negative_prompt
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The input images
+            ja_JP: 入力画像
+            pt_BR: The input images
+            zh_Hans: 输入的图片
+          label:
+            en_US: Input Images
+            ja_JP: Input Images
+            pt_BR: Input Images
+            zh_Hans: 输入的图片
+          llm_description: The input images, used to transfer to the comfyui workflow
+            to generate another image.
+          max: null
+          min: null
+          name: images
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: files
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: exported from ComfyUI workflow
+            ja_JP: ComfyUI よりエクスポートされたワークフロー
+            pt_BR: exported from ComfyUI workflow
+            zh_Hans: 从ComfyUI的工作流中导出
+          label:
+            en_US: Workflow JSON
+            ja_JP: ワークフロー JSON
+            pt_BR: Workflow JSON
+            zh_Hans: Workflow JSON
+          llm_description: ''
+          max: null
+          min: null
+          name: workflow_json
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: When the workflow has multiple image nodes, enter the ID list of
+              these nodes, and the images will be passed to ComfyUI in the order of
+              the list.
+            ja_JP: When the workflow has multiple image nodes, enter the ID list of
+              these nodes, and the images will be passed to ComfyUI in the order of
+              the list.
+            pt_BR: When the workflow has multiple image nodes, enter the ID list of
+              these nodes, and the images will be passed to ComfyUI in the order of
+              the list.
+            zh_Hans: 当工作流有多个图片节点时，输入这些节点的ID列表，图片将按列表顺序传给ComfyUI
+          label:
+            en_US: Image Node ID List
+            ja_JP: Image Node ID List
+            pt_BR: Image Node ID List
+            zh_Hans: 图片节点ID列表
+          llm_description: ''
+          max: null
+          min: null
+          name: image_ids
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: If you need to generate different images each time, you need to
+              enter the ID of the seed node.
+            ja_JP: If you need to generate different images each time, you need to
+              enter the ID of the seed node.
+            pt_BR: If you need to generate different images each time, you need to
+              enter the ID of the seed node.
+            zh_Hans: 如果需要每次生成时使用不同的种子，需要输入包含种子的节点的ID
+          label:
+            en_US: Seed Node Id
+            ja_JP: Seed Node Id
+            pt_BR: Seed Node Id
+            zh_Hans: 种子节点ID
+          llm_description: ''
+          max: null
+          min: null
+          name: seed_id
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          image_ids: ''
+          images: ''
+          negative_prompt: ''
+          positive_prompt: ''
+          seed_id: ''
+          workflow_json: ''
+        provider_id: langgenius/comfyui/comfyui
+        provider_name: langgenius/comfyui/comfyui
+        provider_type: builtin
+        selected: false
+        title: 工作流
+        tool_configurations:
+          image_ids: null
+          seed_id: '25'
+          workflow_json: '{   "22": {     "inputs": {       "model": [         "140",         0       ],       "conditioning":
+            [         "148",         0       ]     },     "class_type": "BasicGuider",     "_meta":
+            {       "title": "基本引导器"     }   },   "25": {     "inputs": {       "noise_seed":
+            454141019839613     },     "class_type": "RandomNoise",     "_meta": {       "title":
+            "随机噪声"     }   },   "134": {     "inputs": {       "sampler_name": "euler"     },     "class_type":
+            "KSamplerSelect",     "_meta": {       "title": "K采样器选择"     }   },   "136":
+            {     "inputs": {       "noise": [         "25",         0       ],       "guider":
+            [         "22",         0       ],       "sampler": [         "134",         0       ],       "latent_image":
+            [         "178",         0       ],       "sigmas": [         "177",         0       ]     },     "class_type":
+            "SamplerCustomAdvanced",     "_meta": {       "title": "自定义采样器（高级）"     }   },   "140":
+            {     "inputs": {       "max_shift": 1.15,       "base_shift": 0.5,       "width":
+            [         "178",         1       ],       "height": [         "178",         2       ],       "model":
+            [         "142",         0       ]     },     "class_type": "ModelSamplingFlux",     "_meta":
+            {       "title": "模型采样Flux"     }   },   "142": {     "inputs": {       "unet_name":
+            "shuttle-3-diffusion-Q4_K_S.gguf"     },     "class_type": "UnetLoaderGGUF",     "_meta":
+            {       "title": "Unet Loader (GGUF)"     }   },   "148": {     "inputs":
+            {       "clip_l": "IMG1024.CR2, Realistic,sticker style",       "t5xxl":
+            [         "171",         0       ],       "guidance": 3.5,       "clip":
+            [         "164",         0       ]     },     "class_type": "CLIPTextEncodeFlux",     "_meta":
+            {       "title": "CLIP文本编码Flux"     }   },   "153": {     "inputs": {       "samples":
+            [         "136",         0       ],       "vae": [         "166",         0       ]     },     "class_type":
+            "VAEDecode",     "_meta": {       "title": "VAE解码"     }   },   "154":
+            {     "inputs": {       "filename_prefix": "ComfyUI",       "images":
+            [         "153",         0       ]     },     "class_type": "SaveImage",     "_meta":
+            {       "title": "保存图像"     }   },   "155": {     "inputs": {       "MODEL":
+            [         "142",         0       ],       "SIGMAS": [         "177",         0       ]     },     "class_type":
+            "Anything Everywhere3",     "_meta": {       "title": "Anything Everywhere3"     }   },   "164":
+            {     "inputs": {       "clip_name1": "t5-v1_1-xxl-encoder-Q4_K_S.gguf",       "clip_name2":
+            "clip_l.safetensors",       "type": "flux"     },     "class_type": "DualCLIPLoaderGGUF",     "_meta":
+            {       "title": "DualCLIPLoader (GGUF)"     }   },   "166": {     "inputs":
+            {       "vae_name": "ae.sft"     },     "class_type": "VAELoader",     "_meta":
+            {       "title": "加载VAE"     }   },   "170": {     "inputs": {       "prompt":
+            "{{positive_prompt}}",       "start_index": 0,       "max_rows": 1000     },     "class_type":
+            "easy promptLine",     "_meta": {       "title": "PromptLine"     }   },   "171":
+            {     "inputs": {       "inputcount": 2,       "string_1": [         "170",         0       ],       "string_2":
+            [         "172",         0       ],       "delimiter": " ",       "return_list":
+            false,       "Update inputs": null     },     "class_type": "JoinStringMulti",     "_meta":
+            {       "title": "Join String Multi"     }   },   "172": {     "inputs":
+            {       "positive": "{{negative_prompt}}"     },     "class_type": "easy
+            positive",     "_meta": {       "title": "Positive"     }   },   "177":
+            {     "inputs": {       "scheduler": "sgm_uniform",       "steps": 4,       "denoise":
+            1,       "model": [         "140",         0       ]     },     "class_type":
+            "BasicScheduler",     "_meta": {       "title": "基本调度器"     }   },   "178":
+            {     "inputs": {       "dimensions": "1024 x 1024 (1:1)",       "invert":
+            true,       "batch_size": 1     },     "class_type": "EmptyLatentImagePresets",     "_meta":
+            {       "title": "Empty Latent Image Presets"     }   } }'
+        tool_label: 工作流
+        tool_name: workflow
+        tool_parameters:
+          negative_prompt:
+            type: mixed
+            value: '{{#1747279193083.output#}}'
+          positive_prompt:
+            type: mixed
+            value: '{{#1746696696482.result#}}'
+          workflow_json:
+            type: mixed
+            value: '{   "22": {     "inputs": {       "model": [         "140",         0       ],       "conditioning":
+              [         "148",         0       ]     },     "class_type": "BasicGuider",     "_meta":
+              {       "title": "基本引导器"     }   },   "25": {     "inputs": {       "noise_seed":
+              454141019839613     },     "class_type": "RandomNoise",     "_meta":
+              {       "title": "随机噪声"     }   },   "134": {     "inputs": {       "sampler_name":
+              "euler"     },     "class_type": "KSamplerSelect",     "_meta": {       "title":
+              "K采样器选择"     }   },   "136": {     "inputs": {       "noise": [         "25",         0       ],       "guider":
+              [         "22",         0       ],       "sampler": [         "134",         0       ],       "latent_image":
+              [         "178",         0       ],       "sigmas": [         "177",         0       ]     },     "class_type":
+              "SamplerCustomAdvanced",     "_meta": {       "title": "自定义采样器（高级）"     }   },   "140":
+              {     "inputs": {       "max_shift": 1.15,       "base_shift": 0.5,       "width":
+              [         "178",         1       ],       "height": [         "178",         2       ],       "model":
+              [         "142",         0       ]     },     "class_type": "ModelSamplingFlux",     "_meta":
+              {       "title": "模型采样Flux"     }   },   "142": {     "inputs": {       "unet_name":
+              "shuttle-3-diffusion-Q4_K_S.gguf"     },     "class_type": "UnetLoaderGGUF",     "_meta":
+              {       "title": "Unet Loader (GGUF)"     }   },   "148": {     "inputs":
+              {       "clip_l": "IMG1024.CR2, Realistic,sticker style",       "t5xxl":
+              [         "171",         0       ],       "guidance": 3.5,       "clip":
+              [         "164",         0       ]     },     "class_type": "CLIPTextEncodeFlux",     "_meta":
+              {       "title": "CLIP文本编码Flux"     }   },   "153": {     "inputs":
+              {       "samples": [         "136",         0       ],       "vae":
+              [         "166",         0       ]     },     "class_type": "VAEDecode",     "_meta":
+              {       "title": "VAE解码"     }   },   "154": {     "inputs": {       "filename_prefix":
+              "ComfyUI",       "images": [         "153",         0       ]     },     "class_type":
+              "SaveImage",     "_meta": {       "title": "保存图像"     }   },   "155":
+              {     "inputs": {       "MODEL": [         "142",         0       ],       "SIGMAS":
+              [         "177",         0       ]     },     "class_type": "Anything
+              Everywhere3",     "_meta": {       "title": "Anything Everywhere3"     }   },   "164":
+              {     "inputs": {       "clip_name1": "t5-v1_1-xxl-encoder-Q4_K_S.gguf",       "clip_name2":
+              "clip_l.safetensors",       "type": "flux"     },     "class_type":
+              "DualCLIPLoaderGGUF",     "_meta": {       "title": "DualCLIPLoader
+              (GGUF)"     }   },   "166": {     "inputs": {       "vae_name": "ae.sft"     },     "class_type":
+              "VAELoader",     "_meta": {       "title": "加载VAE"     }   },   "170":
+              {     "inputs": {       "prompt": "{{positive_prompt}}",       "start_index":
+              0,       "max_rows": 1000     },     "class_type": "easy promptLine",     "_meta":
+              {       "title": "PromptLine"     }   },   "171": {     "inputs": {       "inputcount":
+              2,       "string_1": [         "170",         0       ],       "string_2":
+              [         "172",         0       ],       "delimiter": " ",       "return_list":
+              false,       "Update inputs": null     },     "class_type": "JoinStringMulti",     "_meta":
+              {       "title": "Join String Multi"     }   },   "172": {     "inputs":
+              {       "positive": "{{negative_prompt}}"     },     "class_type": "easy
+              positive",     "_meta": {       "title": "Positive"     }   },   "177":
+              {     "inputs": {       "scheduler": "sgm_uniform",       "steps": 4,       "denoise":
+              1,       "model": [         "140",         0       ]     },     "class_type":
+              "BasicScheduler",     "_meta": {       "title": "基本调度器"     }   },   "178":
+              {     "inputs": {       "dimensions": "1024 x 1024 (1:1)",       "invert":
+              true,       "batch_size": 1     },     "class_type": "EmptyLatentImagePresets",     "_meta":
+              {       "title": "Empty Latent Image Presets"     }   } }'
+        type: tool
+      height: 142
+      id: '1746696734518'
+      position:
+        x: 1246
+        y: 271
+      positionAbsolute:
+        x: 1246
+        y: 271
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: 8b636a76-13c1-4aaf-bee9-4d9cce719629
+            value: sticker
+            varType: string
+            variable_selector:
+            - '1744791447374'
+            - product_type
+          id: 'true'
+          logical_operator: and
+        - case_id: d24d9ff3-2d00-4c7f-aa8e-72fec1b0ee21
+          conditions:
+          - comparison_operator: contains
+            id: 540c1310-5b77-4ee4-aef2-84bba46f5626
+            value: silicone
+            varType: string
+            variable_selector:
+            - '1744791447374'
+            - product_type
+          id: d24d9ff3-2d00-4c7f-aa8e-72fec1b0ee21
+          logical_operator: and
+        desc: ''
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 174
+      id: '1747279014269'
+      position:
+        x: 334
+        y: 365
+      positionAbsolute:
+        x: 334
+        y: 365
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "\ndef main() -> dict:\n    return {\n        \"negative_prompt\": \"\
+          The style of the picture is a vibrant, cute, and decorative sticker style.\
+          \ Each element has a white border and outline to show its sticker properties.The\
+          \ stickers are reasonably distributed in the picture to increase the overall\
+          \ beauty of the picture.\",\n    }\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          negative_prompt:
+            children: null
+            type: string
+        selected: false
+        title: sticker ext prompt
+        type: code
+        variables: []
+      height: 54
+      id: '1747279090849'
+      position:
+        x: 638
+        y: 441.5594964930077
+      positionAbsolute:
+        x: 638
+        y: 441.5594964930077
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "\ndef main() -> dict:\n    return {\n        \"negative_prompt\": \"\
+          cute\",\n    }\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          negative_prompt:
+            children: null
+            type: string
+        selected: false
+        title: silicone ext prompt
+        type: code
+        variables: []
+      height: 54
+      id: '1747279130214'
+      position:
+        x: 638
+        y: 537
+      positionAbsolute:
+        x: 638
+        y: 537
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "\ndef main() -> dict:\n    return {\n        \"negative_prompt\": \"\
+          cute\",\n    }\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          negative_prompt:
+            children: null
+            type: string
+        selected: false
+        title: others ext prompt
+        type: code
+        variables: []
+      height: 54
+      id: '1747279157456'
+      position:
+        x: 638
+        y: 631
+      positionAbsolute:
+        x: 638
+        y: 631
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        output_type: string
+        selected: false
+        title: 变量聚合器
+        type: variable-aggregator
+        variables:
+        - - '1747279157456'
+          - negative_prompt
+        - - '1747279090849'
+          - negative_prompt
+        - - '1747279130214'
+          - negative_prompt
+      height: 153
+      id: '1747279193083'
+      position:
+        x: 942
+        y: 469.5
+      positionAbsolute:
+        x: 942
+        y: 469.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: -366.68768476495234
+      y: 168.14754283150427
+      zoom: 0.6894065100268852
