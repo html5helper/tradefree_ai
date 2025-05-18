@@ -74,13 +74,18 @@ def process_image_api_route():
 
 def process_image_urls_api_route():
     try:
-        logger.info("收到批量URL图片处理请求")
+        logger.info("收到URL图片处理请求")
         data = request.get_json()
-        if 'url_list' not in data:
-            logger.warning("请求中缺少 url_list 字段")
-            return jsonify({"error": "Missing 'url_list' in the request"}), 400
+        
+        # 支持单个url参数
+        if 'url' in data:
+            url_list = [data['url']]
+        elif 'url_list' in data:
+            url_list = data['url_list']
+        else:
+            logger.warning("请求中缺少 url 或 url_list 字段")
+            return jsonify({"error": "Missing 'url' or 'url_list' in the request"}), 400
 
-        url_list = data['url_list']
         task_prompt = data.get('task_prompt', '<MORE_DETAILED_CAPTION>')
         text_input = data.get('text_input')
 
