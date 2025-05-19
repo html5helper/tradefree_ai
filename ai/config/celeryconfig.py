@@ -6,6 +6,16 @@ from celery.schedules import crontab
 broker_url = "redis://localhost:6379/0"
 result_backend = "redis://localhost:6379/1"
 
+# MySQL 配置
+MYSQL_CONFIG = {
+    'host': 'localhost',
+    'port': 3306,
+    'user': 'root',
+    'password': 'c1234%^5678C',
+    'database': 'celery',
+    'charset': 'utf8mb4'
+}
+
 task_serializer = 'json'
 result_serializer = 'json'
 accept_content = ['json']

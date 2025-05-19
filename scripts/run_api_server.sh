@@ -1,24 +1,31 @@
 #!/usr/bin/env bash
 # run_api_server.sh
 
-# 检查是否有 API 服务器进程在运行
-if pgrep -f "uvicorn ai.core.celery_api:api" > /dev/null; then
-    echo "Found running API server. Stopping it first..."
-    ./scripts/kill_process.sh "uvicorn ai.core.celery_api:api"
-    # 等待进程完全停止
-    sleep 2
-fi
-
 # 激活虚拟环境
 source .venv/bin/activate
 
-# Add current directory to PYTHONPATH
-export PYTHONPATH=$PYTHONPATH:$(pwd)
+set -euo pipefail
+IFS=$'\n\t'
+
+# 检查是否有 API 服务器进程在运行
+# 1. 检查并 kill 旧进程
+PORT=8081
+PIDS=( $(lsof -ti tcp:${PORT} || true) )
+if [[ ${#PIDS[@]} -gt 0 ]]; then
+    echo "🔍 Port ${PORT} in use by PIDs: ${PIDS[*]}"
+    echo "🔪 Killing them..."
+    kill -9 "${PIDS[@]}"
+    sleep 1
+    echo "✅ Old process(es) killed."
+else
+    echo "✅ Port ${PORT} is free."
+fi
 
 # 确保日志目录存在
 mkdir -p logs
 
-# 启动 API 服务器并将日志输出到文件
+# 2. 启动 uvicorn
+echo "🚀 Starting API server on port ${PORT}..."
 nohup python -m uvicorn ai.core.celery_api:api \
   --host 0.0.0.0 \
   --port 8081 \
@@ -27,16 +34,7 @@ nohup python -m uvicorn ai.core.celery_api:api \
   --access-log \
   > logs/api_server.log 2>&1 &
 
-# 等待进程启动
-sleep 2
+echo "✅ API server started. Logs at './logs/api_server.log'"
 
-# 显示 API 服务器进程 ID
-echo "API server started:"
-ps aux | grep "uvicorn ai.core.celery_api:api" | grep -v grep
-
-echo "--------------------------------"
-echo "API server log:"
-echo "./logs/api_server.log"
-echo "--------------------------------"
-
+# 查看日志
 tail -f ./logs/api_server.log
