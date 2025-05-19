@@ -10,7 +10,8 @@ source .venv/bin/activate
 
 # 安装依赖
 echo "Installing dependencies..."
-pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
+# pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
+pip install -r requirements.txt
 
 # 创建必要的目录
 echo "Creating necessary directories..."
