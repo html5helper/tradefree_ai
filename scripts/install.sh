@@ -11,9 +11,10 @@ source .venv/bin/activate
 # 安装依赖
 echo "Installing dependencies..."
 # 先尝试阿里云源
-pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ || \
+# pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ || \
 # 如果失败则使用官方源
 pip install -r requirements.txt -i https://pypi.org/simple/
+
 
 
 echo "Installation completed!"
