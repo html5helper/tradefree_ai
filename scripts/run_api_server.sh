@@ -21,7 +21,7 @@ mkdir -p logs
 # 启动 API 服务器并将日志输出到文件
 nohup python -m uvicorn ai.core.celery_api:api \
   --host 0.0.0.0 \
-  --port 8000 \
+  --port 8081 \
   --reload \
   --log-level info \
   --access-log \
