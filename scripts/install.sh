@@ -10,12 +10,11 @@ source .venv/bin/activate
 
 # 安装依赖
 echo "Installing dependencies..."
-# pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
-pip install -r requirements.txt
+# 先尝试阿里云源
+pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ || \
+# 如果失败则使用官方源
+pip install -r requirements.txt -i https://pypi.org/simple/
 
-# 创建必要的目录
-echo "Creating necessary directories..."
-mkdir -p ai/core ai/tasks ai/config
 
 echo "Installation completed!"
 echo "To activate the virtual environment, run: source .venv/bin/activate" 
