@@ -13,6 +13,10 @@ def amz_to_1688_image(data: dict):
     return service.run_task("text2img2oss",data)
 
 @app.task
+def ali_to_1688_image(data: dict):
+    return service.run_task("text2img2oss",data)
+
+@app.task
 def _1688_to_1688_image(data: dict):
     return service.run_task("text2img2oss",data)
 

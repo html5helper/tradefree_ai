@@ -13,6 +13,10 @@ def amz_to_1688_upload(data: dict):
     return service.run_task("upload_photos",data)
 
 @app.task
+def ali_to_1688_upload(data: dict):
+    return service.run_task("upload_photos",data)
+
+@app.task
 def _1688_to_1688_upload(data: dict):
     return service.run_task("upload_photos",data)
 

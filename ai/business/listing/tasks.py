@@ -14,6 +14,10 @@ def amz_to_1688_listing(data: dict):
     return service.run_task("product_listing",data)
 
 @app.task
+def ali_to_1688_listing(data: dict):
+    return service.run_task("product_listing",data)
+
+@app.task
 def _1688_to_1688_listing(data: dict):
     return service.run_task("product_listing",data)
 

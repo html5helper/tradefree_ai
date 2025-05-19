@@ -70,7 +70,7 @@ task_routes = {
     },
 }
 
-# Dify workflow configurations
+# Dify 工作流配置
 DIFY_CONFIG = {
     # social methods
     "social_fetch_total": {
@@ -99,12 +99,12 @@ DIFY_CONFIG = {
         "api_key": "app-3C1v5XMUl76hBsIqH03QZepb"
     },
     "text2img2oss": {
-        "workflow_id": "47060be5-8ca9-4d91-97dd-6a364530e46b",
-        "api_key": "app-z59hZdjLSdi6DJcpU2Um8Jjq"
+        "workflow_id": "469a5c98-88d9-491d-819b-54c6b0d2cd5f",
+        "api_key": "app-2V0Qcu0azc8WHkxgoE7BoYk6"
     },
     "img2text2img2oss": {
-        "workflow_id": "4209de2b-0c86-428c-8d99-2a17cc08fbfe",
-        "api_key": "app-aTDjyTnb0fOXgMr8TjNKHvSw"
+        "workflow_id": "401c549a-f85f-4f8f-ac12-745dd41b2d81",
+        "api_key": "app-8ZEQ0dk4CQxvb0u3erw4n2Ea"
     },
     "upload_photos": {
         "workflow_id": "8bae616a-8be9-496b-b087-a300cd660210",
@@ -116,7 +116,7 @@ DIFY_CONFIG = {
     }
 }
 
-# Chain workflow configurations
+# 链式工作流配置
 CHAIN_MAP = {
     "amz_to_ali": [
         'ai.business.resource.tasks.amz_to_ali_src',
@@ -131,6 +131,13 @@ CHAIN_MAP = {
         'ai.business.image.tasks.amz_to_1688_image',
         'ai.business.upload_img.tasks.amz_to_1688_upload',
         'ai.business.public.tasks.amz_to_1688_public',
+    ],
+    "ali_to_1688": [
+        'ai.business.resource.tasks.ali_to_1688_src',
+        'ai.business.listing.tasks.ali_to_1688_listing',
+        'ai.business.image.tasks.ali_to_1688_image',
+        'ai.business.upload_img.tasks.ali_to_1688_upload',
+        'ai.business.public.tasks.ali_to_1688_public',
     ],
     "1688_to_1688": [
         'ai.business.resource.tasks._1688_to_1688_src',

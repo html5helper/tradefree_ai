@@ -25,19 +25,20 @@ class DifyService:
         """Run a dify task and return the output."""
         payload['task_id'] = current_task.request.id
         # 将paylaod中的所有字段都转化为字符串类型，包括dict,list,tuple,set
-        for key, value in payload.items():
-            if isinstance(value, dict):
-                payload[key] = json.dumps(value)
-            elif isinstance(value, list):
-                payload[key] = json.dumps(value)
-            elif isinstance(value, tuple):
-                payload[key] = json.dumps(value)
-            elif isinstance(value, set):
-                payload[key] = json.dumps(value)
-            else:
-                payload[key] = str(value)
-        print("dify payload=",payload)
+        # for key, value in payload.items():
+        #     if isinstance(value, dict):
+        #         payload[key] = json.dumps(value)
+        #     elif isinstance(value, list):
+        #         payload[key] = json.dumps(value)
+        #     elif isinstance(value, tuple):
+        #         payload[key] = json.dumps(value)
+        #     elif isinstance(value, set):
+        #         payload[key] = json.dumps(value)
+        #     else:
+        #         payload[key] = str(value)
+        # print("dify payload=",payload)
         # 从配置中获取 workflow_id 和 api_key
+
         config = DIFY_CONFIG[task_name]
         # Send the request
         response = self.client.post(

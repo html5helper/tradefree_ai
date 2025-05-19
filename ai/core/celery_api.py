@@ -17,6 +17,12 @@ async def amz_to_1688(request: Request):
     data = await request.json()
     return workflow.create_workflow("amz_to_1688", data)
 
+@api.post("/workflow/run/ali_to_1688")
+async def ali_to_1688(request: Request):
+    """AliExpress to 1688 workflow"""
+    data = await request.json()
+    return workflow.create_workflow("ali_to_1688", data)
+
 @api.post("/workflow/run/1688_to_1688")
 async def _1688_to_1688(request: Request):
     """1688 to 1688 workflow"""
