@@ -10,7 +10,7 @@ result_backend = "redis://localhost:6379/1"
 MYSQL_CONFIG = {
     'host': 'localhost',
     'port': 3306,
-    'user': 'root',
+    'user': 'tradefree',
     'password': 'c1234%^5678C',
     'database': 'celery',
     'charset': 'utf8mb4'
