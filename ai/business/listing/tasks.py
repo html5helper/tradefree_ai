@@ -26,8 +26,7 @@ def ali_to_ali_listing(data: dict):
     return service.run_task("product_listing",data)
 
 @app.task
-def social_to_ali_listing(event_dict: dict):
-    data = event_dict['data']
+def social_to_ali_listing(data: dict):
 
     # 获取指定页的记录中适合生成listing的记录
     result = service.run_task("social_pages_listing", data)

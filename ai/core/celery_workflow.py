@@ -11,17 +11,12 @@ class CeleryWorkflow:
         """Helper function to create workflow chain"""
         trace_id = str(uuid.uuid4())
         data['trace_id'] = trace_id
-        
-        event = {
-            "data": data,
-            "trace_id": trace_id,
-            "workflow_name": chain_type
-        }
+        data['workflow_name'] = chain_type
 
         signatures = []
         for task_name in CHAIN_MAP[chain_type]:
             signatures.append(celery_app.signature(task_name))
         workflow = chain(*signatures)
         # 只给第一个任务传 event，转换为字典以确保可序列化
-        result = workflow.apply_async(args=(event,))
-        return {"task_id": result.id, "data": event['data']}
+        result = workflow.apply_async(args=(data,))
+        return {"task_id": result.id, "data": data}

@@ -102,4 +102,3 @@ async def social_to_ali(request: Request, token: str = Depends(verify_token)):
 async def retry_task(task_id: str, token: str = Depends(verify_token)):
     """Retry a failed task and its downstream tasks"""
     return {"task_id": retry_chain_by_task_id(task_id)}
-

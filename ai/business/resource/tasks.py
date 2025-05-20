@@ -6,29 +6,27 @@ service = DifyService()
 workflow = CeleryWorkflow()
 
 @app.task
-def amz_to_ali_src(event_dict: dict):
-    return service.apply(event_dict['data'])
+def amz_to_ali_src(data: dict):
+    return service.apply(data)
 
 @app.task
-def amz_to_1688_src(event_dict: dict):
-    return service.apply(event_dict['data'])
+def amz_to_1688_src(data: dict):
+    return service.apply(data)
 
 @app.task
-def ali_to_1688_src(event_dict: dict):
-    return service.apply(event_dict['data'])
+def ali_to_1688_src(data: dict):
+    return service.apply(data)
 
 @app.task
-def _1688_to_1688_src(event_dict: dict):
-    return service.apply(event_dict['data'])
+def _1688_to_1688_src(data: dict):
+    return service.apply(data)
 
 @app.task
-def ali_to_ali_src(event_dict: dict):
-    return service.apply(event_dict['data'])
+def ali_to_ali_src(data: dict):
+    return service.apply(data)
 
 @app.task
-def social_to_ali_src(event_dict: dict):
-    data = event_dict['data']
-
+def social_to_ali_src(data: dict):
     # 获取总条数
     result = service.run_task("social_fetch_total", data)
     total = int(result['total'])
