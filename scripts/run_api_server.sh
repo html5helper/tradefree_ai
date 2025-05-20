@@ -21,6 +21,8 @@ else
     echo "✅ Port ${PORT} is free."
 fi
 
+sleep 5
+
 # 确保日志目录存在
 mkdir -p logs
 
