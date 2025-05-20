@@ -39,4 +39,4 @@ nohup python -m uvicorn ai.core.celery_api:api \
 echo "✅ API server started. Logs at './logs/api_server.log'"
 
 # 查看日志
-tail -f ./logs/api_server.log
+# tail -f ./logs/api_server.log
