@@ -14,6 +14,12 @@
 }
 
 curl -X POST \
-https://www.tradefree.ai/workflow/run/ali_to_1688 \
+https://www.tradefree.ai/workflow/run/copy \
+-H 'Content-Type: application/json' \
+-d '{"imgs":["https://s.alicdn.com/@sc04/kf/H8bea066d0dd94684beac3e999145efc5T.jpg","https://s.alicdn.com/@sc04/kf/H74a44201df394e4d8fdc1c9efb10ec96N.jpg","https://s.alicdn.com/@sc04/kf/H958d5ac0e6b44712ae94dbf55bf91585a.jpg","https://s.alicdn.com/@sc04/kf/H84777d5367764cf0a3f0c16ea2d47ad1x.jpg","https://s.alicdn.com/@sc04/kf/H7788f1e05e4841028782c96311c944a77.jpg","https://s.alicdn.com/@sc04/kf/H4a2f5a1e34e9435b9345d53c7317ad7du.jpg"],"product_type":"sticker","price":"","description":"","prodid":"https://www.alibaba.com/product-detail/Personalized-Metal-Sign-Vintage-Garage-Decorative_1601299327076.html","reference_product_platform":"ali","title":"Personalized Metal Sign Vintage Garage Decorative Poster Retro Metal Tin Plate Plaque Classic Coffee Metal Sign","employee":"thanos_zhang","published_shop":"1688shop3"}'
+
+
+curl -X POST \
+http://localhost:8081/workflow/run/copy \
 -H 'Content-Type: application/json' \
 -d '{"imgs":["https://s.alicdn.com/@sc04/kf/H8bea066d0dd94684beac3e999145efc5T.jpg","https://s.alicdn.com/@sc04/kf/H74a44201df394e4d8fdc1c9efb10ec96N.jpg","https://s.alicdn.com/@sc04/kf/H958d5ac0e6b44712ae94dbf55bf91585a.jpg","https://s.alicdn.com/@sc04/kf/H84777d5367764cf0a3f0c16ea2d47ad1x.jpg","https://s.alicdn.com/@sc04/kf/H7788f1e05e4841028782c96311c944a77.jpg","https://s.alicdn.com/@sc04/kf/H4a2f5a1e34e9435b9345d53c7317ad7du.jpg"],"product_type":"sticker","price":"","description":"","prodid":"https://www.alibaba.com/product-detail/Personalized-Metal-Sign-Vintage-Garage-Decorative_1601299327076.html","reference_product_platform":"ali","title":"Personalized Metal Sign Vintage Garage Decorative Poster Retro Metal Tin Plate Plaque Classic Coffee Metal Sign","employee":"thanos_zhang","published_shop":"1688shop3"}'

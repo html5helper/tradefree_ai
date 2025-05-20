@@ -66,4 +66,4 @@ echo -e "\n---\n"
 # curl localhost:8081/workflows/<trace_id>/status
 
 # 重试任务
-# curl -X POST http://localhost:8081/workflows/tasks/retry/f5a7259e-2b26-44cd-928c-c68790b61c8c
+# curl -X POST http://localhost:8081/workflow/tasks/retry/1fb337c7-26f6-464f-be87-4b59dd5a3e09

@@ -2,6 +2,9 @@
 from kombu import Exchange, Queue
 from celery.schedules import crontab
 
+# API Key 配置
+API_KEY = "token2_def456"
+
 # Broker 和 Backend 配置
 broker_url = "redis://localhost:6379/0"
 result_backend = "redis://localhost:6379/1"
