@@ -29,12 +29,13 @@ enable_utc = True
 ex_src = Exchange('product_src', type='direct')
 ex_create = Exchange('product_create', type='direct')
 ex_public = Exchange('product_public', type='direct')
-
+ex_maskword = Exchange('maskword_filter', type='direct')
 # 定义队列
 task_queues = (
     Queue('product_social_queue', ex_src, routing_key='social2product'),
     Queue('product_src_queue', ex_src, routing_key='product_src'),
     Queue('product_listing_queue', ex_create, routing_key='product_listing'),
+    Queue('product_maskword_queue', ex_maskword, routing_key='maskword_filter'),
     Queue('product_image_queue', ex_create, routing_key='product_image'),
     Queue('product_upload_queue_ali', ex_create, routing_key='product_upload_ali'),
     Queue('product_upload_queue_1688', ex_create, routing_key='product_upload_1688'),
@@ -62,6 +63,12 @@ task_routes = {
         'queue': 'product_listing_queue',
         'exchange': 'product_create',
         'routing_key': 'product_listing',
+    },
+    # maskword类任务
+    'ai.business.maskword.tasks.*': {
+        'queue': 'product_maskword_queue',
+        'exchange': 'maskword_filter',
+        'routing_key': 'maskword_filter',
     },
     # image类任务
     'ai.business.image.tasks.*': {
@@ -107,9 +114,9 @@ DIFY_CONFIG = {
         "workflow_id": "01835a12-cd11-4e24-a924-3b3fcc64ce77",
         "api_key": "app-RgHCjKMd6QqZTrkwvxoKmalX"
     },
-    "product_listing2": {
-        "workflow_id": "2a78b74e-a267-4515-888e-8c083b5419b0",
-        "api_key": "app-3C1v5XMUl76hBsIqH03QZepb"
+    "maskword_filter": {
+        "workflow_id": "fa1c6b8b-b85a-4410-a0e8-ad1a68dffc09",
+        "api_key": "app-c7sGD7RM6q8cn4JaPqbk9Pqq"
     },
     "text2img2oss": {
         "workflow_id": "469a5c98-88d9-491d-819b-54c6b0d2cd5f",
@@ -134,6 +141,7 @@ CHAIN_MAP = {
     "amz_to_ali": [
         'ai.business.resource.tasks.amz_to_ali_src',
         'ai.business.listing.tasks.amz_to_ali_listing',
+        'ai.business.maskword.tasks.amz_to_ali_maskword_filter',
         'ai.business.image.tasks.amz_to_ali_image',
         'ai.business.upload_img.tasks.amz_to_ali_upload',
         'ai.business.public.tasks.amz_to_ali_public',
@@ -141,6 +149,7 @@ CHAIN_MAP = {
     "amz_to_1688": [
         'ai.business.resource.tasks.amz_to_1688_src',
         'ai.business.listing.tasks.amz_to_1688_listing',
+        'ai.business.maskword.tasks.amz_to_1688_maskword_filter',
         'ai.business.image.tasks.amz_to_1688_image',
         'ai.business.upload_img.tasks.amz_to_1688_upload',
         'ai.business.public.tasks.amz_to_1688_public',
@@ -148,6 +157,7 @@ CHAIN_MAP = {
     "ali_to_1688": [
         'ai.business.resource.tasks.ali_to_1688_src',
         'ai.business.listing.tasks.ali_to_1688_listing',
+        'ai.business.maskword.tasks.ali_to_1688_maskword_filter',
         'ai.business.image.tasks.ali_to_1688_image',
         'ai.business.upload_img.tasks.ali_to_1688_upload',
         'ai.business.public.tasks.ali_to_1688_public',
@@ -155,6 +165,7 @@ CHAIN_MAP = {
     "1688_to_1688": [
         'ai.business.resource.tasks._1688_to_1688_src',
         'ai.business.listing.tasks._1688_to_1688_listing',
+        'ai.business.maskword.tasks._1688_to_1688_maskword_filter',
         'ai.business.image.tasks._1688_to_1688_image',
         'ai.business.upload_img.tasks._1688_to_1688_upload',
         'ai.business.public.tasks._1688_to_1688_public',
@@ -162,6 +173,7 @@ CHAIN_MAP = {
     "ali_to_ali": [
         'ai.business.resource.tasks.ali_to_ali_src',
         'ai.business.listing.tasks.ali_to_ali_listing',
+        'ai.business.maskword.tasks.ali_to_ali_maskword_filter',
         'ai.business.image.tasks.ali_to_ali_image',
         'ai.business.upload_img.tasks.ali_to_ali_upload',
         'ai.business.public.tasks.ali_to_ali_public',
@@ -173,6 +185,7 @@ CHAIN_MAP = {
         'ai.business.listing.tasks.social_to_ali_listing'
     ],
     "social_to_ali": [
+        'ai.business.maskword.tasks.social_to_ali_maskword_filter',
         'ai.business.image.tasks.social_to_ali_image',
         'ai.business.upload_img.tasks.social_to_ali_upload',
         'ai.business.public.tasks.social_to_ali_public',

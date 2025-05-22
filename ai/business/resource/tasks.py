@@ -7,26 +7,32 @@ workflow = CeleryWorkflow()
 
 @app.task
 def amz_to_ali_src(data: dict):
+    data = workflow.build_payload_taskid(data)
     return service.apply(data)
 
 @app.task
 def amz_to_1688_src(data: dict):
+    data = workflow.build_payload_taskid(data)
     return service.apply(data)
 
 @app.task
 def ali_to_1688_src(data: dict):
+    data = workflow.build_payload_taskid(data)
     return service.apply(data)
 
 @app.task
 def _1688_to_1688_src(data: dict):
+    data = workflow.build_payload_taskid(data)
     return service.apply(data)
 
 @app.task
 def ali_to_ali_src(data: dict):
+    data = workflow.build_payload_taskid(data)
     return service.apply(data)
 
 @app.task
 def social_to_ali_src(data: dict):
+    data = workflow.build_payload_taskid(data)
     # 获取总条数
     result = service.run_task("social_fetch_total", data)
     total = int(result['total'])

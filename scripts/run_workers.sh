@@ -27,6 +27,9 @@ nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_src_queue -
 # 基于LLM的API生成商品Listing，5个进程
 nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_listing_queue -c 5 -n listing_worker@%h > logs/listing_worker.log 2>&1 &
 
+# 商品listing合规性检查，5个进程
+nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_maskword_queue -c 5 -n maskword_worker@%h > logs/maskword_worker.log 2>&1 &
+
 # 基于ComfyUI服务生成商品图片并存储到OSS服务，2个进程
 nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_image_queue -c 1 -n image_worker@%h > logs/image_worker.log 2>&1 &
 
@@ -54,6 +57,7 @@ echo "Worker logs:"
 echo "./logs/social_worker.log"
 echo "./logs/src_worker.log"
 echo "./logs/listing_worker.log"
+echo "./logs/maskword_worker.log"
 echo "./logs/image_worker.log"
 echo "./logs/upload_ali_worker.log"
 echo "./logs/public_ali_worker.log"

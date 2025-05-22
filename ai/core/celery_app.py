@@ -8,6 +8,7 @@ app.config_from_object('ai.config.celeryconfig')
 app.autodiscover_tasks([
     'ai.business.resource',
     'ai.business.listing',
+    'ai.business.maskword',
     'ai.business.image',
     'ai.business.upload_img',
     'ai.business.public',
