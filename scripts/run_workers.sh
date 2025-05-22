@@ -19,31 +19,31 @@ export PYTHONPATH=$PYTHONPATH:$(pwd)
 mkdir -p logs
 
 # 读取社媒信息并按照page分组触发生成商品的工作流，1个进程
-nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_social_queue -c 1 -n social_worker@%h > logs/social_worker.log 2>&1 &
+nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_social_queue -c 1 -n social_worker@%h-social > logs/social_worker.log 2>&1 &
 
 # 源商品接收上报并写入缓存，5个进程
-nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_src_queue -c 5 -n src_worker@%h > logs/src_worker.log 2>&1 &
+nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_src_queue -c 5 -n src_worker@%h-src > logs/src_worker.log 2>&1 &
 
 # 基于LLM的API生成商品Listing，5个进程
-nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_listing_queue -c 5 -n listing_worker@%h > logs/listing_worker.log 2>&1 &
+nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_listing_queue -c 5 -n listing_worker@%h-listing > logs/listing_worker.log 2>&1 &
 
 # 商品listing合规性检查，5个进程
-nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_maskword_queue -c 5 -n maskword_worker@%h > logs/maskword_worker.log 2>&1 &
+nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_maskword_queue -c 5 -n maskword_worker@%h-maskword > logs/maskword_worker.log 2>&1 &
 
 # 基于ComfyUI服务生成商品图片并存储到OSS服务，2个进程
-nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_image_queue -c 1 -n image_worker@%h > logs/image_worker.log 2>&1 &
+nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_image_queue -c 1 -n image_worker@%h-image > logs/image_worker.log 2>&1 &
 
 # 上传商品图片到alibaba图片库，2个进程
-nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_upload_queue_ali -c 2 -n upload_ali_worker@%h > logs/upload_ali_worker.log 2>&1 &
+nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_upload_queue_ali -c 2 -n upload_ali_worker@%h-upload_ali > logs/upload_ali_worker.log 2>&1 &
 
 # 发布商品信息到alibaba草稿箱，2个进程
-nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_public_queue_ali -c 2 -n public_ali_worker@%h > logs/public_ali_worker.log 2>&1 &
+nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_public_queue_ali -c 2 -n public_ali_worker@%h-public_ali > logs/public_ali_worker.log 2>&1 &
 
 # 上传商品图片到1688相册，2个进程
-nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_upload_queue_1688 -c 2 -n upload_1688_worker@%h > logs/upload_1688_worker.log 2>&1 &
+nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_upload_queue_1688 -c 2 -n upload_1688_worker@%h-upload_1688 > logs/upload_1688_worker.log 2>&1 &
 
 # 发布商品信息到1688商铺，2个进程
-nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_public_queue_1688 -c 2 -n public_1688_worker@%h > logs/public_1688_worker.log 2>&1 &
+nohup celery -A ai.core.celery_app worker --loglevel=info -Q product_public_queue_1688 -c 2 -n public_1688_worker@%h-public_1688 > logs/public_1688_worker.log 2>&1 &
 
 # 等待所有后台进程启动
 sleep 2
