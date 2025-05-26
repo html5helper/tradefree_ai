@@ -69,7 +69,7 @@ if [ -n "$pids" ]; then
     echo "Flower($pid_count processes), pid=$pid_list"
     echo "--------------------------------"
     echo "Show Flower log: tail -f ./logs/flower.log"
-    tail -f ./logs/flower.log
+    # tail -f ./logs/flower.log
 else
     echo "Error: Flower failed to start!"
     echo "Check the log file for details: tail -f ./logs/flower.log"
