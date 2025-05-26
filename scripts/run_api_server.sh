@@ -68,6 +68,7 @@ if [ -n "$pids" ]; then
     echo "API server($pid_count processes), pid=$pid_list"
     echo "--------------------------------"
     echo "Show API server log: tail -f ./logs/api_server.log"
+    sleep 2
     tail -f ./logs/api_server.log
 else
     echo "Error: API server failed to start!"
