@@ -3,11 +3,6 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from ai.core.history.task_retry import retry_chain_by_task_id
 from ai.core.celery_workflow import CeleryWorkflow
 from ai.config.celeryconfig import API_KEY
-import os
-from dotenv import load_dotenv
-
-# 加载环境变量
-load_dotenv()
 
 # 创建安全依赖
 security = HTTPBearer()
