@@ -28,20 +28,25 @@ source .venv/bin/activate
 # 升级 pip
 echo "--------------------------------"
 echo "Upgrading pip..."
-python -m pip install --upgrade pip
+"$PROJECT_ROOT/.venv/bin/pip" install --upgrade pip
 
 # 安装依赖
 echo "--------------------------------"
 echo "Installing dependencies..."
 # 先尝试阿里云源
-# pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ || \
+# "$PROJECT_ROOT/.venv/bin/pip" install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ || \
 # 如果失败则使用官方源
-pip install -r requirements.txt -i https://pypi.org/simple/
+"$PROJECT_ROOT/.venv/bin/pip" install -r requirements.txt -i https://pypi.org/simple/
+
+# 安装 uvicorn
+echo "--------------------------------"
+echo "Installing uvicorn..."
+"$PROJECT_ROOT/.venv/bin/pip" install uvicorn -i https://pypi.org/simple/
 
 # 添加环境变量到 activate 脚本
 echo "--------------------------------"
 echo "Adding environment variables to activate script..."
-ACTIVATE_SCRIPT=".venv/bin/activate"
+ACTIVATE_SCRIPT="$PROJECT_ROOT/.venv/bin/activate"
 
 # 在 deactivate 函数中添加清除环境变量的代码
 sed -i '' '/unset VIRTUAL_ENV/a\
