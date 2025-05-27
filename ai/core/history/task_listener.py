@@ -13,9 +13,11 @@ def before_task_run(sender=None, task_id=None, task=None, args=None, kwargs=None
         event = args[0] if args and isinstance(args[0], dict) else {}
         trace_id = event.get('trace_id')
         workflow_name = event.get('workflow_name')
+        employee = event.get('employee','system')
         task_event = TaskEvent(
             task_id=task_id,
             task_name=sender.name,
+            task_owner=employee,
             task_input=args if args else None,
             task_kwargs=kwargs if kwargs else None,
             task_status='STARTED',
