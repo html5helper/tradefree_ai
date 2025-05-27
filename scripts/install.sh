@@ -67,7 +67,7 @@ echo "Adding environment variables to activate script..."
 ACTIVATE_SCRIPT="$PROJECT_ROOT/.venv/bin/activate"
 
 # 在 deactivate 函数中添加清除环境变量的代码
-sed -i '' '/unset VIRTUAL_ENV/a\
+sed -i '/unset VIRTUAL_ENV/a\
     # 清除环境变量\
     unset ENV\
     unset API_PORT\
