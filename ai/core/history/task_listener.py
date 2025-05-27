@@ -35,7 +35,7 @@ def on_task_sent(sender=None, task_id=None, task=None, args=None, kwargs=None, *
             task_owner=employee,
             task_input=args if args else None,
             task_kwargs=kwargs if kwargs else None,
-            task_param=json.dumps(task_params),  
+            task_params=json.dumps(task_params),
             task_status='PENDING',
             trace_id=trace_id,
             workflow_name=workflow_name,
