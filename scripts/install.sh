@@ -8,7 +8,14 @@ PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 # 检查 Python 版本
 echo "--------------------------------"
 echo "Checking Python version..."
-PYTHON_VERSION=$(python3 --version 2>&1 | awk '{print $2}')
+if ! command -v python3.9 &> /dev/null; then
+    echo "Error: python3.9 is not installed"
+    echo "Please install Python 3.9.19 and try again"
+    echo "You can download it from: https://www.python.org/downloads/release/python-3919/"
+    exit 1
+fi
+
+PYTHON_VERSION=$(python3.9 --version 2>&1 | awk '{print $2}')
 REQUIRED_VERSION="3.9.19"
 
 if [ "$PYTHON_VERSION" != "$REQUIRED_VERSION" ]; then
@@ -24,12 +31,12 @@ echo "Python version $PYTHON_VERSION is compatible"
 # 检查 pip 版本
 echo "--------------------------------"
 echo "Checking pip version..."
-python3 -m pip --version
+python3.9 -m pip --version
 
 # 创建虚拟环境
 echo "--------------------------------"
 echo "Creating virtual environment..."
-python3 -m venv .venv
+python3.9 -m venv .venv
 
 # 激活虚拟环境
 echo "--------------------------------"
