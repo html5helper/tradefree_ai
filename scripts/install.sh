@@ -8,7 +8,18 @@ PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 # 检查 Python 版本
 echo "--------------------------------"
 echo "Checking Python version..."
-python3 --version
+PYTHON_VERSION=$(python3 --version 2>&1 | awk '{print $2}')
+REQUIRED_VERSION="3.9.19"
+
+if [ "$PYTHON_VERSION" != "$REQUIRED_VERSION" ]; then
+    echo "Warning: Current Python version is $PYTHON_VERSION"
+    echo "Recommended Python version is $REQUIRED_VERSION"
+    echo "Please install Python $REQUIRED_VERSION and try again"
+    echo "You can download it from: https://www.python.org/downloads/release/python-3919/"
+    exit 1
+fi
+
+echo "Python version $PYTHON_VERSION is compatible"
 
 # 检查 pip 版本
 echo "--------------------------------"
