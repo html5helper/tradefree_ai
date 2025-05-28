@@ -45,22 +45,10 @@ class DifyClient:
                 response.raise_for_status()
                 
             return response.json()
-            
-        except requests.exceptions.HTTPError as e:
-            print(f"\n=== Dify API HTTP Error ===")
-            print(f"Status Code: {e.response.status_code}")
-            print(f"Response Headers: {dict(e.response.headers)}")
-            print(f"Response Body: {e.response.text}")
-            print(f"Request Payload: {json.dumps(payload, indent=2)}")
-            print(f"Stack Trace: {traceback.format_exc()}")
-            print(f"=====================\n")
-            raise
         except Exception as e:
-            print(f"\n=== Dify API Unexpected Error ===")
-            print(f"Error Type: {type(e).__name__}")
-            print(f"Error Message: {str(e)}")
-            print(f"Request Payload: {json.dumps(payload, indent=2)}")
-            print(f"Stack Trace: {traceback.format_exc()}")
+            print(f"\n=== Dify API Exception ===")
+            print(f"Error: {str(e)}")
+            print(f"Traceback: {traceback.format_exc()}")
             print(f"=====================\n")
             raise
 

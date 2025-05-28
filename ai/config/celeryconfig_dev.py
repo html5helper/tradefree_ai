@@ -10,6 +10,9 @@ MYSQL_PORT = os.getenv("MYSQL_PORT", "3306")
 MYSQL_USER = os.getenv("MYSQL_USER", "tradefree")
 MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "c1234%^5678C")
 
+# Dify API 配置
+DIFY_BASE_URL = "http://dify.tradefree.ai/v1"
+
 # Redis 配置
 REDIS_HOST = "127.0.0.1"
 REDIS_PORT = "6379"
@@ -101,7 +104,6 @@ task_routes = {
 }
 
 # Dify 工作流配置
-dify_base_url = "http://dify.html5core.com/v1"
 DIFY_CONFIG = {
     # social methods
     "social_fetch_total": {

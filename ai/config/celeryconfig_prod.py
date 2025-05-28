@@ -101,7 +101,7 @@ task_routes = {
 }
 
 # Dify 工作流配置
-dify_base_url = "http://dify.tradefree.ai/v1"
+DIFY_BASE_URL = "http://dify.tradefree.ai/v1"
 DIFY_CONFIG = {
     # social methods
     "social_fetch_total": {

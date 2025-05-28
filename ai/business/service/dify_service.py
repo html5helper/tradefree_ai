@@ -1,9 +1,9 @@
 from ai.business.dify_client import DifyClient
-from ai.config.celeryconfig import DIFY_CONFIG
+from ai.config.celeryconfig import DIFY_CONFIG, DIFY_BASE_URL
 
 class DifyService:
     def __init__(self):
-        self.client = DifyClient(DIFY_CONFIG.dify_base_url)
+        self.client = DifyClient(DIFY_BASE_URL)
 
     # 合并两个dict，如果key相同，则新的value覆盖旧的value
     def merge_dict(self,dict1:dict,dict2:dict) -> dict:
