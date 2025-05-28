@@ -43,8 +43,21 @@ class DifyClient:
                 print(f"Request Payload: {json.dumps(payload, indent=2)}")
                 print(f"=====================\n")
                 response.raise_for_status()
-                
-            return response.json()
+            
+            response_data = response.json()
+            
+            # 检查响应格式
+            if not isinstance(response_data, dict):
+                raise ValueError(f"Invalid response format: {response_data}")
+            
+            if 'data' not in response_data:
+                raise ValueError(f"Missing 'data' in response: {response_data}")
+            
+            if 'outputs' not in response_data['data']:
+                raise ValueError(f"Missing 'outputs' in response data: {response_data['data']}")
+            
+            return response_data
+            
         except Exception as e:
             print(f"\n=== Dify API Exception ===")
             print(f"Error: {str(e)}")

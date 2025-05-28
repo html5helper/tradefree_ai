@@ -10,7 +10,7 @@ def parse_params(event):
     """解析任务参数"""
     params = {
         'src_platform': event.get('reference_product_platform',''),
-        'src_product': event.get('prodid',''),
+        'src_product': event.get('reference_product',event.get('prodid','')),
         'dest_shop': event.get('published_shop',''),
         'workflow_name': event.get('workflow_name','')
     }

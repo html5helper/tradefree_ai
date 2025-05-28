@@ -39,7 +39,7 @@ http://localhost:8081/workflow/tasks/retry/71a6f198-6ff1-4204-bf44-75bacdfddb2c 
 -H 'Authorization: Bearer token2_def456'
 
 curl -X POST \
-https://www.tradefree.ai/workflow/tasks/retry/71a6f198-6ff1-4204-bf44-75bacdfddb2c \
+https://www.tradefree.ai/workflow_dev/tasks/retry/42861936-5914-4b6d-93fa-190dcd747808 \
 -H 'Authorization: Bearer token2_def456'
 
 -- 开发环境服务地址
@@ -61,20 +61,8 @@ MYSQL DB: celery_prod
 
 
 
-{
-    "tags": "tropical print dress stickers jungle pattern stickers floral design stickers geometric patterns stickers tropical vacation stickers flexible stickers durable stickers water cup stickers laptop stickers suitcase stickers tropical fashion stickers resort wear stickers vacation essentials stickers island vibes stickers geometric design stickers floral pattern stickers travel stickers beach stickers summer stickers", 
-    "title": "Tropical Print Dress Sticker Collection Flexible Material Durable Geometric Patterns Floral Stickers For Water Cup Laptop Suitcase", 
-    "scenes": "water cup,laptop,suitcase", 
-    "hotword": "sticker", 
-    "employee": "marvin", 
-    "src_desc": "This tropical print sticker collection features jungle patterns, floral designs, and geometric motifs. The flexible durable stickers are perfect for water cups, laptops, and suitcases. Bring a touch of island vibes to your daily essentials.", 
-    "trace_id": "234ca4f1-76f8-452b-9e96-0bf98b80934f", 
-    "dimension": {}, 
-    "description": "This tropical print sticker collection features jungle patterns, floral designs, and geometric motifs. The flexible durable stickers are perfect for water cups, laptops, and suitcases. Bring a touch of island vibes to your daily essentials.", 
-    "product_type": "sticker", 
-    "workflow_name": "social_to_ali", 
-    "published_shop": "ali_shop5", 
-    "applicable_scenes": "water cup,laptop,suitcase", 
-    "reference_product": "https://www.tiktok.com/@mnm_pipi/video/7502170774258666807", 
-    "reference_product_platform": "social"
-}
+curl -X POST \
+    https://www.tradefree.ai/workflow_dev/run/social_to_ali \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer token2_def456' \
+    -d '{"platform": "tiktok", "page_size": 30}'
