@@ -104,45 +104,38 @@ task_routes = {
 DIFY_CONFIG = {
     # social methods
     "social_fetch_total": {
-        "workflow_id": "b811f832-47e7-4a92-8aff-82a6859be328",
-        "api_key": "app-GvSm89L42OluDU2JFyaDOCvM"
+        "workflow_id": "9d8c70ca-e5ca-47ae-a3bc-b0f239275672",
+        "api_key": "app-iuH21hu72REChudBDXQ9ryZj"
     },
     "social_pages_listing": {
-        "workflow_id": "71012911-41b9-4d66-9c19-d666f2389d7e",
-        "api_key": "app-JMJ87fMuTgYtOPlRGJNk5DVH"
+        "workflow_id": "2f489587-7ad7-46a6-91bb-359bad38ea27",
+        "api_key": "app-Py50u0qC4AupCOSTDdn0MWaC"
     },
-    "social_to_ali_src": {
-        "workflow_id": "c25c3f82-61d0-44f0-bc5a-d0bff52f8aa2",
-        "api_key": "app-23SX7AOxwVCZvaXvtupFDsaT"
-    },
-    "social_to_ali_image": {
-        "workflow_id": "41635577-659f-4d56-ae1d-a67131c94185",
-        "api_key": "app-CrxTvw9sMXREZohs8jVqsEs3"
-    },
+    
     # normal product methods
     "product_listing": {
-        "workflow_id": "01835a12-cd11-4e24-a924-3b3fcc64ce77",
-        "api_key": "app-RgHCjKMd6QqZTrkwvxoKmalX"
+        "workflow_id": "b7b7e631-e5c0-4fa9-b105-17d2137f0b88",
+        "api_key": "app-H0aaAlTrthGMrabomhiVGDVl"
     },
     "maskword_filter": {
-        "workflow_id": "fa1c6b8b-b85a-4410-a0e8-ad1a68dffc09",
-        "api_key": "app-c7sGD7RM6q8cn4JaPqbk9Pqq"
+        "workflow_id": "530c3d1e-56de-4e94-ae41-349707cbfb8e",
+        "api_key": "app-qbYXlCBIOLvAG5vfmL618BKN"
     },
-    "text2img2oss": {
-        "workflow_id": "469a5c98-88d9-491d-819b-54c6b0d2cd5f",
-        "api_key": "app-2V0Qcu0azc8WHkxgoE7BoYk6"
+    "text2img2download": {
+        "workflow_id": "58a2386c-4743-40cb-ab1f-6cf1611c0997",
+        "api_key": "app-HqaViz4DyXoszmUXX7Ln1dxp"
     },
-    "img2text2img2oss": {
-        "workflow_id": "401c549a-f85f-4f8f-ac12-745dd41b2d81",
-        "api_key": "app-8ZEQ0dk4CQxvb0u3erw4n2Ea"
+    "img2text2img2download": {
+        "workflow_id": "15057dc0-bef6-40ef-b745-499c867a61f4",
+        "api_key": "app-aHottX9s7ptJQLEeU6SOL1MA"
     },
     "upload_photos": {
-        "workflow_id": "8bae616a-8be9-496b-b087-a300cd660210",
-        "api_key": "app-Gxld5HWVZPOWYPu9B8BMrv9d"
+        "workflow_id": "d1af9703-2931-4b16-b236-6d91c1c9f10c",
+        "api_key": "app-KfLeimdKVEsvoAMSqCPRtSAo"
     },
     "publish_product": {
-        "workflow_id": "1aeeb7f4-c7ff-48e0-9f29-749d764d5637",
-        "api_key": "app-q7bXCU359F464cgUMz5Q0zhK"
+        "workflow_id": "352b74de-8e61-45d8-bbf1-6ebb76980185",
+        "api_key": "app-NHZR6CX01FrytLhSjPuAi2s7"
     }
 }
 

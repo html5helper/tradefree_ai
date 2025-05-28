@@ -111,14 +111,6 @@ DIFY_CONFIG = {
         "workflow_id": "71012911-41b9-4d66-9c19-d666f2389d7e",
         "api_key": "app-JMJ87fMuTgYtOPlRGJNk5DVH"
     },
-    "social_to_ali_src": {
-        "workflow_id": "c25c3f82-61d0-44f0-bc5a-d0bff52f8aa2",
-        "api_key": "app-23SX7AOxwVCZvaXvtupFDsaT"
-    },
-    "social_to_ali_image": {
-        "workflow_id": "41635577-659f-4d56-ae1d-a67131c94185",
-        "api_key": "app-CrxTvw9sMXREZohs8jVqsEs3"
-    },
     # normal product methods
     "product_listing": {
         "workflow_id": "01835a12-cd11-4e24-a924-3b3fcc64ce77",
@@ -128,11 +120,11 @@ DIFY_CONFIG = {
         "workflow_id": "fa1c6b8b-b85a-4410-a0e8-ad1a68dffc09",
         "api_key": "app-c7sGD7RM6q8cn4JaPqbk9Pqq"
     },
-    "text2img2oss": {
+    "text2img2download": {
         "workflow_id": "469a5c98-88d9-491d-819b-54c6b0d2cd5f",
         "api_key": "app-2V0Qcu0azc8WHkxgoE7BoYk6"
     },
-    "img2text2img2oss": {
+    "img2text2img2download": {
         "workflow_id": "401c549a-f85f-4f8f-ac12-745dd41b2d81",
         "api_key": "app-8ZEQ0dk4CQxvb0u3erw4n2Ea"
     },
