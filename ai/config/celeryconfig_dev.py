@@ -101,6 +101,7 @@ task_routes = {
 }
 
 # Dify 工作流配置
+dify_base_url = "http://dify.html5core.com/v1"
 DIFY_CONFIG = {
     # social methods
     "social_fetch_total": {

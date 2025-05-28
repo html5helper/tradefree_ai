@@ -3,7 +3,7 @@ from ai.config.celeryconfig import DIFY_CONFIG
 
 class DifyService:
     def __init__(self):
-        self.client = DifyClient()
+        self.client = DifyClient(DIFY_CONFIG.dify_base_url)
 
     # 合并两个dict，如果key相同，则新的value覆盖旧的value
     def merge_dict(self,dict1:dict,dict2:dict) -> dict:

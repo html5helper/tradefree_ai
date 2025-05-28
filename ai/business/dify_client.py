@@ -3,8 +3,8 @@ import json
 import traceback
 
 class DifyClient:
-    def __init__(self):
-        self.base_url = "http://dify.tradefree.ai/v1"
+    def __init__(self,base_url:str):
+        self.base_url = base_url
         self.endpoint = "workflows/run"
         self.client_user = "celery_task"
 
