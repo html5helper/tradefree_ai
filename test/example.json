@@ -66,3 +66,6 @@ curl -X POST \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer token2_def456' \
     -d '{"platform": "tiktok", "page_size": 30}'
+
+
+"{\"src_platform\": \"amazon\", \"src_product\": \"https://www.amazon.com/Stickers-2-Pack-Decals-Trucks-Bottle/dp/B0DVPT71QG\", \"dest_shop\": \"ali_shop4\", \"workflow_name\": \"amz_to_ali\"}"

@@ -38,12 +38,19 @@ class DifyService:
             config['api_key'],
             payload
         )
+        
         # Handle the response
         output = response["data"]["outputs"]
-        
-        # 如果output为None，则抛出异常
+
+                # 如果output为None，则抛出异常
         if output is None:
             raise Exception(f"Dify API returned None output for task {task_name}")
+
+        if 'code' not in output:
+            raise ValueError(f"Missing 'code' in response outputs: {output}")
+            
+        if output['code'] != 200:
+            raise ValueError(f"Task execution failed with code {output['code']}: {output}")
         
         return {**payload, **output} 
  
