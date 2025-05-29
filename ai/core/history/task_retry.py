@@ -13,6 +13,11 @@ def retry_chain_by_task_id(task_id: str):
     if not history:
         session.close()
         raise HTTPException(status_code=404, detail="Task history not found")
+    
+    # retried字段置为1
+    history.retried = 1
+    session.commit()
+
     task_name = history.task_name
     args = history.task_input or []
     event = args[0] if args else None
