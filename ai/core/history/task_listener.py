@@ -68,11 +68,14 @@ def before_task_run(sender=None, task_id=None, task=None, args=None, kwargs=None
 @task_postrun.connect
 def after_task_run(sender=None, task_id=None, retval=None, **other):
     session = Session()
+    output = json.loads(retval)
+    task_params = parse_params(output) 
     history = session.query(TaskEvent).filter_by(task_id=task_id).first()
     if history:
         history.task_status = 'SUCCESS'
+        history.task_params = json.dumps(task_params)
         if isinstance(retval, dict):
-            history.task_output = json.dumps(retval)
+            history.task_output = output
         else:
             history.task_output = str(retval)
         history.finished_at = datetime.utcnow()
