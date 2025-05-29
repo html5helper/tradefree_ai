@@ -74,7 +74,7 @@ def after_task_run(sender=None, task_id=None, retval=None, **other):
         history.task_status = 'SUCCESS'
         history.task_params = json.dumps(task_params)
         if isinstance(retval, dict):
-            history.task_output = retval
+            history.task_output = json.dumps(retval)
         else:
             history.task_output = str(retval)
         history.finished_at = datetime.utcnow()
