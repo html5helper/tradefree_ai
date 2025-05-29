@@ -11,7 +11,8 @@ def parse_params(event):
     params = {
         'src_platform': event.get('reference_product_platform',''),
         'src_product': event.get('reference_product',event.get('prodid','')),
-        'dest_shop': event.get('published_shop',''),
+        'dest_shop': event.get('dest_shop',''),
+        'dest_product': event.get('dest_product',''),
         'workflow_name': event.get('workflow_name','')
     }
     return params
