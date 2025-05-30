@@ -116,6 +116,11 @@ DIFY_CONFIG = {
         "workflow_id": "2f489587-7ad7-46a6-91bb-359bad38ea27",
         "api_key": "app-Py50u0qC4AupCOSTDdn0MWaC"
     },
+    # listing adapter methods
+    "listing_adapter": {
+        "workflow_id": "4bca7121-1a19-424c-86a4-c2f1664ac979",
+        "api_key": "app-9BKKSzrzf5D1DHcHqk5Gz6Z8"
+    },
     
     # normal product methods
     "product_listing": {
@@ -146,6 +151,14 @@ DIFY_CONFIG = {
 
 # 链式工作流配置
 CHAIN_MAP = {
+    "amz_copy_ali": [
+        'ai.business.resource.tasks.amz_to_ali_src',
+        'ai.business.listing.tasks.listing_adapter',
+        'ai.business.maskword.tasks.amz_to_ali_maskword_filter',
+        'ai.business.image.tasks.amz_to_ali_image',
+        'ai.business.upload_img.tasks.amz_to_ali_upload',
+        'ai.business.public.tasks.amz_to_ali_public',
+    ],
     "amz_to_ali": [
         'ai.business.resource.tasks.amz_to_ali_src',
         'ai.business.listing.tasks.amz_to_ali_listing',

@@ -56,6 +56,28 @@ async def amz_to_ali(request: Request, token: str = Depends(verify_token)):
         return workflow.create_workflow("1688_to_1688", data)
     else:
         return {"error": "Invalid reference_product_platform or published_shop"}
+    
+@api.post("/workflow/run/copy_no_ai")
+async def amz_to_ali(request: Request, token: str = Depends(verify_token)):
+    """Copy and public product workflow no ai"""
+    data = await request.json()
+    data['use_ai'] = 'false'
+
+    reference_product_platform = data.get("reference_product_platform")
+    published_shop = data.get("published_shop")
+
+    if reference_product_platform == "amazon" and "ali" in published_shop:
+        return workflow.create_workflow("amz_copy_ali", data)
+    elif reference_product_platform == "amazon" and "1688" in published_shop:
+        return workflow.create_workflow("amz_to_1688", data)
+    elif reference_product_platform == "ali" and "ali" in published_shop:
+        return workflow.create_workflow("ali_to_ali", data)
+    elif reference_product_platform == "ali" and "1688" in published_shop:
+        return workflow.create_workflow("ali_to_1688", data)
+    elif reference_product_platform == "1688" and "1688" in published_shop:
+        return workflow.create_workflow("1688_to_1688", data)
+    else:
+        return {"error": "Invalid reference_product_platform or published_shop"}
 
 @api.post("/workflow/run/amz_to_ali")
 async def amz_to_ali(request: Request, token: str = Depends(verify_token)):
