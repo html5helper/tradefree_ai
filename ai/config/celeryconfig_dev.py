@@ -3,12 +3,41 @@ import os
 from kombu import Exchange, Queue
 from celery.schedules import crontab
 
-# API Key 配置
-API_KEY = os.getenv("API_KEY", "token2_def456")
-MYSQL_HOST = os.getenv("MYSQL_HOST", "127.0.0.1")
-MYSQL_PORT = os.getenv("MYSQL_PORT", "3306")
-MYSQL_USER = os.getenv("MYSQL_USER", "tradefree")
-MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "c1234%^5678C")
+# Token Key 配置
+USER_TOKEN_CONFIG = {
+    "token2_def456": {
+        "user_name":"fenghetong",
+        "user_group":"LLM_GENERATE_GROUP"
+    },
+    "tiuGlpGYG6olYLBaIfbvsKI7DIUv9Z3J": {
+        "user_name":"user_001",
+        "user_group":"SAMPLE_COPY_GROUP"
+    },
+    "W2armxPmXOMQljPbjgeBFAFJ7jGWkMTU":{
+        "user_name":"user_002",
+        "user_group":"SAMPLE_COPY_GROUP"
+    },
+    "go7G14OLyFr4atc94uzuZMwEGrHIn146":{
+        "user_name":"user_003",
+        "user_group":"SAMPLE_COPY_GROUP"
+    }
+}
+
+USER_GROUP_ACCESS = {
+    "SAMPLE_COPY_GROUP": ["amz_copy_ali", "amz_copy_1688", "ali_copy_1688", "1688_copy_1688", "ali_copy_ali"],
+    "LLM_GENERATE_GROUP": ["amz_to_ali", "amz_to_1688", "ali_to_1688", "1688_to_1688", "ali_to_ali", "social_to_ali"],
+}
+
+# MySQL 配置
+MYSQL_CONFIG = {
+    'host': os.getenv("MYSQL_HOST", "127.0.0.1"),
+    'port': os.getenv("MYSQL_PORT", "3306"),
+    'user':  os.getenv("MYSQL_USER", "tradefree"),
+    'password': os.getenv("MYSQL_PASSWORD", "c1234%^5678C"),
+    'database': 'celery_dev',
+    'charset': 'utf8mb4',
+    # 'auth_plugin': 'mysql_native_password'
+}
 
 # Dify API 配置
 DIFY_BASE_URL = "http://dify.tradefree.ai/v1"
@@ -21,15 +50,7 @@ REDIS_DB_BACKEND = "3"
 broker_url = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB_BROKER}"
 result_backend = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB_BACKEND}"
 
-# MySQL 配置
-MYSQL_CONFIG = {
-    'host': MYSQL_HOST,
-    'port': MYSQL_PORT,
-    'user': MYSQL_USER,
-    'password': MYSQL_PASSWORD,
-    'database': 'celery_dev',
-    'charset': 'utf8mb4'
-}
+
 
 # 任务配置
 task_serializer = "json"
@@ -155,9 +176,9 @@ CHAIN_MAP = {
         'ai.business.resource.tasks.amz_to_ali_src',
         'ai.business.listing.tasks.listing_adapter',
         'ai.business.maskword.tasks.amz_to_ali_maskword_filter',
-        'ai.business.image.tasks.amz_to_ali_image',
-        'ai.business.upload_img.tasks.amz_to_ali_upload',
-        'ai.business.public.tasks.amz_to_ali_public',
+        # 'ai.business.image.tasks.amz_to_ali_image',
+        # 'ai.business.upload_img.tasks.amz_to_ali_upload',
+        # 'ai.business.public.tasks.amz_to_ali_public',
     ],
     "amz_to_ali": [
         'ai.business.resource.tasks.amz_to_ali_src',

@@ -6,18 +6,25 @@ https://www.tradefree.ai/workflow_dev/run/copy \
 -H 'Authorization: Bearer token2_def456' \
 -d '{"imgs":["https://s.alicdn.com/@sc04/kf/H8bea066d0dd94684beac3e999145efc5T.jpg","https://s.alicdn.com/@sc04/kf/H74a44201df394e4d8fdc1c9efb10ec96N.jpg","https://s.alicdn.com/@sc04/kf/H958d5ac0e6b44712ae94dbf55bf91585a.jpg","https://s.alicdn.com/@sc04/kf/H84777d5367764cf0a3f0c16ea2d47ad1x.jpg","https://s.alicdn.com/@sc04/kf/H7788f1e05e4841028782c96311c944a77.jpg","https://s.alicdn.com/@sc04/kf/H4a2f5a1e34e9435b9345d53c7317ad7du.jpg"],"product_type":"sticker","price":"","description":"","prodid":"https://www.alibaba.com/product-detail/Personalized-Metal-Sign-Vintage-Garage-Decorative_1601299327076.html","reference_product_platform":"ali","title":"Personalized Metal Sign Vintage Garage Decorative Poster Retro Metal Tin Plate Plaque Classic Coffee Metal Sign","employee":"thanos_zhang","published_shop":"1688shop3"}'
 
-curl -X POST \
-https://www.tradefree.ai/workflow_dev/run/copy \
--H 'Content-Type: application/json' \
--H 'Authorization: Bearer token2_def456' \
--d '{"imgs":["https://s.alicdn.com/@sc04/kf/H8bea066d0dd94684beac3e999145efc5T.jpg","https://s.alicdn.com/@sc04/kf/H74a44201df394e4d8fdc1c9efb10ec96N.jpg","https://s.alicdn.com/@sc04/kf/H958d5ac0e6b44712ae94dbf55bf91585a.jpg","https://s.alicdn.com/@sc04/kf/H84777d5367764cf0a3f0c16ea2d47ad1x.jpg","https://s.alicdn.com/@sc04/kf/H7788f1e05e4841028782c96311c944a77.jpg","https://s.alicdn.com/@sc04/kf/H4a2f5a1e34e9435b9345d53c7317ad7du.jpg"],"product_type":"sticker","price":"","description":"","prodid":"https://www.alibaba.com/product-detail/Personalized-Metal-Sign-Vintage-Garage-Decorative_1601299327076.html","reference_product_platform":"ali","title":"Personalized Metal Sign Vintage Garage Decorative Poster Retro Metal Tin Plate Plaque Classic Coffee Metal Sign","employee":"thanos_zhang","published_shop":"1688shop3"}'
+curl -X POST http://localhost:8081/workflow/run/copy -H 'Content-Type: application/json' -H 'Authorization: Bearer token2_def456' -d '{"imgs": ["https://s.alicdn.com/@sc04/kf/Hf709d6b1a7fd455699a095acd81045772.jpg", "https://s.alicdn.com/@sc04/kf/H1c5d76d362824c6eaf9241fd5c81183fX.jpg", "https://s.alicdn.com/@sc04/kf/Hfaf498df1d164d9ebabf607f085d7c72K.jpg", "https://s.alicdn.com/@sc04/kf/H114eabcba9254601ab28975ff545e4f1D.jpg", "https://s.alicdn.com/@sc04/kf/H4ec0f3bdaa494346900d24837051aaf3e.jpg", "https://s.alicdn.com/@sc04/kf/H8e7b37a9ca984a0cb3e8afbb7a511740C.jpg"], "price": "10", "title": "Easy to Squeeze Travel Size Cosmetic Container Travel Bottles Portable Reusable Refill Empty Silicone Shampoo Travel Bottle Kit", "employee": "marvin", "description": "", "product_type": "silicone", "delivery_time": "7 days", "workflow_name": "ali_to_ali", "published_shop": "ali_shop2", "reference_product": "https://www.alibaba.com/product-detail/Easy-to-Squeeze-Travel-Size-Cosmetic_1601040171630.html", "min_order_quantity": "200", "reference_product_platform": "ali"}'
+
 
 
 curl -X POST \
 http://localhost:8081/workflow/run/copy \
 -H 'Content-Type: application/json' \
 -H 'Authorization: Bearer token2_def456' \
--d '{"imgs":["https://s.alicdn.com/@sc04/kf/H8bea066d0dd94684beac3e999145efc5T.jpg","https://s.alicdn.com/@sc04/kf/H74a44201df394e4d8fdc1c9efb10ec96N.jpg","https://s.alicdn.com/@sc04/kf/H958d5ac0e6b44712ae94dbf55bf91585a.jpg","https://s.alicdn.com/@sc04/kf/H84777d5367764cf0a3f0c16ea2d47ad1x.jpg","https://s.alicdn.com/@sc04/kf/H7788f1e05e4841028782c96311c944a77.jpg","https://s.alicdn.com/@sc04/kf/H4a2f5a1e34e9435b9345d53c7317ad7du.jpg"],"product_type":"sticker","price":"","description":"","prodid":"https://www.alibaba.com/product-detail/Personalized-Metal-Sign-Vintage-Garage-Decorative_1601299327076.html","reference_product_platform":"ali","title":"Personalized Metal Sign Vintage Garage Decorative Poster Retro Metal Tin Plate Plaque Classic Coffee Metal Sign","employee":"thanos_zhang","published_shop":"1688shop3"}'
+-d '{
+    "imgs":["https://s.alicdn.com/@sc04/kf/H8bea066d0dd94684beac3e999145efc5T.jpg","https://s.alicdn.com/@sc04/kf/H74a44201df394e4d8fdc1c9efb10ec96N.jpg","https://s.alicdn.com/@sc04/kf/H958d5ac0e6b44712ae94dbf55bf91585a.jpg","https://s.alicdn.com/@sc04/kf/H84777d5367764cf0a3f0c16ea2d47ad1x.jpg","https://s.alicdn.com/@sc04/kf/H7788f1e05e4841028782c96311c944a77.jpg","https://s.alicdn.com/@sc04/kf/H4a2f5a1e34e9435b9345d53c7317ad7du.jpg"],
+    "product_type":"sticker",
+    "price":"",
+    "description":"",
+    "prodid":"https://www.alibaba.com/product-detail/Personalized-Metal-Sign-Vintage-Garage-Decorative_1601299327076.html",
+    "reference_product_platform":"ali",
+    "title":"Personalized Metal Sign Vintage Garage Decorative Poster Retro Metal Tin Plate Plaque Classic Coffee Metal Sign",
+    "employee":"thanos_zhang",
+    "published_shop":"1688shop3"
+}'
 
 # amz_to_ali
 curl -X POST \
@@ -67,3 +74,12 @@ curl -X POST \
     -H 'Authorization: Bearer token2_def456' \
     -d '{"platform": "tiktok", "page_size": 30}'
 
+
+curl -X POST \
+    http://127.0.0.1:8081/workflow/run/copy_no_ai \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer tiuGlpGYG6olYLBaIfbvsKI7DIUv9Z3J' \
+    -d '{"imgs":["https://m.media-amazon.com/images/I/71DZ2v9NLEL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/61MztRfbfTL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/61sWQSYf1KL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/71zC2XGqoKL._AC_SL1500_.jpg"],"product_type":"card","price":"19.90","description":"About this item The Angelique Bach Flower Card Game is a playful and intuitive way to choose the flower elixir or elixirs that suit you. Beautiful box of 38 cards with an explanatory booklet Angelica Bach Flower maps can help us choose the floral elixirs we need. The goal is to find the remedy that corresponds to the negative state of mind that afflicts us. Among these states of mind we can mention: fear, worries, discouragement, uncertainty, etc.;. With these cards, it is easier to pinpoint these states of mind. allows us to recognize the states of being and behavioral patterns that distance us from our true nature. › See more product details","prodid":"https://www.amazon.fr/-/en/Bach-Flower-Cards-ILLUSTRATED-intuitively/dp/B0CN1HKKHP","reference_product_platform":"amazon","title":"Bach Flower Cards - 38 ILLUSTRATED CARDS - Set of 38 cards to intuitively select your Bach flowers","employee":"Alice","published_shop":"ali_shop2"}'
+
+
+    

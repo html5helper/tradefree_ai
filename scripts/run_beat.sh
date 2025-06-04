@@ -75,7 +75,7 @@ if [ -n "$pids" ]; then
     echo "--------------------------------"
     echo "Beat log: ./logs/beat.log"
     echo "--------------------------------"
-    tail -f ./logs/beat.log
+tail -f ./logs/beat.log
 else
     echo "Error: Beat failed to start!"
     echo "Check the log file for details: ./logs/beat.log"

@@ -7,10 +7,10 @@ Base = declarative_base()
 
 mysql_url = (
     f"mysql+pymysql://{MYSQL_CONFIG['user']}:{MYSQL_CONFIG['password']}"
-    f"@{MYSQL_CONFIG['host']}:{MYSQL_CONFIG['port']}/{MYSQL_CONFIG['database']}?charset={MYSQL_CONFIG['charset']}"
+    f"@{MYSQL_CONFIG['host']}:{MYSQL_CONFIG['port']}/{MYSQL_CONFIG['database']}"
+    f"?charset={MYSQL_CONFIG['charset']}"
 )
-engine = create_engine(mysql_url,echo=True)
-
+engine = create_engine(mysql_url)
 
 # CREATE TABLE `task_event` (
 #   `id` int NOT NULL AUTO_INCREMENT,
