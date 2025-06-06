@@ -29,7 +29,10 @@ def _1688_to_1688_image(data: dict):
 @app.task
 def ali_to_ali_image(data: dict):
     data = workflow.build_payload_taskid(data)
-    return service.run_task("img2text2img2download",data)
+    if data.get("product_type") == "silicone":
+        return service.run_task("text2img2download",data)
+    else:
+        return service.run_task("img2text2img2download",data)
 
 @app.task
 def social_to_ali_image(data: dict):

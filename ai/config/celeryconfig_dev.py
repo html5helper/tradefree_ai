@@ -19,7 +19,7 @@ USER_TOKEN_CONFIG = {
     },
     "go7G14OLyFr4atc94uzuZMwEGrHIn146":{
         "user_name":"user_003",
-        "user_group":"SAMPLE_COPY_GROUP"
+        "user_group":"COPY"
     }
 }
 
