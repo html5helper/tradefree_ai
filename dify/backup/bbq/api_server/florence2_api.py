@@ -76,7 +76,7 @@ def process_image_urls_api_route():
     try:
         logger.info("收到URL图片处理请求")
         data = request.get_json()
-        
+
         # 支持单个url参数
         if 'url' in data:
             url_list = [data['url']]
@@ -95,8 +95,20 @@ def process_image_urls_api_route():
         for idx, url in enumerate(url_list, 1):
             try:
                 logger.info(f"开始处理第 {idx}/{len(url_list)} 个URL: {url}")
+
+                # 添加随机延迟，避免请求过于集中
+                if idx > 1:
+                    time.sleep(random.uniform(0.5, 1.5))
+
                 # 增加重试次数和超时设置
                 session = requests.Session()
+                session.headers.update({
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                    'Accept-Language': 'en-US,en;q=0.5',
+                    'Connection': 'keep-alive',
+                    'Cache-Control': 'max-age=0',
+                })
                 session.mount('http://', requests.adapters.HTTPAdapter(max_retries=3))
                 session.mount('https://', requests.adapters.HTTPAdapter(max_retries=3))
 
