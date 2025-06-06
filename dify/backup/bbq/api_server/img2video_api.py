@@ -4,6 +4,7 @@ from PIL import Image
 import numpy as np
 from flask import request, jsonify
 from moviepy import VideoFileClip, AudioFileClip
+from moviepy.audio.fx import AudioLoop
 
 # from config import output_dir
 output_dir = '/tmp'
@@ -55,7 +56,7 @@ class ImageToVideo:
 
             # 如果音频长度不够，循环播放直到匹配视频长度
             if audio.duration < video.duration:
-                audio = audio.loop(duration=video.duration)
+                audio = audio.with_effects([AudioLoop(duration=video.duration)])
             # 如果音频太长，裁剪到视频长度
             else:
                 audio = audio.subclipped(0, video.duration)
@@ -126,6 +127,7 @@ class ImageToVideo:
         # 最后一张图片静态显示
         self.add_static_frame(images[-1], self.fps * 2)
 
+
 def process_images_to_video_route():
     # 检查请求中是否包含文件
     if 'images' not in request.files:
@@ -182,6 +184,7 @@ def process_images_to_video_route():
 
     except Exception as e:
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
+
 
 # 使用示例：
 if __name__ == '__main__':
