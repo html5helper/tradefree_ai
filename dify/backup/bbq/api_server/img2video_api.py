@@ -3,7 +3,7 @@ import cv2
 from PIL import Image
 import numpy as np
 from flask import request, jsonify
-# from moviepy.editor import VideoFileClip, AudioFileClip
+from moviepy import VideoFileClip, AudioFileClip
 
 # from config import output_dir
 output_dir = '/tmp'
@@ -14,17 +14,72 @@ class ImageToVideo:
         self.size = size  # 宽, 高
         self.fps = fps
         self.output_path = output_path
-        self.fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+        # 修改编码器为 avc1，这是 H.264 编码，具有更好的兼容性
+        self.fourcc = cv2.VideoWriter_fourcc(*'avc1')
         self.video_writer = None
         self.transition_frames = int(fps * 1.5)  # 转场帧数
 
     def __enter__(self):
+        # 确保输出目录存在
+        os.makedirs(os.path.dirname(os.path.abspath(self.output_path)), exist_ok=True)
         self.video_writer = cv2.VideoWriter(self.output_path, self.fourcc, self.fps, self.size)
+        if not self.video_writer.isOpened():
+            raise RuntimeError(f"无法创建视频文件：{self.output_path}")
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         if self.video_writer:
             self.video_writer.release()
+
+    def add_audio(self, audio_path, output_path=None):
+        """为视频添加音效"""
+        if output_path is None:
+            output_path = self.output_path.replace('.mp4', '_with_audio.mp4')
+
+        try:
+            # 确保视频写入器已关闭
+            if self.video_writer:
+                self.video_writer.release()
+
+            # 等待一小段时间确保文件写入完成
+            import time
+            time.sleep(1)
+
+            # 检查视频文件是否存在且大小不为0
+            if not os.path.exists(self.output_path) or os.path.getsize(self.output_path) == 0:
+                raise RuntimeError(f"视频文件无效或为空：{self.output_path}")
+
+            # 加载视频和音频
+            video = VideoFileClip(self.output_path)
+            audio = AudioFileClip(audio_path)
+
+            # 如果音频长度不够，循环播放直到匹配视频长度
+            if audio.duration < video.duration:
+                audio = audio.loop(duration=video.duration)
+            # 如果音频太长，裁剪到视频长度
+            else:
+                audio = audio.subclipped(0, video.duration)
+
+            # 合并视频和音频
+            final_video = video.with_audio(audio)
+            # final_video.write_videofile(output_path, codec='libx264')
+            final_video.write_videofile(
+                output_path,
+                codec="libx264",  # 视频编码
+                audio_codec="aac",  # 强制使用 AAC 音频编码
+                temp_audiofile="temp-audio.m4a",
+                remove_temp=True,
+                fps=24,
+                audio_bitrate="192k"  # 提高音频码率（可选）
+            )
+
+            # 清理资源
+            video.close()
+            audio.close()
+            final_video.close()
+
+        except Exception as e:
+            raise RuntimeError(f"添加音频时发生错误：{str(e)}")
 
     def read_and_resize(self, path):
         try:
@@ -70,31 +125,6 @@ class ImageToVideo:
 
         # 最后一张图片静态显示
         self.add_static_frame(images[-1], self.fps * 2)
-
-    def add_audio(self, audio_path, output_path=None):
-        """为视频添加音效"""
-        if output_path is None:
-            output_path = self.output_path.replace('.mp4', '_with_audio.mp4')
-
-        # 加载视频和音频
-        video = VideoFileClip(self.output_path)
-        audio = AudioFileClip(audio_path)
-
-        # 如果音频长度不够，循环播放直到匹配视频长度
-        if audio.duration < video.duration:
-            audio = audio.loop(duration=video.duration)
-        # 如果音频太长，裁剪到视频长度
-        else:
-            audio = audio.subclip(0, video.duration)
-
-        # 合并视频和音频
-        final_video = video.set_audio(audio)
-        final_video.write_videofile(output_path)
-
-        # 清理资源
-        video.close()
-        audio.close()
-        final_video.close()
 
 def process_images_to_video_route():
     # 检查请求中是否包含文件
@@ -162,6 +192,6 @@ if __name__ == '__main__':
     with ImageToVideo() as video_maker:
         video_maker.create_video(image_paths)
         # 添加音效（需要提供音频文件路径）
-        # video_maker.add_audio('background_music.mp3')
+        video_maker.add_audio('/Users/qinbinbin/Downloads/no-copyright-music-corporate-background-334863.mp3')
 
     print("视频生成完成！")
