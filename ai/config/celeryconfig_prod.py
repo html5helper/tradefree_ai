@@ -7,25 +7,25 @@ from celery.schedules import crontab
 USER_TOKEN_CONFIG = {
     "token2_def456": {
         "user_name":"fenghetong",
-        "user_group":"LLM_GENERATE_GROUP"
+        "user_group":"GENERATE"
     },
     "tiuGlpGYG6olYLBaIfbvsKI7DIUv9Z3J": {
         "user_name":"user_001",
-        "user_group":"SAMPLE_COPY_GROUP"
+        "user_group":"COPY"
     },
     "W2armxPmXOMQljPbjgeBFAFJ7jGWkMTU":{
         "user_name":"user_002",
-        "user_group":"SAMPLE_COPY_GROUP"
+        "user_group":"COPY"
     },
     "go7G14OLyFr4atc94uzuZMwEGrHIn146":{
         "user_name":"user_003",
-        "user_group":"SAMPLE_COPY_GROUP"
+        "user_group":"COPY"
     }
 }
 
 USER_GROUP_ACCESS = {
-    "SAMPLE_COPY_GROUP": ["amz_copy_ali", "amz_copy_1688", "ali_copy_1688", "1688_copy_1688", "ali_copy_ali"],
-    "LLM_GENERATE_GROUP": ["amz_to_ali", "amz_to_1688", "ali_to_1688", "1688_to_1688", "ali_to_ali", "social_to_ali"],
+    "COPY": ["amz_copy_ali", "amz_copy_1688", "ali_copy_1688", "1688_copy_1688", "ali_copy_ali"],
+    "GENERATE": ["amz_to_ali", "amz_to_1688", "ali_to_1688", "1688_to_1688", "ali_to_ali", "social_to_ali"],
 }
 # MySQL 配置
 MYSQL_CONFIG = {
