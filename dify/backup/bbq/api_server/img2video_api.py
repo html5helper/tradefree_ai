@@ -16,7 +16,8 @@ class ImageToVideo:
         self.fps = fps
         self.output_path = output_path
         # 修改编码器为 avc1，这是 H.264 编码，具有更好的兼容性
-        self.fourcc = cv2.VideoWriter_fourcc(*'avc1')
+        # self.fourcc = cv2.VideoWriter_fourcc(*'avc1')
+        self.fourcc = cv2.VideoWriter_fourcc(*'mp4v')
         self.video_writer = None
         self.transition_frames = int(fps * 1.5)  # 转场帧数
 
