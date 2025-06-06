@@ -16,3 +16,4 @@ device = config.device
 torch_dtype = config.torch_dtype
 model_path = config.model_path
 output_dir = config.output_dir
+default_audio_path = config.audio_path

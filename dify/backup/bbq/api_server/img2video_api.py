@@ -6,8 +6,8 @@ from flask import request, jsonify
 from moviepy import VideoFileClip, AudioFileClip
 from moviepy.audio.fx import AudioLoop
 
-# from config import output_dir
-output_dir = '/tmp'
+from config import output_dir, default_audio_path
+# output_dir = '/tmp'
 
 
 class ImageToVideo:
@@ -176,6 +176,10 @@ def process_images_to_video_route():
                 output_path_with_audio = os.path.join(output_dir, f"{run_id}_with_audio.mp4")
                 video_maker.add_audio(audio_path, output_path_with_audio)
                 output_path = output_path_with_audio
+        else:
+            output_path_with_audio = os.path.join(output_dir, f"{run_id}_with_audio.mp4")
+            video_maker.add_audio(default_audio_path, output_path_with_audio)
+            output_path = output_path.replace('.mp4', '_no_audio.mp4')
 
         return jsonify({
             "video_path": output_path,
@@ -195,6 +199,6 @@ if __name__ == '__main__':
     with ImageToVideo() as video_maker:
         video_maker.create_video(image_paths)
         # 添加音效（需要提供音频文件路径）
-        video_maker.add_audio('/Users/qinbinbin/Downloads/no-copyright-music-corporate-background-334863.mp3')
+        video_maker.add_audio('bgm.mp3')
 
     print("视频生成完成！")
