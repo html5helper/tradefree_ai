@@ -41,40 +41,78 @@ async def retry_task(task_id: str):
 @api.post("/workflow/product/list")
 async def product_list(request: Request, user_info: dict = Depends(verify_token)):
     """Product list"""
-    data = await request.json()
-    res = {
-        "title": "Outdoor UV Resist Impermeável À Prova D' Água Pvc Estética Adesivo Qr Código Adesivo Logotipo Personalizado Die Cut Vinyl Label Adesivos",
-        "description": "Elevate your branding with our Custom UV Resistant Waterproof PVC QR Code Logo Stickers, designed for durability and versatility in both indoor and outdoor environments. These stickers are crafted from high-quality waterproof PVC material that resists fading from UV exposure, making them perfect for long-term use on signage, promotional materials, or product packaging. Each sticker features a die-cut design that ensures a clean, professional look when applied, while the embedded QR code allows for seamless digital engagement—directing users to websites, social media pages, or promotional content. The waterproof and weather-resistant properties of these stickers make them ideal for use on vehicles, billboards, banners, or even as part of event promotions. Available in a range of sizes and customizable with your logo or text, they offer a modern, sleek appearance that blends functionality with visual appeal. Whether you're promoting a business, launching a new product, or creating interactive marketing content, these stickers provide a cost-effective and eye-catching solution. Their easy-to-apply adhesive ensures a secure bond without leaving residue, and their vibrant colors remain sharp even under harsh conditions. Perfect for businesses looking to enhance visibility and customer interaction through innovative, durable, and stylish sticker solutions.",
-        "price": "0.8",
-        "moq": "200",
-        "imgs": [
-        "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282239948_9589.png",
-        "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282240828_9949.png",
-        "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282241805_1320.png",
-        "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282242107_3965.png",
-        "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282243485_4645.png",
-        "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282244219_4672.png"
-        ],
-        "product_type": "sticker",
-        "delivery_time": "7 days",
-        "reference_product": "https://www.alibaba.com/product-detail/Outdoor-UV-Resist-Waterproof-Weatherproof-Pvc_1600994418432.html",
-        "reference_product_platform": "ali",
-        "employee": "1688【丰和金-张姗】",
-        "published_shop": "ali_shop2",
-        "trace_id": "8551396b-5e26-447d-bd3f-3515801882c1",
-        "workflow_name": "ali_to_ali",
-        "task_id": "a949d73f-d87c-4816-85f0-4a06e0f154fb",
-        "shot_description": "Custom UV Resistant Waterproof PVC QR Code Logo Stickers - Made from durable waterproof PVC material, these stickers resist fading and are suitable for both indoor and outdoor use. They feature a die-cut design with a custom QR code and logo, ideal for branding on signage, promotional materials, or product packaging. Easy to apply and long-lasting, they are perfect for enhancing visibility and digital engagement.",
-        "applicable_scenes": "",
-        "tags": "custom qr code stickers waterproof vinyl labels uv resistant pvc stickers die cut logo stickers outdoor signage stickers waterproof qr code stickers promotional stickers die cut vinyl labels brand logo stickers durable waterproof stickers",
-        "product_name": "Custom UV Resistant Waterproof PVC QR Code Logo Sticker",
-        "code": 200,
-        "short_description": "",
-        "title_mask_count": 0,
-        "description_mask_count": 0,
-        "short_description_mask_count": 0,
-        "str_photos": "id_5=13905901052,id_4=13905853424,url_4=https://sc04.alicdn.com/kf/H321110515ce04c0280ef190addb67ee6U/231139578/H321110515ce04c0280ef190addb67ee6U.png,url_5=https://sc04.alicdn.com/kf/H9ab134feb46f4844a38b853339b3c36eA/231139578/H9ab134feb46f4844a38b853339b3c36eA.png,url_2=https://sc04.alicdn.com/kf/Hfa4fffc851c049bea8c563bf3d63323dX/231139578/Hfa4fffc851c049bea8c563bf3d63323dX.png,url_3=https://sc04.alicdn.com/kf/Hb85334ae787a44009edff87c41e91a98W/231139578/Hb85334ae787a44009edff87c41e91a98W.png,url_0=https://sc04.alicdn.com/kf/Hde59891a2e03463b9ee9b5ea630577fbu/231139578/Hde59891a2e03463b9ee9b5ea630577fbu.png,url_1=https://sc04.alicdn.com/kf/H8e745b0abd684df5a73dd6d9eba6eb3dg/231139578/H8e745b0abd684df5a73dd6d9eba6eb3dg.png,id_1=13905901042,id_0=13899049652,id_3=13899085531,id_2=13905889105"
-    }
+    try:
+        data = await request.json()
+    except:
+        data = {}
+    res = [
+        {
+            "title": "Outdoor UV Resist Impermeável À Prova D' Água Pvc Estética Adesivo Qr Código Adesivo Logotipo Personalizado Die Cut Vinyl Label Adesivos",
+            "description": "Elevate your branding with our Custom UV Resistant Waterproof PVC QR Code Logo Stickers, designed for durability and versatility in both indoor and outdoor environments. These stickers are crafted from high-quality waterproof PVC material that resists fading from UV exposure, making them perfect for long-term use on signage, promotional materials, or product packaging. Each sticker features a die-cut design that ensures a clean, professional look when applied, while the embedded QR code allows for seamless digital engagement—directing users to websites, social media pages, or promotional content. The waterproof and weather-resistant properties of these stickers make them ideal for use on vehicles, billboards, banners, or even as part of event promotions. Available in a range of sizes and customizable with your logo or text, they offer a modern, sleek appearance that blends functionality with visual appeal. Whether you're promoting a business, launching a new product, or creating interactive marketing content, these stickers provide a cost-effective and eye-catching solution. Their easy-to-apply adhesive ensures a secure bond without leaving residue, and their vibrant colors remain sharp even under harsh conditions. Perfect for businesses looking to enhance visibility and customer interaction through innovative, durable, and stylish sticker solutions.",
+            "price": "0.8",
+            "moq": "200",
+            "imgs": [
+            "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282239948_9589.png",
+            "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282240828_9949.png",
+            "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282241805_1320.png",
+            "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282242107_3965.png",
+            "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282243485_4645.png",
+            "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282244219_4672.png"
+            ],
+            "product_type": "sticker",
+            "delivery_time": "7 days",
+            "reference_product": "https://www.alibaba.com/product-detail/Outdoor-UV-Resist-Waterproof-Weatherproof-Pvc_1600994418432.html",
+            "reference_product_platform": "ali",
+            "employee": "1688【丰和金-张姗】",
+            "published_shop": "ali_shop2",
+            "trace_id": "8551396b-5e26-447d-bd3f-3515801882c1",
+            "workflow_name": "ali_to_ali",
+            "task_id": "a949d73f-d87c-4816-85f0-4a06e0f154fb",
+            "shot_description": "Custom UV Resistant Waterproof PVC QR Code Logo Stickers - Made from durable waterproof PVC material, these stickers resist fading and are suitable for both indoor and outdoor use. They feature a die-cut design with a custom QR code and logo, ideal for branding on signage, promotional materials, or product packaging. Easy to apply and long-lasting, they are perfect for enhancing visibility and digital engagement.",
+            "applicable_scenes": "",
+            "tags": "custom qr code stickers waterproof vinyl labels uv resistant pvc stickers die cut logo stickers outdoor signage stickers waterproof qr code stickers promotional stickers die cut vinyl labels brand logo stickers durable waterproof stickers",
+            "product_name": "Custom UV Resistant Waterproof PVC QR Code Logo Sticker",
+            "code": 200,
+            "short_description": "",
+            "title_mask_count": 0,
+            "description_mask_count": 0,
+            "short_description_mask_count": 0,
+            "str_photos": "id_5=13905901052,id_4=13905853424,url_4=https://sc04.alicdn.com/kf/H321110515ce04c0280ef190addb67ee6U/231139578/H321110515ce04c0280ef190addb67ee6U.png,url_5=https://sc04.alicdn.com/kf/H9ab134feb46f4844a38b853339b3c36eA/231139578/H9ab134feb46f4844a38b853339b3c36eA.png,url_2=https://sc04.alicdn.com/kf/Hfa4fffc851c049bea8c563bf3d63323dX/231139578/Hfa4fffc851c049bea8c563bf3d63323dX.png,url_3=https://sc04.alicdn.com/kf/Hb85334ae787a44009edff87c41e91a98W/231139578/Hb85334ae787a44009edff87c41e91a98W.png,url_0=https://sc04.alicdn.com/kf/Hde59891a2e03463b9ee9b5ea630577fbu/231139578/Hde59891a2e03463b9ee9b5ea630577fbu.png,url_1=https://sc04.alicdn.com/kf/H8e745b0abd684df5a73dd6d9eba6eb3dg/231139578/H8e745b0abd684df5a73dd6d9eba6eb3dg.png,id_1=13905901042,id_0=13899049652,id_3=13899085531,id_2=13905889105"
+        },
+        {
+            "title": "Outdoor UV Resist Impermeável À Prova D' Água Pvc Estética Adesivo Qr Código Adesivo Logotipo Personalizado Die Cut Vinyl Label Adesivos",
+            "description": "Elevate your branding with our Custom UV Resistant Waterproof PVC QR Code Logo Stickers, designed for durability and versatility in both indoor and outdoor environments. These stickers are crafted from high-quality waterproof PVC material that resists fading from UV exposure, making them perfect for long-term use on signage, promotional materials, or product packaging. Each sticker features a die-cut design that ensures a clean, professional look when applied, while the embedded QR code allows for seamless digital engagement—directing users to websites, social media pages, or promotional content. The waterproof and weather-resistant properties of these stickers make them ideal for use on vehicles, billboards, banners, or even as part of event promotions. Available in a range of sizes and customizable with your logo or text, they offer a modern, sleek appearance that blends functionality with visual appeal. Whether you're promoting a business, launching a new product, or creating interactive marketing content, these stickers provide a cost-effective and eye-catching solution. Their easy-to-apply adhesive ensures a secure bond without leaving residue, and their vibrant colors remain sharp even under harsh conditions. Perfect for businesses looking to enhance visibility and customer interaction through innovative, durable, and stylish sticker solutions.",
+            "price": "0.8",
+            "moq": "200",
+            "imgs": [
+            "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282239948_9589.png",
+            "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282240828_9949.png",
+            "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282241805_1320.png",
+            "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282242107_3965.png",
+            "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282243485_4645.png",
+            "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282244219_4672.png"
+            ],
+            "product_type": "sticker",
+            "delivery_time": "7 days",
+            "reference_product": "https://www.alibaba.com/product-detail/Outdoor-UV-Resist-Waterproof-Weatherproof-Pvc_1600994418432.html",
+            "reference_product_platform": "ali",
+            "employee": "1688【丰和金-张姗】",
+            "published_shop": "ali_shop2",
+            "trace_id": "8551396b-5e26-447d-bd3f-3515801882c1",
+            "workflow_name": "ali_to_ali",
+            "task_id": "a949d73f-d87c-4816-85f0-4a06e0f154fb",
+            "shot_description": "Custom UV Resistant Waterproof PVC QR Code Logo Stickers - Made from durable waterproof PVC material, these stickers resist fading and are suitable for both indoor and outdoor use. They feature a die-cut design with a custom QR code and logo, ideal for branding on signage, promotional materials, or product packaging. Easy to apply and long-lasting, they are perfect for enhancing visibility and digital engagement.",
+            "applicable_scenes": "",
+            "tags": "custom qr code stickers waterproof vinyl labels uv resistant pvc stickers die cut logo stickers outdoor signage stickers waterproof qr code stickers promotional stickers die cut vinyl labels brand logo stickers durable waterproof stickers",
+            "product_name": "Custom UV Resistant Waterproof PVC QR Code Logo Sticker",
+            "code": 200,
+            "short_description": "",
+            "title_mask_count": 0,
+            "description_mask_count": 0,
+            "short_description_mask_count": 0,
+            "str_photos": "id_5=13905901052,id_4=13905853424,url_4=https://sc04.alicdn.com/kf/H321110515ce04c0280ef190addb67ee6U/231139578/H321110515ce04c0280ef190addb67ee6U.png,url_5=https://sc04.alicdn.com/kf/H9ab134feb46f4844a38b853339b3c36eA/231139578/H9ab134feb46f4844a38b853339b3c36eA.png,url_2=https://sc04.alicdn.com/kf/Hfa4fffc851c049bea8c563bf3d63323dX/231139578/Hfa4fffc851c049bea8c563bf3d63323dX.png,url_3=https://sc04.alicdn.com/kf/Hb85334ae787a44009edff87c41e91a98W/231139578/Hb85334ae787a44009edff87c41e91a98W.png,url_0=https://sc04.alicdn.com/kf/Hde59891a2e03463b9ee9b5ea630577fbu/231139578/Hde59891a2e03463b9ee9b5ea630577fbu.png,url_1=https://sc04.alicdn.com/kf/H8e745b0abd684df5a73dd6d9eba6eb3dg/231139578/H8e745b0abd684df5a73dd6d9eba6eb3dg.png,id_1=13905901042,id_0=13899049652,id_3=13899085531,id_2=13905889105"
+        }
+    ]
     return res
 
 
