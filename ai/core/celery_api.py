@@ -113,6 +113,9 @@ async def product_list(request: Request, user_info: dict = Depends(verify_token)
             "str_photos": "id_5=13905901052,id_4=13905853424,url_4=https://sc04.alicdn.com/kf/H321110515ce04c0280ef190addb67ee6U/231139578/H321110515ce04c0280ef190addb67ee6U.png,url_5=https://sc04.alicdn.com/kf/H9ab134feb46f4844a38b853339b3c36eA/231139578/H9ab134feb46f4844a38b853339b3c36eA.png,url_2=https://sc04.alicdn.com/kf/Hfa4fffc851c049bea8c563bf3d63323dX/231139578/Hfa4fffc851c049bea8c563bf3d63323dX.png,url_3=https://sc04.alicdn.com/kf/Hb85334ae787a44009edff87c41e91a98W/231139578/Hb85334ae787a44009edff87c41e91a98W.png,url_0=https://sc04.alicdn.com/kf/Hde59891a2e03463b9ee9b5ea630577fbu/231139578/Hde59891a2e03463b9ee9b5ea630577fbu.png,url_1=https://sc04.alicdn.com/kf/H8e745b0abd684df5a73dd6d9eba6eb3dg/231139578/H8e745b0abd684df5a73dd6d9eba6eb3dg.png,id_1=13905901042,id_0=13899049652,id_3=13899085531,id_2=13905889105"
         }
     ]
+
+    print(res)
+    
     return res
 
 
