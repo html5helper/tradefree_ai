@@ -1,5 +1,6 @@
 import os
 import cv2
+import math
 from PIL import Image
 import numpy as np
 from flask import request, jsonify
@@ -7,24 +8,30 @@ from moviepy import VideoFileClip, AudioFileClip
 from moviepy.audio.fx import AudioLoop
 
 from config import output_dir, default_audio_path
+
 # output_dir = '/tmp'
 
 
 class ImageToVideo:
-    def __init__(self, size=(800, 800), fps=25, output_path='output.mp4'):
+    def __init__(self, size=(800, 800), fps=25, output_path="output.mp4"):
         self.size = size  # 宽, 高
         self.fps = fps
         self.output_path = output_path
         # 修改编码器为 avc1，这是 H.264 编码，具有更好的兼容性
         # self.fourcc = cv2.VideoWriter_fourcc(*'avc1')
-        self.fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+        self.fourcc = cv2.VideoWriter_fourcc(*"mp4v")
         self.video_writer = None
-        self.transition_frames = int(fps * 1.5)  # 转场帧数
+        self.transition_frames = int(fps * 2)  # 增加转场帧数到2秒
+        self.intro_duration = int(fps * 3)  # 片头持续3秒
+        self.outro_duration = int(fps * 3)  # 片尾持续3秒
+        self.static_duration = int(fps * 2)  # 每张图片静态显示2秒
 
     def __enter__(self):
         # 确保输出目录存在
         os.makedirs(os.path.dirname(os.path.abspath(self.output_path)), exist_ok=True)
-        self.video_writer = cv2.VideoWriter(self.output_path, self.fourcc, self.fps, self.size)
+        self.video_writer = cv2.VideoWriter(
+            self.output_path, self.fourcc, self.fps, self.size
+        )
         if not self.video_writer.isOpened():
             raise RuntimeError(f"无法创建视频文件：{self.output_path}")
         return self
@@ -36,7 +43,7 @@ class ImageToVideo:
     def add_audio(self, audio_path, output_path=None):
         """为视频添加音效"""
         if output_path is None:
-            output_path = self.output_path.replace('.mp4', '_with_audio.mp4')
+            output_path = self.output_path.replace(".mp4", "_with_audio.mp4")
 
         try:
             # 确保视频写入器已关闭
@@ -45,10 +52,14 @@ class ImageToVideo:
 
             # 等待一小段时间确保文件写入完成
             import time
+
             time.sleep(1)
 
             # 检查视频文件是否存在且大小不为0
-            if not os.path.exists(self.output_path) or os.path.getsize(self.output_path) == 0:
+            if (
+                not os.path.exists(self.output_path)
+                or os.path.getsize(self.output_path) == 0
+            ):
                 raise RuntimeError(f"视频文件无效或为空：{self.output_path}")
 
             # 加载视频和音频
@@ -72,7 +83,7 @@ class ImageToVideo:
                 temp_audiofile="temp-audio.m4a",
                 remove_temp=True,
                 fps=24,
-                audio_bitrate="192k"  # 提高音频码率（可选）
+                audio_bitrate="192k",  # 提高音频码率（可选）
             )
 
             # 清理资源
@@ -86,7 +97,7 @@ class ImageToVideo:
     def read_and_resize(self, path):
         try:
             # 使用 PIL 打开并调整尺寸，确保格式一致性
-            pil_img = Image.open(path).convert('RGB')
+            pil_img = Image.open(path).convert("RGB")
             pil_img = pil_img.resize(self.size, Image.LANCZOS)
 
             # 转换为 OpenCV 格式 (BGR)
@@ -102,11 +113,96 @@ class ImageToVideo:
         for _ in range(duration):
             self.video_writer.write(img)
 
+    def create_intro(self):
+        """创建片头动画"""
+        # 创建黑色背景
+        intro_frame = np.zeros((self.size[1], self.size[0], 3), dtype=np.uint8)
+        # 添加文字
+        text = "Product Introduction"
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        font_scale = 1.5
+        thickness = 2
+        text_size = cv2.getTextSize(text, font, font_scale, thickness)[0]
+        text_x = (self.size[0] - text_size[0]) // 2
+        text_y = (self.size[1] + text_size[1]) // 2
+
+        # 淡入效果
+        for i in range(self.intro_duration):
+            frame = intro_frame.copy()
+            alpha = min(1.0, i / (self.intro_duration * 0.3))  # 在前30%的时间内完成淡入
+            cv2.putText(
+                frame,
+                text,
+                (text_x, text_y),
+                font,
+                font_scale,
+                (int(255 * alpha), int(255 * alpha), int(255 * alpha)),
+                thickness,
+            )
+            self.video_writer.write(frame)
+
+    def create_outro(self):
+        """创建片尾动画"""
+        # 创建黑色背景
+        outro_frame = np.zeros((self.size[1], self.size[0], 3), dtype=np.uint8)
+        # 添加文字
+        text = "Thank You"
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        font_scale = 1.5
+        thickness = 2
+        text_size = cv2.getTextSize(text, font, font_scale, thickness)[0]
+        text_x = (self.size[0] - text_size[0]) // 2
+        text_y = (self.size[1] + text_size[1]) // 2
+
+        # 淡出效果
+        for i in range(self.outro_duration):
+            frame = outro_frame.copy()
+            alpha = 1.0 - min(
+                1.0, i / (self.outro_duration * 0.7)
+            )  # 在后70%的时间内完成淡出
+            cv2.putText(
+                frame,
+                text,
+                (text_x, text_y),
+                font,
+                font_scale,
+                (int(255 * alpha), int(255 * alpha), int(255 * alpha)),
+                thickness,
+            )
+            self.video_writer.write(frame)
+
     def add_transition(self, img1, img2, frames):
+        """增强的过渡效果"""
         for i in range(frames):
-            alpha = i / frames
-            transition = cv2.addWeighted(img1, 1 - alpha, img2, alpha, 0)
+            progress = i / frames
+            # 使用缓动函数使过渡更平滑
+            alpha = self.ease_in_out(progress)
+
+            # 添加缩放效果
+            scale = 1.0 + 0.1 * math.sin(progress * math.pi)
+            h, w = img1.shape[:2]
+            scaled_size = (int(w * scale), int(h * scale))
+
+            # 缩放两张图片
+            scaled_img1 = cv2.resize(img1, scaled_size)
+            scaled_img2 = cv2.resize(img2, scaled_size)
+
+            # 裁剪到原始尺寸
+            start_x = (scaled_size[0] - w) // 2
+            start_y = (scaled_size[1] - h) // 2
+            scaled_img1 = scaled_img1[start_y : start_y + h, start_x : start_x + w]
+            scaled_img2 = scaled_img2[start_y : start_y + h, start_x : start_x + w]
+
+            # 混合图片
+            transition = cv2.addWeighted(scaled_img1, 1 - alpha, scaled_img2, alpha, 0)
             self.video_writer.write(transition)
+
+    def ease_in_out(self, x):
+        """缓动函数，使过渡更平滑"""
+        if x < 0.5:
+            return 2 * x * x
+        else:
+            return 1 - pow(-2 * x + 2, 2) / 2
 
     def create_video(self, image_paths):
         # 读取所有图片
@@ -118,38 +214,42 @@ class ImageToVideo:
             if img.shape != expected_shape:
                 raise ValueError(f"图片 {image_paths[i]} 尺寸异常: {img.shape}")
 
+        # 添加片头
+        self.create_intro()
+
         # 第一张图片静态显示
-        self.add_static_frame(images[0], self.fps)
+        self.add_static_frame(images[0], self.static_duration)
 
         # 添加所有转场
         for i in range(len(images) - 1):
             self.add_transition(images[i], images[i + 1], self.transition_frames)
+            self.add_static_frame(images[i + 1], self.static_duration)
 
-        # 最后一张图片静态显示
-        self.add_static_frame(images[-1], self.fps * 2)
+        # 添加片尾
+        self.create_outro()
 
 
 def process_images_to_video_route():
     # 检查请求中是否包含文件
-    if 'images' not in request.files:
+    if "images" not in request.files:
         return jsonify({"error": "Missing 'images' in the request"}), 400
 
     # 获取所有图片文件
-    image_files = request.files.getlist('images')
+    image_files = request.files.getlist("images")
     if not image_files:
         return jsonify({"error": "No images uploaded"}), 400
 
     # 获取参数
-    size = tuple(map(int, request.form.get('size', '800,800').split(',')))
-    fps = int(request.form.get('fps', '25'))
-    run_id = request.form.get('run_id')
+    size = tuple(map(int, request.form.get("size", "800,800").split(",")))
+    fps = int(request.form.get("fps", "25"))
+    run_id = request.form.get("run_id")
 
     if not run_id:
         return jsonify({"error": "Missing 'run_id' parameter"}), 400
 
     try:
         # 创建临时文件夹存储上传的图片
-        temp_dir = os.path.join(output_dir, 'temp', run_id)
+        temp_dir = os.path.join(output_dir, "temp", run_id)
         os.makedirs(temp_dir, exist_ok=True)
 
         # 保存上传的图片
@@ -169,37 +269,44 @@ def process_images_to_video_route():
             video_maker.create_video(image_paths)
 
         # 如果有音频文件
-        if 'audio' in request.files:
-            audio_file = request.files['audio']
+        if "audio" in request.files:
+            audio_file = request.files["audio"]
             if audio_file.filename:
                 audio_path = os.path.join(temp_dir, audio_file.filename)
                 audio_file.save(audio_path)
-                output_path_with_audio = os.path.join(output_dir, f"{run_id}_with_audio.mp4")
+                output_path_with_audio = os.path.join(
+                    output_dir, f"{run_id}_with_audio.mp4"
+                )
                 video_maker.add_audio(audio_path, output_path_with_audio)
                 output_path = output_path_with_audio
         else:
-            output_path_with_audio = os.path.join(output_dir, f"{run_id}_with_audio.mp4")
+            output_path_with_audio = os.path.join(
+                output_dir, f"{run_id}_with_audio.mp4"
+            )
             video_maker.add_audio(default_audio_path, output_path_with_audio)
-            output_path = output_path.replace('.mp4', '_no_audio.mp4')
+            output_path = output_path.replace(".mp4", "_no_audio.mp4")
 
-        return jsonify({
-            "video_path": output_path,
-            "message": "Video created successfully"
-        })
+        return jsonify(
+            {"video_path": output_path, "message": "Video created successfully"}
+        )
 
     except Exception as e:
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
 
 # 使用示例：
-if __name__ == '__main__':
+if __name__ == "__main__":
     # 图片路径列表
-    image_paths = [f'/Users/qinbinbin/Desktop/comfyui/xxx/a_0000{i}_.png' for i in range(1, 6)]
+    image_paths = [
+        f"/Users/qinbinbin/Desktop/comfyui/xxx/a_0000{i}_.png" for i in range(1, 6)
+    ]
 
     # 使用上下文管理器创建视频
     with ImageToVideo() as video_maker:
         video_maker.create_video(image_paths)
         # 添加音效（需要提供音频文件路径）
-        video_maker.add_audio('bgm.mp3')
+        video_maker.add_audio(
+            "/Users/qinbinbin/PycharmProjects/tradefree_ai/dify/backup/bbq/api_server/bgm.mp3"
+        )
 
     print("视频生成完成！")
