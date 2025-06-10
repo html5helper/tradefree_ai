@@ -60,7 +60,7 @@ async def product_list(request: Request, user_info: dict = Depends(verify_token)
             "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282244219_4672.png"
             ],
             "product_type": "sticker",
-            "delivery_time": "7 days",
+            "delivery_time": 7,
             "reference_product": "https://www.alibaba.com/product-detail/Outdoor-UV-Resist-Waterproof-Weatherproof-Pvc_1600994418432.html",
             "reference_product_platform": "ali",
             "employee": "1688【丰和金-张姗】",
@@ -93,7 +93,7 @@ async def product_list(request: Request, user_info: dict = Depends(verify_token)
             "/opt/data/img/ffb2925b-f684-4810-8e40-15b287bb6c31/1749282244219_4672.png"
             ],
             "product_type": "sticker",
-            "delivery_time": "7 days",
+            "delivery_time": 7,
             "reference_product": "https://www.alibaba.com/product-detail/Outdoor-UV-Resist-Waterproof-Weatherproof-Pvc_1600994418432.html",
             "reference_product_platform": "ali",
             "employee": "1688【丰和金-张姗】",
