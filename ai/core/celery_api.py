@@ -115,14 +115,14 @@ async def product_list(request: Request, user_info: dict = Depends(verify_token)
     ]
 
     print(res)
-    
+
     return res
 
 
 @api.post("/workflow/workflow/template")
 async def workflow_template(request: Request, user_info: dict = Depends(verify_token)):
         """Workflow template"""
-        data = await request.json()
+        # data = await request.json()
         return {
             "delay": 500,
             "steps": [
