@@ -114,6 +114,7 @@ task_queues = (
     Queue('product_listing_queue', ex_create, routing_key='product_listing'),
     Queue('product_maskword_queue', ex_maskword, routing_key='maskword_filter'),
     Queue('product_image_queue', ex_create, routing_key='product_image'),
+    Queue('product_video_queue', ex_create, routing_key='product_video'),
     Queue('product_upload_queue_ali', ex_create, routing_key='product_upload_ali'),
     Queue('product_upload_queue_1688', ex_create, routing_key='product_upload_1688'),
     Queue('product_public_queue_ali', ex_public, routing_key='product_public_ali'),
@@ -157,6 +158,18 @@ task_routes = {
         'queue': 'product_upload_queue_ali',
         'exchange': 'product_create',
         'routing_key': 'product_upload_ali',
+    },
+    # 生成video类任务
+    'ai.business.video.tasks.*': {
+        'queue': 'product_video_queue',
+        'exchange': 'product_create',
+        'routing_key': 'product_video',
+    },
+    # upload_video类任务
+    'ai.business.upload_video.tasks.*': {
+        'queue': 'product_upload_queue_1688',
+        'exchange': 'product_create',
+        'routing_key': 'product_upload_1688',
     },
     # public类任务
     'ai.business.public.tasks.*': {
