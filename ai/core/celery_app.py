@@ -12,7 +12,9 @@ app.autodiscover_tasks([
     'ai.business.image',
     'ai.business.upload_img',
     'ai.business.public',
-    'ai.business.social2product'
+    'ai.business.social2product',
+    'ai.business.video',
+    'ai.business.upload_video'
 ])
 
 # 引入监听器来记录任务历史到MYSQL的task_history表
