@@ -109,9 +109,42 @@ class ImageToVideo:
         except Exception as e:
             raise RuntimeError(f"处理图片失败: {path}, 错误: {str(e)}")
 
-    def add_static_frame(self, img, duration):
-        for _ in range(duration):
-            self.video_writer.write(img)
+    def add_subtitle(self, img, text, font_scale=1, color=(0, 0, 0), thickness=2):
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        text_size = cv2.getTextSize(text, font, font_scale, thickness)[0]
+        x = (self.size[0] - text_size[0]) // 2
+        y = self.size[1] - 30  # 距离底部30像素
+        cv2.putText(img, text, (x, y), font, font_scale, color, thickness, cv2.LINE_AA)
+        return img
+
+    def add_static_frame(self, img, duration, subtitle=None):
+        width, height = self.size
+        for i in range(duration):
+            # 创建光影遮罩
+            mask = np.zeros((height, width), dtype=np.float32)
+            # 光影位置
+            light_position = int((width / duration) * i)
+            # 光影宽度
+            light_width = int(width * 0.2)
+            # 计算光影的起始和结束位置
+            start = max(0, light_position - light_width // 2)
+            end = min(width, light_position + light_width // 2)
+            # 创建渐变光影
+            for x in range(start, end):
+                distance = abs(x - light_position)
+                intensity = 1 - (distance / (light_width / 2))
+                mask[:, x] = intensity
+
+            # 将遮罩扩展到三个通道
+            mask = np.stack([mask] * 3, axis=-1)
+
+            # 应用光影效果
+            frame = img * (1 + mask * 0.5)  # 增强光影效果
+            frame = np.clip(frame, 0, 255).astype(np.uint8)
+
+            if subtitle:
+                frame = self.add_subtitle(frame, subtitle)
+            self.video_writer.write(frame)
 
     def create_intro(self):
         """创建片头动画"""
@@ -205,25 +238,49 @@ class ImageToVideo:
             return 1 - pow(-2 * x + 2, 2) / 2
 
     def create_video(self, image_paths):
-        # 读取所有图片
-        images = [self.read_and_resize(path) for path in image_paths]
-
-        # 验证所有图片尺寸一致
-        expected_shape = (self.size[1], self.size[0], 3)  # OpenCV 使用 (高, 宽, 通道)
-        for i, img in enumerate(images):
-            if img.shape != expected_shape:
-                raise ValueError(f"图片 {image_paths[i]} 尺寸异常: {img.shape}")
-
         # 添加片头
         self.create_intro()
 
-        # 第一张图片静态显示
-        self.add_static_frame(images[0], self.static_duration)
+        prev_img = None
+        for i, path in enumerate(image_paths):
+            if path.lower().endswith(".webp"):
+                try:
+                    gif = Image.open(path)
+                    frame_count = 0
+                    while True:
+                        frame = gif.copy()
+                        frame = frame.convert("RGB")
+                        frame = frame.resize(self.size, Image.LANCZOS)
+                        frame = np.array(frame)
+                        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
-        # 添加所有转场
-        for i in range(len(images) - 1):
-            self.add_transition(images[i], images[i + 1], self.transition_frames)
-            self.add_static_frame(images[i + 1], self.static_duration)
+                        if prev_img is not None and frame_count == 0:
+                            self.add_transition(prev_img, frame, self.transition_frames)
+                        if frame_count == 0:
+                            self.add_static_frame(
+                                frame,
+                                self.static_duration,
+                                subtitle=f"Product Introduction {i}",
+                            )
+                        else:
+                            self.video_writer.write(frame)
+
+                        frame_count += 1
+                        try:
+                            gif.seek(frame_count)
+                        except EOFError:
+                            break
+                    prev_img = frame
+                except Exception as e:
+                    print(f"处理动图 {path} 时出错: {e}")
+            else:
+                img = self.read_and_resize(path)
+                if prev_img is not None:
+                    self.add_transition(prev_img, img, self.transition_frames)
+                self.add_static_frame(
+                    img, self.static_duration, subtitle=f"Product Introduction {i}"
+                )
+                prev_img = img
 
         # 添加片尾
         self.create_outro()
@@ -300,6 +357,15 @@ if __name__ == "__main__":
     image_paths = [
         f"/Users/qinbinbin/Desktop/comfyui/xxx/a_0000{i}_.png" for i in range(1, 6)
     ]
+    image_paths = (
+        [
+            f"/Users/qinbinbin/Desktop/comfyui/xxx/ComfyUI_27610_.webp",
+        ]
+        + image_paths
+        + [
+            f"/Users/qinbinbin/Desktop/comfyui/xxx/ComfyUI_27612_.webp",
+        ]
+    )
 
     # 使用上下文管理器创建视频
     with ImageToVideo() as video_maker:
