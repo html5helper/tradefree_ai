@@ -1,8 +1,12 @@
 import os
 import cv2
 import math
-from PIL import Image
+import requests
+import json
 import numpy as np
+
+from PIL import Image
+from urllib.parse import urlparse
 from flask import request, jsonify
 from moviepy import VideoFileClip, AudioFileClip
 from moviepy.audio.fx import AudioLoop
@@ -287,14 +291,6 @@ class ImageToVideo:
 
 
 def process_images_to_video_route():
-    # 检查请求中是否包含文件
-    if "images" not in request.files:
-        return jsonify({"error": "Missing 'images' in the request"}), 400
-
-    # 获取所有图片文件
-    image_files = request.files.getlist("images")
-    if not image_files:
-        return jsonify({"error": "No images uploaded"}), 400
 
     # 获取参数
     size = tuple(map(int, request.form.get("size", "800,800").split(",")))
@@ -305,17 +301,75 @@ def process_images_to_video_route():
         return jsonify({"error": "Missing 'run_id' parameter"}), 400
 
     try:
-        # 创建临时文件夹存储上传的图片
+        # 创建临时文件夹存储图片
         temp_dir = os.path.join(output_dir, "temp", run_id)
         os.makedirs(temp_dir, exist_ok=True)
 
-        # 保存上传的图片
         image_paths = []
-        for image in image_files:
-            if image.filename:
-                image_path = os.path.join(temp_dir, image.filename)
-                image.save(image_path)
-                image_paths.append(image_path)
+
+        # 处理文件上传的图片
+        if "images" in request.files:
+            image_files = request.files.getlist("images")
+            for i, image in enumerate(image_files):
+                if image.filename:
+                    # 保持原始文件名和扩展名
+                    filename = f"{i:03d}_{image.filename}"
+                    image_path = os.path.join(temp_dir, filename)
+                    image.save(image_path)
+                    image_paths.append(image_path)
+
+        # 处理URL形式的图片
+        if "image_urls" in request.form:
+            image_urls_str = request.form.get("image_urls")
+            try:
+                image_urls = (
+                    json.loads(image_urls_str)
+                    if isinstance(image_urls_str, str)
+                    else image_urls_str
+                )
+            except:
+                image_urls = (
+                    image_urls_str.split(",") if isinstance(image_urls_str, str) else []
+                )
+
+            for i, url in enumerate(image_urls):
+                if url.strip():
+                    try:
+                        response = requests.get(url.strip(), timeout=30)
+                        response.raise_for_status()
+
+                        # 从URL获取文件扩展名
+                        parsed_url = urlparse(url)
+                        filename = os.path.basename(parsed_url.path)
+                        if not filename or "." not in filename:
+                            # 根据Content-Type推断扩展名
+                            content_type = response.headers.get("content-type", "")
+                            if "webp" in content_type:
+                                filename = f"image_{i}.webp"
+                            elif "png" in content_type:
+                                filename = f"image_{i}.png"
+                            elif "jpeg" in content_type or "jpg" in content_type:
+                                filename = f"image_{i}.jpg"
+                            else:
+                                filename = f"image_{i}.png"  # 默认
+
+                        # 添加序号前缀保持顺序
+                        filename = f"{len(image_paths):03d}_{filename}"
+                        image_path = os.path.join(temp_dir, filename)
+
+                        with open(image_path, "wb") as f:
+                            f.write(response.content)
+                        image_paths.append(image_path)
+                    except Exception as e:
+                        print(f"下载图片失败 {url}: {e}")
+                        continue
+
+        # 检查是否有图片
+        if not image_paths:
+            return jsonify({"error": "No valid images provided"}), 400
+
+        # 按文件名排序确保顺序正确
+        image_paths.sort()
 
         # 设置输出视频路径
         output_path = os.path.join(output_dir, f"{run_id}.mp4")
