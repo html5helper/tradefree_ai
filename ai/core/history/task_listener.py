@@ -1,10 +1,10 @@
 from celery.signals import task_prerun, task_postrun, task_failure, task_retry, task_revoked, task_sent
 from sqlalchemy.orm import sessionmaker
-from ai.core.history.task_event import TaskEvent, engine
+from ai.core.history.task_event import TaskEvent, workflow_engine
 from datetime import datetime
 import json
 
-Session = sessionmaker(bind=engine)
+Session = sessionmaker(bind=workflow_engine)
 
 def parse_params(event):
     """解析任务参数"""

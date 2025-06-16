@@ -7,7 +7,38 @@ from celery.schedules import crontab
 USER_TOKEN_CONFIG = {
     "token2_def456": {
         "user_name":"fenghetong",
-        "user_group":"GENERATE"
+        "user_group":"GENERATE",
+        "user_info":{
+            "user_name":"fenghetong",
+            "user_group":"GENERATE",
+        },
+        "employer_info":{
+            "employer_id": "1",
+            "employer_name": "employer_001",
+            "employer_cn_name": "员工001"
+        },
+        "employer_accesses":[
+            {
+                "employer_id": "1",
+                "workflow": "amz_to_ali",
+                "workflow_name": "亚马逊到阿里",
+                "product_type": "sticker",
+                "platform": "ali",
+                "category_id": "201304308",
+                "shop_name": "阿里国际-店铺001",
+                "action_flow_id": "1"
+            },
+            {
+                "employer_id": "2",
+                "workflow": "amz_to_1688",
+                "workflow_name": "亚马逊到1688",
+                "product_type": "sticker",
+                "platform": "1688",
+                "category_id": "201304308",
+                "shop_name": "1688-店铺001",
+                "action_flow_id": "2"
+            }
+        ]
     },
     "tiuGlpGYG6olYLBaIfbvsKI7DIUv9Z3J": {
         "user_name":"user_001",
@@ -30,13 +61,24 @@ USER_GROUP_ACCESS = {
 
 # MySQL 配置
 MYSQL_CONFIG = {
-    'host': os.getenv("MYSQL_HOST", "127.0.0.1"),
-    'port': os.getenv("MYSQL_PORT", "3306"),
-    'user':  os.getenv("MYSQL_USER", "tradefree"),
-    'password': os.getenv("MYSQL_PASSWORD", "c1234%^5678C"),
-    'database': 'celery_dev',
-    'charset': 'utf8mb4',
-    # 'auth_plugin': 'mysql_native_password'
+    "workflow_db": {
+        'host': os.getenv("MYSQL_HOST", "127.0.0.1"),
+        'port': os.getenv("MYSQL_PORT", "3306"),
+        'user':  os.getenv("MYSQL_USER", "tradefree"),
+        'password': os.getenv("MYSQL_PASSWORD", "c1234%^5678C"),
+        'database': 'celery_dev',
+        'charset': 'utf8mb4',
+        # 'auth_plugin': 'mysql_native_password'
+    },
+    "manager_db": {
+        'host': os.getenv("MYSQL_HOST", "127.0.0.1"),
+        'port': os.getenv("MYSQL_PORT", "3306"),
+        'user':  os.getenv("MYSQL_USER", "tradefree"),
+        'password': os.getenv("MYSQL_PASSWORD", "c1234%^5678C"),
+        'database': 'tf',
+        'charset': 'utf8mb4',
+        # 'auth_plugin': 'mysql_native_password'
+    }
 }
 
 # Dify API 配置
@@ -160,9 +202,17 @@ DIFY_CONFIG = {
         "workflow_id": "15057dc0-bef6-40ef-b745-499c867a61f4",
         "api_key": "app-aHottX9s7ptJQLEeU6SOL1MA"
     },
+    "img2video":{
+        "workflow_id":"66194caf-3538-44d0-9a97-d72c97051476",
+        "api_key":"app-UuFhL6LIYfF7mSJ4gKShzFNG"
+    },
     "upload_photos": {
         "workflow_id": "d1af9703-2931-4b16-b236-6d91c1c9f10c",
         "api_key": "app-KfLeimdKVEsvoAMSqCPRtSAo"
+    },
+    "upload_video": {
+        "workflow_id": "5b69322e-73cd-48ea-9361-7586b35062a4",
+        "api_key": "app-ntZSqH195mizqTVKMbD5OIRh"
     },
     "publish_product": {
         "workflow_id": "352b74de-8e61-45d8-bbf1-6ebb76980185",
@@ -186,7 +236,6 @@ CHAIN_MAP = {
         'ai.business.maskword.tasks.amz_to_ali_maskword_filter',
         'ai.business.image.tasks.amz_to_ali_image',
         'ai.business.upload_img.tasks.amz_to_ali_upload',
-        'ai.business.public.tasks.amz_to_ali_public',
     ],
     "amz_to_1688": [
         'ai.business.resource.tasks.amz_to_1688_src',
@@ -194,6 +243,8 @@ CHAIN_MAP = {
         'ai.business.maskword.tasks.amz_to_1688_maskword_filter',
         'ai.business.image.tasks.amz_to_1688_image',
         'ai.business.upload_img.tasks.amz_to_1688_upload',
+        'ai.business.video.tasks.amz_to_1688_video',
+        'ai.business.upload_video.tasks.amz_to_1688_upload'
         'ai.business.public.tasks.amz_to_1688_public',
     ],
     "ali_to_1688": [
@@ -202,6 +253,8 @@ CHAIN_MAP = {
         'ai.business.maskword.tasks.ali_to_1688_maskword_filter',
         'ai.business.image.tasks.ali_to_1688_image',
         'ai.business.upload_img.tasks.ali_to_1688_upload',
+        'ai.business.video.tasks.ali_to_1688_video',
+        'ai.business.upload_video.tasks.ali_to_1688_upload'
         'ai.business.public.tasks.ali_to_1688_public',
     ],
     "1688_to_1688": [
@@ -210,6 +263,8 @@ CHAIN_MAP = {
         'ai.business.maskword.tasks._1688_to_1688_maskword_filter',
         'ai.business.image.tasks._1688_to_1688_image',
         'ai.business.upload_img.tasks._1688_to_1688_upload',
+        'ai.business.video.tasks._1688_to_1688_video',
+        'ai.business.upload_video.tasks._1688_to_1688_upload'
         'ai.business.public.tasks._1688_to_1688_public',
     ],
     "ali_to_ali": [

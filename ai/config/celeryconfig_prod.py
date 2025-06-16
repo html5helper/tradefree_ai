@@ -29,12 +29,24 @@ USER_GROUP_ACCESS = {
 }
 # MySQL 配置
 MYSQL_CONFIG = {
-    'host': os.getenv("MYSQL_HOST", "127.0.0.1"),
-    'port': os.getenv("MYSQL_PORT", "3306"),
-    'user':  os.getenv("MYSQL_USER", "tradefree"),
-    'password': os.getenv("MYSQL_PASSWORD", "c1234%^5678C"),
-    'database': 'celery_prod',
-    'charset': 'utf8mb4'
+    "workflow_db": {
+        'host': os.getenv("MYSQL_HOST", "127.0.0.1"),
+        'port': os.getenv("MYSQL_PORT", "3306"),
+        'user':  os.getenv("MYSQL_USER", "tradefree"),
+        'password': os.getenv("MYSQL_PASSWORD", "c1234%^5678C"),
+        'database': 'celery_dev',
+        'charset': 'utf8mb4',
+        # 'auth_plugin': 'mysql_native_password'
+    },
+    "manager_db": {
+        'host': os.getenv("MYSQL_HOST", "127.0.0.1"),
+        'port': os.getenv("MYSQL_PORT", "3306"),
+        'user':  os.getenv("MYSQL_USER", "tradefree"),
+        'password': os.getenv("MYSQL_PASSWORD", "c1234%^5678C"),
+        'database': 'tf',
+        'charset': 'utf8mb4',
+        # 'auth_plugin': 'mysql_native_password'
+    }
 }
 
 # Redis 配置

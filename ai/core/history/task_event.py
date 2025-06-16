@@ -1,16 +1,9 @@
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, JSON, Text, Float
+from sqlalchemy import Column, Integer, String, DateTime, JSON, Text, Float
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
-from ai.config.celeryconfig import MYSQL_CONFIG
+from ai.core.db.engine import workflow_engine
 
 Base = declarative_base()
-
-mysql_url = (
-    f"mysql+pymysql://{MYSQL_CONFIG['user']}:{MYSQL_CONFIG['password']}"
-    f"@{MYSQL_CONFIG['host']}:{MYSQL_CONFIG['port']}/{MYSQL_CONFIG['database']}"
-    f"?charset={MYSQL_CONFIG['charset']}"
-)
-engine = create_engine(mysql_url)
 
 # CREATE TABLE `task_event` (
 #   `id` int NOT NULL AUTO_INCREMENT,

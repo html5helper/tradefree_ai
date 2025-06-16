@@ -1,11 +1,12 @@
 from ai.core.celery_app import app as celery_app
 from celery import chain
-from ai.core.history.task_event import TaskEvent, engine
+from ai.core.history.task_event import TaskEvent
+from ai.core.db.engine import workflow_engine
 from sqlalchemy.orm import sessionmaker
 from fastapi import HTTPException
 from ai.config.celeryconfig import CHAIN_MAP
 
-Session = sessionmaker(bind=engine)
+Session = sessionmaker(bind=workflow_engine)
 
 def retry_chain_by_task_id(task_id: str):
     session = Session()
