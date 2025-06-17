@@ -243,6 +243,13 @@ class ImageToVideo:
             return 1 - pow(-2 * x + 2, 2) / 2
 
     def create_video(self, image_paths):
+        # 在视频最前面增加第一张图作为额外的一帧
+        if image_paths:
+            first_img = self.read_and_resize(image_paths[0])
+            # self.add_static_frame(first_img, 1, subtitle="Preview")
+            frame = self.add_subtitle(first_img, text="")
+            self.video_writer.write(frame)
+
         # 添加片头
         self.create_intro()
 
