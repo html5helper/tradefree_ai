@@ -258,7 +258,7 @@ CHAIN_MAP = {
         'ai.business.image.tasks.amz_to_1688_image',
         'ai.business.upload_img.tasks.amz_to_1688_upload',
         'ai.business.video.tasks.amz_to_1688_video',
-        'ai.business.upload_video.tasks.amz_to_1688_upload'
+        'ai.business.upload_video.tasks.amz_to_1688_upload',
         'ai.business.public.tasks.amz_to_1688_public',
     ],
     "ali_to_1688": [
@@ -278,7 +278,7 @@ CHAIN_MAP = {
         'ai.business.image.tasks._1688_to_1688_image',
         'ai.business.upload_img.tasks._1688_to_1688_upload',
         'ai.business.video.tasks._1688_to_1688_video',
-        'ai.business.upload_video.tasks._1688_to_1688_upload'
+        'ai.business.upload_video.tasks._1688_to_1688_upload',
         'ai.business.public.tasks._1688_to_1688_public',
     ],
     "ali_to_ali": [
