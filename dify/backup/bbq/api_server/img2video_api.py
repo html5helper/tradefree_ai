@@ -4,6 +4,7 @@ import math
 import requests
 import json
 import numpy as np
+import glob
 
 from PIL import Image
 from urllib.parse import urlparse
@@ -290,117 +291,210 @@ class ImageToVideo:
         self.create_outro()
 
 
-def process_images_to_video_route():
-
-    # 获取参数
+def _parse_request_parameters():
+    """解析请求参数"""
     size = tuple(map(int, request.form.get("size", "800,800").split(",")))
     fps = int(request.form.get("fps", "25"))
     run_id = request.form.get("run_id")
+    input_directory = request.form.get("input_directory")
 
-    if not run_id:
-        return jsonify({"error": "Missing 'run_id' parameter"}), 400
+    return {
+        "size": size,
+        "fps": fps,
+        "run_id": run_id,
+        "input_directory": input_directory,
+    }
+
+
+def _collect_images_from_directory(input_directory):
+    """从目录收集图片文件"""
+    image_paths = []
+    image_extensions = [
+        "*.jpg",
+        "*.jpeg",
+        "*.png",
+        "*.webp",
+        "*.bmp",
+        "*.tiff",
+        "*.gif",
+    ]
+
+    for ext in image_extensions:
+        pattern = os.path.join(input_directory, ext)
+        image_paths.extend(glob.glob(pattern))
+        # 同时搜索大写扩展名
+        pattern_upper = os.path.join(input_directory, ext.upper())
+        image_paths.extend(glob.glob(pattern_upper))
+
+    # 按文件名排序确保顺序正确
+    image_paths.sort()
+    return image_paths
+
+
+def _collect_images_from_upload(temp_dir):
+    """从文件上传收集图片"""
+    image_paths = []
+    image_files = request.files.getlist("images")
+
+    for i, image in enumerate(image_files):
+        if image.filename:
+            # 保持原始文件名和扩展名
+            filename = f"{i:03d}_{image.filename}"
+            image_path = os.path.join(temp_dir, filename)
+            image.save(image_path)
+            image_paths.append(image_path)
+
+    return image_paths
+
+
+def _get_filename_from_url(url, index):
+    """从URL获取文件名"""
+    parsed_url = urlparse(url)
+    filename = os.path.basename(parsed_url.path)
+
+    if not filename or "." not in filename:
+        # 根据Content-Type推断扩展名
+        try:
+            response = requests.head(url, timeout=10)
+            content_type = response.headers.get("content-type", "")
+            if "webp" in content_type:
+                filename = f"image_{index}.webp"
+            elif "png" in content_type:
+                filename = f"image_{index}.png"
+            elif "jpeg" in content_type or "jpg" in content_type:
+                filename = f"image_{index}.jpg"
+            else:
+                filename = f"image_{index}.png"  # 默认
+        except:
+            filename = f"image_{index}.png"  # 默认
+
+    return filename
+
+
+def _collect_images_from_urls(temp_dir):
+    """从URL收集图片"""
+    image_paths = []
+    image_urls_str = request.form.get("image_urls")
 
     try:
-        # 创建临时文件夹存储图片
-        temp_dir = os.path.join(output_dir, "temp", run_id)
-        os.makedirs(temp_dir, exist_ok=True)
+        image_urls = (
+            json.loads(image_urls_str)
+            if isinstance(image_urls_str, str)
+            else image_urls_str
+        )
+    except:
+        image_urls = (
+            image_urls_str.split(",") if isinstance(image_urls_str, str) else []
+        )
 
-        image_paths = []
-
-        # 处理文件上传的图片
-        if "images" in request.files:
-            image_files = request.files.getlist("images")
-            for i, image in enumerate(image_files):
-                if image.filename:
-                    # 保持原始文件名和扩展名
-                    filename = f"{i:03d}_{image.filename}"
-                    image_path = os.path.join(temp_dir, filename)
-                    image.save(image_path)
-                    image_paths.append(image_path)
-
-        # 处理URL形式的图片
-        if "image_urls" in request.form:
-            image_urls_str = request.form.get("image_urls")
+    for i, url in enumerate(image_urls):
+        if url.strip():
             try:
-                image_urls = (
-                    json.loads(image_urls_str)
-                    if isinstance(image_urls_str, str)
-                    else image_urls_str
-                )
-            except:
-                image_urls = (
-                    image_urls_str.split(",") if isinstance(image_urls_str, str) else []
-                )
+                response = requests.get(url.strip(), timeout=30)
+                response.raise_for_status()
 
-            for i, url in enumerate(image_urls):
-                if url.strip():
-                    try:
-                        response = requests.get(url.strip(), timeout=30)
-                        response.raise_for_status()
+                filename = _get_filename_from_url(url, i)
+                # 添加序号前缀保持顺序
+                filename = f"{len(image_paths):03d}_{filename}"
+                image_path = os.path.join(temp_dir, filename)
 
-                        # 从URL获取文件扩展名
-                        parsed_url = urlparse(url)
-                        filename = os.path.basename(parsed_url.path)
-                        if not filename or "." not in filename:
-                            # 根据Content-Type推断扩展名
-                            content_type = response.headers.get("content-type", "")
-                            if "webp" in content_type:
-                                filename = f"image_{i}.webp"
-                            elif "png" in content_type:
-                                filename = f"image_{i}.png"
-                            elif "jpeg" in content_type or "jpg" in content_type:
-                                filename = f"image_{i}.jpg"
-                            else:
-                                filename = f"image_{i}.png"  # 默认
+                with open(image_path, "wb") as f:
+                    f.write(response.content)
+                image_paths.append(image_path)
+            except Exception as e:
+                print(f"下载图片失败 {url}: {e}")
+                continue
 
-                        # 添加序号前缀保持顺序
-                        filename = f"{len(image_paths):03d}_{filename}"
-                        image_path = os.path.join(temp_dir, filename)
+    return image_paths
 
-                        with open(image_path, "wb") as f:
-                            f.write(response.content)
-                        image_paths.append(image_path)
-                    except Exception as e:
-                        print(f"下载图片失败 {url}: {e}")
-                        continue
 
-        # 检查是否有图片
+def _collect_all_images(params, temp_dir):
+    """收集所有图片文件"""
+    input_directory = params["input_directory"]
+
+    # 处理目录输入的图片
+    if input_directory and os.path.isdir(input_directory):
+        image_paths = _collect_images_from_directory(input_directory)
         if not image_paths:
-            return jsonify({"error": "No valid images provided"}), 400
+            raise ValueError(f"No valid images found in directory: {input_directory}")
+        return image_paths, True  # 返回是否来自目录
 
-        # 按文件名排序确保顺序正确
-        image_paths.sort()
+    # 处理文件上传的图片
+    elif "images" in request.files:
+        return _collect_images_from_upload(temp_dir), False
 
-        # 设置输出视频路径
-        output_path = os.path.join(output_dir, f"{run_id}.mp4")
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    # 处理URL形式的图片
+    elif "image_urls" in request.form:
+        return _collect_images_from_urls(temp_dir), False
 
-        # 创建视频
-        with ImageToVideo(size=size, fps=fps, output_path=output_path) as video_maker:
-            video_maker.create_video(image_paths)
+    else:
+        raise ValueError(
+            "No valid images provided. Please provide either 'input_directory', upload 'images', or provide 'image_urls'."
+        )
 
-        # 如果有音频文件
-        if "audio" in request.files:
-            audio_file = request.files["audio"]
-            if audio_file.filename:
-                audio_path = os.path.join(temp_dir, audio_file.filename)
-                audio_file.save(audio_path)
-                output_path_with_audio = os.path.join(
-                    output_dir, f"{run_id}_with_audio.mp4"
-                )
-                video_maker.add_audio(audio_path, output_path_with_audio)
-                output_path = output_path_with_audio
-        else:
+
+def _process_audio(temp_dir, run_id, video_maker):
+    """处理音频文件"""
+    output_path = video_maker.output_path
+
+    # 如果有音频文件
+    if "audio" in request.files:
+        audio_file = request.files["audio"]
+        if audio_file.filename:
+            audio_path = os.path.join(temp_dir, audio_file.filename)
+            audio_file.save(audio_path)
             output_path_with_audio = os.path.join(
                 output_dir, f"{run_id}_with_audio.mp4"
             )
-            video_maker.add_audio(default_audio_path, output_path_with_audio)
-            output_path = output_path.replace(".mp4", "_no_audio.mp4")
+            video_maker.add_audio(audio_path, output_path_with_audio)
+            return output_path_with_audio
+    else:
+        output_path_with_audio = os.path.join(output_dir, f"{run_id}_with_audio.mp4")
+        video_maker.add_audio(default_audio_path, output_path_with_audio)
+        return output_path.replace(".mp4", "_no_audio.mp4")
+
+    return output_path
+
+
+def process_images_to_video_route():
+    """处理图片转视频的主要接口"""
+    try:
+        # 1. 解析请求参数
+        params = _parse_request_parameters()
+
+        if not params["run_id"]:
+            return jsonify({"error": "Missing 'run_id' parameter"}), 400
+
+        # 2. 创建临时文件夹
+        temp_dir = os.path.join(output_dir, "temp", params["run_id"])
+        os.makedirs(temp_dir, exist_ok=True)
+
+        # 3. 收集图片文件
+        image_paths, from_directory = _collect_all_images(params, temp_dir)
+
+        # 4. 如果不是从目录读取的图片，按文件名排序确保顺序正确
+        if not from_directory:
+            image_paths.sort()
+
+        # 5. 设置输出视频路径
+        output_path = os.path.join(output_dir, f"{params['run_id']}.mp4")
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+        # 6. 创建视频
+        with ImageToVideo(
+            size=params["size"], fps=params["fps"], output_path=output_path
+        ) as video_maker:
+            video_maker.create_video(image_paths)
+
+            # 7. 处理音频
+            final_output_path = _process_audio(temp_dir, params["run_id"], video_maker)
 
         return jsonify(
-            {"video_path": output_path, "message": "Video created successfully"}
+            {"video_path": final_output_path, "message": "Video created successfully"}
         )
 
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
     except Exception as e:
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
