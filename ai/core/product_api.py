@@ -1,34 +1,92 @@
 from fastapi import APIRouter, Request, Depends
 from ai.core.auth.authentication import verify_token
+from ai.service.employee_service import EmployeeService
+from ai.service.employee_catch_service import EmployeeCacheService
+
 
 api = APIRouter()
 
-@api.post("/api/employer/activate")
-async def employer_activate(request: Request, user_info: dict = Depends(verify_token)):
-    """Employer activate"""
+class ProductAPI:
+    def __init__(self):
+        self.employee_service = EmployeeService()
+        self.cache_service = EmployeeCacheService()
+
+@api.post("/api/employee/activate")
+async def employee_activate(request: Request, user_info: dict = Depends(verify_token)):
+    """Employer activate
+    
+    Args:
+        request: FastAPI request object
+        user_info: User information from token verification
+        
+    Returns:
+        dict: Response containing employer information in the same format as get_employee_access_by_token
+        {
+            "code": int,
+            "message": str,
+            "data": {
+                "token": {
+                    "user_name": str,
+                    "user_group": str,
+                    "user_info": {
+                        "user_name": str,
+                        "user_group": str,
+                    },
+                    "employer_info": {
+                        "employer_id": str,
+                        "employer_name": str,
+                        "employer_cn_name": str
+                    },
+                    "employer_accesses": [
+                        {
+                            "employer_id": str,
+                            "workflow": str,
+                            "workflow_name": str,
+                            "product_type": str,
+                            "platform": str,
+                            "category_id": str,
+                            "shop_name": str,
+                            "action_flow_id": str
+                        }
+                    ]
+                }
+            }
+        }
+    """
+    try:
+        data = await request.json()
+        token = data.get('token')
+        
+        if not token:
+            return {"code": 400, "message": "Token is required", "data": None}
+            
+        # 使用 EmployeeService 获取员工信息
+        employee_info = self.cache_service.get_employee_by_token(token)
+        
+        if not employee_info:
+            return {"code": 404, "message": "Employee not found or token is invalid", "data": None}
+            
+        return {"code": 200, "message": "success", "data": employee_info}
+        
+    except Exception as e:
+        print(f"Error in employer_activate: {str(e)}")
+        return {"code": 500, "message": f"Internal server error: {str(e)}", "data": None}
+
+@api.post("/api/employee/refresh")
+async def employee_refresh(request: Request, user_info: dict = Depends(verify_token)):
+    """Refresh Employee catch"""
     data = await request.json()
-    token = data['token']
-    employer = {
-        "id":null,
-        "user_name":"",
-        "employer_name":"",
-        "employer_cn_name":"",
-        "employer_token":token
-    }
+    employee_id = data.get('employee_id')
+    
+    result = self.employee_service.refresh_employee_access_catch(employee_id)
+    return {"code": 200, "message": "success","data":{"result":result}}
 
-    return {"code": 200, "message": "success","data":employer}
-
-@api.post("/api/employer/info")
-async def employer_info(request: Request, user_info: dict = Depends(verify_token)):
-    """Employer info"""
-    employer = {
-        "id":null,
-        "user_name":"",
-        "employer_name":"",
-        "employer_cn_name":"",
-        "employer_token": ""
-    }
-    return {"code": 200, "message": "success","data":employer}
+@api.post("/api/employee/refresh_all")
+async def employee_refresh_all(request: Request, user_info: dict = Depends(verify_token)):
+    """Refresh all Employees catch"""
+    
+    counts = self.employee_service.refresh_employee_accesses_catch()
+    return {"code": 200, "message": "success","data":{"counts":counts}}
 
 @api.post("/api/actionflow")
 async def product_list(request: Request, user_info: dict = Depends(verify_token)):

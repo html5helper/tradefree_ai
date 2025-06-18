@@ -1,7 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, JSON, Text, Float
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
-from ai.core.db.engine import workflow_engine
 
 Base = declarative_base()
 

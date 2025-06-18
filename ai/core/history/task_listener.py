@@ -1,6 +1,7 @@
 from celery.signals import task_prerun, task_postrun, task_failure, task_retry, task_revoked, task_sent
 from sqlalchemy.orm import sessionmaker
-from ai.core.history.task_event import TaskEvent, workflow_engine
+from ai.core.history.task_event import TaskEvent
+from ai.dao.db.engine import workflow_engine
 from datetime import datetime
 import json
 

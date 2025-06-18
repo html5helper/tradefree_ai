@@ -1,7 +1,7 @@
 from ai.core.celery_app import app as celery_app
 from celery import chain
 from ai.core.history.task_event import TaskEvent
-from ai.core.db.engine import workflow_engine
+from ai.dao.db.engine import workflow_engine
 from sqlalchemy.orm import sessionmaker
 from fastapi import HTTPException
 from ai.config.celeryconfig import CHAIN_MAP

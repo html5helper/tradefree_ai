@@ -1,5 +1,5 @@
 from ai.core.celery_app import app
-from ai.business.service.dify_service import DifyService
+from ai.service.dify_service import DifyService
 from ai.core.celery_workflow import CeleryWorkflow
 
 

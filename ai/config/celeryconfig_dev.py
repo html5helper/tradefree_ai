@@ -89,8 +89,10 @@ REDIS_HOST = "127.0.0.1"
 REDIS_PORT = "6379"
 REDIS_DB_BROKER = "2"
 REDIS_DB_BACKEND = "3"
+REDIS_DB_EMPLOYEE = "5"
 broker_url = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB_BROKER}"
 result_backend = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB_BACKEND}"
+employee_catch = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB_EMPLOYEE}"
 
 
 

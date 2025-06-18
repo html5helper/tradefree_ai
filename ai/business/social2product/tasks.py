@@ -1,11 +1,10 @@
 from ai.core.celery_app import app
 from celery import chain, chord
-from ai.core.data_event import DataEvent
 from ai.business.social2product.service import DifySocial2ProductService
 import uuid
 
 @app.task
-def fetch_social_total(event_in:DataEvent):
+def fetch_social_total(event_in:dict):
     """
     获取总记录数并设定分页大小
     """
