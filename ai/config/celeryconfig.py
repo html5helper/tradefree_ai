@@ -165,9 +165,10 @@ CHAIN_MAP = {
         'ai.business.listing.tasks.amz_to_ali_listing',
         'ai.business.maskword.tasks.amz_to_ali_maskword_filter',
         'ai.business.image.tasks.amz_to_ali_image',
+        'ai.business.upload_img.tasks.amz_to_ali_upload',
         'ai.business.video.tasks.amz_to_ali_video',
         'ai.business.upload_video.tasks.amz_to_ali_upload',
-        'ai.business.upload_img.tasks.amz_to_ali_upload',
+        'ai.business.public.tasks.amz_to_ali_public', 
     ],
     "amz_to_1688": [
         'ai.business.resource.tasks.amz_to_1688_src',
