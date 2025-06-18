@@ -3,7 +3,6 @@ from ai.core.auth.authentication import verify_token
 from ai.service.employee_service import EmployeeService
 from ai.service.employee_catch_service import EmployeeCacheService
 
-
 api = APIRouter()
 
 class ProductAPI:
