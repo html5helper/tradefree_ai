@@ -8,7 +8,7 @@ MYSQL_CONFIG = {
         'port': os.getenv("MYSQL_PORT", "3306"),
         'user':  os.getenv("MYSQL_USER", "tradefree"),
         'password': os.getenv("MYSQL_PASSWORD", "c1234%^5678C"),
-        'database': 'celery_dev',
+        'database': 'celery_prod',
         'charset': 'utf8mb4',
         # 'auth_plugin': 'mysql_native_password'
     },
