@@ -46,7 +46,7 @@ http://localhost:8081/workflow/tasks/retry/71a6f198-6ff1-4204-bf44-75bacdfddb2c 
 -H 'Authorization: Bearer token2_def456'
 
 curl -X POST \
-https://www.tradefree.ai/workflow_dev/tasks/retry/5e8d2f31-caee-4477-8587-545fd739864b \
+https://www.tradefree.ai/workflow_dev/tasks/retry/a7029a6e-e5a7-4a45-917c-7fdc879eee73 \
 -H 'Authorization: Bearer token2_def456'
 
 -- 开发环境服务地址

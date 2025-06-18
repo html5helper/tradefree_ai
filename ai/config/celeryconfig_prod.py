@@ -63,9 +63,17 @@ DIFY_CONFIG = {
         "workflow_id": "401c549a-f85f-4f8f-ac12-745dd41b2d81",
         "api_key": "app-8ZEQ0dk4CQxvb0u3erw4n2Ea"
     },
+    "img2video":{
+        "workflow_id":"97b580a2-e800-4d92-bd1c-5cc4d6786ad7",
+        "api_key":"app-9A8tchJLEBjyCuftThxVxUr8"
+    },
     "upload_photos": {
         "workflow_id": "8bae616a-8be9-496b-b087-a300cd660210",
         "api_key": "app-Gxld5HWVZPOWYPu9B8BMrv9d"
+    },
+    "upload_video": {
+        "workflow_id": "9d40d789-2823-4e71-bda3-23b7992df032",
+        "api_key": "app-O5sLeZAN0upNHFpSzqiZnc7I"
     },
     "publish_product": {
         "workflow_id": "1aeeb7f4-c7ff-48e0-9f29-749d764d5637",
