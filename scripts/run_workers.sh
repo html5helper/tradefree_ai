@@ -28,7 +28,7 @@ workers=(
     "public_ali:product_public_queue_ali -c 2 -n public_ali_worker@%h-public_ali"
     "upload_1688:product_upload_queue_1688 -c 2 -n upload_1688_worker@%h-upload_image_1688"
     "video:product_video_queue -c 1 -n video_worker@%h-video"
-    "upload_video_1688:product_upload_video_queue_1688 -c 2 -n upload_video_1688_worker@%h-upload_video_1688"
+    "upload_video:product_upload_video_queue -c 2 -n upload_video_worker@%h-upload_video"
     "public_1688:product_public_queue_1688 -c 2 -n public_1688_worker@%h-public_1688"
 )
 
