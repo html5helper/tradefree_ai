@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, Text
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
-
+import json
 Base = declarative_base()
 
 # CREATE TABLE `action_flow` (
@@ -51,3 +51,16 @@ class ActionFlow(Base):
             f"category_id='{self.category_id}', "
             f"is_enable={self.is_enable})>"
         )
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "platform": self.platform,
+            "product_type": self.product_type,
+            "category_id": self.category_id,
+            "action_flow": json.loads(self.action_flow),
+            "is_enable": self.is_enable,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
+        }

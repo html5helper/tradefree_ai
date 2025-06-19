@@ -4,12 +4,12 @@ from ai.dao.entity.employee import Employee
 from ai.dao.entity.employee_access import EmployeeAccess
 from ai.dao.entity.action_flow import ActionFlow
 from ai.dao.entity.user import User
-from ai.dao.db.engine import workflow_engine
+from ai.dao.db.engine import manager_engine
 from ai.service.employee_catch_service import EmployeeCacheService
 
 class EmployeeService:
     def __init__(self):
-        self.session = Session(bind=workflow_engine)
+        self.session = Session(bind=manager_engine)
         self.cache_service = EmployeeCacheService()
 
     def refresh_employee_access_catch(self, employee_id: str) -> bool:
@@ -58,19 +58,21 @@ class EmployeeService:
             
             # 构建返回数据
             result = {
-                "user_name": employee.user_name,
-                "user_group": user.user_group or "GENERATE",  # 如果user_group为空，使用默认值
                 "employee_token": employee.employee_token,
                 "user_info": {
                     "user_name": employee.user_name,
-                    "user_group": user.user_group or "GENERATE",  # 如果user_group为空，使用默认值
+                    "user_cn_name": user.user_cn_name,
+                    "user_company": user.company,
+                    "user_group": user.user_group
                 },
                 "employee_info": {
                     "employee_id": str(employee.id),
                     "employee_name": employee.employee_name,
                     "employee_cn_name": getattr(employee, 'employee_cn_name', '--')
                 },
-                "employee_accesses": []
+                "employee_accesses": [],
+                "workflows": [],
+                "actionflows": []
             }
             
             # 添加访问权限信息
@@ -87,7 +89,9 @@ class EmployeeService:
                         "shop_name": access.shop_name,
                         "action_flow_id": str(access.action_flow_id)
                     })
-            
+                    result["workflows"].append(access.workflow)
+                    result["actionflows"].append(access.action_flow_id)
+
             # 将数据存入缓存
             self.cache_service.set_to_cache(employee.employee_token, result)
             

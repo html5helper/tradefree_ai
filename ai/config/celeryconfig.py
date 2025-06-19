@@ -14,37 +14,6 @@ USER_TOKEN_CONFIG = {
     "token2_def456": {
         "user_name":"fenghetong",
         "user_group":"GENERATE",
-        "user_info":{
-            "user_name":"fenghetong",
-            "user_group":"GENERATE",
-        },
-        "employer_info":{
-            "employer_id": "1",
-            "employer_name": "employer_001",
-            "employer_cn_name": "员工001"
-        },
-        "employer_accesses":[
-            {
-                "employer_id": "1",
-                "workflow": "amz_to_ali",
-                "workflow_name": "亚马逊到阿里",
-                "product_type": "sticker",
-                "platform": "ali",
-                "category_id": "201304308",
-                "shop_name": "阿里国际-店铺001",
-                "action_flow_id": "1"
-            },
-            {
-                "employer_id": "2",
-                "workflow": "amz_to_1688",
-                "workflow_name": "亚马逊到1688",
-                "product_type": "sticker",
-                "platform": "1688",
-                "category_id": "201304308",
-                "shop_name": "1688-店铺001",
-                "action_flow_id": "2"
-            }
-        ]
     },
     "tiuGlpGYG6olYLBaIfbvsKI7DIUv9Z3J": {
         "user_name":"user_001",
@@ -60,10 +29,10 @@ USER_TOKEN_CONFIG = {
     }
 }
 
-USER_GROUP_ACCESS = {
-    "COPY": ["amz_copy_ali", "amz_copy_1688", "ali_copy_1688", "1688_copy_1688", "ali_copy_ali"],
-    "GENERATE": ["amz_to_ali", "amz_to_1688", "ali_to_1688", "1688_to_1688", "ali_to_ali", "social_to_ali"],
-}
+# USER_GROUP_ACCESS = {
+#     "COPY": ["amz_copy_ali", "amz_copy_1688", "ali_copy_1688", "1688_copy_1688", "ali_copy_ali"],
+#     "GENERATE": ["amz_to_ali", "amz_to_1688", "ali_to_1688", "1688_to_1688", "ali_to_ali", "social_to_ali"],
+# }
 
 # 任务配置
 task_serializer = "json"
@@ -73,24 +42,24 @@ timezone = "UTC"
 enable_utc = True
 
 # 定义交换机
-ex_src = Exchange('product_src', type='direct')
+ex_resource = Exchange('product_resource', type='direct')
 ex_create = Exchange('product_create', type='direct')
 ex_public = Exchange('product_public', type='direct')
 ex_maskword = Exchange('maskword_filter', type='direct')
+ex_store = Exchange('product_store', type='direct')
 
 # 定义队列
 task_queues = (
-    Queue('product_social_queue', ex_src, routing_key='social2product'),
-    Queue('product_src_queue', ex_src, routing_key='product_src'),
+    Queue('product_social_queue', ex_resource, routing_key='social2product'),
+    Queue('product_resource_queue', ex_resource, routing_key='product_resource'),
     Queue('product_listing_queue', ex_create, routing_key='product_listing'),
     Queue('product_maskword_queue', ex_maskword, routing_key='maskword_filter'),
     Queue('product_image_queue', ex_create, routing_key='product_image'),
     Queue('product_video_queue', ex_create, routing_key='product_video'),
-    Queue('product_upload_queue_ali', ex_create, routing_key='product_upload_ali'),
-    Queue('product_upload_queue_1688', ex_create, routing_key='product_upload_1688'),
+    Queue('product_upload_image_queue', ex_create, routing_key='product_upload_image'),
     Queue('product_upload_video_queue', ex_create, routing_key='product_upload_video'),
-    Queue('product_public_queue_ali', ex_public, routing_key='product_public_ali'),
-    Queue('product_public_queue_1688', ex_public, routing_key='product_public_1688'),
+    Queue('product_public_queue', ex_public, routing_key='product_public'),
+    Queue('product_store_queue', ex_store, routing_key='product_store'),
 )
 
 # 路由配置
@@ -98,14 +67,14 @@ task_routes = {
     # social2product类任务
     'ai.business.social2product.tasks.*': {
         'queue': 'product_social_queue',
-        'exchange': 'product_src',
+        'exchange': 'product_resource',
         'routing_key': 'social2product',
     },
-    # resource类任务
+    # 存储resource类任务
     'ai.business.resource.tasks.*': {
-        'queue': 'product_src_queue',
-        'exchange': 'product_src',
-        'routing_key': 'product_src',
+        'queue': 'product_resource_queue',
+        'exchange': 'product_resource',
+        'routing_key': 'product_resource',
     },
     # listing类任务
     'ai.business.listing.tasks.*': {
@@ -127,9 +96,9 @@ task_routes = {
     },
     # upload_img类任务
     'ai.business.upload_img.tasks.*': {
-        'queue': 'product_upload_queue_ali',
+        'queue': 'product_upload_image_queue',
         'exchange': 'product_create',
-        'routing_key': 'product_upload_ali',
+        'routing_key': 'product_upload_image',
     },
     # 生成video类任务
     'ai.business.video.tasks.*': {
@@ -145,82 +114,104 @@ task_routes = {
     },
     # public类任务
     'ai.business.public.tasks.*': {
-        'queue': 'product_public_queue_ali',
+        'queue': 'product_public_queue',
         'exchange': 'product_public',
-        'routing_key': 'product_public_ali',
+        'routing_key': 'product_public',
+    },
+    # storage类任务
+    'ai.business.storage.tasks.*': {
+        'queue': 'product_store_queue',
+        'exchange': 'product_store',
+        'routing_key': 'product_store',
     },
 }
 # 链式工作流配置
 CHAIN_MAP = {
+    # 常规迁移工作流
     "amz_copy_ali": [
-        'ai.business.resource.tasks.amz_to_ali_src',
+        'ai.business.resource.tasks.normal_store_resource',
         'ai.business.listing.tasks.listing_adapter',
-        'ai.business.maskword.tasks.amz_to_ali_maskword_filter',
-        # 'ai.business.image.tasks.amz_to_ali_image',
-        # 'ai.business.upload_img.tasks.amz_to_ali_upload',
-        # 'ai.business.public.tasks.amz_to_ali_public',
+        'ai.business.maskword.tasks.normal_filter_maskword'
     ],
+    # 智能迁移工作流_接口发布
     "amz_to_ali": [
-        'ai.business.resource.tasks.amz_to_ali_src',
-        'ai.business.listing.tasks.amz_to_ali_listing',
-        'ai.business.maskword.tasks.amz_to_ali_maskword_filter',
-        'ai.business.image.tasks.amz_to_ali_image',
-        'ai.business.upload_img.tasks.amz_to_ali_upload',
-        'ai.business.video.tasks.amz_to_ali_video',
-        'ai.business.upload_video.tasks.amz_to_ali_upload',
-        'ai.business.public.tasks.amz_to_ali_public', 
+        'ai.business.resource.tasks.normal_store_resource',
+        'ai.business.listing.tasks.normal_generate_listing',
+        'ai.business.maskword.tasks.normal_filter_maskword',
+        'ai.business.image.tasks.image_text_image',
+        'ai.business.upload_img.tasks.api_upload_image',
+        'ai.business.video.tasks.normal_generate_video',
+        'ai.business.upload_video.tasks.normal_upload_video',
+        'ai.business.public.tasks.api_publish_product', 
     ],
     "amz_to_1688": [
-        'ai.business.resource.tasks.amz_to_1688_src',
-        'ai.business.listing.tasks.amz_to_1688_listing',
-        'ai.business.maskword.tasks.amz_to_1688_maskword_filter',
-        'ai.business.image.tasks.amz_to_1688_image',
-        'ai.business.upload_img.tasks.amz_to_1688_upload',
-        'ai.business.video.tasks.amz_to_1688_video',
-        'ai.business.upload_video.tasks.amz_to_1688_upload',
-        'ai.business.public.tasks.amz_to_1688_public',
+        'ai.business.resource.tasks.normal_store_resource',
+        'ai.business.listing.tasks.normal_generate_listing',
+        'ai.business.maskword.tasks.normal_filter_maskword',
+        'ai.business.image.tasks.image_text_image',
+        'ai.business.upload_img.tasks.api_upload_image',
+        'ai.business.video.tasks.normal_generate_video',
+        'ai.business.upload_video.tasks.normal_upload_video',
+        'ai.business.public.tasks.api_publish_product',
     ],
     "ali_to_1688": [
-        'ai.business.resource.tasks.ali_to_1688_src',
-        'ai.business.listing.tasks.ali_to_1688_listing',
-        'ai.business.maskword.tasks.ali_to_1688_maskword_filter',
-        'ai.business.image.tasks.ali_to_1688_image',
-        'ai.business.upload_img.tasks.ali_to_1688_upload',
-        'ai.business.video.tasks.ali_to_1688_video',
-        'ai.business.upload_video.tasks.ali_to_1688_upload'
-        'ai.business.public.tasks.ali_to_1688_public',
+        'ai.business.resource.tasks.normal_store_resource',
+        'ai.business.listing.tasks.normal_generate_listing',
+        'ai.business.maskword.tasks.normal_filter_maskword',
+        'ai.business.image.tasks.image_text_image',
+        'ai.business.upload_img.tasks.api_upload_image',
+        'ai.business.video.tasks.normal_generate_video',
+        'ai.business.upload_video.tasks.normal_upload_video',
+        'ai.business.public.tasks.api_publish_product',
     ],
     "1688_to_1688": [
-        'ai.business.resource.tasks._1688_to_1688_src',
-        'ai.business.listing.tasks._1688_to_1688_listing',
-        'ai.business.maskword.tasks._1688_to_1688_maskword_filter',
-        'ai.business.image.tasks._1688_to_1688_image',
-        'ai.business.upload_img.tasks._1688_to_1688_upload',
-        'ai.business.video.tasks._1688_to_1688_video',
-        'ai.business.upload_video.tasks._1688_to_1688_upload',
-        'ai.business.public.tasks._1688_to_1688_public',
+        'ai.business.resource.tasks.normal_src',
+        'ai.business.listing.tasks.normal_generate_listing',
+        'ai.business.maskword.tasks.normal_maskword_filter',
+        'ai.business.image.tasks.image_text_image',
+        'ai.business.upload_img.tasks.api_upload_image',
+        'ai.business.video.tasks.normal_generate_video',
+        'ai.business.upload_video.tasks.normal_upload_video',
+        'ai.business.public.tasks.api_publish_product',
     ],
     "ali_to_ali": [
-        'ai.business.resource.tasks.ali_to_ali_src',
-        'ai.business.listing.tasks.ali_to_ali_listing',
-        'ai.business.maskword.tasks.ali_to_ali_maskword_filter',
-        'ai.business.image.tasks.ali_to_ali_image',
-        'ai.business.upload_img.tasks.ali_to_ali_upload',
-        'ai.business.video.tasks.ali_to_ali_video',
-        'ai.business.upload_video.tasks.ali_to_ali_upload',
-        'ai.business.public.tasks.ali_to_ali_public',
+        'ai.business.resource.tasks.normal_store_resource',
+        'ai.business.listing.tasks.normal_generate_listing',
+        'ai.business.maskword.tasks.normal_filter_maskword',
+        'ai.business.image.tasks.image_text_image',
+        'ai.business.upload_img.tasks.api_upload_image',
+        'ai.business.video.tasks.normal_generate_video',
+        'ai.business.upload_video.tasks.normal_upload_video',
+        'ai.business.public.tasks.api_publish_product',
     ],
     "social_total": [
-        'ai.business.resource.tasks.social_to_ali_src'
+        'ai.business.resource.tasks.normal_store_resource'
     ],
     "social_pages": [
-        'ai.business.listing.tasks.social_to_ali_listing'
+        'ai.business.listing.tasks.normal_generate_listing'
     ],
     "social_to_ali": [
-        'ai.business.maskword.tasks.social_to_ali_maskword_filter',
+        'ai.business.maskword.tasks.normal_filter_maskword',
         'ai.business.image.tasks.social_to_ali_image',
-        'ai.business.upload_img.tasks.social_to_ali_upload',
-        'ai.business.public.tasks.social_to_ali_public',
+        'ai.business.upload_img.tasks.api_upload_image',
+        'ai.business.public.tasks.api_publish_product',
+    ],
+    # 智能迁移工作流_浏览器插件发布
+    "amz_to_ali_plugin": [
+        'ai.business.resource.tasks.normal_store_resource',
+        'ai.business.listing.tasks.normal_generate_listing',
+        'ai.business.maskword.tasks.normal_filter_maskword',
+        'ai.business.image.tasks.image_text_image',
+        'ai.business.video.tasks.normal_generate_video',
+        'ai.business.storage.tasks.normal_storage',
+    ],
+    "amz_to_1688_plugin": [
+        'ai.business.resource.tasks.normal_store_resource',
+        'ai.business.listing.tasks.normal_generate_listing',
+        'ai.business.maskword.tasks.normal_filter_maskword',
+        'ai.business.image.tasks.image_text_image',
+        'ai.business.video.tasks.normal_generate_video',
+        'ai.business.storage.tasks.normal_storage',
     ],
 }
 

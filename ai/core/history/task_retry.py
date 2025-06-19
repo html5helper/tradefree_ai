@@ -1,29 +1,24 @@
 from ai.core.celery_app import app as celery_app
 from celery import chain
-from ai.core.history.task_event import TaskEvent
-from ai.dao.db.engine import workflow_engine
-from sqlalchemy.orm import sessionmaker
 from fastapi import HTTPException
 from ai.config.celeryconfig import CHAIN_MAP
+from ai.service.task_event_service import TaskEventService
 
-Session = sessionmaker(bind=workflow_engine)
+task_event_service = TaskEventService()
 
 def retry_chain_by_task_id(task_id: str):
-    session = Session()
-    history = session.query(TaskEvent).filter_by(task_id=task_id).first()
-    if not history:
-        session.close()
+    task_event = task_event_service.get_task_event(task_id)
+    if not task_event:
         raise HTTPException(status_code=404, detail="Task history not found")
     
     # retried字段置为1
-    history.retried = 1
-    session.commit()
+    task_event.retried = 1
+    task_event_service.update_task_event_status(task_id, {'retried': 1})
 
-    task_name = history.task_name
-    args = history.task_input or []
+    task_name = task_event.task_name
+    args = task_event.task_input or []
     event = args[0] if args else None
     if not event:
-        session.close()
         raise HTTPException(status_code=400, detail="No event found in args")
 
     # 判断属于哪个chain
@@ -33,7 +28,6 @@ def retry_chain_by_task_id(task_id: str):
             chain_type = key
             break
     if not chain_type:
-        session.close()
         raise HTTPException(status_code=400, detail="Unsupported chain for this task")
 
     task_list = CHAIN_MAP[chain_type]
@@ -41,13 +35,11 @@ def retry_chain_by_task_id(task_id: str):
     try:
         idx = task_list.index(task_name)
     except ValueError:
-        session.close()
         raise HTTPException(status_code=400, detail="Task name not found in chain definition")
 
     # 取失败任务及其之后的任务（包含失败任务本身）
     next_tasks = task_list[idx:]
     if not next_tasks:
-        session.close()
         raise HTTPException(status_code=400, detail="No downstream tasks to retry")
 
     # 构建新的chain
@@ -58,5 +50,4 @@ def retry_chain_by_task_id(task_id: str):
             signatures.append(celery_app.signature(t))
     workflow = chain(*signatures)
     result = workflow.apply_async()
-    session.close()
     return result.id

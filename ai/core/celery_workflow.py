@@ -8,10 +8,11 @@ class CeleryWorkflow:
     def __init__(self):
         self.celery_app = celery_app
 
-    def create_workflow(self, chain_type: str, data: dict):
+    def create_workflow(self, data: dict):
         """Helper function to create workflow chain"""
         trace_id = str(uuid.uuid4())
         data['trace_id'] = trace_id
+        chain_type = data.get("workflow", None)
         data['workflow_name'] = chain_type
 
         signatures = []

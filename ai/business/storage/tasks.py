@@ -6,6 +6,8 @@ service = DifyService()
 workflow = CeleryWorkflow()
 
 @app.task
-def api_publish_product(data: dict):
+def normal_storage(data: dict):
     data = workflow.build_payload_taskid(data)
-    return service.run_task("publish_product",data)
+    return service.apply(data)
+
+    

@@ -42,6 +42,7 @@ class TaskEvent(Base):
     task_id = Column(String(255), unique=True, nullable=False)
     task_name = Column(String(255), nullable=False)
     task_owner = Column(String(255), nullable=False)
+    task_type = Column(String(255), nullable=False)
     task_input = Column(JSON)
     task_kwargs = Column(JSON)
     task_output = Column(Text)
@@ -49,9 +50,14 @@ class TaskEvent(Base):
     task_params = Column(JSON)
     trace_id = Column(String(255), index=True)
     workflow_name = Column(String(255), index=True)
+    dest_platform = Column(String(255), nullable=False)
     retried = Column(Integer, default=0, nullable=False)  # 0: 未重试, 1: 已重试
     created_at = Column(DateTime, default=datetime.utcnow)
     finished_at = Column(DateTime)
 
     def __repr__(self):
-        return f"<TaskEvent(task_id='{self.task_id}', task_name='{self.task_name}', task_owner='{self.task_owner}', status='{self.task_status}')>"
+        try:
+            return f"<TaskEvent(task_id='{self.task_id}', task_name='{self.task_name}', task_owner='{self.task_owner}', status='{self.task_status}')>"
+        except:
+            # 如果对象是 detached 状态，返回简单的表示
+            return f"<TaskEvent(id={getattr(self, 'id', 'N/A')})>"

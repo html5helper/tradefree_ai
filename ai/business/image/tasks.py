@@ -7,24 +7,14 @@ workflow = CeleryWorkflow()
 
 
 @app.task
-def amz_to_ali_image(data: dict):
+def image_text_image(data: dict):
     data = workflow.build_payload_taskid(data)
     return service.run_task("img2text2img2download",data)
 
 @app.task
-def amz_to_1688_image(data: dict):
+def text_image(data: dict):
     data = workflow.build_payload_taskid(data)
-    return service.run_task("img2text2img2download",data)
-
-@app.task
-def ali_to_1688_image(data: dict):
-    data = workflow.build_payload_taskid(data)
-    return service.run_task("img2text2img2download",data)
-
-@app.task
-def _1688_to_1688_image(data: dict):
-    data = workflow.build_payload_taskid(data)
-    return service.run_task("img2text2img2download",data)
+    return service.run_task("text2img2download",data)
 
 @app.task
 def ali_to_ali_image(data: dict):

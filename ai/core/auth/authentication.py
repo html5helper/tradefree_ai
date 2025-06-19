@@ -1,10 +1,11 @@
 from fastapi import HTTPException, Security, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from ai.config.celeryconfig import USER_TOKEN_CONFIG, USER_GROUP_ACCESS
-
+from ai.config.celeryconfig import USER_TOKEN_CONFIG
+from ai.service.employee_catch_service import EmployeeCacheService
 
 # 创建安全依赖
 security = HTTPBearer()
+cache_service = EmployeeCacheService()
 
 async def get_user_workflow(request: Request):
     try:
@@ -38,6 +39,26 @@ async def get_user_workflow(request: Request):
 
     return workflow
 
+async def verify_sys_token(request: Request, credentials: HTTPAuthorizationCredentials = Security(security)):
+    """验证系统token"""
+    if not credentials or not credentials.credentials:
+        raise HTTPException(
+            status_code=401,
+            detail="Missing Bearer token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    if credentials.credentials not in USER_TOKEN_CONFIG:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid Bearer token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    sys_token = USER_TOKEN_CONFIG[credentials.credentials]
+
+    return sys_token
+
 async def verify_token(request: Request, credentials: HTTPAuthorizationCredentials = Security(security)):
     """验证 Bearer token
     
@@ -66,43 +87,33 @@ async def verify_token(request: Request, credentials: HTTPAuthorizationCredentia
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    # 验证 token 并获取用户权限信息
-    if credentials.credentials not in USER_TOKEN_CONFIG:
+    # 从缓存中获取员工信息
+    employee_info = cache_service.get_employee_by_token(credentials.credentials)
+    if not employee_info:
         raise HTTPException(
             status_code=401,
             detail="Invalid Bearer token",
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    # 获取用户信息
-    user_token = credentials.credentials
-    user_name = USER_TOKEN_CONFIG[user_token]["user_name"]
-    user_group = USER_TOKEN_CONFIG[user_token]["user_group"]
-    user_group_access = USER_GROUP_ACCESS[user_group]
+    # 获取workflow列表
+    workflows = employee_info["workflows"]
 
     # 获取请求数据和工作流
     try:
         workflow = await get_user_workflow(request)
     except:
-        workflow = ""
+        workflow = None
 
     # 验证用户的workflow权限
-    if workflow and workflow not in user_group_access:
+    if workflow and workflow not in workflows:
         raise HTTPException(
             status_code=403,
             detail="User does not have access to this workflow",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    # 构建用户信息字典
-    user_info = {
-        "user_name": user_name,
-        "user_token": user_token,
-        "user_group": user_group,
-        "user_access": user_group_access,
-        "workflow": workflow
-    }
+    # 添加当前生效的工作流到员工信息中
+    employee_info['effective_workflow'] = workflow
 
-    print(user_info)
-    
-    return user_info
+    return employee_info

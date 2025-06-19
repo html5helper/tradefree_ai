@@ -30,8 +30,8 @@ http://localhost:8081/workflow/run/copy \
 curl -X POST \
 http://127.0.0.1:8081/workflow/run/copy \
 -H 'Content-Type: application/json' \
--H 'Authorization: Bearer token2_def456' \
--d '{"imgs":["https://m.media-amazon.com/images/I/71DZ2v9NLEL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/61MztRfbfTL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/61sWQSYf1KL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/71zC2XGqoKL._AC_SL1500_.jpg"],"product_type":"card","price":"19.90","description":"About this item The Angelique Bach Flower Card Game is a playful and intuitive way to choose the flower elixir or elixirs that suit you. Beautiful box of 38 cards with an explanatory booklet Angelica Bach Flower maps can help us choose the floral elixirs we need. The goal is to find the remedy that corresponds to the negative state of mind that afflicts us. Among these states of mind we can mention: fear, worries, discouragement, uncertainty, etc.;. With these cards, it is easier to pinpoint these states of mind. allows us to recognize the states of being and behavioral patterns that distance us from our true nature. › See more product details","prodid":"https://www.amazon.fr/-/en/Bach-Flower-Cards-ILLUSTRATED-intuitively/dp/B0CN1HKKHP","reference_product_platform":"amazon","title":"Bach Flower Cards - 38 ILLUSTRATED CARDS - Set of 38 cards to intuitively select your Bach flowers","employee":"Alice","published_shop":"ali_shop2"}'
+-H 'Authorization: Bearer 828b6cf6a0204632a91bf6314e7fe93f' \
+-d '{"imgs":["https://m.media-amazon.com/images/I/71DZ2v9NLEL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/61MztRfbfTL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/61sWQSYf1KL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/71zC2XGqoKL._AC_SL1500_.jpg"],"product_type":"card","price":"19.90","description":"About this item The Angelique Bach Flower Card Game is a playful and intuitive way to choose the flower elixir or elixirs that suit you. Beautiful box of 38 cards with an explanatory booklet Angelica Bach Flower maps can help us choose the floral elixirs we need. The goal is to find the remedy that corresponds to the negative state of mind that afflicts us. Among these states of mind we can mention: fear, worries, discouragement, uncertainty, etc.;. With these cards, it is easier to pinpoint these states of mind. allows us to recognize the states of being and behavioral patterns that distance us from our true nature. › See more product details","prodid":"https://www.amazon.fr/-/en/Bach-Flower-Cards-ILLUSTRATED-intuitively/dp/B0CN1HKKHP","reference_product_platform":"amazon","title":"Bach Flower Cards - 38 ILLUSTRATED CARDS - Set of 38 cards to intuitively select your Bach flowers","employee":"Alice","workflow":"amz_to_ali_plugin","published_shop":"ali_shop2"}'
 
 # social to ali
 curl -X POST \
@@ -42,7 +42,7 @@ curl -X POST \
 
 
 curl -X POST \
-http://localhost:8081/workflow/tasks/retry/71a6f198-6ff1-4204-bf44-75bacdfddb2c \
+https://www.tradefree.ai/workflow/tasks/retry/a103582f-0691-4925-9296-59a00271e75f \
 -H 'Authorization: Bearer token2_def456'
 
 curl -X POST \
@@ -66,20 +66,87 @@ Redis Backend: redis://127.0.0.1:6379/1
 MYSQL DB: celery_prod
 
 
-
-
 curl -X POST \
     https://www.tradefree.ai/workflow_dev/run/social_to_ali \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer token2_def456' \
     -d '{"platform": "tiktok", "page_size": 30}'
 
+curl -X POST \
+    http://127.0.0.1:8081/client/employee/refresh_all \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer tiuGlpGYG6olYLBaIfbvsKI7DIUv9Z3J'
 
 curl -X POST \
-    http://127.0.0.1:8081/workflow/run/copy_no_ai \
+    http://127.0.0.1:8081/client/employee/activate \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer tiuGlpGYG6olYLBaIfbvsKI7DIUv9Z3J' \
-    -d '{"imgs":["https://m.media-amazon.com/images/I/71DZ2v9NLEL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/61MztRfbfTL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/61sWQSYf1KL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/71zC2XGqoKL._AC_SL1500_.jpg"],"product_type":"card","price":"19.90","description":"About this item The Angelique Bach Flower Card Game is a playful and intuitive way to choose the flower elixir or elixirs that suit you. Beautiful box of 38 cards with an explanatory booklet Angelica Bach Flower maps can help us choose the floral elixirs we need. The goal is to find the remedy that corresponds to the negative state of mind that afflicts us. Among these states of mind we can mention: fear, worries, discouragement, uncertainty, etc.;. With these cards, it is easier to pinpoint these states of mind. allows us to recognize the states of being and behavioral patterns that distance us from our true nature. › See more product details","prodid":"https://www.amazon.fr/-/en/Bach-Flower-Cards-ILLUSTRATED-intuitively/dp/B0CN1HKKHP","reference_product_platform":"amazon","title":"Bach Flower Cards - 38 ILLUSTRATED CARDS - Set of 38 cards to intuitively select your Bach flowers","employee":"Alice","published_shop":"ali_shop2"}'
+    -H 'Authorization: Bearer 828b6cf6a0204632a91bf6314e7fe93f' 
+
+{
+    "code":200,
+    "message":"success",
+    "data":{
+        "employee_token":"828b6cf6a0204632a91bf6314e7fe93f",
+        "user_info":{
+            "user_name":"marvin",
+            "user_cn_name":"解志国",
+            "user_company":"丰和同AI",
+            "user_group":"INTERNAL"
+        },
+        "employee_info":{
+            "employee_id":"1",
+            "employee_name":"Alice",
+            "employee_cn_name":"王慧"
+        },
+        "employee_accesses":[
+            {
+                "employee_id":"1",
+                "workflow":"amz_to_ali_plugin",
+                "workflow_name":"ali_sticker_catId",
+                "product_type":"sticker",
+                "platform":"ali",
+                "category_id":"201304308",
+                "shop_name":"阿里国际-店铺001",
+                "action_flow_id":"1"
+            },
+            {
+                "employee_id":"1",
+                "workflow":"amz_to_1688",
+                "workflow_name":"ali_label_catId",
+                "product_type":"label",
+                "platform":"ali",
+                "category_id":"201304308",
+                "shop_name":"阿里国际-店铺001",
+                "action_flow_id":"2"
+            }
+        ],
+        "workflows":["amz_to_ali_plugin","amz_to_1688"],
+        "actionflows":[1,2],
+        "effective_workflow":"amz_to_ali_plugin"
+    }
+}
 
 
-    
+{
+    "product_image":{
+        "url":"",
+        "steps":[
+            {
+            }
+        ]
+    },
+    "product_video":{
+        "url":"",
+        "steps":[
+            {
+            }
+        ]
+    },
+    "product_info":{
+        "url":"",
+        "steps":[
+            {
+            }
+        ]
+    }
+}

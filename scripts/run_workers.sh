@@ -19,17 +19,16 @@ mkdir -p logs
 
 # 定义 worker 配置
 workers=(
-    "social:product_social_queue -c 1 -n social_worker@%h-social"
-    "src:product_src_queue -c 5 -n src_worker@%h-src"
-    "listing:product_listing_queue -c 5 -n listing_worker@%h-listing"
-    "maskword:product_maskword_queue -c 5 -n maskword_worker@%h-maskword"
-    "image:product_image_queue -c 1 -n image_worker@%h-image"
-    "upload_ali:product_upload_queue_ali -c 2 -n upload_ali_worker@%h-upload_image_ali"
-    "public_ali:product_public_queue_ali -c 2 -n public_ali_worker@%h-public_ali"
-    "upload_1688:product_upload_queue_1688 -c 2 -n upload_1688_worker@%h-upload_image_1688"
-    "video:product_video_queue -c 1 -n video_worker@%h-video"
+    "social2product:product_social_queue -c 1 -n social2product_worker@%h-social2product"
+    "store_resource:product_resource_queue -c 5 -n store_resource_worker@%h-store_resource"
+    "generate_listing:product_listing_queue -c 5 -n generate_listing_worker@%h-generate_listing"
+    "filter_maskword:product_maskword_queue -c 5 -n filter_maskword_worker@%h-filter_maskword"
+    "generate_image:product_image_queue -c 1 -n generate_image_worker@%h-generate_image"
+    "generate_video:product_video_queue -c 1 -n generate_video_worker@%h-generate_video"
+    "upload_image:product_upload_image_queue -c 2 -n upload_image_worker@%h-upload_image"
     "upload_video:product_upload_video_queue -c 2 -n upload_video_worker@%h-upload_video"
-    "public_1688:product_public_queue_1688 -c 2 -n public_1688_worker@%h-public_1688"
+    "store:product_store_queue -c 1 -n store_worker@%h-store"
+    "publish:product_public_queue -c 2 -n publish_worker@%h-publish"
 )
 
 # 停止所有现有的 worker 进程

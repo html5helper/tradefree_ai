@@ -7,26 +7,7 @@ workflow = CeleryWorkflow()
 
 
 @app.task
-def amz_to_ali_video(data: dict):
+def normal_generate_video(data: dict):
     data = workflow.build_payload_taskid(data)
     return service.run_task("img2video",data)
 
-@app.task
-def amz_to_1688_video(data: dict):
-    data = workflow.build_payload_taskid(data)
-    return service.run_task("img2video",data)
-
-@app.task
-def ali_to_1688_video(data: dict):
-    data = workflow.build_payload_taskid(data)
-    return service.run_task("img2video",data)
-
-@app.task
-def _1688_to_1688_video(data: dict):
-    data = workflow.build_payload_taskid(data)
-    return service.run_task("img2video",data)
-
-@app.task
-def ali_to_ali_video(data: dict):
-    data = workflow.build_payload_taskid(data)
-    return service.run_task("img2video",data)

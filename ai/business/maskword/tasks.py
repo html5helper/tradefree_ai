@@ -6,31 +6,7 @@ service = DifyService()
 workflow = CeleryWorkflow()
 
 @app.task
-def amz_to_ali_maskword_filter(data: dict):
+def normal_filter_maskword(data: dict):
     data = workflow.build_payload_taskid(data)
     return service.run_task("maskword_filter",data)
 
-@app.task
-def amz_to_1688_maskword_filter(data: dict):
-    data = workflow.build_payload_taskid(data)
-    return service.run_task("maskword_filter",data)
-
-@app.task
-def ali_to_1688_maskword_filter(data: dict):
-    data = workflow.build_payload_taskid(data)
-    return service.run_task("maskword_filter",data)
-
-@app.task
-def _1688_to_1688_maskword_filter(data: dict):
-    data = workflow.build_payload_taskid(data)
-    return service.run_task("maskword_filter",data)
-
-@app.task
-def ali_to_ali_maskword_filter(data: dict):
-    data = workflow.build_payload_taskid(data)
-    return service.run_task("maskword_filter",data)
-
-@app.task
-def social_to_ali_maskword_filter(data: dict):
-    data = workflow.build_payload_taskid(data)
-    return service.run_task("maskword_filter", data)
