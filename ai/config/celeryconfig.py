@@ -187,7 +187,7 @@ CHAIN_MAP = {
         'ai.business.image.tasks.ali_to_1688_image',
         'ai.business.upload_img.tasks.ali_to_1688_upload',
         'ai.business.video.tasks.ali_to_1688_video',
-        'ai.business.upload_video.tasks.ali_to_1688_upload'
+        'ai.business.upload_video.tasks.ali_to_1688_upload',
         'ai.business.public.tasks.ali_to_1688_public',
     ],
     "1688_to_1688": [
