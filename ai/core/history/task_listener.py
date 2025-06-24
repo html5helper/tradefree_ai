@@ -105,7 +105,7 @@ def parse_product_info(event_data: dict) -> dict:
             'delivery_time': event_data.get('delivery_time', None),
             
             # images
-            'img_url': event_data.get('img_url', None),
+            'img_url': event_data.get('video_src_urls', None),
             # video
             'video_url': event_data.get('video_url', None),
             # shop info
