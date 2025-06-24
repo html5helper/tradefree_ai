@@ -7,13 +7,13 @@ from ai.service.task_event_service import TaskEventService
 task_event_service = TaskEventService()
 
 def retry_chain_by_task_id(task_id: str):
-    task_event = task_event_service.get_task_event(task_id)
+    task_event = task_event_service.get(task_id)
     if not task_event:
         raise HTTPException(status_code=404, detail="Task history not found")
     
     # retried字段置为1
     task_event.retried = 1
-    task_event_service.update_task_event_status(task_id, {'retried': 1})
+    task_event_service.update(task_id, {'retried': 1})
 
     task_name = task_event.task_name
     args = task_event.task_input or []

@@ -42,6 +42,23 @@ class ActionFlowService:
         finally:
             self.session.close()
 
+    def get_by_ids(self, ids: list) -> list:
+        """获取发品事件流
+        
+        Args:
+            action_flow_id: 发品事件流ID
+            
+        Returns:
+            ActionFlow: 发品事件流
+        """
+        try:
+            return self.session.query(ActionFlow).filter(ActionFlow.id.in_(ids)).all()
+        except Exception as e:
+            print(f"Error getting action flow: {str(e)}")
+            return None
+        finally:
+            self.session.close()
+
     def update(self, action_flow_id: int, changes: dict) -> ActionFlow:
         """更新发品事件流
         

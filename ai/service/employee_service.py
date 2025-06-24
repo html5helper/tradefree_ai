@@ -72,7 +72,8 @@ class EmployeeService:
                 },
                 "employee_accesses": [],
                 "workflows": [],
-                "actionflows": []
+                "actionflows": [],
+                "product_types": []
             }
             
             # 添加访问权限信息
@@ -82,15 +83,19 @@ class EmployeeService:
                     result["employee_accesses"].append({
                         "employee_id": str(access.employee_id),
                         "workflow": access.workflow,
-                        "workflow_name": action_flow.name,
+                        "workflow_name": access.workflow_name,
                         "product_type": access.product_type,
                         "platform": action_flow.platform,
                         "category_id": action_flow.category_id,
                         "shop_name": access.shop_name,
                         "action_flow_id": str(access.action_flow_id)
                     })
-                    result["workflows"].append(access.workflow)
-                    result["actionflows"].append(access.action_flow_id)
+                    if(not access.workflow in result["workflows"]):
+                        result["workflows"].append(access.workflow)
+                    if(not access.action_flow_id in result["actionflows"]):
+                        result["actionflows"].append(access.action_flow_id)
+                    if(not access.product_type in result["product_types"]):
+                        result["product_types"].append(access.product_type)
 
             # 将数据存入缓存
             self.cache_service.set_to_cache(employee.employee_token, result)

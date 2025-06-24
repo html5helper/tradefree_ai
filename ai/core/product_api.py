@@ -1,11 +1,13 @@
 from fastapi import APIRouter, Request, Depends
-from ai.core.auth.authentication import verify_token, verify_sys_token
+from ai.core.auth.authentication import verify_sys_token,verify_employee_token
 from ai.service.employee_service import EmployeeService
 from ai.service.employee_catch_service import EmployeeCacheService
+from ai.service.product_publish_service import ProductPublishService
 from ai.dao.db.engine import manager_engine, workflow_engine
 from sqlalchemy.orm import Session
 from ai.dao.entity.action_flow import ActionFlow
-
+from ai.service.actionflow_service import ActionFlowService
+import json
 
 api = APIRouter()
 
@@ -16,6 +18,8 @@ manager_session = Session(bind=manager_engine)
 workflow_session = Session(bind=workflow_engine)
 employee_service = EmployeeService()
 cache_service = EmployeeCacheService()
+product_publish_service = ProductPublishService()
+actionflow_service = ActionFlowService()
 
 # -------------------------------------------
 # System API
@@ -41,7 +45,7 @@ async def employee_refresh_all(request: Request, sys_token: dict = Depends(verif
 # Client API
 # -------------------------------------------
 @api.post("/client/employee/activate")
-async def employee_activate(request: Request, employee_info: dict = Depends(verify_token)):
+async def employee_activate(request: Request, employee_info: dict = Depends(verify_employee_token)):
     """Employer activate
     
     Args:
@@ -92,46 +96,37 @@ async def employee_activate(request: Request, employee_info: dict = Depends(veri
         print(f"Error in employer_activate: {str(e)}")
         return {"code": 500, "message": f"Internal server error: {str(e)}", "data": None}
 
-@api.post("/client/actionflow/get")
-async def product_list(request: Request, user_info: dict = Depends(verify_token)):
-    """Get Actionflow By Actionflow ID"""
-    data = await request.json()
-    actionflow_id = data['actionflow_id']
-    # 查询Actionflow信息
-    actionflow = manager_session.query(ActionFlow).filter(
-        ActionFlow.id == actionflow_id,
-        ActionFlow.is_enable == True
-    ).first()
-            
-    if not actionflow:
-        return {"code": 404, "message": "Actionflow not found", "data": None}
-
-    return {"code": 200, "message": "success","data":actionflow.to_dict()}
 
 @api.post("/client/product/platform")
-async def product_list(request: Request, user_info: dict = Depends(verify_token)):
+async def product_list(request: Request, access: dict = Depends(verify_employee_token)):
     """Get Product List By platform"""
     data = await request.json()
-    platform = data['platform']
-    platform_product_list = []
-    return {"code": 200, "message": "success","data":platform_product_list}
+    platform = data.get('platform',None)
+    product_type = data.get('product_type',None)
+    employee_info = access['employee_info']
+    employee_id = employee_info['employee_id']
+    product_publish_list = product_publish_service.list_by_employee_and_platform_and_product_type(employee_id, platform, product_type)
 
-@api.post("/client/product/all")
-async def product_list(request: Request, access_info: dict = Depends(verify_token)):
-    """Get All Platform Product List"""
-    data = await request.json()
-    employee_info = access_info['employee_info']
-    employee_name = employee_info['employee_name']
+    products = []
+    workflow_ids = []
+    for product_publish in product_publish_list:
+        if product_publish.product and product_publish.product != "":
+            products.append(json.loads(product_publish.product))
+        if(not product_publish.action_flow_id in workflow_ids):
+            workflow_ids.append(product_publish.action_flow_id)
 
-    platform = data.get('platform')
-    product_type = data.get('product_type')
-    product_list = []
-    if platform:
-        product_list = workflow_session.query(Product).filter(Product.platform == platform).all()
-    elif product_type:
-        product_list = workflow_session.query(Product).filter(Product.product_type == product_type).all()
-    else:
-        product_list = session.query(Product).all()
-    return {"code": 200, "message": "success","data":product_list}
+    actionflow_list = actionflow_service.get_by_ids(workflow_ids)
+    actionflows = []
+    for actionflow in actionflow_list:
+        actionflows.append({actionflow.id:actionflow.action_flow})
 
-# -------------------------------------------
+    result = {
+        "code": 200,
+        "message": "success",
+        "data": {
+            "products": products,
+            "actionflows": actionflows
+        }
+    }
+
+    return result
