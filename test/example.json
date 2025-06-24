@@ -146,7 +146,7 @@ curl -X POST \
 
 curl -X POST \
     http://127.0.0.1:8081/workflow/tasks/retry/b1bd05f5-7a27-4a3c-b701-70122fb24e18 \
-    -H 'Authorization: Bearer 828b6cf6a0204632a91bf6314e7fe93f'
+    -H 'Authorization: Bearer token2_def456'
 
     {
     "code": 200,
