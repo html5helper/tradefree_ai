@@ -25,7 +25,7 @@ actionflow_service = ActionFlowService()
 # System API
 # -------------------------------------------
 
-@api.post("/client/employee/refresh")
+@api.post("/workflow/employee/refresh")
 async def employee_refresh(request: Request, sys_token: dict = Depends(verify_sys_token)):
     """Refresh Employee catch"""
     data = await request.json()
@@ -34,7 +34,7 @@ async def employee_refresh(request: Request, sys_token: dict = Depends(verify_sy
     result = employee_service.refresh_employee_access_catch(employee_id)
     return {"code": 200, "message": "success","data":{"result":result}}
 
-@api.post("/client/employee/refresh_all")
+@api.post("/workflow/employee/refresh_all")
 async def employee_refresh_all(request: Request, sys_token: dict = Depends(verify_sys_token)):
     """Refresh all Employees catch"""
     
@@ -44,7 +44,7 @@ async def employee_refresh_all(request: Request, sys_token: dict = Depends(verif
 # -------------------------------------------
 # Client API
 # -------------------------------------------
-@api.post("/client/employee/activate")
+@api.post("/workflow/employee/activate")
 async def employee_activate(request: Request, employee_info: dict = Depends(verify_employee_token)):
     """Employer activate
     
@@ -97,7 +97,7 @@ async def employee_activate(request: Request, employee_info: dict = Depends(veri
         return {"code": 500, "message": f"Internal server error: {str(e)}", "data": None}
 
 
-@api.post("/client/product/platform")
+@api.post("/workflow/product/platform")
 async def product_list(request: Request, access: dict = Depends(verify_employee_token)):
     """Get Product List By platform"""
     data = await request.json()
