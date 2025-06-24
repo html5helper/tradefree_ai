@@ -1,166 +1,107 @@
-
-
-curl -X POST http://127.0.0.1:8081/workflow/run/copy \
--H 'Content-Type: application/json' \
--H 'Authorization: Bearer 828b6cf6a0204632a91bf6314e7fe93f' \
--d '{
-    "title": "Business Cards Personalised Double-Sided Design Business Cards Create Personalised Business Cards/Thank You Cards Waterproof for Small Businesses with Logo Text QR Code",
-    "description": "About this item Customizable Business Cards: Click the Customize Now button, select your favorite template and upload your desired logo, text, images, QR code or any design. You will receive a unique business card that belongs only to you! HIGH QUALITY:Individual business cards for business are printed on both sides. Our customized business cards are made of high quality 300gsm coated paper, thick paper, matte on both sides, waterproof. Size and quantity: 90 x 54 mm/3.5 x 2 inches. We have 4 packages to choose from: 100 pieces, 200 pieces, 500 pieces, 1000 pieces. 100 pieces individual business cards with photo (without card box); 200 pieces/500 pieces with 1 card box; 1000 pieces, 2 card boxes. The business card box can hold 10-15 business cards and easily fits in your pocket. Versatile applications: customizable business cards for small business are perfect for various professional purposes, such as haircuts, cleaning, beauty, eyelashes, repair, etc.And are also used as gift cards or thank you cards. Perfect for online retailers, hairdressers, non-profit organizations or any business that wants to strengthen their brand and relationships. Customer service: If you have any questions during the process, we will give you a satisfactory answer within 24 hours. \\u203a See more product details",
-    "price": "0.2",
-    "moq": "200",
-    "imgs": [
-        "https://m.media-amazon.com/images/I/71FL0jVsn5L._AC_SL1500_.jpg",
-        "https://m.media-amazon.com/images/I/61dyKLkmitL._AC_SL1500_.jpg",
-        "https://m.media-amazon.com/images/I/61zpkUSIt2L._AC_SL1500_.jpg",
-        "https://m.media-amazon.com/images/I/81wbMem76EL._AC_SL1500_.jpg",
-        "https://m.media-amazon.com/images/I/61P06+2WJiL._AC_SL1500_.jpg",
-        "https://m.media-amazon.com/images/I/81FsHaN6y2L._AC_SL1500_.jpg"
-    ],
-    "product_type": "sticker",
-    "delivery_time": "7 days",
-    "reference_product": "https://www.amazon.de/Business-Personalised-Double-Sided-Waterproof-Businesses/dp/B0D2HRH5W3",
-    "reference_product_platform": "amazon",
-    "employee": "marvin",
-    "published_shop": "ali_shop10",
-    "trace_id": "fbad42aa-964c-405e-aed5-ae067a912c96",
-    "workflow": "amz_to_ali_plugin",
-    "task_id": "8879c667-806a-4c3e-8f19-979e295867d6"
-}'
-
-
-
-
-{
-    "trace_id": "3d0ac79d-8ed6-4288-bd56-eb9e0707f069",
-    "action_flow_id": "1",
-    "product_type": "sticker",
-    "title": "Custom Double Sided Business Cards with Logo Text QR Code Waterproof Coated Paper for Small Business Professionals",
-    "shot_description": "Custom double sided business cards made of waterproof 300gsm coated paper. Perfect for small businesses, hair salons, beauty services and more. Includes logo, text and QR code customization options.",
-    "product_name": "Double Sided Waterproof Custom Business Cards with Logo QR Code",
-    "tags": "custom business cards waterproof business cards double sided business cards logo business cards qr code business cards small business cards personalized business cards thank you cards with logo professional business cards for salons beauty business cards for online retailers",
-    "reference_product": "https://www.amazon.de/Business-Personalised-Double-Sided-Waterproof-Businesses/dp/B0D2HRH5W3",
-    "reference_product_platform": "amazon",
-    "moq": "200",
-    "price": "0.2",
-    "delivery_time": "7 days",
-    "img_url": null,
-    "video_url": "http://dify.html5core.com/svg/c61b11a2-5168-479b-9424-f843b31142fa_with_audio.mp4",
-    "shop_name": "\u963f\u91cc\u56fd\u9645-\u5e97\u94fa001"
-}
-
-
 {
     "code": 200,
     "message": "success",
     "data": {
-        "products": [
+        "employee_token": "828b6cf6a0204632a91bf6314e7fe93f",
+        "user_info": {
+            "user_name": "marvin",
+            "user_cn_name": "解志国",
+            "user_company": "丰和同AI",
+            "user_group": "INTERNAL"
+        },
+        "employee_info": {
+            "employee_id": "1",
+            "employee_name": "Alice",
+            "employee_cn_name": "员工001"
+        },
+        "employee_accesses": [
             {
-                "trace_id": "db193123-1216-43f4-b618-544c929b962f",
-                "action_flow_id": "1",
+                "employee_id": "1",
+                "workflow": "amz_to_ali_plugin",
+                "workflow_name": "亚马逊智能迁移到阿里国际站",
                 "product_type": "sticker",
-                "title": "Bach Flower Selection Cards Set of 38 Illustrated Cards with Explanatory Booklet for Intuitive Mind State Identification",
-                "shot_description": "A set of 38 illustrated Bach Flower cards designed for intuitive selection of flower elixirs. Includes an explanatory booklet to help identify emotional states such as fear, worry, and uncertainty. Ideal for self-reflection and holistic wellness practices.",
-                "product_name": "Bach Flower Selection Cards Set",
-                "tags": "bach flower selection cards intuitive flower elixir selection emotional state identification holistic wellness cards flower remedy cards self care tools therapeutic card set wellness practitioners natural healing cards emotional balance cards mental health support cards alternative medicine products",
-                "reference_product": null,
-                "reference_product_platform": "amazon",
-                "moq": null,
-                "price": "19.90",
-                "delivery_time": null,
-                "img_url": null,
-                "video_url": "http://dify.html5core.com/svg/f1f5572d-3ffe-4157-b9f2-7a923e8ab4de_with_audio.mp4",
-                "shop_name": "阿里国际-店铺001"
+                "platform": "ali",
+                "category_id": "201304308",
+                "shop_name": "阿里国际-店铺001",
+                "action_flow_id": "1"
             },
             {
-                "trace_id": "2a66a8d7-7e71-4e75-9d8b-a665925db1e6",
-                "action_flow_id": "1",
-                "product_type": "sticker",
-                "title": "Bach Flower Selection Cards Set of 38 Illustrated Cards for Intuitive Flower Elixir Choice Angelique Bach Flower Card Game with Booklet",
-                "shot_description": "Set of 38 illustrated Bach flower selection cards for intuitive elixir choice. Includes explanatory booklet to help identify emotional states such as fear worry and discouragement. Ideal for self-reflection and holistic wellness practices.",
-                "product_name": "Bach Flower Selection Cards with Illustrations",
-                "tags": "bach flower selection cards illustrated flower cards intuitive elixir selection angelique bach flower game emotional healing cards self reflection tools holistic wellness supplies flower elixir guide mental health cards spiritual healing cards natural remedies cards emotional support cards flower therapy cards",
-                "reference_product": null,
-                "reference_product_platform": "amazon",
-                "moq": null,
-                "price": "19.90",
-                "delivery_time": null,
-                "img_url": null,
-                "video_url": "http://dify.html5core.com/svg/b0c3c700-ace7-4587-9573-51dfb5f49282_with_audio.mp4",
-                "shop_name": "阿里国际-店铺001"
+                "employee_id": "1",
+                "workflow": "amz_to_1688_plugin",
+                "workflow_name": "亚马逊智能迁移到1688站",
+                "product_type": "label",
+                "platform": "1688",
+                "category_id": "201304308",
+                "shop_name": "阿里国际-店铺001",
+                "action_flow_id": "2"
             },
             {
-                "trace_id": "1e89afd8-25a5-4f1f-ad38-11015c0e2cfd",
-                "action_flow_id": "1",
-                "product_type": "sticker",
-                "title": "Bach Flower Selection Cards Set of 38 Intuitive Cards for Choosing Floral Elixirs with Explanatory Booklet",
-                "shot_description": "Intuitive Bach Flower Selection Cards Set with 38 illustrated cards and a detailed booklet. Helps identify emotional states such as fear, worry, and discouragement. Ideal for self-reflection and holistic wellness practices.",
-                "product_name": "Bach Flower Selection Cards with Illustrated Guide",
-                "tags": "bach flower selection cards intuitive flower remedy cards emotional wellness cards floral elixir selection cards self reflection tools holistic wellness products emotional healing cards spiritual growth cards therapeutic flower cards alternative medicine supplies mindfulness tools",
-                "reference_product": null,
-                "reference_product_platform": "amazon",
-                "moq": null,
-                "price": "19.90",
-                "delivery_time": null,
-                "img_url": null,
-                "video_url": "http://dify.html5core.com/svg/5d81cc46-7151-4e25-a640-18e864556b5d_with_audio.mp4",
-                "shop_name": "阿里国际-店铺001"
+                "employee_id": "1",
+                "workflow": "amz_to_ali_plugin",
+                "workflow_name": "亚马逊智能迁移到阿里国际站",
+                "product_type": "bookmark",
+                "platform": "ali",
+                "category_id": "1036616",
+                "shop_name": "shop004",
+                "action_flow_id": "4"
             },
             {
-                "trace_id": "486314a0-9bfa-4e17-94a9-4f1afc364664",
-                "action_flow_id": "1",
+                "employee_id": "1",
+                "workflow": "amz_to_1688_plugin",
+                "workflow_name": "亚马逊智能迁移到1688站",
                 "product_type": "sticker",
-                "title": "Bach Flower Selection Cards Set of 38 Illustrated Cards with Explanatory Booklet for Intuitive Flower Elixir Choice",
-                "shot_description": "Intuitive Bach flower selection cards set containing 38 beautifully illustrated cards and an explanatory booklet. Designed to help users identify their emotional states and select the right flower elixirs. Ideal for self-reflection and holistic wellness practices.",
-                "product_name": "Bach Flower Selection Cards Set",
-                "tags": "bach flower selection cards intuitive flower elixir cards emotional state identification cards holistic wellness cards self reflection tools floral remedy cards therapeutic card set wellness center supplies spiritual retreat materials emotional healing cards mental clarity tools",
-                "reference_product": null,
-                "reference_product_platform": "amazon",
-                "moq": null,
-                "price": "19.90",
-                "delivery_time": null,
-                "img_url": null,
-                "video_url": "http://dify.html5core.com/svg/389f194f-1340-46d1-9732-a21845ef6bf2_with_audio.mp4",
-                "shop_name": "阿里国际-店铺001"
-            },
-            {
-                "trace_id": "64daa41d-4e16-428f-ad52-ff6509099f4b",
-                "action_flow_id": "1",
-                "product_type": "sticker",
-                "title": "Bach Flower Selection Cards Set of 38 Intuitive Cards for Choosing Floral Elixirs With Explanatory Booklet",
-                "shot_description": "Intuitive Bach Flower Selection Cards set of 38 with illustrated guide to help identify emotional states and choose the right floral elixir. Includes explanatory booklet for easy understanding and use. Ideal for self-reflection and holistic wellness practices.",
-                "product_name": "Bach Flower Selection Cards with Illustrated Guide",
-                "tags": "bach flower selection cards emotional healing cards intuitive flower remedy cards floral elixir selection cards holistic wellness cards self reflection cards therapeutic cards emotional state cards flower therapy cards wellness tools",
-                "reference_product": null,
-                "reference_product_platform": "amazon",
-                "moq": null,
-                "price": "19.90",
-                "delivery_time": null,
-                "img_url": null,
-                "video_url": "http://dify.html5core.com/svg/439ad7cc-f7b3-416f-9166-a134b0bf2d30_with_audio.mp4",
-                "shop_name": "阿里国际-店铺001"
-            },
-            {
-                "trace_id": "ae34eac4-616e-4ce8-8b73-17806ed32c09",
-                "action_flow_id": "1",
-                "product_type": "sticker",
-                "title": "Bach Flower Selection Cards Set of 38 Illustrated Cards with Explanatory Guide for Intuitive Mind State Identification",
-                "shot_description": "A set of 38 illustrated Bach Flower cards designed to intuitively identify emotional states and select the right flower elixirs. Includes an explanatory booklet for easy understanding and use. Ideal for self-reflection and holistic wellness practices.",
-                "product_name": "Bach Flower Selection Cards Set",
-                "tags": "bach flower selection cards intuitive emotional healing cards floral elixir selection tools holistic wellness cards emotional state identification cards therapeutic flower cards self reflection tools mind body wellness products alternative medicine supplies spiritual growth tools",
-                "reference_product": null,
-                "reference_product_platform": "amazon",
-                "moq": null,
-                "price": "19.90",
-                "delivery_time": null,
-                "img_url": null,
-                "video_url": "http://dify.html5core.com/svg/3437b946-119c-44df-9aad-609032fe9137_with_audio.mp4",
-                "shop_name": "阿里国际-店铺001"
+                "platform": "1688",
+                "category_id": "201304308",
+                "shop_name": "1688shop002",
+                "action_flow_id": "8"
             }
         ],
+        "workflows": [
+            "amz_to_ali_plugin",
+            "amz_to_1688_plugin"
+        ],
         "actionflows": [
-            {
-                "1": "{\n      upload_image: {\n        url: "https: //photobank.alibaba.com/home/index.htm",\n        delay: 1000, // 基础延迟时间\n        steps: [\n          {\n            type: "wait",\n            value: "1000",\n          },\n          {\n            type: "click",\n            selector: ".next-btn.next-medium.next-btn-primary",\n            delay: 1000,\n            description: "点击上传图片按钮",\n          },\n          {\n            type: "switchToIframe",\n            selector:\n              ".next-dialog.next-closeable.next-overlay-inner.icbu-photo-select .next-dialog-body > iframe",\n            description: "切换到上传图片的iframe",\n          },\n          // {\n          //     type: "click",\n          //     selector: "div.uploader-header input[role='combobox'][tabindex='0']",\n          //     description: "点击选择分组",\n          // },\n          // {\n          //     type: "click",\n          //     selector: "div[aria-label='tradefree'] .next-tree-node-label",\n          //     delay: 1000,\n          //     description: "选择分组:tradefree",\n          // },\n          // {\n          //     type: "uploadImg",\n          //     selector: ".next-upload-card > i",\n          //     value: "https://www.tradefree.ai/images/1749538455692_3367.png,https://www.tradefree.ai/images/1749645762763_7534.png,https://www.tradefree.ai/images/1749645763307_4197.png,https://www.tradefree.ai/images/1749645764028_9718.png,https://www.tradefree.ai/images/1749645764642_2322.png,https://www.tradefree.ai/images/1749645765446_4033.png",\n          //     delay: 8000,\n          //     description: "上传图片文件"\n          // },\n          // {\n          //     type: "click",\n          //     selector: ".uploader-actionbar-save > button",\n          //     description: "点击确定上传按钮"\n          // }\n        ],\n      },\n      // upload_video: {\n      //     url: "",\n      //     delay: 1000, // 基础延迟时间\n      //     steps: []\n      // },\n\n      publish_product: {\n        url: "https://post.alibaba.com/product/publish.htm?from=common&catId=201268782",\n        delay: 1000, // 基础延迟时间\n        steps: [\n          // 开始选择上传图片\n          {\n            type: "wait",\n            value: "1000",\n          },\n          {\n            type: "click",\n            selector: "span:nth-child(2) > .image-upload-photobank-placeholder",\n            description: "点击上传图片",\n          },\n          /*\n                    {\n                        type: "switchToIframe",\n                        selector: ".next-dialog-body.next-dialog-body-no-footer > iframe",\n                        description: "切换到图片上传iframe"\n                    },\n\n                    // 第一张图\n                    {\n                        type: "input",\n                        selector: "input[role='searchbox']",\n                        value: "1749210340841_3281",\n                        delay: 500,\n                        description: "输入图片名称"\n                    },\n                    {\n                        type: "click",\n                        selector: "i.next-icon-search",\n                        delay: 800,\n                        description: "点击搜索"\n                    },\n                    {\n                        type: "click",\n                        selector: "div.next-row .next-row-wrap .next-col:nth-child(1) img",\n                        delay: 500,\n                        description: "点击选择第一张图片"\n                    },\n\n                    // 第二张图\n                    {\n                        type: "input",\n                        selector: "input[role='searchbox']",\n                        value: "1749210341311_1210",\n                        delay: 500,\n                        description: "输入图片名称"\n                    },\n                    {\n                        type: "click",\n                        selector: "i.next-icon-search",\n                        delay: 800,\n                        description: "点击搜索"\n                    },\n                    {\n                        type: "click",\n                        selector: "div.next-row .next-row-wrap .next-col:nth-child(1) img",\n                        delay: 500,\n                        description: "点击选择第一张图片"\n                    },\n\n                    // 第三张图\n                    {\n                        type: "input",\n                        selector: "input[role='searchbox']",\n                        value: "1749210340208_2575",\n                        delay: 500,\n                        description: "输入图片名称"\n                    },\n                    {\n                        type: "click",\n                        selector: "i.next-icon-search",\n                        delay: 800,\n                        description: "点击搜索"\n                    },\n                    {\n                        type: "click",\n                        selector: "div.next-row .next-row-wrap .next-col:nth-child(1) img",\n                        delay: 500,\n                        description: "点击选择第一张图片"\n                    },\n\n                    // 第四张图\n                    {\n                        type: "input",\n                        selector: "input[role='searchbox']",\n                        value: "1749210339896_3580",\n                        delay: 500,\n                        description: "输入图片名称"\n                    },\n                    {\n                        type: "click",\n                        selector: "i.next-icon-search",\n                        delay: 800,\n                        description: "点击搜索"\n                    },\n                    {\n                        type: "click",\n                        selector: "div.next-row .next-row-wrap .next-col:nth-child(1) img",\n                        delay: 500,\n                        description: "点击选择第一张图片"\n                    },\n\n                    // 第五张图\n                    {\n                        type: "input",\n                        selector: "input[role='searchbox']",\n                        value: "1749210339191_8294",\n                        delay: 500,\n                        description: "输入图片名称"\n                    },\n                    {\n                        type: "click",\n                        selector: "i.next-icon-search",\n                        delay: 800,\n                        description: "点击搜索"\n                    },\n                    {\n                        type: "click",\n                        selector: "div.next-row .next-row-wrap .next-col:nth-child(1) img",\n                        delay: 500,\n                        description: "点击选择第一张图片"\n                    },\n\n                    // 第六张图\n                    {\n                        type: "input",\n                        selector: "input[role='searchbox']",\n                        value: "1749210342007_9101",\n                        delay: 500,\n                        description: "输入图片名称"\n                    },\n                    {\n                        type: "click",\n                        selector: "i.next-icon-search",\n                        delay: 800,\n                        description: "点击搜索"\n                    },\n                    {\n                        type: "click",\n                        selector: "div.next-row .next-row-wrap .next-col:nth-child(1) img",\n                        delay: 500,\n                        description: "点击选择第一张图片"\n                    },\n                    {\n                        type: "click",\n                        selector: "button[id='confirm']",\n                        delay: 500,\n                        description: "点击确定"\n                    },\n                    {\n                        type: "switchToMainFrame",\n                        description: "切换回主框架"\n                    },\n                    */\n        ],\n      },\n    }"
-            }
+            1,
+            2,
+            4,
+            8
+        ],
+        "product_types": [
+            "sticker",
+            "label",
+            "bookmark"
         ]
     }
 }
+
+
+
+
+curl -X POST http://admin.tradefree.ai/workflow/run/copy \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer 828b6cf6a0204632a91bf6314e7fe93f' \
+-d '{"title": "Custom UV DTF Transfer Sticker for Metal, Glass, Car | DIY Design Logo, Image, Text | Waterproof, Self-Adhesive Crystal Decals","description": "We are committed to delivering high-quality custom clear stickers and labels to our customers. If you are not satisfied with your order, please contact us, and we will make every effort to resolve the issue. Your satisfaction is our top priority.","price": "0.1","moq": "200","imgs": [  "https://m.media-amazon.com/images/I/41ioYrEmI8L._AC_SL1500_.jpg",  "https://m.media-amazon.com/images/I/61Qmrd-kIFL._AC_SL1500_.jpg",  "https://m.media-amazon.com/images/I/51lJ3Qn8+sL._AC_SL1500_.jpg",  "https://m.media-amazon.com/images/I/51vDRkq5CoL._AC_SL1500_.jpg",  "https://m.media-amazon.com/images/I/71qgEBgYxuL._AC_SL1500_.jpg",  "https://m.media-amazon.com/images/I/51rVarFTYEL._AC_SL1500_.jpg"],"product_type": "label","delivery_time": "7 days","reference_product": "https://www.amazon.com/Transfer-Sticker-Waterproof-Self-Adhesive-Crystal/dp/B0DDTBG1WN","reference_product_platform": "amazon","published_shop": "ali_shop10","trace_id": "cbdbcaec-7ba1-40a3-a56e-5f756a94f071","workflow": "amz_to_ali_plugin","task_id": "2a2f302a-4e5b-4698-8ac9-51b2097c1ca2"}'
+
+curl -X POST http://admin.tradefree.ai/workflow/run/copy \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer 828b6cf6a0204632a91bf6314e7fe93f' \
+-d '{"title": "80 Pieces Large Size Holographic Stickers, Glitter Shiny Iridescent Transparent Resin Sticker Decals for Scrapbook Junk Journal Bullet Journals Planners Laptops Water Bottles Paper Crafts", "description": "About this item STUNNING VISUAL EFFECTS: Each package comes with 8 pack, 80 pieces large size silver holographic stickers in various shapes and themes; the stickers have rainbow shift effects when catching the light; super pretty and dainty LARGE SIZED STICKERS: You will get 80 pieces large sized holographic stickers (40 different designs, 2 pieces/each); size of the stickers is approximately 4 inch or 10 cm wide GREAT FOR RESIN ART: Enhance your resin projects with these stunning holographic stickers; made from durable, waterproof clear plastic (PET), they won\\u2019t fade or break; when embedded in resin, they create a dazzling effect, adding sparkle to keychains, jewelry, coasters, and more UNLEASH YOUR CREATIVITY: These iridescent stickers are perfect for adding sparkle to phone cases, laptops, scrapbooks, bullet journals, resin art, handmade cards, gift wrapping, photo albums, collages, mixed media art, and more GORGEOUS GIFT: This collection of large holographic stickers adds a unique touch to your belongings and is fun to mix and match; it\\u2019s a thoughtful gift for anyone who loves journaling or crafting, perfect for birthdays, holidays, or just to show you care \\u203a See more product details", "price": "0.1", "moq": "200", "imgs": ["https://m.media-amazon.com/images/I/91uPf93a53L._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/810TbFmwX0L._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/81z7ykUoykL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/91ZIMbCV7NL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/91mNKD6ieHL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/91HxSqy3dxL._AC_SL1500_.jpg"], "product_type": "label", "delivery_time": "7 days", "reference_product": "https://www.amazon.com/ARTSMONA-Holographic-Iridescent-Transparent-Scrapbook/dp/B0BZHK1MG8", "reference_product_platform": "amazon", "employee": "wangjiafa", "published_shop": "ali_shop10", "trace_id": "6b261d89-4542-4455-9ebd-8b49ff6e8f3a", "workflow": "amz_to_ali_plugin", "task_id": "1aada1d2-b250-4d05-8398-45a0baeb503e"}'
+
+
+
+
+
+curl -X POST http://admin.tradefree.ai/workflow/run/copy \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer 828b6cf6a0204632a91bf6314e7fe93f' \
+-d '{"title": "Custom Font Heart Name Decal Sticker - Great for Tumblers, Laptops, Cars, Boats, RV, Phones, Yeti - Solid, Glitter, Holographic Colors Available", "description": "\\ud83d\\udc9cWhat a fun way to personalize anything you desire. Our decals are made with only the high-quality vinyl at our little shop in Snohomish Washington. 100% satisfaction guaranteed! \\ud83d\\udc9cGreat For: Tumblers Laptops, Car Window, Rvs, Boats, Wine Glass, Baby Bottles, Signs, Lockers, Tablets, Planners, Sport Helmets, Toolbox or Anything Nonporous \\ud83d\\udc9cWhat you will receive: 1 Vinyl Name Decal & easy to follow Application Directions. \\ud83d\\udc9c Durability: Solid/Glitter Vinyl: 5 to 6 years outdoors. Holographic Vinyl: 3 to 5 years outdoors. \\ud83d\\udc9cShipping: Orders are shipped out through USPS first class with a tracking #. If your item is time sensative please choose Priority Mail. \\ud83d\\udc9cThank you for shopping at our little store.High Qality Water Resistant & Weatherproof Vinyl Comes with an easy-to-follow application directions Can be applied to any nonporour surface \\u203a See more product details", "price": "0.1", "moq": "200", "imgs": ["https://m.media-amazon.com/images/I/4159zPBpMFL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/71UCiGwFuKL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/81bcca0wnuL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/51b+GTCvsIL.jpg", "https://m.media-amazon.com/images/I/51dHiEAmcML._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/51yfiXU58eL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/61aI+3S0xvL._AC_SL1500_.jpg"], "product_type": "label", "delivery_time": "7 days", "reference_product": "https://www.amazon.com/Custom-Font-Heart-Decal-Sticker/dp/B0CLKW4WYJ", "reference_product_platform": "amazon", "employee": "wangjiafa", "published_shop": "ali_shop10", "trace_id": "f5114472-4241-432c-91e5-dff757187e1c", "workflow": "amz_to_ali_plugin", "task_id": "b6811f98-809b-42dd-a0ed-28307a056ba3"}'
+
+
+
+curl -X POST http://admin.tradefree.ai/workflow/run/copy \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer 828b6cf6a0204632a91bf6314e7fe93f' \
+-d '{"title": "120 Labels Personalized and Custom Design Vinyl Stickers Removable Waterproof UV Resistant Any Shape and Size with Your Logo Text Image", "description": "About this item Craft custom stickers for your business, cafe, restaurant, gifts, parties, promotions, and family occasions. Experience top-quality printing on PVC VINYL material, ensuring vibrant and detailed designs. Unleash creativity with a variety of shapes such as Circle, Square, Rectangle, Heart, Star, and even Custom Shapes. Choose sizes ranging from 1 to 10. Personalize effortlessly by clicking the Customize Now button. Our skilled designers will add final touches to your design before printing. Waterproof, UV Resident, and Tearproof. Proudly based in Chatsworth, California, and all our products are proudly manufactured in the USA. \\u203a See more product details", "price": "0.1", "moq": "200", "imgs": ["https://m.media-amazon.com/images/I/61f-IMcJ5wL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/311vD1HtjGL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/41ShH-P02rL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/61ZS3Jk1scL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/51xJjbSnJFL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/71XpIGg28VL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/51TxM8S6odL._AC_SL1500_.jpg"], "product_type": "label", "delivery_time": "7 days", "reference_product": "https://www.amazon.com/Personalized-Stickers-Removable-Waterproof-Resistant/dp/B09P9XSRK1", "reference_product_platform": "amazon", "employee": "wangjiafa", "published_shop": "ali_shop10", "trace_id": "2d1ac451-0d81-4a66-98a5-5aa5a4e3a5f1", "workflow": "amz_to_ali_plugin", "task_id": "976a74af-6bc7-4cfa-aa1f-7495945a4e06"}'
+
+
+
