@@ -49,5 +49,7 @@ def retry_chain_by_task_id(task_id: str):
         for t in next_tasks[1:]:
             signatures.append(celery_app.signature(t))
     workflow = chain(*signatures)
-    result = workflow.apply_async()
+    data = {"trace_id": task_event.trace_id,"task_id": task_event.task_id}
+    result = workflow.apply_async(args=(data,))
+    
     return result.id

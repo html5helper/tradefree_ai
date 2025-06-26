@@ -7,6 +7,7 @@ from ai.dao.db.engine import manager_engine, workflow_engine
 from sqlalchemy.orm import Session
 from ai.dao.entity.action_flow import ActionFlow
 from ai.service.actionflow_service import ActionFlowService
+from ai.core.history.task_retry import retry_chain_by_task_id
 import json
 
 api = APIRouter()
@@ -96,7 +97,6 @@ async def employee_activate(request: Request, employee_info: dict = Depends(veri
         print(f"Error in employer_activate: {str(e)}")
         return {"code": 500, "message": f"Internal server error: {str(e)}", "data": None}
 
-
 @api.post("/workflow/product/platform")
 async def product_list(request: Request, access: dict = Depends(verify_employee_token)):
     """Get Product List By platform"""
@@ -151,3 +151,8 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     }
 
     return result
+
+@api.post("/workflow/product/retry/{task_id}")
+async def retry_product_task(task_id: str,access: dict = Depends(verify_employee_token)):
+    """Retry a failed task and its downstream tasks"""
+    return {"task_id": retry_chain_by_task_id(task_id)}
