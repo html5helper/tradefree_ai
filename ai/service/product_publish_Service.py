@@ -97,22 +97,23 @@ class ProductPublishService:
         finally:
             self.session.close()
 
-    def list_by_employee_and_platform_and_product_type(self, employee_id: str, platform: str, product_type: str) -> list[ProductPublishHistory]:
+    def list_by_employee_and_platform_and_product_type(self, employee_id: str, platform: str, product_type: str, status: list[str]) -> list[ProductPublishHistory]:
         """根据员工ID和平台和产品类型获取发品历史
         
         Args:
             employee_id: 员工ID
             platform: 平台
             product_type: 产品类型
+            status: 状态列表，用于过滤
         Returns:
             list[ProductPublishHistory]: 发品历史列表
         """
         try:
-            return self.session.query(ProductPublishHistory).filter_by(
-                employee_id=employee_id, 
-                dest_platform=platform, #平台
-                product_type=product_type,
-                status='READY',
+            return self.session.query(ProductPublishHistory).filter(
+                ProductPublishHistory.employee_id == employee_id,
+                ProductPublishHistory.dest_platform == platform,
+                ProductPublishHistory.product_type == product_type,
+                ProductPublishHistory.status.in_(status)
             ).order_by(ProductPublishHistory.created_at.desc()).all()
         except Exception as e:
             print(f"Error getting product publish history: {str(e)}")

@@ -105,13 +105,25 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     product_type = data.get('product_type',None)
     employee_info = access['employee_info']
     employee_id = employee_info['employee_id']
-    product_publish_list = product_publish_service.list_by_employee_and_platform_and_product_type(employee_id, platform, product_type)
+    # model: publish, collect, history
+    model = data.get('mode',"publish")
+    if model == "publish":
+        model_list = ['READY']
+    elif model == "collect":
+        model_list = ['GENERATING','READY']
+    elif model == "history":
+        model_list = ['SUCCESS','FAILED']
+    product_publish_list = product_publish_service.list_by_employee_and_platform_and_product_type(employee_id, platform, product_type, model_list)
+
+
 
     products = []
     workflow_ids = []
     for product_publish in product_publish_list:
         if product_publish.product and product_publish.product != "":
-            products.append(json.loads(product_publish.product))
+            prod_item = json.loads(product_publish.product)
+            product_publish.product = prod_item
+            products.append(product_publish)
         if(not product_publish.action_flow_id in workflow_ids):
             workflow_ids.append(product_publish.action_flow_id)
 
@@ -124,6 +136,7 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
         "code": 200,
         "message": "success",
         "data": {
+            "product_list": product_publish_list,
             "products": products,
             "actionflows": actionflows
         }
