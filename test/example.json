@@ -148,7 +148,7 @@ curl -X POST \
     http://127.0.0.1:8081/workflow/product/platform \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer 828b6cf6a0204632a91bf6314e7fe93f' \
-    -d '{"platform": "ali","product_type": "sticker","mode": "publish"}' 
+    -d '{"platform": "ali","product_type": "sticker","model": "publish"}' 
 
 curl -X POST \
     http://127.0.0.1:8081/workflow/tasks/retry/b1bd05f5-7a27-4a3c-b701-70122fb24e18 \
