@@ -132,7 +132,7 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
         if product_publish.product and product_publish.product != "":
             prod_item = json.loads(product_publish.product)
             product_publish.product = prod_item
-            products.append(product_publish)
+            products.append(prod_item)
         if(not product_publish.action_flow_id in workflow_ids):
             workflow_ids.append(product_publish.action_flow_id)
 
