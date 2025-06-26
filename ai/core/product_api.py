@@ -140,7 +140,7 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
         "code": 200,
         "message": "success",
         "data": {
-            "product_list": product_publish_list,
+            # "product_list": product_publish_list,
             "products": products,
             "actionflows": actionflows
         }
