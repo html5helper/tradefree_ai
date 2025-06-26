@@ -104,10 +104,11 @@ class ProductPublishService:
             employee_id: 员工ID
             platform: 平台
             product_type: 产品类型
-            status: 状态列表，用于过滤
+            model: 状态，用于过滤
         Returns:
             list[ProductPublishHistory]: 发品历史列表
         """
+        status_list = ['READY']
         try:
             if model == "publish":
                 status_list = ['READY']
