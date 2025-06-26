@@ -108,14 +108,14 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     # model: publish, collect, history
     model = data.get('model',"publish")
     if model == "publish":
-        model_list = ['READY']
+        status_list = ['READY']
     elif model == "collect":
-        model_list = ['GENERATING','READY']
+        status_list = ['GENERATING','READY']
     elif model == "history":
-        model_list = ['SUCCESS','FAILED']
+        status_list = ['SUCCESS','FAILED']
     
     # 使用位置参数，传递状态列表
-    product_publish_list = product_publish_service.list_by_employee_and_platform_and_product_type(employee_id, platform, product_type, model_list)
+    product_publish_list = product_publish_service.list_by_employee_and_platform_and_product_type(employee_id, platform, product_type, status_list)
 
     products = []
     workflow_ids = []
