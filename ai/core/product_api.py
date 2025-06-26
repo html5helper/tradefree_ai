@@ -127,6 +127,9 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     for product_publish in product_publish_list:
         if product_publish.product and product_publish.product != "":
             prod_item = json.loads(product_publish.product)
+            # 如果img_url为数组，则将其转化为逗号分隔的 string
+            if isinstance(prod_item['img_url'], list):
+                prod_item['img_url'] = ','.join(prod_item['img_url'])
             product_publish.product = prod_item
             products.append(prod_item)
         if(not product_publish.action_flow_id in workflow_ids):
