@@ -118,8 +118,13 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     print(status_list)
     print("--------------------------------")
     
-    # 使用位置参数，传递状态列表
-    product_publish_list = product_publish_service.list_by_employee_and_platform_and_product_type(employee_id, platform, product_type, status_list)
+    # 使用关键字参数，避免位置参数问题
+    product_publish_list = product_publish_service.list_by_employee_and_platform_and_product_type(
+        employee_id=employee_id, 
+        platform=platform, 
+        product_type=product_type, 
+        status_list=status_list
+    )
 
     products = []
     workflow_ids = []
