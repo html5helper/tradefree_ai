@@ -129,20 +129,26 @@ curl -X POST \
 }'
 
 curl -X POST \
-    http://127.0.0.1:8081/client/employee/refresh_all \
+    http://127.0.0.1:8081/workflow/employee/refresh_all \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer tiuGlpGYG6olYLBaIfbvsKI7DIUv9Z3J'
+
+
+curl -X POST \
+    http://admin.tradefree.ai/workflow/employee/refresh_all \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer tiuGlpGYG6olYLBaIfbvsKI7DIUv9Z3J'
 
 curl -X POST \
-    http: //127.0.0.1:8081/client/employee/activate \
+    http://127.0.0.1:8082/workflow/employee/activate \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer 828b6cf6a0204632a91bf6314e7fe93f' 
 
 curl -X POST \
-    http://127.0.0.1:8081/client/product/platform \
+    http://127.0.0.1:8081/workflow/product/platform \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer 828b6cf6a0204632a91bf6314e7fe93f' \
-    -d '{"platform": "ali","product_type": "sticker"}' 
+    -d '{"platform": "ali","product_type": "sticker","mode": "publish"}' 
 
 curl -X POST \
     http://127.0.0.1:8081/workflow/tasks/retry/b1bd05f5-7a27-4a3c-b701-70122fb24e18 \
@@ -244,16 +250,20 @@ curl -X POST \
 }
 
 
-  {
-    'imgs': ['https: //m.media-amazon.com/images/I/71DZ2v9NLEL._AC_SL1500_.jpg', 'https://m.media-amazon.com/images/I/61MztRfbfTL._AC_SL1500_.jpg', 'https://m.media-amazon.com/images/I/61sWQSYf1KL._AC_SL1500_.jpg', 'https://m.media-amazon.com/images/I/71zC2XGqoKL._AC_SL1500_.jpg'], 
-    'product_type': 'sticker', 
-    'price': '19.90', 
-    'description': 'About this item The Angelique Bach Flower Card Game is a playful and intuitive way to choose the flower elixir or elixirs that suit you. Beautiful box of 38 cards with an explanatory booklet Angelica Bach Flower maps can help us choose the floral elixirs we need. The goal is to find the remedy that corresponds to the negative state of mind that afflicts us. Among these states of mind we can mention: fear, worries, discouragement, uncertainty, etc.;. With these cards, it is easier to pinpoint these states of mind. allows us to recognize the states of being and behavioral patterns that distance us from our true nature. › See more product details', 
-    'prodid': 'https://www.amazon.fr/-/en/Bach-Flower-Cards-ILLUSTRATED-intuitively/dp/B0CN1HKKHP', 
-    'reference_product_platform': 'amazon', 
-    'title': 'Bach Flower Cards - 38 ILLUSTRATED CARDS - Set of 38 cards to intuitively select your Bach flowers', 
-    'employee': 'Alice', 
-    'workflow': 'amz_to_ali_plugin', 
-    'published_shop': 'ali_shop2', 
-    'employee_info': {'employee_id': '1', 'employee_name': 'Alice', 'employee_cn_name': '王慧'}
+{
+    "trace_id": "3d0ac79d-8ed6-4288-bd56-eb9e0707f069",
+    "action_flow_id": "1",
+    "product_type": "sticker",
+    "title": "Custom Double Sided Business Cards with Logo Text QR Code Waterproof Coated Paper for Small Business Professionals",
+    "shot_description": "Custom double sided business cards made of waterproof 300gsm coated paper. Perfect for small businesses, hair salons, beauty services and more. Includes logo, text and QR code customization options.",
+    "product_name": "Double Sided Waterproof Custom Business Cards with Logo QR Code",
+    "tags": "custom business cards waterproof business cards double sided business cards logo business cards qr code business cards small business cards personalized business cards thank you cards with logo professional business cards for salons beauty business cards for online retailers",
+    "reference_product": "https://www.amazon.de/Business-Personalised-Double-Sided-Waterproof-Businesses/dp/B0D2HRH5W3",
+    "reference_product_platform": "amazon",
+    "moq": "200",
+    "price": "0.2",
+    "delivery_time": "7 days",
+    "img_url": null,
+    "video_url": "http://dify.html5core.com/svg/c61b11a2-5168-479b-9424-f843b31142fa_with_audio.mp4",
+    "shop_name": "\u963f\u91cc\u56fd\u9645-\u5e97\u94fa001"
 }

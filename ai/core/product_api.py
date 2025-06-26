@@ -113,9 +113,7 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
         model_list = ['GENERATING','READY']
     elif model == "history":
         model_list = ['SUCCESS','FAILED']
-    product_publish_list = product_publish_service.list_by_employee_and_platform_and_product_type(employee_id, platform, product_type, model_list)
-
-
+    product_publish_list = product_publish_service.list_by_employee_and_platform_and_product_type(employee_id, platform, product_type, status=model_list)
 
     products = []
     workflow_ids = []
