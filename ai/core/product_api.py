@@ -113,6 +113,10 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
         status_list = ['GENERATING','READY']
     elif model == "history":
         status_list = ['SUCCESS','FAILED']
+
+    print("--------------------------------")
+    print(status_list)
+    print("--------------------------------")
     
     # 使用位置参数，传递状态列表
     product_publish_list = product_publish_service.list_by_employee_and_platform_and_product_type(employee_id, platform, product_type, status_list)
