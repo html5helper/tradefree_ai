@@ -113,10 +113,6 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
         status_list = ['GENERATING','READY']
     elif model == "history":
         status_list = ['SUCCESS','FAILED']
-
-    print("--------------------------------")
-    print(status_list)
-    print("--------------------------------")
     
     # 使用关键字参数，避免位置参数问题
     product_publish_list = product_publish_service.list_by_employee_and_platform_and_product_type(
@@ -137,9 +133,9 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
             workflow_ids.append(product_publish.action_flow_id)
 
     actionflow_list = actionflow_service.get_by_ids(workflow_ids)
-    actionflows = []
+    actionflows = {}
     for actionflow in actionflow_list:
-        actionflows.append({actionflow.id:actionflow.action_flow})
+        actionflows[actionflow.id] = actionflow.action_flow
 
     result = {
         "code": 200,
