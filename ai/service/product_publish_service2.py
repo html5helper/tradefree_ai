@@ -97,6 +97,7 @@ class ProductPublishService:
         finally:
             self.session.close()
 
+    # 使用关键字参数，避免位置参数问题
     def list_by_employee_and_platform_and_product_type(self, employee_id: str, platform: str, product_type: str, status_list: list[str]) -> list[ProductPublishHistory]:
         """根据员工ID和平台和产品类型获取发品历史
         Args:
