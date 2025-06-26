@@ -97,26 +97,17 @@ class ProductPublishService:
         finally:
             self.session.close()
 
-    def list_by_employee_and_platform_and_product_type(self, employee_id: str, platform: str, product_type: str, model: str) -> list[ProductPublishHistory]:
+    def list_by_employee_and_platform_and_product_type(self, employee_id: str, platform: str, product_type: str, status_list: list[str]) -> list[ProductPublishHistory]:
         """根据员工ID和平台和产品类型获取发品历史
-        
         Args:
             employee_id: 员工ID
             platform: 平台
             product_type: 产品类型
-            model: 状态，用于过滤
+            status_list: 状态列表，用于过滤
         Returns:
             list[ProductPublishHistory]: 发品历史列表
         """
-        status_list = ['READY']
         try:
-            if model == "publish":
-                status_list = ['READY']
-            elif model == "collect":
-                status_list = ['GENERATING','READY']
-            elif model == "history":
-                status_list = ['SUCCESS','FAILED']
-            
             return self.session.query(ProductPublishHistory).filter(
                 ProductPublishHistory.employee_id == employee_id,
                 ProductPublishHistory.dest_platform == platform,
