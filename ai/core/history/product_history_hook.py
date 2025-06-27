@@ -24,86 +24,73 @@ class ProductHistoryHook:
     def __init__(self):
         pass
 
-    def pending(self, task_event: dict, task_input: dict) -> ProductHistory:
+    def pending(self, task_event: dict, task_input: dict) -> dict:
         """任务事件待执行状态"""
         task_type = task_event.get('task_type', None)
         trace_id = task_event.get('trace_id', None)
-        process_type = self.get_product_process_type(task_type)
+        process = self.get_product_process_type(task_type,'pending')
+        process_type = process.get('process_type', None)
+        changes = process.get('changes', None)
 
         if(process_type == 'collect'):
             if(task_type == 'resource'):
                 return self.save_product_history(task_event, task_input)
             else:
                 product_info = self.parse_collect_product_info(task_input)
-                data = self.parse_update_task_info(
-                    {
-                        'collect_status': 'PENDING',
-                        'collect_product': json.dumps(product_info)
-                    },
-                    task_event
-                )
+                data = self.parse_update_task_info({**changes, **{'collect_product': json.dumps(product_info)}},task_event)
                 return product_history_service.update(trace_id, data)
         elif(process_type == 'generate'):
-            product_info = self.parse_generate_product_info(task_input)
-            data = self.parse_update_task_info(
-                {
-                    'generate_status': 'PENDING',
-                    'generate_product': json.dumps(product_info)
-                },
-                task_event
-            )
+            product_info = self.parse_collect_product_info(task_input)
+            data = self.parse_update_task_info({**changes, **{'generate_product': json.dumps(product_info)}},task_event)
             return product_history_service.update(trace_id, data)
                 
         elif(process_type == 'publish'):
             product_info = self.parse_publish_product_info(task_input)
-            data = self.parse_update_task_info(
-                {
-                    'publish_status': 'PENDING',
-                    'publish_product': json.dumps(product_info)
-                },
-                task_event
-            )
+            data = self.parse_update_task_info({**changes, **{'publish_product': json.dumps(product_info)}},task_event)
             return product_history_service.update(trace_id, data)
         
         return None
 
-    def started(self, task_event: dict, task_input: dict) -> ProductHistory:
+    def started(self, task_event: dict, task_input: dict) -> dict:
         """任务事件执行中状态"""
+        task_type = task_event.get('task_type', None)
         trace_id = task_event.get('trace_id', None)
-        data = self.parse_update_task_info({},task_event)
+        process = self.get_product_process_type(task_type,'started')
+        process_type = process.get('process_type', None)
+        changes = process.get('changes', None)
+        data = self.parse_update_task_info({**changes},task_event)
         return product_history_service.update(trace_id, data)
 
     def success(self, task_event: dict, task_input: dict,task_output: dict) -> ProductHistory:
         """任务事件执行成功状态"""
         task_type = task_event.get('task_type', None)
         trace_id = task_event.get('trace_id', None)
-        process_type = self.get_product_process_type(task_type)
-        product_info = self.parse_collect_product_info(task_output)
+        process = self.get_product_process_type(task_type,'success')
+        process_type = process.get('process_type', None)
+        changes = process.get('changes', None)
 
+        data = {}
         if(process_type == 'collect'):
-            data = self.parse_update_task_info({'collect_status': 'SUCCESS','collect_product': json.dumps(product_info)},task_event)
+            product_info = self.parse_collect_product_info(task_input)
+            data = self.parse_update_task_info({**changes, **{'collect_product': json.dumps(product_info)}},task_event)
         elif(process_type == 'generate'):
-            data = self.parse_update_task_info({'generate_status': 'SUCCESS','generate_product': json.dumps(product_info)},task_event)
+            product_info = self.parse_generate_product_info(task_output)
+            data = self.parse_update_task_info({**changes, **{'generate_product': json.dumps(product_info)}},task_event)
         elif(process_type == 'publish'):
-            data = self.parse_update_task_info({'publish_status': 'SUCCESS','publish_product': json.dumps(product_info)},task_event)
+            product_info = self.parse_publish_product_info(task_output)
+            data = self.parse_update_task_info({**changes, **{'publish_product': json.dumps(product_info)}},task_event)
         
-        result = product_history_service.update(trace_id, data)
-        return result
+        return product_history_service.update(trace_id, data)
     
     def failure(self, task_event: dict) -> ProductHistory:
         """任务事件执行失败状态"""
         task_type = task_event.get('task_type', None)
         trace_id = task_event.get('trace_id', None)
-        process_type = self.get_product_process_type(task_type)
+        process = self.get_product_process_type(task_type,'failure')
+        process_type = process.get('process_type', None)
+        changes = process.get('changes', None)
 
-        if(process_type == 'collect'):
-            data = self.parse_update_task_info({'collect_status': 'FAILURE'},task_event)
-        elif(process_type == 'generate'):
-            data = self.parse_update_task_info({'generate_status': 'FAILURE'},task_event)
-        elif(process_type == 'publish'):
-            data = self.parse_update_task_info({'publish_status': 'FAILURE'},task_event)
-        
-        return product_history_service.update(trace_id, data)
+        return product_history_service.update(trace_id, changes)
     
     def parse_update_task_info(self,base_data: dict, task_event: dict) -> dict:
         """从任务事件解析任务信息"""
@@ -182,7 +169,7 @@ class ProductHistoryHook:
             print(f"Error parsing product info: {e}")
             return None
         
-    def get_product_process_type(self, task_type: str) -> str:
+    def get_product_process_type(self, task_type: str,status_type: str) -> str:
         """获取产品处理类型
         Args:
             task_event: 任务事件
@@ -190,14 +177,41 @@ class ProductHistoryHook:
         Returns:
             product_process_type: 产品处理类型
         """
+        process_type = None
+        changes = {}
         if(task_type in ['resource']):
-            return 'collect'
-        elif(task_type in ['listing', 'maskword','image', 'video']):
-            return 'generate'
-        elif(task_type in ['storage']):
-            return 'publish'
-        else:
-            return 'unknown'
+            process_type = 'collect'
+            if(status_type == 'pending'):
+                changes = {'collect_status': 'PENDING'}
+            elif(status_type == 'started'):
+                changes = {'collect_status': 'STARTED'}
+            elif(status_type == 'success'):
+                changes = {'collect_status': 'SUCCESS','generate_status': 'PENDING'}
+            elif(status_type == 'failure'):
+                changes = {'collect_status': 'FAILURE'}
+        elif(task_type in ['listing', 'maskword','image', 'video','storage']):
+            process_type = 'generate'
+            if(status_type == 'failure'):
+                changes = {'generate_status': 'FAILURE'}
+            elif(task_type == 'listing' and status_type == 'pending'):
+                changes = {'generate_status': 'PENDING'}
+            elif(task_type == 'storage' and status_type == 'success'):
+                changes = {'generate_status': 'SUCCESS','publish_status': 'PENDING'}
+            else:
+                changes = {'generate_status': 'STARTED'}
+        elif(task_type in ['upload_img','upload_video','public']):
+            process_type = 'publish'
+            if(status_type == 'failure'):
+                changes = {'publish_status': 'FAILURE'}
+            elif(task_type == 'upload_img' and status_type == 'pending'):
+                changes = {'publish_status': 'PENDING'}
+            elif(task_type == 'public' and status_type == 'success'):
+                changes = {'publish_status': 'SUCCESS'}
+            else:
+                changes = {'publish_status': 'STARTED'}
+        
+        
+        return {'process_type':process_type,'changes':changes}
         
     def save_product_history(self,task_event: dict, task_input: dict) -> ProductHistory:
         """从数据解析发品历史（避免 Session 绑定问题）"""
