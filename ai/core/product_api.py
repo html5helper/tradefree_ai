@@ -122,7 +122,7 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
         status_list=status_list
     )
 
-    products = []
+    # products = []
     workflow_ids = []
     for product_publish in product_publish_list:
         if product_publish.product and product_publish.product != "":
@@ -131,7 +131,7 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
             if isinstance(prod_item['img_url'], list):
                 prod_item['img_url'] = ','.join(prod_item['img_url'])
             product_publish.product = prod_item
-            products.append(prod_item)
+            # products.append(prod_item)
         if(not product_publish.action_flow_id in workflow_ids):
             workflow_ids.append(product_publish.action_flow_id)
 
@@ -145,7 +145,7 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
         "message": "success",
         "data": {
             "product_list": product_publish_list,
-            "products": products,
+            # "products": products,
             "actionflows": actionflows
         }
     }
