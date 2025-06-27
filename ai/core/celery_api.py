@@ -10,48 +10,34 @@ workflow = CeleryWorkflow()
 # 挂载product_api的路由
 api.include_router(product_router)
 
-def parse_data(data: dict, access: dict):
-    data['employee_info'] = access.get("employee_info", {})
-    workflow = data.get("workflow", None)
-    product_type = data.get("product_type", None)
-    accesses = access.get("employee_accesses", [])
-    print('-------------->')
-    print(workflow,product_type)
-    print('-------------->')
-    for item in accesses:
-        if item.get("workflow") == workflow and item.get("product_type") == product_type:
-            data['shop_name'] = item.get("shop_name", None)
-            data['action_flow_id'] = item.get("action_flow_id", None)
-            break
-    print('-------------->')
-    print(data)
-    print('-------------->')
-    return data
 
 @api.post("/workflow/run/copy")
-async def copy(request: Request, access: dict = Depends(verify_employee_access_token)):
+async def copy(request: Request, employee_access: dict = Depends(verify_employee_access_token)):
     """Copy and public product workflow"""
     data = await request.json()
-    data = parse_data(data, access)
+    data['access'] = employee_access # 将员工权限信息添加到数据中，用于后续的公共信息提取
+
     return workflow.create_workflow(data)
     
 @api.post("/workflow/run/copy_no_ai")
-async def copy_no_ai(request: Request, access: dict = Depends(verify_employee_access_token)):
+async def copy_no_ai(request: Request, employee_access: dict = Depends(verify_employee_access_token)):
     """Copy and public product workflow no ai"""
     data = await request.json()
-    data = parse_data(data, access)
+    data['access'] = employee_access # 将员工权限信息添加到数据中，用于后续的公共信息提取
+
     data['use_ai'] = 'false'
     return workflow.create_workflow(data)
 
 @api.post("/workflow/run/social_to_ali")
-async def social_to_ali(request: Request, access: dict = Depends(verify_employee_access_token)):
+async def social_to_ali(request: Request, employee_access: dict = Depends(verify_employee_access_token)):
     """Social to AliExpress workflow"""
     data = await request.json()
-    data = parse_data(data, access)
+    data['access'] = employee_access # 将员工权限信息添加到数据中，用于后续的公共信息提取
+
     data['workflow'] = "social_total"
     return workflow.create_workflow(data)
 
 @api.post("/workflow/tasks/retry/{task_id}")
-async def retry_task(task_id: str,access: dict = Depends(verify_sys_token)):
+async def retry_task(task_id: str,sys_access: dict = Depends(verify_sys_token)):
     """Retry a failed task and its downstream tasks"""
     return {"task_id": retry_chain_by_task_id(task_id)}

@@ -28,3 +28,8 @@ def social_to_ali_src(data: dict):
         workflow.create_workflow("social_pages", data_copy)
 
     return total
+
+@app.task
+def test_store_resource(data: dict):
+    data = workflow.build_payload_taskid(data)
+    return service.apply(data)

@@ -10,4 +10,7 @@ def normal_storage(data: dict):
     data = workflow.build_payload_taskid(data)
     return service.apply(data)
 
-    
+@app.task
+def test_storage(data: dict):
+    data = workflow.build_payload_taskid(data)
+    return service.apply(data)

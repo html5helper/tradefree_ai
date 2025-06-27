@@ -213,6 +213,24 @@ CHAIN_MAP = {
         'ai.business.video.tasks.normal_generate_video',
         'ai.business.storage.tasks.normal_storage',
     ],
+    "amz_to_ali_test": [
+        'ai.business.resource.tasks.test_store_resource',
+        'ai.business.listing.tasks.test_listing',
+        'ai.business.maskword.tasks.test_maskword',
+        'ai.business.image.tasks.test_image',
+        'ai.business.video.tasks.test_video',
+        'ai.business.public.tasks.test_publish_product',
+        'ai.business.storage.tasks.test_storage',
+    ],
+    "amz_to_1688_test": [
+        'ai.business.resource.tasks.test_store_resource',
+        # 'ai.business.listing.tasks.test_listing',
+        # 'ai.business.maskword.tasks.test_maskword',
+        # 'ai.business.image.tasks.test_image',
+        # 'ai.business.video.tasks.test_video',
+        # 'ai.business.public.tasks.test_publish_product',
+        'ai.business.storage.tasks.test_storage',
+    ],
 }
 
 # 周期性执行任务

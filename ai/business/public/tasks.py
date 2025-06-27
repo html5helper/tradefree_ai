@@ -9,3 +9,8 @@ workflow = CeleryWorkflow()
 def api_publish_product(data: dict):
     data = workflow.build_payload_taskid(data)
     return service.run_task("publish_product",data)
+
+@app.task
+def test_publish_product(data: dict):
+    data = workflow.build_payload_taskid(data)
+    return service.apply(data)

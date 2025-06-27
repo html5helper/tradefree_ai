@@ -10,3 +10,8 @@ workflow = CeleryWorkflow()
 def api_upload_image(data: dict):
     data = workflow.build_payload_taskid(data)
     return service.run_task("upload_photos",data)
+
+@app.task
+def test_upload_image(data: dict):
+    data = workflow.build_payload_taskid(data)
+    return service.apply(data)

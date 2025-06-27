@@ -10,3 +10,7 @@ def normal_filter_maskword(data: dict):
     data = workflow.build_payload_taskid(data)
     return service.run_task("maskword_filter",data)
 
+@app.task
+def test_maskword(data: dict):
+    data = workflow.build_payload_taskid(data)
+    return service.apply(data)

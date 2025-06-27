@@ -10,10 +10,10 @@ def normal_generate_listing(data: dict):
     data = workflow.build_payload_taskid(data)
     return service.run_task("product_listing",data)
 
-# @app.task
-# def listing_adapter(data: dict):
-#     data = workflow.build_payload_taskid(data)
-#     return service.run_task("listing_adapter",data)
+@app.task
+def test_listing(data: dict):
+    data = workflow.build_payload_taskid(data)
+    return service.apply(data)
 
 @app.task
 def social_to_ali_listing(data: dict):

@@ -127,8 +127,8 @@ async def verify_employee_access_token(request: Request, credentials: HTTPAuthor
         )
     
     # 从缓存中获取员工信息
-    employee_info = cache_service.get_employee_by_token(credentials.credentials)
-    if not employee_info:
+    catch_info = cache_service.get_employee_by_token(credentials.credentials)
+    if not catch_info:
         raise HTTPException(
             status_code=401,
             detail="Invalid Bearer token",
@@ -138,11 +138,17 @@ async def verify_employee_access_token(request: Request, credentials: HTTPAuthor
     event = await request.json()
     workflow = event.get("workflow", None)
     product_type = event.get("product_type", None)
-    access = employee_info.get("employee_accesses", [])
+
+    user_info = catch_info.get("user_info", {})
+    access = catch_info.get("employee_accesses", [])
+    employee_info = catch_info.get("employee_info", {})
+
     have_access = False
+    employee_access = None
     for item in access:
         if item.get("workflow") == workflow and item.get("product_type") == product_type:
             have_access = True
+            employee_access =  {**user_info, **employee_info, **item}
             break
     if not have_access:
         raise HTTPException(
@@ -151,4 +157,4 @@ async def verify_employee_access_token(request: Request, credentials: HTTPAuthor
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    return employee_info
+    return employee_access
