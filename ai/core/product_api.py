@@ -105,22 +105,21 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     product_type = data.get('product_type',None)
     employee_info = access['employee_info']
     employee_id = employee_info['employee_id']
-    # model: publish, collect, history
-    model = data.get('model',"publish")
-    if model == "publish":
-        status_list = ['READY']
-    elif model == "collect":
-        status_list = ['GENERATING','READY']
-    elif model == "history":
-        status_list = ['SUCCESS','FAILED']
-    
-    # 使用关键字参数，避免位置参数问题
-    product_publish_list = product_publish_service.list_by_employee_and_platform_and_product_type(
-        employee_id=employee_id, 
-        platform=platform, 
-        product_type=product_type, 
-        status_list=status_list
-    )
+    start_time = data.get('start_time',None)
+    end_time = data.get('end_time',None)
+
+    # model: collect, generate, publish,published
+    model = data.get('model',"published")
+    if model == "collect":
+        product_publish_list = product_publish_service.collect_list(employee_id=employee_id, platform=platform, product_type=product_type)
+    elif model == "generate":
+        product_publish_list = product_publish_service.generate_list(employee_id=employee_id, platform=platform, product_type=product_type)
+    elif model == "publish":
+        product_publish_list = product_publish_service.publish_list(employee_id=employee_id, platform=platform, product_type=product_type)
+    elif model == "published":
+        product_publish_list = product_publish_service.published_list(employee_id=employee_id, platform=platform, product_type=product_type,start_time=start_time,end_time=end_time)
+    else:
+        product_publish_list = []
 
     # products = []
     workflow_ids = []
@@ -128,7 +127,7 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
         if product_publish.product and product_publish.product != "":
             prod_item = json.loads(product_publish.product)
             # 如果img_url为数组，则将其转化为逗号分隔的 string
-            if isinstance(prod_item['img_url'], list):
+            if (prod_item['img_url'] and isinstance(prod_item['img_url'], list)):
                 prod_item['img_url'] = ','.join(prod_item['img_url'])
             product_publish.product = prod_item
             # products.append(prod_item)

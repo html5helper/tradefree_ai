@@ -27,7 +27,7 @@ class TaskEventHook:
     def __init__(self):
         pass
 
-    def pending(self, task_id: str, task_name: str, task_input: dict) -> TaskEvent:
+    def pending(self, task_id: str, task_name: str, task_input: dict) -> dict:
         """任务事件初始状态"""
         task_event = self.parse_task_event(task_id, task_name, task_input)
         if task_event:
@@ -38,7 +38,7 @@ class TaskEventHook:
                 return task_event_service.get(task_id)
         return None
     
-    def started(self, task_id: str, task_name: str, task_input: dict) -> TaskEvent:
+    def started(self, task_id: str, task_name: str, task_input: dict) -> dict:
         """任务事件执行中状态"""
         try:
             task_event = task_event_service.get(task_id)
@@ -53,7 +53,7 @@ class TaskEventHook:
             print(f"Error recording task prerun: {e}")
             return None
     
-    def success(self, task_id: str, task_name: str, task_input: dict,task_output: dict) -> TaskEvent:
+    def success(self, task_id: str, task_name: str, task_input: dict,task_output: dict) -> dict:
         """任务事件执行成功状态"""
         try:
             # 更新任务事件状态
@@ -67,7 +67,7 @@ class TaskEventHook:
             print(f"Error recording task success: {e}")
             return None
     
-    def failure(self, task_id: str, task_name: str) -> TaskEvent:
+    def failure(self, task_id: str, task_name: str) -> dict:
         """任务事件执行失败状态"""
         try:
             task_event = task_event_service.update(task_id, {
@@ -79,7 +79,7 @@ class TaskEventHook:
             print(f"Error recording task failure: {e}")
             return None
     
-    def revoked(self, task_id: str, task_name: str, task_input: dict,task_output: dict) -> TaskEvent:
+    def revoked(self, task_id: str, task_name: str, task_input: dict,task_output: dict) -> dict:
         """任务事件撤销状态"""
         try:
             task_event = task_event_service.update(task_id, {
@@ -91,7 +91,7 @@ class TaskEventHook:
             print(f"Error recording task revoked: {e}")
             return None
     
-    def retry(self, task_id: str, task_name: str) -> TaskEvent:
+    def retry(self, task_id: str, task_name: str) -> dict:
         """任务事件重试状态"""
         try:
             task_event = task_event_service.update(task_id, {

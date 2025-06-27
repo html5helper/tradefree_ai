@@ -16,7 +16,7 @@ def on_task_sent(sender=None, task_id=None, args=None, kwargs=None, **other):
         task_input = args[0] if args and isinstance(args[0], dict) else {}
         task_event = task_event_hook.pending(task_id, sender, task_input)
         if task_event:
-            product_history = product_history_hook.pending(task_event.to_dict(), task_input)
+            product_history = product_history_hook.pending(task_event, task_input)
         
     except Exception as e:
         print(f"Error recording task sent: {e}")
@@ -28,7 +28,7 @@ def before_task_run(sender=None, task_id=None, task=None, args=None, kwargs=None
         task_input = args[0] if args and isinstance(args[0], dict) else {}
         task_event = task_event_hook.started(task_id, sender, task_input)
         if task_event:
-            product_history = product_history_hook.started(task_event.to_dict(), task_input)
+            product_history = product_history_hook.started(task_event, task_input)
         
     except Exception as e:
         print(f"Error recording task prerun: {e}")
@@ -41,7 +41,7 @@ def after_task_run(sender=None, task_id=None,args=None, retval=None, **other):
         
         task_event = task_event_hook.success(task_id, sender, task_input,retval)
         if task_event:
-            product_history = product_history_hook.success(task_event.to_dict(), task_input,retval)
+            product_history = product_history_hook.success(task_event, task_input,retval)
         
     except Exception as e:
         print(f"Error recording task postrun: {e}")
@@ -54,7 +54,7 @@ def on_task_failure(sender=None, task_id=None, **other):
     try:
         task_event = task_event_hook.failure(task_id, sender)
         if task_event:
-            product_history = product_history_hook.failure(task_event.to_dict())
+            product_history = product_history_hook.failure(task_event)
         
     except Exception as e:
         print(f"Error recording task failure: {e}")
@@ -64,7 +64,7 @@ def on_task_retry(sender=None, task_id=None, **other):
     try:
         task_event = task_event_hook.retry(task_id, sender)
         if task_event:
-            product_history = product_history_hook.retry(task_event.to_dict())
+            product_history = product_history_hook.retry(task_event)
         
     except Exception as e:
         print(f"Error recording task retry: {e}")
@@ -74,7 +74,7 @@ def on_task_revoked(sender=None, task_id=None, **other):
     try:
         task_event = task_event_hook.revoked(task_id, sender)
         if task_event:
-            product_history = product_history_hook.revoked(task_event.to_dict())
+            product_history = product_history_hook.revoked(task_event)
         
     except Exception as e:
         print(f"Error recording task revoked: {e}")

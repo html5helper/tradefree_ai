@@ -4,13 +4,7 @@ from ai.dao.entity.task_event import TaskEvent
 
 class TaskEventService:
     def __init__(self):
-        self.session = None
-
-    def _get_session(self):
-        """获取数据库会话"""
-        if self.session is None:
-            self.session = Session(bind=workflow_engine)
-        return self.session
+        self.session = Session(bind=workflow_engine)
 
     def add(self, task_event: TaskEvent) -> bool:
         """添加任务事件
@@ -21,34 +15,39 @@ class TaskEventService:
         Returns:
             bool: 是否添加成功
         """
-        session = self._get_session()
         try:
-            session.add(task_event)
-            session.commit()
+            self.session.add(task_event)
+            self.session.commit()
             return True
         except Exception as e:
-            session.rollback()
+            self.session.rollback()
             print(f"Error adding task event: {str(e)}")
             return False
+        finally:
+            self.session.close()
 
-    def get(self, task_id: str) -> TaskEvent:
+    def get(self, task_id: str) -> dict:
         """获取任务事件
         
         Args:
             task_id: 任务ID
             
         Returns:
-            TaskEvent: 任务事件
+            dict: 任务事件数据字典
         """
-        session = self._get_session()
         try:
-            result = session.query(TaskEvent).filter_by(task_id=task_id).first()
-            return result
+            result = self.session.query(TaskEvent).filter_by(task_id=task_id).first()
+            if result:
+                # 在Session关闭前转换为字典
+                return result.to_dict()
+            return None
         except Exception as e:
             print(f"Error getting task event: {str(e)}")
             return None
+        finally:
+            self.session.close()
 
-    def update(self, task_id: str, changes: dict) -> TaskEvent:
+    def update(self, task_id: str, changes: dict) -> dict:
         """更新任务事件
         
         Args:
@@ -56,28 +55,26 @@ class TaskEventService:
             changes: 更新内容
             
         Returns:
-            TaskEvent: 更新后的任务事件，如果更新失败则返回None
+            dict: 更新后的任务事件数据字典，如果更新失败则返回None
         """
-        session = self._get_session()
         try:
-            task_event = session.query(TaskEvent).filter_by(task_id=task_id).first()
+            task_event = self.session.query(TaskEvent).filter_by(task_id=task_id).first()
             if task_event:
                 for key, value in changes.items():
-                    setattr(task_event, key, value)
-                session.commit()
-                return task_event
+                    if hasattr(task_event, key):
+                        setattr(task_event, key, value)
+                self.session.commit()
+                # 在Session关闭前转换为字典
+                return task_event.to_dict()
             return None
         except Exception as e:
-            session.rollback()
+            self.session.rollback()
             print(f"Error updating task event: {str(e)}")
             return None
-
-    def close_session(self):
-        """关闭数据库会话"""
-        if self.session:
+        finally:
             self.session.close()
-            self.session = None
 
     def __del__(self):
         """确保session被正确关闭"""
-        self.close_session() 
+        if hasattr(self, 'session'):
+            self.session.close()

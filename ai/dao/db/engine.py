@@ -13,5 +13,22 @@ manager_mysql_url = (
     f"?charset={MYSQL_CONFIG['manager_db']['charset']}"
 )
 
-workflow_engine = create_engine(workflow_mysql_url) 
-manager_engine = create_engine(manager_mysql_url) 
+workflow_engine = create_engine(
+    workflow_mysql_url,
+    pool_size=10,
+    max_overflow=20,
+    pool_recycle=3600,
+    pool_pre_ping=True,
+    pool_timeout=30,
+    echo=False
+)
+
+manager_engine = create_engine(
+    manager_mysql_url,
+    pool_size=10,
+    max_overflow=20,
+    pool_recycle=3600,
+    pool_pre_ping=True,
+    pool_timeout=30,
+    echo=False
+) 
