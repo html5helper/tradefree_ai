@@ -121,6 +121,23 @@ class ProductPublishService:
         finally:
             self.session.close()
 
+    def delete_by_trace_id(self, trace_id: str) -> bool:
+        """根据 trace_id 删除发品历史
+        
+        Args:
+            trace_id: 发品workflow trace_id
+        """
+        try:
+            self.session.query(ProductPublishHistory).filter_by(trace_id=trace_id).delete()
+            self.session.commit()
+            return True
+        except Exception as e:
+            self.session.rollback()
+            print(f"Error deleting product publish history by trace_id: {str(e)}")
+            return False
+        finally:
+            self.session.close()
+
     def __del__(self):
         """确保session被正确关闭"""
         if hasattr(self, 'session'):

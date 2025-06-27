@@ -97,7 +97,7 @@ async def employee_activate(request: Request, employee_info: dict = Depends(veri
         print(f"Error in employer_activate: {str(e)}")
         return {"code": 500, "message": f"Internal server error: {str(e)}", "data": None}
 
-@api.post("/workflow/product/platform")
+@api.post("/workflow/product/list")
 async def product_list(request: Request, access: dict = Depends(verify_employee_token)):
     """Get Product List By platform"""
     data = await request.json()
@@ -151,6 +151,15 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     }
 
     return result
+
+@api.post("/workflow/product/delete")
+async def product_delete(request: Request, access: dict = Depends(verify_employee_token)):
+    """Delete Product By trace_id"""
+    data = await request.json()
+    trace_id = data.get('trace_id',None)
+    result = product_publish_service.delete_by_trace_id(trace_id)
+    return {"code": 200, "message": "success","data":{"result":result}}
+
 
 @api.post("/workflow/product/retry/{task_id}")
 async def retry_product_task(task_id: str,access: dict = Depends(verify_employee_token)):
