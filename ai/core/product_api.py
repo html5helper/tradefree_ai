@@ -160,7 +160,7 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     actionflow_list = actionflow_service.get_by_ids(workflow_ids)
     actionflows = {}
     for actionflow in actionflow_list:
-        actionflows[actionflow['id']] = json.loads(actionflow['action_flow'])
+        actionflows[actionflow['id']] = actionflow['action_flow']
 
     result = {
         "code": 200,
