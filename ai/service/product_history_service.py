@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from ai.dao.db.engine import workflow_engine
 from ai.dao.entity.product_history import ProductHistory
+from datetime import datetime, timedelta
 
 class ProductHistoryService:
     def __init__(self):
@@ -107,33 +108,115 @@ class ProductHistoryService:
         finally:
             self.session.close()
 
-    # 使用关键字参数，避免位置参数问题
-    def list_by_employee_and_platform_and_product_type(self, employee_id: str, platform: str, product_type: str, status_list: list[str]) -> list[dict]:
-        """根据员工ID和平台和产品类型获取发品历史
+    def collect_list(self, employee_id: str, platform: str, product_type: str) -> list[ProductHistory]:
+        """根据员工ID和平台和产品类型获取近7天采集列表
         Args:
             employee_id: 员工ID
             platform: 平台
             product_type: 产品类型
-            status_list: 状态列表，用于过滤
         Returns:
-            list[dict]: 发品历史数据字典列表
+            list[ProductHistory]: 发品历史列表
         """
         try:
-            # ProductHistory 没有 status 字段，需要根据具体的状态字段进行过滤
-            # 这里暂时返回所有匹配的记录，后续可以根据需要添加状态过滤逻辑
-            results = self.session.query(ProductHistory).filter(
+            # 获取当前时间
+            now = datetime.now()
+            # 获取开始时间，减去7天
+            start_time = now - timedelta(days=7)
+
+            return self.session.query(ProductHistory).filter(
                 ProductHistory.employee_id == employee_id,
                 ProductHistory.dest_platform == platform,
-                ProductHistory.product_type == product_type
+                ProductHistory.product_type == product_type,
+                ProductHistory.collect_status != None,
+                ProductHistory.created_at >= start_time
             ).order_by(ProductHistory.created_at.desc()).all()
-            
-            # 在Session关闭前转换为字典列表
-            return [result.to_dict() for result in results]
         except Exception as e:
-            print(f"Error getting product history: {str(e)}")
+            print(f"Error getting product publish collect list: {str(e)}")
             return []
         finally:
             self.session.close()
+
+    def generate_list(self, employee_id: str, platform: str, product_type: str) -> list[ProductHistory]:
+        """根据员工ID和平台和产品类型获取近7天生成列表
+        Args:
+            employee_id: 员工ID
+            platform: 平台
+            product_type: 产品类型
+        Returns:
+            list[ProductHistory]: 发品历史列表
+        """
+        try:
+            # 获取当前时间
+            now = datetime.now()
+            # 获取开始时间，减去7天
+            start_time = now - timedelta(days=7)
+
+            return self.session.query(ProductHistory).filter(
+                ProductHistory.employee_id == employee_id,
+                ProductHistory.dest_platform == platform,
+                ProductHistory.product_type == product_type,
+                ProductHistory.generate_status != None,
+                ProductHistory.created_at >= start_time
+            ).order_by(ProductHistory.created_at.desc()).all()
+        except Exception as e:
+            print(f"Error getting product publish generate list: {str(e)}")
+            return []
+        finally:
+            self.session.close()
+
+    def publish_list(self, employee_id: str, platform: str, product_type: str) -> list[ProductHistory]:
+        """根据员工ID和平台和产品类型获取发布列表
+        Args:
+            employee_id: 员工ID
+            platform: 平台
+            product_type: 产品类型
+        Returns:
+            list[ProductHistory]: 发品历史列表
+        """
+        try:
+            # 获取当前时间
+            now = datetime.now()
+            # 获取开始时间，减去7天
+            start_time = now - timedelta(days=7)
+
+            return self.session.query(ProductHistory).filter(
+                ProductHistory.employee_id == employee_id,
+                ProductHistory.dest_platform == platform,
+                ProductHistory.product_type == product_type,
+                ProductHistory.generate_status == 'SUCCESS',
+                ProductHistory.publish_status != 'SUCCESS',
+                ProductHistory.created_at >= start_time
+            ).order_by(ProductHistory.created_at.desc()).all()
+        except Exception as e:
+            print(f"Error getting product publish publish list: {str(e)}")
+            return []
+        finally:
+            self.session.close()
+
+    def published_list(self, employee_id: str, platform: str, product_type: str,start_time: datetime,end_time: datetime) -> list[ProductPublishHistory]:
+        """根据员工ID和平台和产品类型获取已发布列表，并根据开始时间和结束时间过滤
+        Args:
+            employee_id: 员工ID
+            platform: 平台
+            product_type: 产品类型
+            start_time: 开始时间
+            end_time: 结束时间
+        Returns:    
+            list[ProductPublishHistory]: 发品历史列表
+        """
+        try:
+            return self.session.query(ProductHistory).filter(
+                ProductHistory.employee_id == employee_id,
+                ProductHistory.dest_platform == platform,
+                ProductHistory.product_type == product_type,
+                ProductHistory.publish_status == 'SUCCESS',
+                ProductHistory.created_at >= start_time,
+                ProductHistory.created_at <= end_time
+            ).order_by(ProductHistory.created_at.desc()).all()
+        except Exception as e:
+            print(f"Error getting product publish published list: {str(e)}")
+            return []
+
 
     def delete_by_trace_id(self, trace_id: str) -> bool:
         """根据 trace_id 删除发品历史

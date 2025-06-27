@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request, Depends
 from ai.core.auth.authentication import verify_sys_token,verify_employee_token
 from ai.service.employee_service import EmployeeService
 from ai.service.employee_catch_service import EmployeeCacheService
-from ai.service.product_publish_service import ProductPublishService
+from ai.service.product_history_service import ProductHistoryService
 from ai.dao.db.engine import manager_engine, workflow_engine
 from sqlalchemy.orm import Session
 from ai.dao.entity.action_flow import ActionFlow
@@ -19,7 +19,7 @@ manager_session = Session(bind=manager_engine)
 workflow_session = Session(bind=workflow_engine)
 employee_service = EmployeeService()
 cache_service = EmployeeCacheService()
-product_publish_service = ProductPublishService()
+product_history_service = ProductHistoryService()
 actionflow_service = ActionFlowService()
 
 # -------------------------------------------
@@ -111,13 +111,13 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     # model: collect, generate, publish,published
     model = data.get('model',"published")
     if model == "collect":
-        product_publish_list = product_publish_service.collect_list(employee_id=employee_id, platform=platform, product_type=product_type)
+        product_publish_list = product_history_service.collect_list(employee_id=employee_id, platform=platform, product_type=product_type)
     elif model == "generate":
-        product_publish_list = product_publish_service.generate_list(employee_id=employee_id, platform=platform, product_type=product_type)
+        product_publish_list = product_history_service.generate_list(employee_id=employee_id, platform=platform, product_type=product_type)
     elif model == "publish":
-        product_publish_list = product_publish_service.publish_list(employee_id=employee_id, platform=platform, product_type=product_type)
+        product_publish_list = product_history_service.publish_list(employee_id=employee_id, platform=platform, product_type=product_type)
     elif model == "published":
-        product_publish_list = product_publish_service.published_list(employee_id=employee_id, platform=platform, product_type=product_type,start_time=start_time,end_time=end_time)
+        product_publish_list = product_history_service.published_list(employee_id=employee_id, platform=platform, product_type=product_type,start_time=start_time,end_time=end_time)
     else:
         product_publish_list = []
 
