@@ -193,7 +193,7 @@ class ProductHistoryService:
         finally:
             self.session.close()
 
-    def published_list(self, employee_id: str, platform: str, product_type: str,start_time: datetime,end_time: datetime) -> list[ProductPublishHistory]:
+    def published_list(self, employee_id: str, platform: str, product_type: str,start_time: datetime,end_time: datetime) -> list[ProductHistory]:
         """根据员工ID和平台和产品类型获取已发布列表，并根据开始时间和结束时间过滤
         Args:
             employee_id: 员工ID
@@ -202,7 +202,7 @@ class ProductHistoryService:
             start_time: 开始时间
             end_time: 结束时间
         Returns:    
-            list[ProductPublishHistory]: 发品历史列表
+            list[ProductHistory]: 发品历史列表
         """
         try:
             return self.session.query(ProductHistory).filter(
