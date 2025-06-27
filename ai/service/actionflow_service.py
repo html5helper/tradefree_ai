@@ -46,16 +46,18 @@ class ActionFlowService:
         """获取发品事件流
         
         Args:
-            action_flow_id: 发品事件流ID
+            ids: 发品事件流ID列表
             
         Returns:
-            ActionFlow: 发品事件流
+            list: 发品事件流字典列表
         """
         try:
-            return self.session.query(ActionFlow).filter(ActionFlow.id.in_(ids)).all()
+            results = self.session.query(ActionFlow).filter(ActionFlow.id.in_(ids)).all()
+            # 在Session关闭前转换为字典列表
+            return [result.to_dict() for result in results]
         except Exception as e:
             print(f"Error getting action flow: {str(e)}")
-            return None
+            return []
         finally:
             self.session.close()
 

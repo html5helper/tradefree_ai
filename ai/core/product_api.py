@@ -9,6 +9,7 @@ from ai.dao.entity.action_flow import ActionFlow
 from ai.service.actionflow_service import ActionFlowService
 from ai.core.history.task_retry import retry_chain_by_task_id
 import json
+from datetime import datetime
 
 api = APIRouter()
 
@@ -105,8 +106,22 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     product_type = data.get('product_type',None)
     employee_info = access['employee_info']
     employee_id = employee_info['employee_id']
-    start_time = data.get('start_time',None)
-    end_time = data.get('end_time',None)
+    start_time_str = data.get('start_time',None)
+    end_time_str = data.get('end_time',None)
+
+    # 转换时间字符串为datetime对象
+    start_time = None
+    end_time = None
+    if start_time_str:
+        try:
+            start_time = datetime.fromisoformat(start_time_str.replace('Z', '+00:00'))
+        except:
+            start_time = None
+    if end_time_str:
+        try:
+            end_time = datetime.fromisoformat(end_time_str.replace('Z', '+00:00'))
+        except:
+            end_time = None
 
     # model: collect, generate, publish,published
     model = data.get('model',"published")
@@ -117,32 +132,35 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     elif model == "publish":
         product_publish_list = product_history_service.publish_list(employee_id=employee_id, platform=platform, product_type=product_type)
     elif model == "published":
-        product_publish_list = product_history_service.published_list(employee_id=employee_id, platform=platform, product_type=product_type,start_time=start_time,end_time=end_time)
+        if start_time and end_time:
+            product_publish_list = product_history_service.published_list(employee_id=employee_id, platform=platform, product_type=product_type,start_time=start_time,end_time=end_time)
+        else:
+            product_publish_list = []
     else:
         product_publish_list = []
 
     # products = []
     workflow_ids = []
     for product_publish in product_publish_list:
-        if product_publish.collect_product and product_publish.collect_product != "":
-            prod_item = json.loads(product_publish.collect_product)
-            product_publish.collect_product = prod_item
-        if product_publish.generate_product and product_publish.generate_product != "":
-            prod_item = json.loads(product_publish.generate_product)
+        if product_publish.get('collect_product') and product_publish['collect_product'] != "":
+            prod_item = json.loads(product_publish['collect_product'])
+            product_publish['collect_product'] = prod_item
+        if product_publish.get('generate_product') and product_publish['generate_product'] != "":
+            prod_item = json.loads(product_publish['generate_product'])
             # 如果img_url为数组，则将其转化为逗号分隔的 string
-            if (prod_item['img_url'] and isinstance(prod_item['img_url'], list)):
+            if (prod_item.get('img_url') and isinstance(prod_item['img_url'], list)):
                 prod_item['img_url'] = ','.join(prod_item['img_url'])
-            product_publish.generate_product = prod_item
-        if product_publish.publish_product and product_publish.publish_product != "":
-            prod_item = json.loads(product_publish.publish_product)
-            product_publish.publish_product = prod_item
-        if(not product_publish.action_flow_id in workflow_ids):
-            workflow_ids.append(product_publish.action_flow_id)
+            product_publish['generate_product'] = prod_item
+        if product_publish.get('publish_product') and product_publish['publish_product'] != "":
+            prod_item = json.loads(product_publish['publish_product'])
+            product_publish['publish_product'] = prod_item
+        if(not product_publish.get('action_flow_id') in workflow_ids):
+            workflow_ids.append(product_publish['action_flow_id'])
 
     actionflow_list = actionflow_service.get_by_ids(workflow_ids)
     actionflows = {}
     for actionflow in actionflow_list:
-        actionflows[actionflow.id] = json.loads(actionflow.action_flow)
+        actionflows[actionflow['id']] = json.loads(actionflow['action_flow'])
 
     result = {
         "code": 200,
@@ -160,7 +178,7 @@ async def product_delete(request: Request, access: dict = Depends(verify_employe
     """Delete Product By trace_id"""
     data = await request.json()
     trace_id = data.get('trace_id',None)
-    result = product_publish_service.delete_by_trace_id(trace_id)
+    result = product_history_service.delete_by_trace_id(trace_id)
     return {"code": 200, "message": "success","data":{"result":result}}
 
 
