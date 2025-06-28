@@ -47,7 +47,6 @@ logs/
 *.sqlite3
 
 # Redis
-redis/
 redis_data_*
 
 # OS
