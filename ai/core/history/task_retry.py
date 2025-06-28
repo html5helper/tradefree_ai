@@ -14,6 +14,7 @@ def retry_chain_by_task_id(task_id: str):
     # 更新 retried 字段
     task_event_service.update(task_id, {'retried': 1})
 
+    workflow_name = task_event['workflow_name']
     task_name = task_event['task_name']
     args = task_event['task_input'] or []
     event = args[0] if args else None
@@ -23,7 +24,8 @@ def retry_chain_by_task_id(task_id: str):
     # 判断属于哪个chain
     chain_type = None
     for key in CHAIN_MAP:
-        if key in task_name:
+        if key == workflow_name:
+            print("chain_type="+key+",workflow_name="+workflow_name)
             chain_type = key
             break
     if not chain_type:
