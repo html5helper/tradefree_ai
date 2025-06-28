@@ -182,7 +182,9 @@ async def product_delete(request: Request, access: dict = Depends(verify_employe
     return {"code": 200, "message": "success","data":{"result":result}}
 
 
-@api.post("/workflow/product/retry/{task_id}")
-async def retry_product_task(task_id: str,access: dict = Depends(verify_employee_token)):
+@api.post("/workflow/product/retry")
+async def retry_product_task(request: Request,access: dict = Depends(verify_employee_token)):
     """Retry a failed task and its downstream tasks"""
+    data = await request.json()
+    task_id = data.get('task_id',None)
     return {"task_id": retry_chain_by_task_id(task_id)}
