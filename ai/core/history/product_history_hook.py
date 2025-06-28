@@ -89,8 +89,9 @@ class ProductHistoryHook:
         process = self.get_product_process_type(task_type,'failure')
         process_type = process.get('process_type', None)
         changes = process.get('changes', None)
-
-        return product_history_service.update(trace_id, changes)
+        
+        data = self.parse_update_task_info(changes,task_event)
+        return product_history_service.update(trace_id, data)
     
     def parse_update_task_info(self,base_data: dict, task_event: dict) -> dict:
         """从任务事件解析任务信息"""

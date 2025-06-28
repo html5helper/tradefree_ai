@@ -11,12 +11,11 @@ def retry_chain_by_task_id(task_id: str):
     if not task_event:
         raise HTTPException(status_code=404, detail="Task history not found")
     
-    # retried字段置为1
-    task_event.retried = 1
+    # 更新 retried 字段
     task_event_service.update(task_id, {'retried': 1})
 
-    task_name = task_event.task_name
-    args = task_event.task_input or []
+    task_name = task_event['task_name']
+    args = task_event['task_input'] or []
     event = args[0] if args else None
     if not event:
         raise HTTPException(status_code=400, detail="No event found in args")
@@ -49,7 +48,7 @@ def retry_chain_by_task_id(task_id: str):
         for t in next_tasks[1:]:
             signatures.append(celery_app.signature(t))
     workflow = chain(*signatures)
-    data = {"trace_id": task_event.trace_id,"task_id": task_event.task_id}
+    data = {"trace_id": task_event['trace_id'],"task_id": task_event['task_id']}
     result = workflow.apply_async(args=(data,))
     
     return result.id
