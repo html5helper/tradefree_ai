@@ -46,6 +46,9 @@ logs/
 *.db
 *.sqlite3
 
+# Redis
+redis/
+
 # OS
 .DS_Store
 Thumbs.db 
