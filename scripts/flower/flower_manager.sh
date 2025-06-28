@@ -7,7 +7,7 @@ PROJECT_ROOT="$(dirname "$(dirname "$SCRIPT_DIR")")"
 # 默认配置
 DEFAULT_PORT=5555
 LOG_FILE="$PROJECT_ROOT/logs/flower.log"
-DATA_FILE="$PROJECT_ROOT/data/flower/flower"
+DATA_FILE="$PROJECT_ROOT/data/flower/flower.db"
 
 # 颜色定义
 RED='\033[0;31m'
