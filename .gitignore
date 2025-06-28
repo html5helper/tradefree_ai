@@ -48,6 +48,7 @@ logs/
 
 # Redis
 redis/
+# redis_data_*
 
 # OS
 .DS_Store
