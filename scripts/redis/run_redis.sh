@@ -1,9 +1,19 @@
 #!/bin/bash
 
+# 获取脚本所在目录的绝对路径
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# 获取项目根目录（scripts目录的上级目录）
+PROJECT_ROOT="$(dirname "$(dirname "$SCRIPT_DIR")")"
+
 REDIS_PORT=6379
-REDIS_CONFIG_FILE="./scripts/redis/redis_${REDIS_PORT}.conf"
+REDIS_CONFIG_FILE="$SCRIPT_DIR/redis_${REDIS_PORT}.conf"
 REDIS_BIN=$(which redis-server)
-REDIS_DATA_DIR="./redis_data_${REDIS_PORT}"
+REDIS_DATA_DIR="$PROJECT_ROOT/redis_data_${REDIS_PORT}"
+
+echo "脚本目录: $SCRIPT_DIR"
+echo "项目根目录: $PROJECT_ROOT"
+echo "配置文件: $REDIS_CONFIG_FILE"
+echo "数据目录: $REDIS_DATA_DIR"
 
 # === 检查 redis-server 是否存在 ===
 if [ -z "$REDIS_BIN" ]; then
@@ -21,6 +31,7 @@ fi
 
 # === 创建数据目录 ===
 mkdir -p "$REDIS_DATA_DIR"
+echo "✅ 数据目录已创建/确认: $REDIS_DATA_DIR"
 
 # === 检查端口占用并获取 PID ===
 PID=$(lsof -ti tcp:$REDIS_PORT 2>/dev/null | head -n 1)
@@ -33,10 +44,23 @@ if [ -n "$PID" ]; then
         echo "⚠️ 进程 $PID 已不存在，可能是瞬时占用，继续启动 Redis..."
         PID=""
     else
-        # 检查是否是 Redis 进程
-        PROC_NAME=$(ps -p "$PID" -o command= 2>/dev/null | head -n 1)
+        # 改进的进程名称检测
+        PROC_NAME=""
+        if command -v ps > /dev/null 2>&1; then
+            # 尝试多种方式获取进程名称
+            PROC_NAME=$(ps -p "$PID" -o comm= 2>/dev/null | head -n 1)
+            if [ -z "$PROC_NAME" ]; then
+                PROC_NAME=$(ps -p "$PID" -o command= 2>/dev/null | head -n 1)
+            fi
+            if [ -z "$PROC_NAME" ]; then
+                PROC_NAME=$(ps -p "$PID" -o args= 2>/dev/null | head -n 1)
+            fi
+        fi
         
-        if echo "$PROC_NAME" | grep -q "redis-server"; then
+        echo "🔍 检测到进程: $PROC_NAME (PID: $PID)"
+        
+        # 检查是否是 Redis 相关进程
+        if [ -n "$PROC_NAME" ] && (echo "$PROC_NAME" | grep -q "redis" || echo "$PROC_NAME" | grep -q "Redis"); then
             echo "🔍 发现 Redis 进程正在运行"
             read -p "是否停止现有 Redis 并重启？[y/N] " answer
             if [[ "$answer" =~ ^[Yy]$ ]]; then
@@ -57,7 +81,7 @@ if [ -n "$PID" ]; then
                 exit 0
             fi
         else
-            echo "❌ 端口被其他程序占用: $PROC_NAME（PID: $PID）"
+            echo "❌ 端口被其他程序占用: $PROC_NAME (PID: $PID)"
             echo "请手动停止该进程或使用其他端口"
             exit 1
         fi
@@ -68,6 +92,9 @@ fi
 echo "🚀 正在启动 Redis..."
 echo "配置文件: $REDIS_CONFIG_FILE"
 echo "数据目录: $REDIS_DATA_DIR"
+
+# 切换到项目根目录，确保相对路径正确
+cd "$PROJECT_ROOT"
 
 $REDIS_BIN "$REDIS_CONFIG_FILE" &
 
@@ -80,6 +107,13 @@ if lsof -i tcp:$REDIS_PORT > /dev/null 2>&1; then
     echo "端口: $REDIS_PORT"
     echo "数据目录: $REDIS_DATA_DIR"
     echo "日志文件: $REDIS_DATA_DIR/redis.log"
+    
+    # 检查 AOF 目录是否创建
+    if [ -d "$REDIS_DATA_DIR/appendonlydir" ]; then
+        echo "✅ AOF 目录已创建: $REDIS_DATA_DIR/appendonlydir"
+    else
+        echo "⚠️ AOF 目录未创建，检查 Redis 日志"
+    fi
     
     # 显示基本信息
     echo ""
