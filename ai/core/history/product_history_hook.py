@@ -112,60 +112,57 @@ class ProductHistoryHook:
     def parse_generate_product_info(self,task_input: dict) -> dict:
         """从数据解析产品信息"""
         product_info = task_input.copy()
-        product_info.pop('access', None)
-        return product_info
+        result = {
+            'trace_id': task_input.get('trace_id', None),
+            'action_flow_id': task_input.get('action_flow_id', None),
+            'product_type': task_input.get('product_type', None),
+            # product info
+            'title': task_input.get('title', None),
+            'shot_description': task_input.get('shot_description', None),
+            'product_name': task_input.get('product_name', None),
+            'tags': task_input.get('tags', None),
+            'reference_product': task_input.get('reference_product', None),
+            'reference_product_platform': task_input.get('reference_product_platform', None),
+            'moq': task_input.get('moq', None),
+            'price': task_input.get('price', None),
+            'delivery_time': task_input.get('delivery_time', None),
+            
+            # images
+            'img_url': task_input.get('video_src_urls', None),
+            # video
+            'video_url': task_input.get('video_url', None),
+            # shop info
+            'shop_name': task_input.get('shop_name', None)
+        }
+        return result
 
     def parse_publish_product_info(self,task_input: dict) -> dict:
-        """从数据解析产品信息
-        {
-            trace_id:"",
-            product_type:"",
-            action_flow_id:"",
-
-            title:"",
-            shot_description:"",
-            product_name:"",
-            video_url:"",
-            img_url:"",
-            tags:"",
-            reference_product:"",
-            reference_product_platform:"",
-            moq:"",
-            price:"",
-            delivery_time:"",
-            
-            shop_name:"",
-        }
-        Args:
-            event_data: 事件数据
-
-        Returns:
-            product_info: 产品信息
-        """
+        """从数据解析产品信息"""
         try:
-            product_info = {
-                'trace_id': task_input.get('trace_id', None),
-                'action_flow_id': task_input.get('action_flow_id', None),
-                'product_type': task_input.get('product_type', None),
+            product_info = task_input.copy()
+            result = {
+                'trace_id': product_info.get('trace_id', None),
+                'action_flow_id': product_info.get('action_flow_id', None),
+                'product_type': product_info.get('product_type', None),
                 # product info
-                'title': task_input.get('title', None),
-                'shot_description': task_input.get('shot_description', None),
-                'product_name': task_input.get('product_name', None),
-                'tags': task_input.get('tags', None),
-                'reference_product': task_input.get('reference_product', None),
-                'reference_product_platform': task_input.get('reference_product_platform', None),
-                'moq': task_input.get('moq', None),
-                'price': task_input.get('price', None),
-                'delivery_time': task_input.get('delivery_time', None),
+                'title': product_info.get('title', None),
+                'shot_description': product_info.get('shot_description', None),
+                'product_name': product_info.get('product_name', None),
+                'tags': product_info.get('tags', None),
+                'reference_product': product_info.get('reference_product', None),
+                'reference_product_platform': product_info.get('reference_product_platform', None),
+                'moq': product_info.get('moq', None),
+                'price': product_info.get('price', None),
+                'delivery_time': product_info.get('delivery_time', None),
                 
                 # images
-                'img_url': task_input.get('video_src_urls', None),
+                'img_url': product_info.get('video_src_urls', None),
                 # video
-                'video_url': task_input.get('video_url', None),
+                'video_url': product_info.get('video_url', None),
                 # shop info
-                'shop_name': task_input.get('shop_name', None)
+                'shop_name': product_info.get('shop_name', None)
             }
-            return product_info
+            return result
         except Exception as e:
             print(f"Error parsing product info: {e}")
             return None
