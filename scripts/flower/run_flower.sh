@@ -48,7 +48,7 @@ nohup "$PROJECT_ROOT/.venv/bin/celery" \
     --port=$PORT \
     --address=0.0.0.0 \
     --persistent=True \
-    --db="$DATA_FILE.db" \
+    --db="$DATA_FILE" \
     --max_tasks=10000 \
     --enable_events=True \
     --auto_refresh=True \
