@@ -10,7 +10,6 @@ MYSQL_CONFIG = {
         'password': os.getenv("MYSQL_PASSWORD", "c1234%^5678C"),
         'database': 'celery_prod',
         'charset': 'utf8mb4',
-        # 'auth_plugin': 'mysql_native_password'
     },
     "manager_db": {
         'host': os.getenv("MYSQL_HOST", "127.0.0.1"),
@@ -19,8 +18,8 @@ MYSQL_CONFIG = {
         'password': os.getenv("MYSQL_PASSWORD", "c1234%^5678C"),
         'database': 'tf',
         'charset': 'utf8mb4',
-        # 'auth_plugin': 'mysql_native_password'
-    }
+    },
+
 }
 
 # Redis 配置

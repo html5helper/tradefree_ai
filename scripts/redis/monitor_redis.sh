@@ -1,7 +1,13 @@
 #!/bin/bash
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd)"
+PROJECT_ROOT="$(dirname "$(dirname "$SCRIPT_DIR")")"
 REDIS_PORT=6379
-REDIS_DATA_DIR="./redis_data_${REDIS_PORT}"
+REDIS_CONFIG_FILE="$SCRIPT_DIR/redis_${REDIS_PORT}.conf"
+REDIS_DATA_DIR=$(grep -E '^dir ' "$REDIS_CONFIG_FILE" | awk '{print $2}' | tr -d '"')
+if [[ "$REDIS_DATA_DIR" != /* ]]; then
+  REDIS_DATA_DIR="$PROJECT_ROOT/$REDIS_DATA_DIR"
+fi
 
 echo "=== Redis 监控信息 ==="
 echo "时间: $(date)"
