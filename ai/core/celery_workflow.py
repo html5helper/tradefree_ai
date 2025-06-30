@@ -14,6 +14,7 @@ class CeleryWorkflow:
         data['trace_id'] = trace_id
         data['workflow_name'] = chain_type
 
+        print("chain_type="+chain_type+",data="+str(data))
         signatures = []
         for task_name in CHAIN_MAP[chain_type]:
             signatures.append(celery_app.signature(task_name))
