@@ -20,6 +20,7 @@ async def copy(request: Request, access: dict = Depends(verify_token)):
     published_shop = data.get("published_shop", "")
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f"[{timestamp}] workflow={workflow_name},employee={employee},published_shop={published_shop}")
+    
     if not workflow_name:
         return {"error": "Invalid workflow"}
     return workflow.create_workflow(workflow_name, data)
