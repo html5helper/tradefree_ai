@@ -101,8 +101,5 @@ async def verify_token(request: Request, credentials: HTTPAuthorizationCredentia
         "user_group": user_group,
         "user_access": user_group_access,
         "workflow": workflow
-    }
-
-    print(user_info)
-    
+    }    
     return user_info

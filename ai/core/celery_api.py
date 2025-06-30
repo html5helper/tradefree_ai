@@ -3,6 +3,7 @@ from ai.core.history.task_retry import retry_chain_by_task_id
 from ai.core.celery_workflow import CeleryWorkflow
 from ai.core.auth.authentication import verify_token
 from ai.core.product_api import api as product_router
+from datetime import datetime
 
 api = FastAPI()
 workflow = CeleryWorkflow()
@@ -15,7 +16,10 @@ async def copy(request: Request, access: dict = Depends(verify_token)):
     """Copy and public product workflow"""
     data = await request.json()
     workflow_name = access.get("workflow", "")
-    print("workflow_name="+workflow_name+",data="+str(data))
+    employee = data.get("employee", "")
+    published_shop = data.get("published_shop", "")
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print(f"[{timestamp}] workflow={workflow_name},employee={employee},published_shop={published_shop}")
     if not workflow_name:
         return {"error": "Invalid workflow"}
     return workflow.create_workflow(workflow_name, data)

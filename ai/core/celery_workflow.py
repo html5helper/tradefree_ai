@@ -14,14 +14,12 @@ class CeleryWorkflow:
         data['trace_id'] = trace_id
         data['workflow_name'] = chain_type
 
-        print("chain_type="+chain_type+",data="+str(data))
         signatures = []
         for task_name in CHAIN_MAP[chain_type]:
             signatures.append(celery_app.signature(task_name))
         workflow = chain(*signatures)
         # 只给第一个任务传 event，转换为字典以确保可序列化
         result = workflow.apply_async(args=(data,))
-        print("result.id="+result.id+",data="+str(data))
         return {"task_id": result.id, "data": data}
     
     def build_payload_taskid(self,data:dict):
