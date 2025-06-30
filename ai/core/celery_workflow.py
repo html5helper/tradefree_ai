@@ -20,6 +20,7 @@ class CeleryWorkflow:
         workflow = chain(*signatures)
         # 只给第一个任务传 event，转换为字典以确保可序列化
         result = workflow.apply_async(args=(data,))
+        print("result.id="+result.id+",data="+str(data))
         return {"task_id": result.id, "data": data}
     
     def build_payload_taskid(self,data:dict):

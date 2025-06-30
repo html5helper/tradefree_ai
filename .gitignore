@@ -43,6 +43,7 @@ logs/
 .env.*.local
 
 # Database
+data/
 *.db
 *.sqlite3
 
