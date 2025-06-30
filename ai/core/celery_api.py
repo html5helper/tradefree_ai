@@ -15,7 +15,7 @@ async def copy(request: Request, access: dict = Depends(verify_token)):
     """Copy and public product workflow"""
     data = await request.json()
     workflow_name = access.get("workflow", "")
-    
+    print("workflow_name="+workflow_name+",data="+str(data))
     if not workflow_name:
         return {"error": "Invalid workflow"}
     return workflow.create_workflow(workflow_name, data)
