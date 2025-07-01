@@ -101,6 +101,13 @@ curl -X POST http://127.0.0.1:8081/workflow/run/copy \
 -d '{"product_type": "sticker","workflow": "amz_to_ali_test","published_shop": "ali_shop2","title": "Custom UV DTF Transfer Sticker for Metal, Glass, Car | DIY Design Logo, Image, Text | Waterproof, Self-Adhesive Crystal Decals","description": "We are committed to delivering high-quality custom clear stickers and labels to our customers. If you are not satisfied with your order, please contact us, and we will make every effort to resolve the issue. Your satisfaction is our top priority.","price": "0.1","moq": "200","imgs": [  "https://m.media-amazon.com/images/I/41ioYrEmI8L._AC_SL1500_.jpg",  "https://m.media-amazon.com/images/I/61Qmrd-kIFL._AC_SL1500_.jpg",  "https://m.media-amazon.com/images/I/51lJ3Qn8+sL._AC_SL1500_.jpg",  "https://m.media-amazon.com/images/I/51vDRkq5CoL._AC_SL1500_.jpg",  "https://m.media-amazon.com/images/I/71qgEBgYxuL._AC_SL1500_.jpg",  "https://m.media-amazon.com/images/I/51rVarFTYEL._AC_SL1500_.jpg"],"delivery_time": "7 days","reference_product": "https://www.amazon.com/Transfer-Sticker-Waterproof-Self-Adhesive-Crystal/dp/B0DDTBG1WN","reference_product_platform": "amazon"}'
 
 
+# 京东
+curl -X POST http://admin.tradefree.ai/workflow/run/copy \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer 828b6cf6a0204632a91bf6314e7fe93f' \
+-d '{"title": "128张手机壳小人贴纸呆萌表情包创意diy日本素材装饰宿舍桌面贴画","description": "", "price": "0.8","moq": "200","imgs": ["https://gw.alicdn.com/imgextra/O1CN01r8HVG92LY25UtyJvo_!!3937219703-0-C2M.jpg","https://gw.alicdn.com/imgextra/O1CN018J76qe1PkAsB2pHds_!!2212289861878-0-scmitem176000.jpg","https://gw.alicdn.com/imgextra/O1CN017MTCan1PkAs9GgwhX_!!2212289861878-0-scmitem176000.jpg","https://gw.alicdn.com/imgextra/O1CN01Gmjg6f1PkAs8Qvydd_!!2212289861878-0-scmitem176000.jpg","https://gw.alicdn.com/imgextra/O1CN01aa6C971PkAsAaIDcD_!!2212289861878-2-scmitem176000.png"],"product_type": "sticker","delivery_time": "7 days","reference_product": "https://detail.tmall.com/item.htm?detail_redpacket_pop=true&id=934493908140&ltk2=1751345937290xpb6tjmp3ck9fvlp5re7oc&ns=1&priceTId=214783e817513458044226968e1890&query=%E8%B4%B4%E7%BA%B8&skuId=5989757863720&spm=a21n57.1.hoverItem.10&utparam=%7B%22aplus_abtest%22%3A%2208a618b59d2631712c5276ccc8412d0e%22%7D&xxc=ad_ztc","reference_product_platform": "ali", "workflow": "taobao_to_jd_plugin"}'
+
+
 # 阿里国际站
 curl -X POST http://admin.tradefree.ai/workflow/run/copy \
 -H 'Content-Type: application/json' \
