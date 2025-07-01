@@ -16,8 +16,8 @@ class CeleryWorkflow:
         data['workflow_name'] = chain_type
 
         dest_platform = None
-        if chain_type and '-' in chain_type:
-            parts = chain_type.split('-')
+        if chain_type and '_' in chain_type:
+            parts = chain_type.split('_')
             if len(parts) > 2:
                 dest_platform = parts[2]
         data['dest_platform'] = dest_platform 
