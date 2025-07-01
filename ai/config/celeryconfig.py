@@ -231,7 +231,7 @@ CHAIN_MAP = {
         'ai.business.listing.tasks.normal_generate_listing',
         'ai.business.maskword.tasks.normal_filter_maskword',
         'ai.business.image.tasks.image_text_image',
-        'ai.business.video.tasks.normal_generate_video',
+        # 'ai.business.video.tasks.normal_generate_video',
         'ai.business.storage.tasks.normal_storage',
     ],
     "amz_to_ali_test": [
