@@ -16,6 +16,11 @@ async def copy(request: Request, employee_access: dict = Depends(verify_employee
     """Copy and public product workflow"""
     data = await request.json()
     data['access'] = employee_access # 将员工权限信息添加到数据中，用于后续的公共信息提取
+    dest_platform = None
+    if workflow and '-' in workflow:
+        parts = workflow.split('-')
+        if len(parts) > 2:
+            dest_platform = parts[2]
 
     return workflow.create_workflow(data)
     

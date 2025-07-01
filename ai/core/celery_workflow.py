@@ -15,6 +15,13 @@ class CeleryWorkflow:
         chain_type = data.get("workflow", None)
         data['workflow_name'] = chain_type
 
+        dest_platform = None
+        if workflow and '-' in workflow:
+            parts = workflow.split('-')
+            if len(parts) > 2:
+                dest_platform = parts[2]
+        data['dest_paltform'] = dest_platform 
+
         signatures = []
         for task_name in CHAIN_MAP[chain_type]:
             signatures.append(celery_app.signature(task_name))
