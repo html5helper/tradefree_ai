@@ -226,6 +226,14 @@ CHAIN_MAP = {
         'ai.business.video.tasks.normal_generate_video',
         'ai.business.storage.tasks.normal_storage',
     ],
+    "taobao_to_jd_plugin": [
+        'ai.business.resource.tasks.normal_store_resource',
+        'ai.business.listing.tasks.normal_generate_listing',
+        'ai.business.maskword.tasks.normal_filter_maskword',
+        'ai.business.image.tasks.image_text_image',
+        'ai.business.video.tasks.normal_generate_video',
+        'ai.business.storage.tasks.normal_storage',
+    ],
     "amz_to_ali_test": [
         'ai.business.resource.tasks.test_store_resource',
         'ai.business.listing.tasks.test_listing',
