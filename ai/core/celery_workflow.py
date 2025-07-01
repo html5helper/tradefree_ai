@@ -22,9 +22,8 @@ class CeleryWorkflow:
                 dest_platform = parts[2]
         data['dest_platform'] = dest_platform 
         data['published_shop'] = data.get('published_shop', "--")
-
-
-        print("data", data)
+        if data.get("product_type") == "silicone":
+            data['use_ai'] = "false"
 
         signatures = []
         for task_name in CHAIN_MAP[chain_type]:
