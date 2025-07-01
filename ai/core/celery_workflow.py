@@ -21,6 +21,7 @@ class CeleryWorkflow:
             if len(parts) > 2:
                 dest_platform = parts[2]
         data['dest_platform'] = dest_platform 
+        data['published_shop'] = data.get('published_shop', "--")
 
 
         print("data", data)
