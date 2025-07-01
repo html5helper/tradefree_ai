@@ -10,6 +10,7 @@ from ai.service.actionflow_service import ActionFlowService
 from ai.core.history.task_retry import retry_chain_by_task_id
 import json
 from datetime import datetime
+from ai.service.dify_service import DifyService
 
 api = APIRouter()
 
@@ -22,6 +23,7 @@ employee_service = EmployeeService()
 cache_service = EmployeeCacheService()
 product_history_service = ProductHistoryService()
 actionflow_service = ActionFlowService()
+dify_service = DifyService()
 
 # -------------------------------------------
 # System API
@@ -188,3 +190,10 @@ async def retry_product_task(request: Request,access: dict = Depends(verify_empl
     data = await request.json()
     task_id = data.get('task_id',None)
     return {"task_id": retry_chain_by_task_id(task_id)}
+
+@api.post("/workflow/image/inpaint")
+async def image_inpaint(request: Request,access: dict = Depends(verify_employee_token)):
+    """Image Inpaint"""
+    data = await request.json()
+    result = dify_service.image_inpaint(data)
+    return result

@@ -71,6 +71,10 @@ DIFY_CONFIG = {
         "workflow_id": "15057dc0-bef6-40ef-b745-499c867a61f4",
         "api_key": "app-aHottX9s7ptJQLEeU6SOL1MA"
     },
+    "img_inpaint":{
+        "workflow_id": "66153121-0883-45ac-9b9d-23670e471838",
+        "api_key": "app-WXlHyJIbJNOEsScbzjnWJdZe"
+    },
     "img2video":{
         "workflow_id":"66194caf-3538-44d0-9a97-d72c97051476",
         "api_key":"app-UuFhL6LIYfF7mSJ4gKShzFNG"

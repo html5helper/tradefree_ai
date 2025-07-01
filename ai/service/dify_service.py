@@ -42,4 +42,24 @@ class DifyService:
             raise ValueError(f"Task execution failed with code {output['code']}: {output}")
         
         return {**payload, **output} 
+    
+    # img_inpaint
+    def image_inpaint(self,payload:dict) -> dict:
+        input = payload.copy()
+
+        config = DIFY_CONFIG['img_inpaint']
+        response = self.client.post(
+            config['workflow_id'],
+            config['api_key'],
+            input
+        )
+
+        # {"code": 200, "message": "success","data":result}
+        if 'code' not in response:
+            return {"code": 400, "message": "failure","data":response}
+            
+        if response['code'] != 200:
+            return {"code": 400, "message": "failure","data":response}
+        
+        return {"code": 200, "message": "success","data":response}
  
