@@ -22,6 +22,9 @@ class CeleryWorkflow:
                 dest_platform = parts[2]
         data['dest_platform'] = dest_platform 
 
+
+        print("data", data)
+
         signatures = []
         for task_name in CHAIN_MAP[chain_type]:
             signatures.append(celery_app.signature(task_name))
