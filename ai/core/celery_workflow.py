@@ -13,6 +13,8 @@ class CeleryWorkflow:
         trace_id = str(uuid.uuid4())
         data['trace_id'] = trace_id
         data['workflow_name'] = chain_type
+        if data.get("product_type") == "silicone":
+            data['use_ai'] = "false"
 
         signatures = []
         for task_name in CHAIN_MAP[chain_type]:
