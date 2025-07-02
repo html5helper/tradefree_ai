@@ -5,10 +5,10 @@ curl -X POST \
     -H 'Authorization: Bearer tiuGlpGYG6olYLBaIfbvsKI7DIUv9Z3J'
 
 curl -X POST \
-    http://admin.tradefree.ai/workflow/image/inpaint \
+    http://127.0.0.1:8081/workflow/image/inpaint \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer tiuGlpGYG6olYLBaIfbvsKI7DIUv9Z3J' \
-    -d '{"img": "https://gw.alicdn.com/imgextra/O1CN01r8HVG92LY25UtyJvo_!!3937219703-0-C2M.jpg","query":"remove background"}'
+    -H 'Authorization: Bearer 828b6cf6a0204632a91bf6314e7fe93f' \
+    -d '{"img": "https://img.alicdn.com/imgextra/i4/2206828266432/O1CN01SnOKSp1xNuJtY76Hn_!!0-item_pic.jpg_.webp","query":"紫色花换为粉色花"}'
 
 curl -X POST \
 http://admin.tradefree.ai/workflow/tasks/retry/2eaf02db-dad4-43ef-9118-327bb202d4c8 \
@@ -89,3 +89,11 @@ curl -X POST http://admin.tradefree.ai/workflow/run/copy \
 -H 'Content-Type: application/json' \
 -H 'Authorization: Bearer 828b6cf6a0204632a91bf6314e7fe93f' \
 -d '{"product_type": "label", "workflow": "amz_to_1688_plugin","published_shop": "1688shop3","title": "120 Labels Personalized and Custom Design Vinyl Stickers Removable Waterproof UV Resistant Any Shape and Size with Your Logo Text Image", "description": "About this item Craft custom stickers for your business, cafe, restaurant, gifts, parties, promotions, and family occasions. Experience top-quality printing on PVC VINYL material, ensuring vibrant and detailed designs. Unleash creativity with a variety of shapes such as Circle, Square, Rectangle, Heart, Star, and even Custom Shapes. Choose sizes ranging from 1 to 10. Personalize effortlessly by clicking the Customize Now button. Our skilled designers will add final touches to your design before printing. Waterproof, UV Resident, and Tearproof. Proudly based in Chatsworth, California, and all our products are proudly manufactured in the USA. \\u203a See more product details", "price": "0.1", "moq": "200", "imgs": ["https://m.media-amazon.com/images/I/61f-IMcJ5wL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/311vD1HtjGL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/41ShH-P02rL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/61ZS3Jk1scL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/51xJjbSnJFL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/71XpIGg28VL._AC_SL1500_.jpg", "https://m.media-amazon.com/images/I/51TxM8S6odL._AC_SL1500_.jpg"], "delivery_time": "7 days", "reference_product": "https://www.amazon.com/Personalized-Stickers-Removable-Waterproof-Resistant/dp/B09P9XSRK1", "reference_product_platform": "amazon"}'
+
+
+curl -X POST http://127.0.0.1:8081/workflow/image/inpaint \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer 828b6cf6a0204632a91bf6314e7fe93f' \
+-d '{"query": "去除图片中心形上面的文字", "img_url": "http://comfy.tradefree.ai/api/view?filename=a_00001_.png&type=output&subfolder=463d8163-85be-40c9-b7ff-7c30b339f98f"}'
+
+

@@ -21,8 +21,6 @@ MYSQL_CONFIG = {
     }
 }
 
-# Dify API 配置
-DIFY_BASE_URL = "http://dify.tradefree.ai/v1"
 
 # Redis 配置
 REDIS_HOST = "127.0.0.1"
