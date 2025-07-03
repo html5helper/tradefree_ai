@@ -153,8 +153,8 @@ CHAIN_MAP = {
         'ai.business.maskword.tasks.normal_filter_maskword',
         'ai.business.image.tasks.image_text_image',
         'ai.business.upload_img.tasks.api_upload_image',
-        'ai.business.video.tasks.normal_generate_video',
-        'ai.business.upload_video.tasks.normal_upload_video',
+        # 'ai.business.video.tasks.normal_generate_video',
+        # 'ai.business.upload_video.tasks.normal_upload_video',
         'ai.business.public.tasks.api_publish_product', 
     ],
     "amz_to_1688": [
@@ -163,8 +163,8 @@ CHAIN_MAP = {
         'ai.business.maskword.tasks.normal_filter_maskword',
         'ai.business.image.tasks.image_text_image',
         'ai.business.upload_img.tasks.api_upload_image',
-        'ai.business.video.tasks.normal_generate_video',
-        'ai.business.upload_video.tasks.normal_upload_video',
+        # 'ai.business.video.tasks.normal_generate_video',
+        # 'ai.business.upload_video.tasks.normal_upload_video',
         'ai.business.public.tasks.api_publish_product',
     ],
     "ali_to_1688": [
@@ -173,8 +173,8 @@ CHAIN_MAP = {
         'ai.business.maskword.tasks.normal_filter_maskword',
         'ai.business.image.tasks.image_text_image',
         'ai.business.upload_img.tasks.api_upload_image',
-        'ai.business.video.tasks.normal_generate_video',
-        'ai.business.upload_video.tasks.normal_upload_video',
+        # 'ai.business.video.tasks.normal_generate_video',
+        # 'ai.business.upload_video.tasks.normal_upload_video',
         'ai.business.public.tasks.api_publish_product',
     ],
     "1688_to_1688": [
@@ -183,8 +183,8 @@ CHAIN_MAP = {
         'ai.business.maskword.tasks.normal_maskword_filter',
         'ai.business.image.tasks.image_text_image',
         'ai.business.upload_img.tasks.api_upload_image',
-        'ai.business.video.tasks.normal_generate_video',
-        'ai.business.upload_video.tasks.normal_upload_video',
+        # 'ai.business.video.tasks.normal_generate_video',
+        # 'ai.business.upload_video.tasks.normal_upload_video',
         'ai.business.public.tasks.api_publish_product',
     ],
     "ali_to_ali": [
@@ -193,8 +193,8 @@ CHAIN_MAP = {
         'ai.business.maskword.tasks.normal_filter_maskword',
         'ai.business.image.tasks.image_text_image',
         'ai.business.upload_img.tasks.api_upload_image',
-        'ai.business.video.tasks.normal_generate_video',
-        'ai.business.upload_video.tasks.normal_upload_video',
+        # 'ai.business.video.tasks.normal_generate_video',
+        # 'ai.business.upload_video.tasks.normal_upload_video',
         'ai.business.public.tasks.api_publish_product',
     ],
     "social_total": [
@@ -215,7 +215,7 @@ CHAIN_MAP = {
         'ai.business.listing.tasks.normal_generate_listing',
         'ai.business.maskword.tasks.normal_filter_maskword',
         'ai.business.image.tasks.image_text_image',
-        'ai.business.video.tasks.normal_generate_video',
+        # 'ai.business.video.tasks.normal_generate_video',
         'ai.business.storage.tasks.normal_storage',
     ],
     "amz_to_1688_plugin": [
@@ -223,7 +223,7 @@ CHAIN_MAP = {
         'ai.business.listing.tasks.normal_generate_listing',
         'ai.business.maskword.tasks.normal_filter_maskword',
         'ai.business.image.tasks.image_text_image',
-        'ai.business.video.tasks.normal_generate_video',
+        # 'ai.business.video.tasks.normal_generate_video',
         'ai.business.storage.tasks.normal_storage',
     ],
     "taobao_to_jd_plugin": [
