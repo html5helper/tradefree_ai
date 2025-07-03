@@ -21,7 +21,7 @@ mkdir -p logs
 workers=(
     "social:product_social_queue -c 1 -n social_worker@%h-social"
     "src:product_src_queue -c 5 -n src_worker@%h-src"
-    "listing:product_listing_queue -c 5 -n listing_worker@%h-listing"
+    "listing:product_listing_queue -c 1 -n listing_worker@%h-listing"
     "maskword:product_maskword_queue -c 5 -n maskword_worker@%h-maskword"
     "image:product_image_queue -c 1 -n image_worker@%h-image"
     "upload_ali:product_upload_queue_ali -c 2 -n upload_ali_worker@%h-upload_image_ali"
