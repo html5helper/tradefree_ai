@@ -77,3 +77,19 @@ class EmployeeAccess(Base):
             f"template_id={self.template_id}, "
             f"is_enable={self.is_enable})>"
         )
+    
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "employee_id": self.employee_id,
+            "workflow": self.workflow,
+            "workflow_name": self.workflow_name,
+            "src_platform": self.src_platform,
+            "dest_platform": self.dest_platform,
+            "product_type": self.product_type,
+            "shop_id": self.shop_id,
+            "shop_name": self.shop_name,
+            "category_id": self.category_id,
+            "template_id": self.template_id
+        }

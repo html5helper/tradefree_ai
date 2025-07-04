@@ -45,6 +45,10 @@ class EmployeeService:
                 EmployeeAccess.employee_id == employee.id,
                 EmployeeAccess.is_enable == True
             ).all()
+
+            employee_accesses = []
+            for access in accesses:
+                employee_accesses.append(access.to_dict())
             
             # 查询相关的发品模板
             # templates = {}
@@ -69,7 +73,7 @@ class EmployeeService:
                     "employee_cn_name": employee.employee_cn_name,
                     "employee_token": employee.employee_token
                 },
-                "employee_accesses": accesses,
+                "employee_accesses": employee_accesses,
                 # "templates": templates
             }
             
