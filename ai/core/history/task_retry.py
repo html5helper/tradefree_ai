@@ -16,7 +16,7 @@ def retry_chain_by_task_id(task_id: str):
 
     print(task_event)
 
-    workflow = task_event['workflow']
+    workflow = task_event['workflow_name']
     task_name = task_event['task_name']
     args = task_event['task_input'] or []
     event = args[0] if args else None
