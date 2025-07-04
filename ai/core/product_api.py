@@ -58,37 +58,7 @@ async def employee_activate(request: Request, employee_info: dict = Depends(veri
         
     Returns:
         dict: Response containing employer information in the same format as get_employee_access_by_token
-        {
-            "code": int,
-            "message": str,
-            "data": {
-                "token": {
-                    "user_info": {
-                        "user_name": str,
-                        "user_group": str,
-                    },
-                    "employer_info": {
-                        "employer_id": str,
-                        "employer_name": str,
-                        "employer_cn_name": str
-                    },
-                    "employer_accesses": [
-                        {
-                            "employer_id": str,
-                            "workflow": str,
-                            "workflow_name": str,
-                            "product_type": str,
-                            "platform": str,
-                            "category_id": str,
-                            "shop_name": str,
-                            "action_flow_id": str
-                        }
-                    ],
-                    "workflows": [],
-                    "actionflows": []
-                }
-            }
-        }
+        
     """
     try:
         if not employee_info:
