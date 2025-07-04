@@ -46,11 +46,11 @@ def retry_chain_by_task_id(task_id: str):
     # 构建新的chain
     signatures = []
     if next_tasks:
+        # 只给第一个任务传参数，后续任务通过chain自动传递结果
         signatures.append(celery_app.signature(next_tasks[0], args=(event,)))
         for t in next_tasks[1:]:
             signatures.append(celery_app.signature(t))
     workflow = chain(*signatures)
-    data = {"trace_id": task_event['trace_id'],"task_id": task_event['task_id']}
-    result = workflow.apply_async(args=(data,))
+    result = workflow.apply_async()
     
     return result.id
