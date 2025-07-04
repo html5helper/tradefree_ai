@@ -156,13 +156,13 @@ async def product_publish(request: Request, access: dict = Depends(verify_employ
     return {"code": 200, "message": "success","data":{"result":result}}
 
 #保存编辑后的产品信息（主要是图片）
-@api.post("/workflow/product/save_generate")
-async def product_save_generate(request: Request, access: dict = Depends(verify_employee_token)):
+@api.post("/workflow/product/update_generate_product")
+async def product_update_generate_product(request: Request, access: dict = Depends(verify_employee_token)):
     """Save Generate Product By trace_id"""
     data = await request.json()
     trace_id = data.get('trace_id',None)
-    generate_product = data.get('generate_product',None)
-    result = product_history_service.save_generate_product_by_trace_id(trace_id,generate_product)
+    generate_product = data.get('generate_product',"{}")
+    result = product_history_service.update_generate_product_by_trace_id(trace_id,json.loads(generate_product))
     return {"code": 200, "message": "success","data":{"result":result}}
 
 #删除产品

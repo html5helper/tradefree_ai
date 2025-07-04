@@ -248,7 +248,7 @@ class ProductHistoryService:
         finally:
             self.session.close()
 
-    def save_generate_product_by_trace_id(self, trace_id: str, generate_product: dict) -> bool:
+    def update_generate_product_by_trace_id(self, trace_id: str, generate_product: dict) -> bool:
         """根据 trace_id 更新发品历史
         
         Args:
