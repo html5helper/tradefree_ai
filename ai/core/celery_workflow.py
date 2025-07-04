@@ -12,26 +12,15 @@ class CeleryWorkflow:
         """Helper function to create workflow chain"""
         if not data.get("trace_id"):
             data['trace_id'] = str(uuid.uuid4())
-        chain_type = data.get("workflow", None)
-        data['workflow_name'] = chain_type
-
-        dest_platform = None
-        if chain_type and '_' in chain_type:
-            parts = chain_type.split('_')
-            if len(parts) > 2:
-                dest_platform = parts[2]
-        data['dest_platform'] = dest_platform 
-        data['published_shop'] = data.get('published_shop', "--")
-        if data.get("product_type") == "silicone":
-            data['use_ai'] = "false"
+        workflow = data.get("workflow", None)
 
         signatures = []
-        for task_name in CHAIN_MAP[chain_type]:
+        for task_name in CHAIN_MAP[workflow]:
             signatures.append(celery_app.signature(task_name))
         workflow = chain(*signatures)
         # 只给第一个任务传 event，转换为字典以确保可序列化
         result = workflow.apply_async(args=(data,))
-        return {"task_id": result.id, "data": data}
+        return {"task_id": result.id, "trace_id": data['trace_id'],"message": "success"}
     
     def build_payload_taskid(self,data:dict):
         """
