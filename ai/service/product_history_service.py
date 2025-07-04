@@ -248,7 +248,7 @@ class ProductHistoryService:
         finally:
             self.session.close()
 
-    def update_generate_product_by_trace_id(self, trace_id: str, generate_product: dict) -> bool:
+    def update_generate_product_by_trace_id(self, trace_id: str, generate_product: str) -> bool:
         """根据 trace_id 更新发品历史
         
         Args:
@@ -258,6 +258,7 @@ class ProductHistoryService:
         try:
             product_history = self.session.query(ProductHistory).filter_by(trace_id=trace_id).first()
             if product_history:
+                # Convert dictionary to JSON string before storing in Text field
                 product_history.generate_product = generate_product
                 product_history.updated_at = datetime.now()
                 self.session.commit()

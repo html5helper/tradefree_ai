@@ -162,7 +162,7 @@ async def product_update_generate_product(request: Request, access: dict = Depen
     data = await request.json()
     trace_id = data.get('trace_id',None)
     generate_product = data.get('generate_product',"{}")
-    result = product_history_service.update_generate_product_by_trace_id(trace_id,json.loads(generate_product))
+    result = product_history_service.update_generate_product_by_trace_id(trace_id,generate_product)
     return {"code": 200, "message": "success","data":{"result":result}}
 
 #删除产品
