@@ -2,7 +2,6 @@ from sqlalchemy.orm import Session
 from typing import Dict, Any, Optional, List
 from ai.dao.entity.employee import Employee
 from ai.dao.entity.employee_access import EmployeeAccess
-from ai.dao.entity.action_flow import ActionFlow
 from ai.dao.entity.user import User
 from ai.dao.db.engine import manager_engine
 from ai.service.employee_catch_service import EmployeeCacheService
