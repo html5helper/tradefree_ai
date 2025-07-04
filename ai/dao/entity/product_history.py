@@ -4,19 +4,19 @@ from datetime import datetime
 
 Base = declarative_base()
 
-# CREATE TABLE celery_dev.`product_history` (
+# CREATE TABLE `product_history` (
 #   `id` int(11) NOT NULL AUTO_INCREMENT,
 #   `trace_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '工作流编号',
 #   `employee_id` bigint(20) NOT NULL COMMENT '员工编号',
 #   `employee_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '员工名称',
 #   `product_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '--' COMMENT '产品类型（业务类目）',
 #   `collect_status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '采集状态：PENDING-任务已创建，等待执行,STARTED-任务已开始执行,SUCCESS-任务执行成功,FAILURE-任务执行失败',
-#   `collect_product` text COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '源商品信息',
+#   `collect_product` text COLLATE utf8mb4_unicode_ci COMMENT '源商品信息',
 #   `generate_status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '生成状态：PENDING-任务已创建，等待执行,STARTED-任务已开始执行,SUCCESS-任务执行成功,FAILURE-任务执行失败',
-#   `generate_product` text COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '生成商品信息',
+#   `generate_product` text COLLATE utf8mb4_unicode_ci COMMENT '生成商品信息',
 #   `publish_status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '发布状态：PENDING-任务已创建，等待执行,STARTED-任务已开始执行,SUCCESS-任务执行成功,FAILURE-任务执行失败',
-#   `publish_product` text COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '发布商品信息',
-#   `action_flow_id` bigint(20) DEFAULT NULL COMMENT '发品actionflow的编号',
+#   `publish_product` text COLLATE utf8mb4_unicode_ci COMMENT '发布商品信息',
+#   `template_id` bigint(20) DEFAULT NULL COMMENT '发品模板编号',
 #   `src_platform` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '来源平台',
 #   `dest_platform` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '发品平台',
 #   `dest_shop_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '发品店铺名称',
@@ -35,7 +35,7 @@ Base = declarative_base()
 #   KEY `idx_collect_status` (`collect_status`),
 #   KEY `idx_generate_status` (`generate_status`),
 #   KEY `idx_publish_status` (`publish_status`)
-# ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+# ) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 class ProductHistory(Base):
     """产品历史模型
@@ -66,7 +66,7 @@ class ProductHistory(Base):
     last_task_type = Column(String(255), nullable=False)
     last_task_name = Column(String(255), nullable=False)
     last_task_status = Column(String(50))
-    action_flow_id = Column(Integer)
+    template_id = Column(Integer)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime)
 
@@ -94,7 +94,7 @@ class ProductHistory(Base):
             'last_task_type': self.last_task_type,
             'last_task_name': self.last_task_name,
             'last_task_status': self.last_task_status,
-            'action_flow_id': self.action_flow_id,
+            'template_id': self.template_id,
             'created_at': self.created_at.isoformat() if self.created_at else None,
             'updated_at': self.updated_at.isoformat() if self.updated_at else None
         }
