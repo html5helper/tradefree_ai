@@ -1,0 +1,102 @@
+{
+  "employee_token": "fc49af36a749424e9ab4a2cf4ef722a6",
+  "user_info": {
+    "user_id": 5,
+    "user_name": "wangxinchun",
+    "user_cn_name": "王新春",
+    "user_company": "丰和同集团",
+    "user_group": "INTERNAL"
+  },
+  "employee_info": {
+    "employee_id": 15,
+    "employee_name": "xiaohong",
+    "employee_cn_name": "宗志红",
+    "employee_token": "fc49af36a749424e9ab4a2cf4ef722a6"
+  },
+  "employee_accesses": [
+    {
+      "id": 13,
+      "user_id": 5,
+      "employee_id": 15,
+      "workflow": "amz_to_ali_plugin",
+      "workflow_name": "amz_to_ali_plugin",
+      "src_platform": "amz",
+      "dest_platform": "ali",
+      "product_type": "sticker",
+      "shop_id": 2,
+      "shop_name": "阿里国际【小红】",
+      "category_id": "201268782",
+      "template_id": 19
+    },
+    {
+      "id": 28,
+      "user_id": 5,
+      "employee_id": 15,
+      "workflow": "amz_to_ali_plugin",
+      "workflow_name": "amz_to_ali_plugin",
+      "src_platform": "amz",
+      "dest_platform": "ali",
+      "product_type": "label",
+      "shop_id": 2,
+      "shop_name": "阿里国际【小红】",
+      "category_id": "201268782",
+      "template_id": 20
+    },
+    {
+      "id": 38,
+      "user_id": 5,
+      "employee_id": 15,
+      "workflow": "amz_to_ali_plugin",
+      "workflow_name": "amz_to_ali_plugin",
+      "src_platform": "amz",
+      "dest_platform": "ali",
+      "product_type": "box",
+      "shop_id": 2,
+      "shop_name": "阿里国际【小红】",
+      "category_id": "201268096",
+      "template_id": 24
+    },
+    {
+      "id": 39,
+      "user_id": 5,
+      "employee_id": 15,
+      "workflow": "amz_to_ali_plugin",
+      "workflow_name": "amz_to_ali_plugin",
+      "src_platform": "amz",
+      "dest_platform": "ali",
+      "product_type": "bookmark",
+      "shop_id": 2,
+      "shop_name": "阿里国际【小红】",
+      "category_id": "1715",
+      "template_id": 22
+    },
+    {
+      "id": 40,
+      "user_id": 5,
+      "employee_id": 15,
+      "workflow": "amz_to_ali",
+      "workflow_name": "亚马逊智能迁移到阿里国际站",
+      "src_platform": "amz",
+      "dest_platform": "ali",
+      "product_type": "card",
+      "shop_id": 2,
+      "shop_name": "阿里国际【小红】",
+      "category_id": "1715",
+      "template_id": 21
+    },
+    {
+      "id": 41,
+      "user_id": 5,
+      "employee_id": 15,
+      "workflow": "amz_to_ali",
+      "workflow_name": "亚马逊智能迁移到阿里国际站",
+      "src_platform": "amz",
+      "dest_platform": "ali",
+      "product_type": "envelope",
+      "shop_id": 2,
+      "shop_name": "阿里国际【小红】",
+      "category_id": "1715",
+      "template_id": 23
+    }
+  ]
+}

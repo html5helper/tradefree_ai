@@ -139,6 +139,23 @@ task_routes = {
     },
 }
 # 链式工作流配置
+TOB_GENERATE_WORKFLOW_CHAIN = [
+    'ai.business.resource.tasks.normal_store_resource',
+    'ai.business.listing.tasks.normal_generate_listing',
+    'ai.business.maskword.tasks.normal_filter_maskword',
+    'ai.business.image.tasks.image_text_image',
+]
+TOB_PUBLISH_WORKFLOW_CHAIN = [
+    'ai.business.upload_img.tasks.api_upload_image',
+    'ai.business.public.tasks.api_publish_product',
+]
+TOC_GENERATE_WORKFLOW_CHAIN = [
+    'ai.business.resource.tasks.normal_store_resource',
+    'ai.business.listing.tasks.normal_generate_listing',
+    'ai.business.maskword.tasks.normal_filter_maskword',
+    'ai.business.image.tasks.image_text_image',
+    'ai.business.storage.tasks.normal_storage',
+]
 CHAIN_MAP = {
     # 常规迁移工作流
     "amz_copy_ali": [
@@ -146,112 +163,27 @@ CHAIN_MAP = {
         'ai.business.listing.tasks.listing_adapter',
         'ai.business.maskword.tasks.normal_filter_maskword'
     ],
-    # 智能迁移工作流_接口发布
-    "amz_to_ali": [
-        'ai.business.resource.tasks.normal_store_resource',
-        'ai.business.listing.tasks.normal_generate_listing',
-        'ai.business.maskword.tasks.normal_filter_maskword',
-        'ai.business.image.tasks.image_text_image',
-        'ai.business.upload_img.tasks.api_upload_image',
-        # 'ai.business.video.tasks.normal_generate_video',
-        # 'ai.business.upload_video.tasks.normal_upload_video',
-        'ai.business.public.tasks.api_publish_product', 
-    ],
-    "amz_to_1688": [
-        'ai.business.resource.tasks.normal_store_resource',
-        'ai.business.listing.tasks.normal_generate_listing',
-        'ai.business.maskword.tasks.normal_filter_maskword',
-        'ai.business.image.tasks.image_text_image',
-        'ai.business.upload_img.tasks.api_upload_image',
-        # 'ai.business.video.tasks.normal_generate_video',
-        # 'ai.business.upload_video.tasks.normal_upload_video',
-        'ai.business.public.tasks.api_publish_product',
-    ],
-    "ali_to_1688": [
-        'ai.business.resource.tasks.normal_store_resource',
-        'ai.business.listing.tasks.normal_generate_listing',
-        'ai.business.maskword.tasks.normal_filter_maskword',
-        'ai.business.image.tasks.image_text_image',
-        'ai.business.upload_img.tasks.api_upload_image',
-        # 'ai.business.video.tasks.normal_generate_video',
-        # 'ai.business.upload_video.tasks.normal_upload_video',
-        'ai.business.public.tasks.api_publish_product',
-    ],
-    "1688_to_1688": [
-        'ai.business.resource.tasks.normal_src',
-        'ai.business.listing.tasks.normal_generate_listing',
-        'ai.business.maskword.tasks.normal_maskword_filter',
-        'ai.business.image.tasks.image_text_image',
-        'ai.business.upload_img.tasks.api_upload_image',
-        # 'ai.business.video.tasks.normal_generate_video',
-        # 'ai.business.upload_video.tasks.normal_upload_video',
-        'ai.business.public.tasks.api_publish_product',
-    ],
-    "ali_to_ali": [
-        'ai.business.resource.tasks.normal_store_resource',
-        'ai.business.listing.tasks.normal_generate_listing',
-        'ai.business.maskword.tasks.normal_filter_maskword',
-        'ai.business.image.tasks.image_text_image',
-        'ai.business.upload_img.tasks.api_upload_image',
-        # 'ai.business.video.tasks.normal_generate_video',
-        # 'ai.business.upload_video.tasks.normal_upload_video',
-        'ai.business.public.tasks.api_publish_product',
-    ],
-    "social_total": [
-        'ai.business.resource.tasks.normal_store_resource'
-    ],
-    "social_pages": [
-        'ai.business.listing.tasks.normal_generate_listing'
-    ],
-    "social_to_ali": [
-        'ai.business.maskword.tasks.normal_filter_maskword',
-        'ai.business.image.tasks.social_to_ali_image',
-        'ai.business.upload_img.tasks.api_upload_image',
-        'ai.business.public.tasks.api_publish_product',
-    ],
-    # 智能迁移工作流_浏览器插件发布
-    "amz_to_ali_plugin": [
-        'ai.business.resource.tasks.normal_store_resource',
-        'ai.business.listing.tasks.normal_generate_listing',
-        'ai.business.maskword.tasks.normal_filter_maskword',
-        'ai.business.image.tasks.image_text_image',
-        # 'ai.business.video.tasks.normal_generate_video',
-        'ai.business.storage.tasks.normal_storage',
-    ],
-    "amz_to_1688_plugin": [
-        'ai.business.resource.tasks.normal_store_resource',
-        'ai.business.listing.tasks.normal_generate_listing',
-        'ai.business.maskword.tasks.normal_filter_maskword',
-        'ai.business.image.tasks.image_text_image',
-        # 'ai.business.video.tasks.normal_generate_video',
-        'ai.business.storage.tasks.normal_storage',
-    ],
-    "taobao_to_jd_plugin": [
-        'ai.business.resource.tasks.normal_store_resource',
-        'ai.business.listing.tasks.normal_generate_listing',
-        'ai.business.maskword.tasks.normal_filter_maskword',
-        'ai.business.image.tasks.image_text_image',
-        # 'ai.business.video.tasks.normal_generate_video',
-        'ai.business.storage.tasks.normal_storage',
-    ],
-    "amz_to_ali_test": [
-        'ai.business.resource.tasks.test_store_resource',
-        'ai.business.listing.tasks.test_listing',
-        'ai.business.maskword.tasks.test_maskword',
-        'ai.business.image.tasks.test_image',
-        'ai.business.video.tasks.test_video',
-        'ai.business.public.tasks.test_publish_product',
-        'ai.business.storage.tasks.test_storage',
-    ],
-    "amz_to_1688_test": [
-        'ai.business.resource.tasks.test_store_resource',
-        # 'ai.business.listing.tasks.test_listing',
-        # 'ai.business.maskword.tasks.test_maskword',
-        # 'ai.business.image.tasks.test_image',
-        # 'ai.business.video.tasks.test_video',
-        # 'ai.business.public.tasks.test_publish_product',
-        'ai.business.storage.tasks.test_storage',
-    ],
+    # ToB 智能迁移工作流_接口发布
+    "amz_to_ali": TOB_GENERATE_WORKFLOW_CHAIN,
+    "amz_to_1688": TOB_GENERATE_WORKFLOW_CHAIN,
+    "ali_to_1688": TOB_GENERATE_WORKFLOW_CHAIN,
+    "1688_to_1688": TOB_GENERATE_WORKFLOW_CHAIN,
+    "ali_to_ali": TOB_GENERATE_WORKFLOW_CHAIN,
+    # "social_total": [
+    #     'ai.business.resource.tasks.normal_store_resource'
+    # ],
+    # "social_pages": [
+    #     'ai.business.listing.tasks.normal_generate_listing'
+    # ],
+    # "social_to_ali": [
+    #     'ai.business.maskword.tasks.normal_filter_maskword',
+    #     'ai.business.image.tasks.social_to_ali_image',
+    #     'ai.business.upload_img.tasks.api_upload_image',
+    #     'ai.business.public.tasks.api_publish_product',
+    # ],
+    # ToC   智能迁移工作流_浏览器插件发布
+    "taobao_to_jd_plugin": TOC_GENERATE_WORKFLOW_CHAIN,
+
 }
 
 # 周期性执行任务
