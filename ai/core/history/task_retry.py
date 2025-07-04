@@ -3,6 +3,7 @@ from celery import chain
 from fastapi import HTTPException
 from ai.config.celeryconfig import CHAIN_MAP
 from ai.service.task_event_service import TaskEventService
+import json
 
 task_event_service = TaskEventService()
 
@@ -18,10 +19,23 @@ def retry_chain_by_task_id(task_id: str):
 
     workflow = task_event['workflow_name']
     task_name = task_event['task_name']
-    args = task_event['task_input'] or []
-    event = args[0] if args else None
+    task_input = task_event['task_input']
+    if not task_input:
+        raise HTTPException(status_code=400, detail="No task_input found in task event")
+
+    # 反序列化
+    if isinstance(task_input, str):
+        try:
+            event = json.loads(task_input)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=f"task_input JSON decode error: {e}")
+    elif isinstance(task_input, dict):
+        event = task_input
+    else:
+        raise HTTPException(status_code=400, detail="task_input type error")
+
     if not event:
-        raise HTTPException(status_code=400, detail="No event found in args")
+        raise HTTPException(status_code=400, detail="No event found in task_input")
 
     # 判断属于哪个chain
     chain_type = None
