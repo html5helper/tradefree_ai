@@ -43,6 +43,9 @@ poetry.lock
 
 # mypy
 .mypy_cache/
+data/
+.venv/
+.gitignore
 
 # pytest
 .pytest_cache/
