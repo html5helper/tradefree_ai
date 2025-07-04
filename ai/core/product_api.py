@@ -5,8 +5,8 @@ from ai.service.employee_catch_service import EmployeeCacheService
 from ai.service.product_history_service import ProductHistoryService
 from ai.dao.db.engine import manager_engine, workflow_engine
 from sqlalchemy.orm import Session
-from ai.dao.entity.action_flow import ActionFlow
-from ai.service.actionflow_service import ActionFlowService
+from ai.dao.entity.publish_template import PublishTemplate
+from ai.service.publish_template_service import PublishTemplateService
 from ai.core.history.task_retry import retry_chain_by_task_id
 import json
 from datetime import datetime
@@ -22,7 +22,7 @@ workflow_session = Session(bind=workflow_engine)
 employee_service = EmployeeService()
 cache_service = EmployeeCacheService()
 product_history_service = ProductHistoryService()
-actionflow_service = ActionFlowService()
+publish_template_service = PublishTemplateService()
 dify_service = DifyService()
 
 # -------------------------------------------
@@ -142,7 +142,7 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
         product_publish_list = []
 
     # products = []
-    workflow_ids = []
+    template_ids = []
     for product_publish in product_publish_list:
         if product_publish.get('collect_product') and product_publish['collect_product'] != "":
             prod_item = json.loads(product_publish['collect_product'])
@@ -156,20 +156,20 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
         if product_publish.get('publish_product') and product_publish['publish_product'] != "":
             prod_item = json.loads(product_publish['publish_product'])
             product_publish['publish_product'] = prod_item
-        if(not product_publish.get('action_flow_id') in workflow_ids):
-            workflow_ids.append(product_publish['action_flow_id'])
+        if(not product_publish.get('template_id') in template_ids):
+            template_ids.append(product_publish['template_id'])
 
-    actionflow_list = actionflow_service.get_by_ids(workflow_ids)
-    actionflows = {}
-    for actionflow in actionflow_list:
-        actionflows[actionflow['id']] = actionflow['action_flow']
+    template_list = publish_template_service.get_by_ids(template_ids)
+    templates = {}
+    for template in template_list:
+        templates[template['id']] = template['template']
 
     result = {
         "code": 200,
         "message": "success",
         "data": {
             "product_list": product_publish_list,
-            "actionflows": actionflows
+            "templates": templates
         }
     }
 
