@@ -61,8 +61,7 @@ class EmployeeService:
                     "user_name": user.username,
                     "user_cn_name": user.user_cn_name,
                     "user_company": user.company,
-                    "user_group": user.user_group,
-                    "user_role": user.user_role
+                    "user_group": user.user_group
                 },
                 "employee_info": {
                     "employee_id": employee.id,
