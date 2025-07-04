@@ -114,7 +114,7 @@ class ProductHistoryHook:
         product_info = task_input.copy()
         result = {
             'trace_id': task_input.get('trace_id', None),
-            'action_flow_id': task_input.get('action_flow_id', None),
+            'template_id': task_input.get('template_id', None),
             'product_type': task_input.get('product_type', None),
             # product info
             'title': task_input.get('title', None),
@@ -142,7 +142,7 @@ class ProductHistoryHook:
             product_info = task_input.copy()
             result = {
                 'trace_id': product_info.get('trace_id', None),
-                'action_flow_id': product_info.get('action_flow_id', None),
+                'template_id': product_info.get('template_id', None),
                 'product_type': product_info.get('product_type', None),
                 # product info
                 'title': product_info.get('title', None),
@@ -239,7 +239,7 @@ class ProductHistoryHook:
                 last_task_type=task_event.get('task_type'),
                 last_task_name=task_event.get('task_name'),
                 last_task_status=task_event.get('task_status'),
-                action_flow_id=access.get('action_flow_id', None),
+                template_id=access.get('template_id', None),
                 created_at=datetime.utcnow(),
                 updated_at=datetime.utcnow()
             )
