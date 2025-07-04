@@ -46,56 +46,54 @@ class EmployeeService:
                 EmployeeAccess.is_enable == True
             ).all()
             
-            # 查询相关的工作流模板
-            action_flows = {}
-            for access in accesses:
-                action_flow = self.session.query(ActionFlow).filter(
-                    ActionFlow.id == access.action_flow_id,
-                    ActionFlow.is_enable == True
-                ).first()
-                if action_flow:
-                    action_flows[access.action_flow_id] = action_flow
+            # 查询相关的发品模板
+            # templates = {}
+            # for access in accesses:
+            #     template = self.session.query(access.template_id).first()
+            #     if template:
+            #         templates[access.template_id] = template
             
             # 构建返回数据
             result = {
                 "employee_token": employee.employee_token,
                 "user_info": {
-                    "user_name": employee.user_name,
+                    "user_id": user.id,
+                    "user_name": user.username,
                     "user_cn_name": user.user_cn_name,
                     "user_company": user.company,
-                    "user_group": user.user_group
+                    "user_group": user.user_group,
+                    "user_role": user.user_role
                 },
                 "employee_info": {
-                    "employee_id": str(employee.id),
+                    "employee_id": employee.id,
                     "employee_name": employee.employee_name,
-                    "employee_cn_name": getattr(employee, 'employee_cn_name', '--')
+                    "employee_cn_name": employee.employee_cn_name,
+                    "employee_token": employee.employee_token
                 },
-                "employee_accesses": [],
-                "workflows": [],
-                "actionflows": [],
-                "product_types": []
+                "employee_accesses": accesses,
+                # "templates": templates
             }
             
-            # 添加访问权限信息
-            for access in accesses:
-                action_flow = action_flows.get(access.action_flow_id)
-                if action_flow:
-                    result["employee_accesses"].append({
-                        "employee_id": str(access.employee_id),
-                        "workflow": access.workflow,
-                        "workflow_name": access.workflow_name,
-                        "product_type": access.product_type,
-                        "platform": action_flow.platform,
-                        "category_id": action_flow.category_id,
-                        "shop_name": access.shop_name,
-                        "action_flow_id": str(access.action_flow_id)
-                    })
-                    if(not access.workflow in result["workflows"]):
-                        result["workflows"].append(access.workflow)
-                    if(not access.action_flow_id in result["actionflows"]):
-                        result["actionflows"].append(access.action_flow_id)
-                    if(not access.product_type in result["product_types"]):
-                        result["product_types"].append(access.product_type)
+            # # 添加访问权限信息
+            # for access in accesses:
+            #     action_flow = action_flows.get(access.action_flow_id)
+            #     if action_flow:
+            #         result["employee_accesses"].append({
+            #             "employee_id": str(access.employee_id),
+            #             "workflow": access.workflow,
+            #             "workflow_name": access.workflow_name,
+            #             "product_type": access.product_type,
+            #             "platform": action_flow.platform,
+            #             "category_id": action_flow.category_id,
+            #             "shop_name": access.shop_name,
+            #             "action_flow_id": str(access.action_flow_id)
+            #         })
+            #         if(not access.workflow in result["workflows"]):
+            #             result["workflows"].append(access.workflow)
+            #         if(not access.action_flow_id in result["actionflows"]):
+            #             result["actionflows"].append(access.action_flow_id)
+            #         if(not access.product_type in result["product_types"]):
+            #             result["product_types"].append(access.product_type)
 
             # 将数据存入缓存
             self.cache_service.set_to_cache(employee.employee_token, result)
