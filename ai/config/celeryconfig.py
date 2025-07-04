@@ -144,6 +144,7 @@ TOB_GENERATE_WORKFLOW_CHAIN = [
     'ai.business.listing.tasks.normal_generate_listing',
     'ai.business.maskword.tasks.normal_filter_maskword',
     'ai.business.image.tasks.image_text_image',
+    'ai.business.storage.tasks.normal_storage',
 ]
 TOB_PUBLISH_WORKFLOW_CHAIN = [
     'ai.business.upload_img.tasks.api_upload_image',
