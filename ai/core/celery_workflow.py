@@ -10,8 +10,8 @@ class CeleryWorkflow:
 
     def create_workflow(self, data: dict):
         """Helper function to create workflow chain"""
-        trace_id = str(uuid.uuid4())
-        data['trace_id'] = trace_id
+        if not data.get("trace_id"):
+            data['trace_id'] = str(uuid.uuid4())
         chain_type = data.get("workflow", None)
         data['workflow_name'] = chain_type
 

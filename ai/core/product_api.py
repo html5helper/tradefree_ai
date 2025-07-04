@@ -145,6 +145,27 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
 
     return result
 
+#发布产品
+@api.post("/workflow/product/publish")
+async def product_publish(request: Request, access: dict = Depends(verify_employee_token)):
+    """Publish Product By trace_id"""
+    data = await request.json()
+    trace_id = data.get('trace_id',None)
+    publish_product = data.get('publish_product',None)
+    result = product_history_service.update_publish_product_by_trace_id(trace_id,publish_product)
+    return {"code": 200, "message": "success","data":{"result":result}}
+
+#保存编辑后的产品信息（主要是图片）
+@api.post("/workflow/product/save_generate")
+async def product_save_generate(request: Request, access: dict = Depends(verify_employee_token)):
+    """Save Generate Product By trace_id"""
+    data = await request.json()
+    trace_id = data.get('trace_id',None)
+    generate_product = data.get('generate_product',None)
+    result = product_history_service.save_generate_product_by_trace_id(trace_id,generate_product)
+    return {"code": 200, "message": "success","data":{"result":result}}
+
+#删除产品
 @api.post("/workflow/product/delete")
 async def product_delete(request: Request, access: dict = Depends(verify_employee_token)):
     """Delete Product By trace_id"""
@@ -153,7 +174,7 @@ async def product_delete(request: Request, access: dict = Depends(verify_employe
     result = product_history_service.delete_by_trace_id(trace_id)
     return {"code": 200, "message": "success","data":{"result":result}}
 
-
+#重试产品任务
 @api.post("/workflow/product/retry")
 async def retry_product_task(request: Request,access: dict = Depends(verify_employee_token)):
     """Retry a failed task and its downstream tasks"""
@@ -161,6 +182,7 @@ async def retry_product_task(request: Request,access: dict = Depends(verify_empl
     task_id = data.get('task_id',None)
     return {"task_id": retry_chain_by_task_id(task_id)}
 
+#图片修复
 @api.post("/workflow/image/inpaint")
 async def image_inpaint(request: Request,access: dict = Depends(verify_employee_token)):
     """Image Inpaint"""

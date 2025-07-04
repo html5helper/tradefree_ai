@@ -248,6 +248,29 @@ class ProductHistoryService:
         finally:
             self.session.close()
 
+    def save_generate_product_by_trace_id(self, trace_id: str, generate_product: dict) -> bool:
+        """根据 trace_id 更新发品历史
+        
+        Args:
+            trace_id: 发品workflow trace_id
+            generate_product: 发品历史数据字典
+        """
+        try:
+            product_history = self.session.query(ProductHistory).filter_by(trace_id=trace_id).first()
+            if product_history:
+                product_history.generate_product = generate_product
+                product_history.updated_at = datetime.now()
+                self.session.commit()
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.session.rollback()
+            print(f"Error updating product history by trace_id: {str(e)}")
+            return False
+        finally:
+            self.session.close()
+    
     def __del__(self):
         """确保session被正确关闭"""
         if hasattr(self, 'session'):
