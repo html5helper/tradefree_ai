@@ -130,7 +130,7 @@ class ProductHistoryService:
                 ProductHistory.product_type == product_type,
                 ProductHistory.collect_status != None,
                 ProductHistory.created_at >= start_time
-            ).order_by(ProductHistory.created_at.desc()).all()
+            ).order_by(ProductHistory.created_at.desc()).limit(200)
             
             # 在Session关闭前转换为字典列表
             return [result.to_dict() for result in results]
@@ -161,7 +161,7 @@ class ProductHistoryService:
                 ProductHistory.product_type == product_type,
                 ProductHistory.generate_status != None,
                 ProductHistory.created_at >= start_time
-            ).order_by(ProductHistory.created_at.desc()).all()
+            ).order_by(ProductHistory.created_at.desc()).limit(200)
             
             # 在Session关闭前转换为字典列表
             return [result.to_dict() for result in results]
@@ -193,7 +193,7 @@ class ProductHistoryService:
                 ProductHistory.generate_status == 'SUCCESS',
                 ProductHistory.publish_status != 'SUCCESS',
                 ProductHistory.created_at >= start_time
-            ).order_by(ProductHistory.created_at.desc()).all()
+            ).order_by(ProductHistory.created_at.desc()).limit(200)
             
             # 在Session关闭前转换为字典列表
             return [result.to_dict() for result in results]
@@ -219,10 +219,10 @@ class ProductHistoryService:
                 ProductHistory.employee_id == employee_id,
                 ProductHistory.dest_platform == platform,
                 ProductHistory.product_type == product_type,
-                ProductHistory.publish_status == 'SUCCESS'
-                # ProductHistory.created_at >= start_time,
+                ProductHistory.publish_status == 'SUCCESS',
+                ProductHistory.created_at >= start_time
                 # ProductHistory.created_at <= end_time
-            ).order_by(ProductHistory.created_at.desc()).all()
+            ).order_by(ProductHistory.created_at.desc()).limit(300)
             
             # 在Session关闭前转换为字典列表
             return [result.to_dict() for result in results]
