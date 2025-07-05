@@ -19,9 +19,9 @@ async def copy(request: Request, employee_access: dict = Depends(verify_employee
 
     return workflow.create_workflow(data)
     
-@api.post("/workflow/run/copy_no_ai")
-async def copy_no_ai(request: Request, employee_access: dict = Depends(verify_employee_access_token)):
-    """Copy and public product workflow no ai"""
+@api.post("/workflow/run/publish")
+async def publish_tob_product(request: Request, employee_access: dict = Depends(verify_employee_access_token)):
+    """Publish product workflow"""
     data = await request.json()
     data['access'] = employee_access # 将员工权限信息添加到数据中，用于后续的公共信息提取
 
