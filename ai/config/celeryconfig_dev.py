@@ -61,6 +61,10 @@ DIFY_CONFIG = {
         "workflow_id": "530c3d1e-56de-4e94-ae41-349707cbfb8e",
         "api_key": "app-qbYXlCBIOLvAG5vfmL618BKN"
     },
+    "img_square":{
+        "workflow_id": "43ddbaa8-6454-4f78-974b-6ab87eb578fd",
+        "api_key": "app-MzaXlkvilZkluXAFVuf7d6A7"
+    },
     "text2img2download": {
         "workflow_id": "58a2386c-4743-40cb-ab1f-6cf1611c0997",
         "api_key": "app-HqaViz4DyXoszmUXX7Ln1dxp"

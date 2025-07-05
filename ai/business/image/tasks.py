@@ -17,6 +17,11 @@ def text_image(data: dict):
     return service.run_task("text2img2download",data)
 
 @app.task
+def img_square(data: dict):
+    data = workflow.build_payload_taskid(data)
+    return service.run_task("img_square",data)
+
+@app.task
 def test_image(data: dict):
     data = workflow.build_payload_taskid(data)
     return service.apply(data)
@@ -34,3 +39,4 @@ def ali_to_ali_image(data: dict):
 def social_to_ali_image(data: dict):
     data = workflow.build_payload_taskid(data)
     return service.run_task("text2img2download",data)
+

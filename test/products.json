@@ -1,6 +1,5 @@
 $2a$10$PjZWSjsjxvwmHEgp0npbkO7Qi5oDo6xP7yU5hv3Wpp76DYHfyA/AS
 
-
 {
     "title": "Fashion Angels 1000+ Ridiculously Cute Stickers for Kids - Fun Craft Stickers for Scrapbooks, Planners, Gifts and Rewards, 40-Page Sticker Book for Kids Ages 6+ and Up",
     "description": "Absolutely everything you have always dreamed about in Sticker is included in the 1000+ ridiculously cute stickers book from Fashion Angels. This fabulous collection of Ultra cool stickers, thought bubbles, cactus, unicorns, Emoji, pizza, puppies, kitties, narwal, and so much more We just cant even. Decorate greeting cards, notebooks, planners and more with this book of over 1000 stickers. It is probably the most amazing thing ever. Recommended for ages 6+About this item 1000+ Fun Assorted Stickers - The Fashion Angels sticker collection includes 1000+ high quality stickers with multiple themes. Kids and teens will enjoy cute trendy sticker designs like colorful letters, monsters, donuts, ice cream, taco, rainbows, tropical plants, space objects, puppies, kittens, emojis, unicorns and more. Personalize Belongings - Your tweens playful and quirky side will definitely show with these fun assorted stickers. Sticker bomb luggage, guitars, skateboards as they can be applied on to most smooth surfaces. Make great laptop stickers. Promotes Self Expression and Creativity - The 40-sheet sticker book for kids is exceptional for designing scrapbooks, adding eye-catching reminders to planners, adding to diaries or journals and decorating greeting cards. Perfect Gift for Teachers, Teens & Children - Teachers can add to papers, or give out as rewards or prizes. Teens will love expressing their style with these cool stickers. Great for for kids parties. Whats included - 40 pages of unique and strong adhesive stickers for kids, teens, and adults. Recommended for boys and girls ages 6 and up. Show more",
@@ -9,21 +8,19 @@ $2a$10$PjZWSjsjxvwmHEgp0npbkO7Qi5oDo6xP7yU5hv3Wpp76DYHfyA/AS
     "imgs": [
         "https://m.media-amazon.com/images/I/91wdw7pERpL._AC_SL1500_.jpg"
     ],
-    "product_type": "label",
-    "category_id": "201304308",
-    "shop_id": "",
+    "product_type": "sticker",
+    "category_id": "201268782",
+    "shop_id": "3",
     "delivery_time": "7 days",
     "reference_product": "https://www.amazon.com/-/dp/B07BJ5L7N3",
     "reference_product_platform": "amz",
-    "workflow": "amz_to_1688",
+    "workflow": "amz_to_ali",
     "use_ai": "false",
-    "dest_platform": "1688",
+    "dest_platform": "ali",
     "src_platform": "amz",
-    "trace_id": "4893c04b-96d3-4491-82f6-cf2e11e73ea2",
-    "task_id": "65042f97-5fb0-416f-973d-7bc56ecd21f2"
+    "trace_id": "50e32a5f-7b41-4fdf-b51a-955c3441ef1b",
+    "task_id": "a09e9ed7-7a97-44b0-875c-68935ced77d8"
 }
-
-
 curl -X POST \
     http://admin.tradefree.ai/workflow/employee/refresh_all \
     -H 'Content-Type: application/json' \
