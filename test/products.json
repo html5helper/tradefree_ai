@@ -1,26 +1,10 @@
 $2a$10$PjZWSjsjxvwmHEgp0npbkO7Qi5oDo6xP7yU5hv3Wpp76DYHfyA/AS
 
-{
-    "title": "Fashion Angels 1000+ Ridiculously Cute Stickers for Kids - Fun Craft Stickers for Scrapbooks, Planners, Gifts and Rewards, 40-Page Sticker Book for Kids Ages 6+ and Up",
-    "description": "Absolutely everything you have always dreamed about in Sticker is included in the 1000+ ridiculously cute stickers book from Fashion Angels. This fabulous collection of Ultra cool stickers, thought bubbles, cactus, unicorns, Emoji, pizza, puppies, kitties, narwal, and so much more We just cant even. Decorate greeting cards, notebooks, planners and more with this book of over 1000 stickers. It is probably the most amazing thing ever. Recommended for ages 6+About this item 1000+ Fun Assorted Stickers - The Fashion Angels sticker collection includes 1000+ high quality stickers with multiple themes. Kids and teens will enjoy cute trendy sticker designs like colorful letters, monsters, donuts, ice cream, taco, rainbows, tropical plants, space objects, puppies, kittens, emojis, unicorns and more. Personalize Belongings - Your tweens playful and quirky side will definitely show with these fun assorted stickers. Sticker bomb luggage, guitars, skateboards as they can be applied on to most smooth surfaces. Make great laptop stickers. Promotes Self Expression and Creativity - The 40-sheet sticker book for kids is exceptional for designing scrapbooks, adding eye-catching reminders to planners, adding to diaries or journals and decorating greeting cards. Perfect Gift for Teachers, Teens & Children - Teachers can add to papers, or give out as rewards or prizes. Teens will love expressing their style with these cool stickers. Great for for kids parties. Whats included - 40 pages of unique and strong adhesive stickers for kids, teens, and adults. Recommended for boys and girls ages 6 and up. Show more",
-    "price": "0.8",
-    "moq": "200",
-    "imgs": [
-        "https://m.media-amazon.com/images/I/91wdw7pERpL._AC_SL1500_.jpg"
-    ],
-    "product_type": "sticker",
-    "category_id": "201268782",
-    "shop_id": "3",
-    "delivery_time": "7 days",
-    "reference_product": "https://www.amazon.com/-/dp/B07BJ5L7N3",
-    "reference_product_platform": "amz",
-    "workflow": "amz_to_ali",
-    "use_ai": "false",
-    "dest_platform": "ali",
-    "src_platform": "amz",
-    "trace_id": "50e32a5f-7b41-4fdf-b51a-955c3441ef1b",
-    "task_id": "a09e9ed7-7a97-44b0-875c-68935ced77d8"
-}
+
+{"trace_id": "8ec5d4f4-0cdc-4a86-a688-d313e0c1787e", "template_id": null, "product_type": "sticker", "title": "\u5e93\u6d1b\u7c733d\u7acb\u4f53\u956d\u5c04\u8d34\u7eb8\u5973\u5b69\u513f\u7ae5\u5361\u901a\u53ef\u7231\u9ad8\u989c\u503c\u5495\u5361\u624b\u8d26\u624b\u5e10\u7d20\u6750\u8d34\u8d34\u7eb8\u8d34\u753b\u88c5\u9970\u5c0f\u56fe\u6848\u5e7c\u513f\u56ed\u5956\u52b1", "shot_description": "\u5e93\u6d1b\u7c733D\u956d\u5c04\u5361\u901a\u8d34\u7eb8\uff0c\u91c7\u7528\u7acb\u4f53\u5370\u5237\u4e0e\u956d\u5c04\u5de5\u827a\uff0c\u8272\u5f69\u70ab\u4e3d\uff0c\u56fe\u6848\u53ef\u7231\uff0c\u73af\u4fdd\u5b89\u5168\u3002\u5c3a\u5bf8\u9002\u4e2d\uff0c\u6613\u6495\u53d6\u4e0d\u7559\u6b8b\u80f6\uff0c\u9002\u7528\u4e8e\u624b\u8d26\u3001\u7b14\u8bb0\u672c\u3001\u6587\u5177\u76d2\u7b49\u591a\u79cd\u573a\u666f\u3002\u9002\u5408\u513f\u7ae5\u5956\u52b1\u3001\u624b\u5de5DIY\u53ca\u6536\u85cf\u4f7f\u7528\u3002", "product_name": "\u5e93\u6d1b\u7c733D\u956d\u5c04\u5361\u901a\u8d34\u7eb8", "tags": "", "reference_product": "https://detail.tmall.com/item.htm?detail_redpacket_pop=true&id=784751278807&ltk2=1751690557104zwo8kfe4h1um29m5o5fir&ns=1&priceTId=213e00d417516905549372227e1953&query=%E8%B4%B4%E7%BA%B8&skuId=5360749353655&spm=a21n57.1.hoverItem.4&utparam=%7B%22aplus_abtest%22%3A%22fe50b45832ca7c40bffb21b64b244386%22%7D&xxc=ad_ztc", "reference_product_platform": "taobao", "moq": "200", "price": "0.3", "delivery_time": "7 days", "img_url": ["https://img.alicdn.com/imgextra/i3/2212830973987/O1CN01WbOcDB1fK64UdRGS4_!!0-item_pic.jpg", "https://img.alicdn.com/imgextra/i1/2212830973987/O1CN01sJemjY1fK64VIsJsd_!!2212830973987.jpg", "https://img.alicdn.com/imgextra/i3/2212830973987/O1CN01Ya0oww1fK64VIqqOF_!!2212830973987.jpg", "https://img.alicdn.com/imgextra/i1/2212830973987/O1CN01eP84Nd1fK64V3n06p_!!2212830973987.jpg", "https://img.alicdn.com/imgextra/i1/2212830973987/O1CN01Ig8oNp1fK64QVhr7v_!!2212830973987.jpg"], "video_url": null, "shop_name": null}
+
+
+
 curl -X POST \
     http://admin.tradefree.ai/workflow/employee/refresh_all \
     -H 'Content-Type: application/json' \

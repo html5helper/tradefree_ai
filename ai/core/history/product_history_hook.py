@@ -71,14 +71,18 @@ class ProductHistoryHook:
 
         data = {}
         if(process_type == 'collect'):
-            product_info = self.parse_collect_product_info(task_input)
-            data = self.parse_update_task_info({**changes, **{'collect_product': json.dumps(product_info)}},task_event)
+            collect_product = self.parse_collect_product_info(task_input)
+            data = self.parse_update_task_info({**changes, **{'collect_product': json.dumps(collect_product)}},task_event)
         elif(process_type == 'generate'):
-            product_info = self.parse_generate_product_info(task_output)
-            data = self.parse_update_task_info({**changes, **{'generate_product': json.dumps(product_info)}},task_event)
+            generate_product = self.parse_generate_product_info(task_output)
+            if(changes.get('publish_status') == 'PENDING' and changes.get('generate_status') == 'SUCCESS'):
+                publish_product = json.dumps(task_output)
+            else:
+                publish_product = None
+            data = self.parse_update_task_info({**changes, **{'generate_product': json.dumps(generate_product),'publish_product': publish_product}},task_event)
         elif(process_type == 'publish'):
-            product_info = self.parse_publish_product_info(task_output)
-            data = self.parse_update_task_info({**changes, **{'publish_product': json.dumps(product_info)}},task_event)
+            publish_product = self.parse_publish_product_info(task_output)
+            data = self.parse_update_task_info({**changes, **{'publish_product': json.dumps(publish_product)}},task_event)
         
         return product_history_service.update(trace_id, data)
     
@@ -112,57 +116,61 @@ class ProductHistoryHook:
     def parse_generate_product_info(self,task_input: dict) -> dict:
         """从数据解析产品信息"""
         product_info = task_input.copy()
-        result = {
-            'trace_id': task_input.get('trace_id', None),
-            'template_id': task_input.get('template_id', None),
-            'product_type': task_input.get('product_type', None),
-            # product info
-            'title': task_input.get('title', None),
-            'shot_description': task_input.get('shot_description', None),
-            'product_name': task_input.get('product_name', None),
-            'tags': task_input.get('tags', None),
-            'reference_product': task_input.get('reference_product', None),
-            'reference_product_platform': task_input.get('reference_product_platform', None),
-            'moq': task_input.get('moq', None),
-            'price': task_input.get('price', None),
-            'delivery_time': task_input.get('delivery_time', None),
+        return product_info
+        # result = {
+        #     'trace_id': task_input.get('trace_id', None),
+        #     'template_id': task_input.get('template_id', None),
+        #     'product_type': task_input.get('product_type', None),
+        #     # product info
+        #     'title': task_input.get('title', None),
+        #     'shot_description': task_input.get('shot_description', None),
+        #     'product_name': task_input.get('product_name', None),
+        #     'tags': task_input.get('tags', None),
+        #     'reference_product': task_input.get('reference_product', None),
+        #     'reference_product_platform': task_input.get('reference_product_platform', None),
+        #     'moq': task_input.get('moq', None),
+        #     'price': task_input.get('price', None),
+        #     'delivery_time': task_input.get('delivery_time', None),
             
-            # images
-            'img_url': task_input.get('video_src_urls', None),
-            # video
-            'video_url': task_input.get('video_url', None),
-            # shop info
-            'shop_name': task_input.get('shop_name', None)
-        }
-        return result
+        #     # images
+        #     'img_url': task_input.get('video_src_urls', None),
+        #     # video
+        #     'video_url': task_input.get('video_url', None),
+        #     # shop info
+        #     'shop_name': task_input.get('shop_name', None)
+        # }
+        # return result
 
     def parse_publish_product_info(self,task_input: dict) -> dict:
         """从数据解析产品信息"""
         try:
             product_info = task_input.copy()
-            result = {
-                'trace_id': product_info.get('trace_id', None),
-                'template_id': product_info.get('template_id', None),
-                'product_type': product_info.get('product_type', None),
-                # product info
-                'title': product_info.get('title', None),
-                'shot_description': product_info.get('shot_description', None),
-                'product_name': product_info.get('product_name', None),
-                'tags': product_info.get('tags', None),
-                'reference_product': product_info.get('reference_product', None),
-                'reference_product_platform': product_info.get('reference_product_platform', None),
-                'moq': product_info.get('moq', None),
-                'price': product_info.get('price', None),
-                'delivery_time': product_info.get('delivery_time', None),
+            if(product_info.get('video_src_urls')):
+                product_info['img_url'] = product_info.get('video_src_urls', None)
+            return product_info
+            # result = {
+            #     'trace_id': product_info.get('trace_id', None),
+            #     'template_id': product_info.get('template_id', None),
+            #     'product_type': product_info.get('product_type', None),
+            #     # product info
+            #     'title': product_info.get('title', None),
+            #     'shot_description': product_info.get('shot_description', None),
+            #     'product_name': product_info.get('product_name', None),
+            #     'tags': product_info.get('tags', None),
+            #     'reference_product': product_info.get('reference_product', None),
+            #     'reference_product_platform': product_info.get('reference_product_platform', None),
+            #     'moq': product_info.get('moq', None),
+            #     'price': product_info.get('price', None),
+            #     'delivery_time': product_info.get('delivery_time', None),
                 
-                # images
-                'img_url': product_info.get('video_src_urls', None),
-                # video
-                'video_url': product_info.get('video_url', None),
-                # shop info
-                'shop_name': product_info.get('shop_name', None)
-            }
-            return result
+            #     # images
+            #     'img_url': product_info.get('video_src_urls', None),
+            #     # video
+            #     'video_url': product_info.get('video_url', None),
+            #     # shop info
+            #     'shop_name': product_info.get('shop_name', None)
+            # }
+            # return result
         except Exception as e:
             print(f"Error parsing product info: {e}")
             return None
