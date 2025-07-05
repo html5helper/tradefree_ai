@@ -105,10 +105,7 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     elif model == "publish":
         product_publish_list = product_history_service.publish_list(employee_id=employee_id, platform=platform, product_type=product_type)
     elif model == "published":
-        if start_time and end_time:
-            product_publish_list = product_history_service.published_list(employee_id=employee_id, platform=platform, product_type=product_type,start_time=start_time,end_time=end_time)
-        else:
-            product_publish_list = []
+        product_publish_list = product_history_service.published_list(employee_id=employee_id, platform=platform, product_type=product_type,start_time=start_time,end_time=end_time)
     else:
         product_publish_list = []
 
