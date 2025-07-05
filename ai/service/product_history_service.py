@@ -220,7 +220,7 @@ class ProductHistoryService:
                 ProductHistory.dest_platform == platform,
                 ProductHistory.product_type == product_type,
                 ProductHistory.publish_status == 'SUCCESS',
-                ProductHistory.created_at >= start_time
+                ProductHistory.created_at >= '2025-07-05'
                 # ProductHistory.created_at <= end_time
             ).order_by(ProductHistory.created_at.desc()).limit(300)
             
