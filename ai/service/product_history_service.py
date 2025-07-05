@@ -214,6 +214,7 @@ class ProductHistoryService:
         Returns:    
             list[dict]: 发品历史数据字典列表
         """
+        print(f"start_time: {start_time}, end_time: {end_time}")
         try:
             results = self.session.query(ProductHistory).filter(
                 ProductHistory.employee_id == employee_id,
