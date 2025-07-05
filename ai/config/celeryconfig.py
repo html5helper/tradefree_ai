@@ -155,6 +155,7 @@ TOC_GENERATE_WORKFLOW_CHAIN = [
     'ai.business.resource.tasks.normal_store_resource',
     'ai.business.listing.tasks.normal_generate_listing',
     'ai.business.maskword.tasks.normal_filter_maskword',
+    'ai.business.image.tasks.img_square',
     'ai.business.image.tasks.image_text_image',
     'ai.business.storage.tasks.normal_storage',
 ]
