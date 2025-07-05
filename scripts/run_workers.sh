@@ -23,7 +23,7 @@ workers=(
     "store_resource:product_resource_queue -c 5 -n store_resource_worker@%h-store_resource"
     "generate_listing:product_listing_queue -c 5 -n generate_listing_worker@%h-generate_listing"
     "filter_maskword:product_maskword_queue -c 5 -n filter_maskword_worker@%h-filter_maskword"
-    "generate_image:product_image_queue -c 1 -n generate_image_worker@%h-generate_image"
+    "generate_image:product_image_queue -c 2 -n generate_image_worker@%h-generate_image"
     "generate_video:product_video_queue -c 1 -n generate_video_worker@%h-generate_video"
     "upload_image:product_upload_image_queue -c 2 -n upload_image_worker@%h-upload_image"
     "upload_video:product_upload_video_queue -c 2 -n upload_video_worker@%h-upload_video"
