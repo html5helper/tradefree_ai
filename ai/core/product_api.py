@@ -78,22 +78,9 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     product_type = data.get('product_type',None)
     employee_info = access['employee_info']
     employee_id = employee_info['employee_id']
-    start_time_str = data.get('start_time',None)
-    end_time_str = data.get('end_time',None)
+    start_date = data.get('start_date',None)
+    end_date = data.get('end_date',None)
 
-    # 转换时间字符串为datetime对象
-    start_time = None
-    end_time = None
-    if start_time_str:
-        try:
-            start_time = datetime.fromisoformat(start_time_str.replace('Z', '+00:00'))
-        except:
-            start_time = None
-    if end_time_str:
-        try:
-            end_time = datetime.fromisoformat(end_time_str.replace('Z', '+00:00'))
-        except:
-            end_time = None
 
     # model: collect, generate, publish,published
     model = data.get('model',"published")
@@ -105,7 +92,7 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     elif model == "publish":
         product_publish_list = product_history_service.publish_list(employee_id=employee_id, platform=platform, product_type=product_type)
     elif model == "published":
-        product_publish_list = product_history_service.published_list(employee_id=employee_id, platform=platform, product_type=product_type,start_time=start_time,end_time=end_time)
+        product_publish_list = product_history_service.published_list(employee_id=employee_id, platform=platform, product_type=product_type,start_date=start_date,end_date=end_date)
     else:
         product_publish_list = []
 

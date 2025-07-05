@@ -203,7 +203,7 @@ class ProductHistoryService:
         finally:
             self.session.close()
 
-    def published_list(self, employee_id: str, platform: str, product_type: str,start_time: datetime,end_time: datetime) -> list[dict]:
+    def published_list(self, employee_id: str, platform: str, product_type: str,start_date: str,end_date: str) -> list[dict]:
         """根据员工ID和平台和产品类型获取已发布列表，并根据开始时间和结束时间过滤
         Args:
             employee_id: 员工ID
@@ -220,8 +220,8 @@ class ProductHistoryService:
                 ProductHistory.dest_platform == platform,
                 ProductHistory.product_type == product_type,
                 ProductHistory.publish_status == 'SUCCESS',
-                ProductHistory.created_at >= '2025-07-05'
-                # ProductHistory.created_at <= end_time
+                ProductHistory.created_at >= start_date + ' 00:00:00',
+                ProductHistory.created_at <= end_date + ' 23:59:59'
             ).order_by(ProductHistory.created_at.desc()).limit(300)
             
             # 在Session关闭前转换为字典列表
