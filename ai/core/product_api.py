@@ -155,6 +155,17 @@ async def product_publish(request: Request, access: dict = Depends(verify_employ
     result = product_history_service.update_publish_product_by_trace_id(trace_id,publish_product)
     return {"code": 200, "message": "success","data":{"result":result}}
 
+#toC发布产品成功通知
+@api.post("/workflow/product/publish_success")
+async def product_publish_success(request: Request, access: dict = Depends(verify_employee_token)):
+    """Publish Product Success By trace_id"""
+    data = await request.json()
+    trace_id = data.get('trace_id',None)
+    new_product_id = data.get('new_product_id',None)
+   
+    result = product_history_service.publish_success(trace_id,new_product_id)
+    return {"code": 200, "message": "success","data":{"trace_id":trace_id,"result":result}}
+
 #保存编辑后的产品信息（主要是图片）
 @api.post("/workflow/product/update_generate_product")
 async def product_update_generate_product(request: Request, access: dict = Depends(verify_employee_token)):

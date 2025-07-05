@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from ai.dao.db.engine import workflow_engine
 from ai.dao.entity.product_history import ProductHistory
 from datetime import datetime, timedelta
+import json
 
 class ProductHistoryService:
     def __init__(self):
@@ -244,6 +245,34 @@ class ProductHistoryService:
         except Exception as e:
             self.session.rollback()
             print(f"Error deleting product history by trace_id: {str(e)}")
+            return False
+        finally:
+            self.session.close()
+
+    def publish_success(self, trace_id: str,new_product_id: str) -> bool:
+        """根据 trace_id 更新发品历史
+        
+        Args:
+            trace_id: Product History trace_id
+            new_product_id: 新产品ID
+        """
+        try:
+            product_history = self.session.query(ProductHistory).filter_by(trace_id=trace_id).first()
+            generate_product = product_history.generate_product
+            generate_product_json = json.loads(generate_product)
+            generate_product_json['new_product_id'] = new_product_id
+            generate_product = json.dumps(generate_product_json)
+            if product_history:
+                product_history.publish_status = 'SUCCESS'
+                product_history.publish_product = generate_product
+                product_history.updated_at = datetime.now()
+                self.session.commit()
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.session.rollback()
+            print(f"Error updating product history publish success: {str(e)}")
             return False
         finally:
             self.session.close()
