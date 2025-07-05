@@ -139,18 +139,11 @@ task_routes = {
     },
 }
 # 链式工作流配置
-TOB_AMZ_GENERATE_WORKFLOW_CHAIN = [
-    'ai.business.resource.tasks.normal_store_resource',
-    'ai.business.listing.tasks.normal_generate_listing',
-    'ai.business.maskword.tasks.normal_filter_maskword',
-    'ai.business.image.tasks.img_square',
-    'ai.business.image.tasks.image_text_image',
-    'ai.business.storage.tasks.normal_storage',
-]
 TOB_GENERATE_WORKFLOW_CHAIN = [
     'ai.business.resource.tasks.normal_store_resource',
     'ai.business.listing.tasks.normal_generate_listing',
     'ai.business.maskword.tasks.normal_filter_maskword',
+    'ai.business.image.tasks.img_square',
     'ai.business.image.tasks.image_text_image',
     'ai.business.storage.tasks.normal_storage',
 ]
@@ -173,8 +166,8 @@ CHAIN_MAP = {
         'ai.business.maskword.tasks.normal_filter_maskword'
     ],
     # ToB 智能迁移工作流_接口发布
-    "amz_to_ali": TOB_AMZ_GENERATE_WORKFLOW_CHAIN,
-    "amz_to_1688": TOB_AMZ_GENERATE_WORKFLOW_CHAIN,
+    "amz_to_ali": TOB_GENERATE_WORKFLOW_CHAIN,
+    "amz_to_1688": TOB_GENERATE_WORKFLOW_CHAIN,
     "ali_to_1688": TOB_GENERATE_WORKFLOW_CHAIN,
     "1688_to_1688": TOB_GENERATE_WORKFLOW_CHAIN,
     "ali_to_ali": TOB_GENERATE_WORKFLOW_CHAIN,
