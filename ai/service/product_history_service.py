@@ -220,8 +220,8 @@ class ProductHistoryService:
                 ProductHistory.employee_id == employee_id,
                 ProductHistory.dest_platform == platform,
                 ProductHistory.product_type == product_type,
-                ProductHistory.publish_status == 'SUCCESS',
-                ProductHistory.created_at >= start_time
+                ProductHistory.publish_status == 'SUCCESS'
+                # ProductHistory.created_at >= start_time,
                 # ProductHistory.created_at <= end_time
             ).order_by(ProductHistory.created_at.desc()).all()
             
