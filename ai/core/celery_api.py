@@ -4,6 +4,7 @@ from ai.core.celery_workflow import CeleryWorkflow
 from ai.core.auth.authentication import verify_employee_access_token,verify_sys_token,verify_publish_access_token
 from ai.core.product_api import api as product_router
 from ai.service.product_history_service import ProductHistoryService
+import json
 
 product_history_service = ProductHistoryService()
 
@@ -41,7 +42,7 @@ async def publish_tob_product(request: Request, publish_access: dict = Depends(v
             detail="Can not find product history with trace_id="+trace_id,
             headers={"WWW-Authenticate": "Bearer"},
         ) 
-    parameters = product_history.get("publish_product",None)
+    parameters = json.loads(product_history.get("publish_product","{}"))
     parameters['access'] = publish_access 
 
     return workflow.create_publish_workflow(parameters)
