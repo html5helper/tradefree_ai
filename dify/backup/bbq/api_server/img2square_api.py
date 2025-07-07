@@ -9,9 +9,10 @@ import logging
 import shutil
 from urllib.parse import urlparse
 from flask import request, jsonify
+from config import output_dir
 
 # 定义输出目录
-output_dir = os.environ.get("OUTPUT_DIR", "/tmp")
+# output_dir = os.environ.get("OUTPUT_DIR", "/tmp")
 
 # 常用User-Agent列表
 USER_AGENTS = [
