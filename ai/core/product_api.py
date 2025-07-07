@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Request, Depends
-from ai.core.auth.authentication import verify_sys_token,verify_employee_token
+from ai.core.auth.authentication import verify_sys_token,verify_employee_token,verify_employee_access_token 
 from ai.service.employee_service import EmployeeService
 from ai.service.employee_catch_service import EmployeeCacheService
 from ai.service.product_history_service import ProductHistoryService
 from ai.dao.db.engine import manager_engine, workflow_engine
+from ai.core.celery_workflow import CeleryWorkflow
 from sqlalchemy.orm import Session
 from ai.dao.entity.publish_template import PublishTemplate
 from ai.service.publish_template_service import PublishTemplateService
@@ -24,6 +25,7 @@ cache_service = EmployeeCacheService()
 product_history_service = ProductHistoryService()
 publish_template_service = PublishTemplateService()
 dify_service = DifyService()
+workflow = CeleryWorkflow()
 
 # -------------------------------------------
 # System API
@@ -130,15 +132,6 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
 
     return result
 
-#发布产品
-@api.post("/workflow/product/publish")
-async def product_publish(request: Request, access: dict = Depends(verify_employee_token)):
-    """Publish Product By trace_id"""
-    data = await request.json()
-    trace_id = data.get('trace_id',None)
-    publish_product = data.get('publish_product',None)
-    result = product_history_service.update_publish_product_by_trace_id(trace_id,publish_product)
-    return {"code": 200, "message": "success","data":{"result":result}}
 
 #toC发布产品成功通知
 @api.post("/workflow/product/publish_success")

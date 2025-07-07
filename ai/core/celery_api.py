@@ -1,14 +1,14 @@
-from fastapi import HTTPException,FastAPI, Request, Depends
+from fastapi import FastAPI, Request, Depends, HTTPException
 from ai.core.history.task_retry import retry_chain_by_task_id
 from ai.core.celery_workflow import CeleryWorkflow
-from ai.service.product_history_service import ProductHistoryService
 from ai.core.auth.authentication import verify_employee_access_token,verify_sys_token
 from ai.core.product_api import api as product_router
+from ai.service.product_history_service import ProductHistoryService
 
+product_history_service = ProductHistoryService()
 
 api = FastAPI()
 workflow = CeleryWorkflow()
-product_history_service = ProductHistoryService()
 
 # 挂载product_api的路由
 api.include_router(product_router)
@@ -22,6 +22,7 @@ async def copy(request: Request, employee_access: dict = Depends(verify_employee
 
     return workflow.create_workflow(data)
     
+#发布产品
 @api.post("/workflow/run/publish")
 async def publish_tob_product(request: Request, employee_access: dict = Depends(verify_employee_access_token)):
     """Publish product workflow"""
@@ -40,10 +41,10 @@ async def publish_tob_product(request: Request, employee_access: dict = Depends(
             detail="Can not find product history with trace_id="+trace_id,
             headers={"WWW-Authenticate": "Bearer"},
         ) 
-    paramegers = product_history.get("publish_product",None)
-    paramegers['access'] = employee_access 
+    parameters = product_history.get("publish_product",None)
+    parameters['access'] = employee_access 
 
-    return workflow.create_publish_workflow(paramegers)
+    return workflow.create_publish_workflow(parameters)
 
 @api.post("/workflow/run/social_to_ali")
 async def social_to_ali(request: Request, employee_access: dict = Depends(verify_employee_access_token)):
