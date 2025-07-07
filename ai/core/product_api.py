@@ -84,7 +84,7 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
 
     # model: collect, generate, publish,published
     model = data.get('model',"published")
-    print(f"--->model: {model},employee_id: {employee_id},platform: {platform},product_type: {product_type},start_date: {start_date},end_date: {end_date}")
+    # print(f"--->model: {model},employee_id: {employee_id},platform: {platform},product_type: {product_type},start_date: {start_date},end_date: {end_date}")
     if model == "collect":
         product_publish_list = product_history_service.collect_list(employee_id=employee_id, platform=platform, product_type=product_type)
     elif model == "generate":
