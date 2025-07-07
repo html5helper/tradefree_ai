@@ -470,7 +470,7 @@ def process_images_to_square_route():
 
         # 转换为正方形并保存
         logging.info(f"开始处理{len(image_paths)}张图片转为正方形")
-        output_paths = []
+        output_urls = []
         for i, image_path in enumerate(image_paths):
             try:
                 # 生成输出文件名
@@ -487,27 +487,28 @@ def process_images_to_square_route():
                     image_path, output_path, background_color
                 )
                 if converted_path == "xxx":
-                    output_paths.append(image_urls[i])
+                    output_urls.append(image_urls[i])
                 else:
-                    output_paths.append(converted_path)
+                    output_urls.append(
+                        f"http://dify.html5core.com/svg/{run_id}/{output_filename}"
+                    )
             except Exception as e:
                 logging.error(f"处理图片失败 {image_path}: {e}")
                 continue
 
-        if not output_paths:
+        if not output_urls:
             logging.error("未能将任何图片转换为正方形")
             return jsonify({"error": "Failed to convert any images to square"}), 500
 
         # 计算处理时间
         process_time = time.time() - request_start_time
         logging.info(
-            f"请求处理完成，共处理{len(output_paths)}张图片，耗时{process_time:.2f}秒"
+            f"请求处理完成，共处理{len(output_urls)}张图片，耗时{process_time:.2f}秒"
         )
-
         return jsonify(
             {
-                "image_paths": output_paths,
-                "count": len(output_paths),
+                "image_paths": output_urls,
+                "count": len(output_urls),
                 "process_time_seconds": round(process_time, 2),
                 "message": "Images converted to square successfully",
             }
