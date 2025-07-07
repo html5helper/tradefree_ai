@@ -153,8 +153,54 @@ async def verify_employee_access_token(request: Request, credentials: HTTPAuthor
     if not have_access:
         raise HTTPException(
             status_code=403,
-            detail=f"User does not have access to this workflow with product type={product_type}",
+            detail=f"User does not have access to this workflow={workflow} with product type={product_type}",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
     return employee_access
+
+async def verify_publish_access_token(request: Request, credentials: HTTPAuthorizationCredentials = Security(security)):
+    """验证 Bearer token
+    
+    Args:
+        request: FastAPI 请求对象
+        credentials: HTTP 认证凭证
+        
+    Returns:
+        dict: 包含用户信息的字典
+        
+    Raises:
+        HTTPException: 当 token 无效或缺失时抛出
+    """
+    if not credentials or not credentials.credentials:
+        raise HTTPException(
+            status_code=401,
+            detail="Missing Bearer token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    # 检查是否是 Bearer token
+    if not credentials.scheme.lower() == "bearer":
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid authentication scheme",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    # 从缓存中获取员工信息
+    catch_info = cache_service.get_employee_by_token(credentials.credentials)
+    if not catch_info:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid Bearer token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    # 判断是否有权限（workflow和product_type）
+    event = await request.json()
+
+    user_info = catch_info.get("user_info", {})
+    employee_info = catch_info.get("employee_info", {})
+
+    publish_access =  {**user_info, **employee_info}
+
+    return publish_access

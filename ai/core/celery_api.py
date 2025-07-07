@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request, Depends, HTTPException
 from ai.core.history.task_retry import retry_chain_by_task_id
 from ai.core.celery_workflow import CeleryWorkflow
-from ai.core.auth.authentication import verify_employee_access_token,verify_sys_token
+from ai.core.auth.authentication import verify_employee_access_token,verify_sys_token,verify_publish_access_token
 from ai.core.product_api import api as product_router
 from ai.service.product_history_service import ProductHistoryService
 
@@ -24,7 +24,7 @@ async def copy(request: Request, employee_access: dict = Depends(verify_employee
     
 #发布产品
 @api.post("/workflow/run/publish")
-async def publish_tob_product(request: Request, employee_access: dict = Depends(verify_employee_access_token)):
+async def publish_tob_product(request: Request, publish_access: dict = Depends(verify_publish_access_token)):
     """Publish product workflow"""
     data = await request.json()
     trace_id = data.get("trace_id",None)
@@ -42,7 +42,7 @@ async def publish_tob_product(request: Request, employee_access: dict = Depends(
             headers={"WWW-Authenticate": "Bearer"},
         ) 
     parameters = product_history.get("publish_product",None)
-    parameters['access'] = employee_access 
+    parameters['access'] = publish_access 
 
     return workflow.create_publish_workflow(parameters)
 

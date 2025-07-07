@@ -4,7 +4,6 @@ from ai.service.employee_service import EmployeeService
 from ai.service.employee_catch_service import EmployeeCacheService
 from ai.service.product_history_service import ProductHistoryService
 from ai.dao.db.engine import manager_engine, workflow_engine
-from ai.core.celery_workflow import CeleryWorkflow
 from sqlalchemy.orm import Session
 from ai.dao.entity.publish_template import PublishTemplate
 from ai.service.publish_template_service import PublishTemplateService
@@ -25,7 +24,6 @@ cache_service = EmployeeCacheService()
 product_history_service = ProductHistoryService()
 publish_template_service = PublishTemplateService()
 dify_service = DifyService()
-workflow = CeleryWorkflow()
 
 # -------------------------------------------
 # System API
@@ -82,7 +80,6 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     employee_id = employee_info['employee_id']
     start_date = data.get('start_date',None)
     end_date = data.get('end_date',None)
-
 
     # model: collect, generate, publish,published
     model = data.get('model',"published")
