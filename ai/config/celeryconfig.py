@@ -69,8 +69,9 @@ task_queues = (
     Queue('product_maskword_queue', ex_maskword, routing_key='maskword_filter'),
     Queue('product_image_queue', ex_create, routing_key='product_image'),
     Queue('product_video_queue', ex_create, routing_key='product_video'),
-    Queue('product_upload_image_queue', ex_create, routing_key='product_upload_image'),
-    Queue('product_upload_video_queue', ex_create, routing_key='product_upload_video'),
+    Queue('product_download_image_queue', ex_public, routing_key='product_download_image'),
+    Queue('product_upload_image_queue', ex_public, routing_key='product_upload_image'),
+    Queue('product_upload_video_queue', ex_public, routing_key='product_upload_video'),
     Queue('product_public_queue', ex_public, routing_key='product_public'),
     Queue('product_store_queue', ex_store, routing_key='product_store'),
 )
@@ -107,22 +108,28 @@ task_routes = {
         'exchange': 'product_create',
         'routing_key': 'product_image',
     },
-    # upload_img类任务
-    'ai.business.upload_img.tasks.*': {
-        'queue': 'product_upload_image_queue',
-        'exchange': 'product_create',
-        'routing_key': 'product_upload_image',
-    },
     # 生成video类任务
     'ai.business.video.tasks.*': {
         'queue': 'product_video_queue',
         'exchange': 'product_create',
         'routing_key': 'product_video',
     },
+    # download_img类任务
+    'ai.business.download_img.tasks.*': {
+        'queue': 'product_download_image_queue',
+        'exchange': 'product_public',
+        'routing_key': 'product_download_image',
+    },
+    # upload_img类任务
+    'ai.business.upload_img.tasks.*': {
+        'queue': 'product_upload_image_queue',
+        'exchange': 'product_public',
+        'routing_key': 'product_upload_image',
+    },
     # upload_video类任务
     'ai.business.upload_video.tasks.*': {
         'queue': 'product_upload_video_queue',
-        'exchange': 'product_create',
+        'exchange': 'product_public',
         'routing_key': 'product_upload_video',
     },
     # public类任务
@@ -148,6 +155,7 @@ TOB_GENERATE_WORKFLOW_CHAIN = [
     'ai.business.storage.tasks.normal_storage',
 ]
 TOB_PUBLISH_WORKFLOW_CHAIN = [
+    'ai.business.download_img.tasks.normal_download_image',
     'ai.business.upload_img.tasks.api_upload_image',
     'ai.business.public.tasks.api_publish_product',
 ]
@@ -172,9 +180,12 @@ CHAIN_MAP = {
     "ali_to_1688": TOB_GENERATE_WORKFLOW_CHAIN,
     "1688_to_1688": TOB_GENERATE_WORKFLOW_CHAIN,
     "ali_to_ali": TOB_GENERATE_WORKFLOW_CHAIN,
-    # "social_total": [
+    # ToC   智能迁移工作流_浏览器插件发布
+    "taobao_to_jd_plugin": TOC_GENERATE_WORKFLOW_CHAIN,
+        # "social_total": [
     #     'ai.business.resource.tasks.normal_store_resource'
     # ],
+    # Social 社交平台迁移工作流
     # "social_pages": [
     #     'ai.business.listing.tasks.normal_generate_listing'
     # ],
@@ -184,8 +195,6 @@ CHAIN_MAP = {
     #     'ai.business.upload_img.tasks.api_upload_image',
     #     'ai.business.public.tasks.api_publish_product',
     # ],
-    # ToC   智能迁移工作流_浏览器插件发布
-    "taobao_to_jd_plugin": TOC_GENERATE_WORKFLOW_CHAIN,
 
 }
 

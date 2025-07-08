@@ -25,6 +25,7 @@ workers=(
     "filter_maskword:product_maskword_queue -c 5 -n filter_maskword_worker@%h-filter_maskword"
     "generate_image:product_image_queue -c 2 -n generate_image_worker@%h-generate_image"
     "generate_video:product_video_queue -c 1 -n generate_video_worker@%h-generate_video"
+    "download_image:product_download_image_queue -c 1 -n download_image_worker@%h-download_image"
     "upload_image:product_upload_image_queue -c 2 -n upload_image_worker@%h-upload_image"
     "upload_video:product_upload_video_queue -c 2 -n upload_video_worker@%h-upload_video"
     "store:product_store_queue -c 1 -n store_worker@%h-store"
