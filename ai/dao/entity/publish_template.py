@@ -55,6 +55,15 @@ class PublishTemplate(Base):
         )
 
     def to_dict(self):
+        # Safely parse template JSON, return empty dict if invalid
+        template_data = {}
+        if self.template:
+            try:
+                template_data = json.loads(self.template)
+            except (json.JSONDecodeError, TypeError):
+                # If template is not valid JSON, return it as a string
+                template_data = self.template
+        
         return {
             "id": self.id,
             "platform": self.platform,
@@ -62,7 +71,7 @@ class PublishTemplate(Base):
             "product_type": self.product_type,
             "category_id": self.category_id,
             "category_name": self.category_name,
-            "template": json.loads(self.template),
+            "template": template_data,
             "created_at": self.created_at,
             "updated_at": self.updated_at
         }
