@@ -180,6 +180,7 @@ CHAIN_MAP = {
     "ali_to_1688": TOB_GENERATE_WORKFLOW_CHAIN,
     "1688_to_1688": TOB_GENERATE_WORKFLOW_CHAIN,
     "ali_to_ali": TOB_GENERATE_WORKFLOW_CHAIN,
+    "publish_to_b":TOB_PUBLISH_WORKFLOW_CHAIN,
     # ToC   智能迁移工作流_浏览器插件发布
     "taobao_to_jd_plugin": TOC_GENERATE_WORKFLOW_CHAIN,
         # "social_total": [

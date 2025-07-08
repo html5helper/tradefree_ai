@@ -115,62 +115,62 @@ class ProductHistoryHook:
     
     def parse_generate_product_info(self,task_input: dict) -> dict:
         """从数据解析产品信息"""
-        # product_info = task_input.copy()
-        # return product_info
-        result = {
-            'trace_id': task_input.get('trace_id', None),
-            'template_id': task_input.get('template_id', None),
-            'product_type': task_input.get('product_type', None),
-            # product info
-            'title': task_input.get('title', None),
-            'shot_description': task_input.get('shot_description', None),
-            'product_name': task_input.get('product_name', None),
-            'tags': task_input.get('tags', None),
-            'reference_product': task_input.get('reference_product', None),
-            'reference_product_platform': task_input.get('reference_product_platform', None),
-            'moq': task_input.get('moq', None),
-            'price': task_input.get('price', None),
-            'delivery_time': task_input.get('delivery_time', None),
+        product_info = task_input.copy()
+        product_info.pop('access', None)
+        return product_info
+        # result = {
+        #     'trace_id': task_input.get('trace_id', None),
+        #     'template_id': task_input.get('template_id', None),
+        #     'product_type': task_input.get('product_type', None),
+        #     # product info
+        #     'title': task_input.get('title', None),
+        #     'shot_description': task_input.get('shot_description', None),
+        #     'product_name': task_input.get('product_name', None),
+        #     'tags': task_input.get('tags', None),
+        #     'reference_product': task_input.get('reference_product', None),
+        #     'reference_product_platform': task_input.get('reference_product_platform', None),
+        #     'moq': task_input.get('moq', None),
+        #     'price': task_input.get('price', None),
+        #     'delivery_time': task_input.get('delivery_time', None),
             
-            # images
-            'img_url': task_input.get('video_src_urls', None),
-            # video
-            'video_url': task_input.get('video_url', None),
-            # shop info
-            'shop_name': task_input.get('shop_name', None)
-        }
-        return result
+        #     # images
+        #     'img_url': task_input.get('video_src_urls', None),
+        #     # video
+        #     'video_url': task_input.get('video_url', None),
+        #     # shop info
+        #     'shop_name': task_input.get('shop_name', None)
+        # }
+        # return result
 
     def parse_publish_product_info(self,task_input: dict) -> dict:
         """从数据解析产品信息"""
         try:
             product_info = task_input.copy()
-            # if(product_info.get('video_src_urls')):
-            #     product_info['img_url'] = product_info.get('video_src_urls', None)
-            # return product_info
-            result = {
-                'trace_id': product_info.get('trace_id', None),
-                'template_id': product_info.get('template_id', None),
-                'product_type': product_info.get('product_type', None),
-                # product info
-                'title': product_info.get('title', None),
-                'shot_description': product_info.get('shot_description', None),
-                'product_name': product_info.get('product_name', None),
-                'tags': product_info.get('tags', None),
-                'reference_product': product_info.get('reference_product', None),
-                'reference_product_platform': product_info.get('reference_product_platform', None),
-                'moq': product_info.get('moq', None),
-                'price': product_info.get('price', None),
-                'delivery_time': product_info.get('delivery_time', None),
+            product_info.pop('access', None)
+            return product_info
+            # result = {
+            #     'trace_id': product_info.get('trace_id', None),
+            #     'template_id': product_info.get('template_id', None),
+            #     'product_type': product_info.get('product_type', None),
+            #     # product info
+            #     'title': product_info.get('title', None),
+            #     'shot_description': product_info.get('shot_description', None),
+            #     'product_name': product_info.get('product_name', None),
+            #     'tags': product_info.get('tags', None),
+            #     'reference_product': product_info.get('reference_product', None),
+            #     'reference_product_platform': product_info.get('reference_product_platform', None),
+            #     'moq': product_info.get('moq', None),
+            #     'price': product_info.get('price', None),
+            #     'delivery_time': product_info.get('delivery_time', None),
                 
-                # images
-                'img_url': product_info.get('video_src_urls', None),
-                # video
-                'video_url': product_info.get('video_url', None),
-                # shop info
-                'shop_name': product_info.get('shop_name', None)
-            }
-            return result
+            #     # images
+            #     'img_url': product_info.get('video_src_urls', None),
+            #     # video
+            #     'video_url': product_info.get('video_url', None),
+            #     # shop info
+            #     'shop_name': product_info.get('shop_name', None)
+            # }
+            # return result
         except Exception as e:
             print(f"Error parsing product info: {e}")
             return None
@@ -224,8 +224,8 @@ class ProductHistoryHook:
         try:
             access = task_input.get('access',{})
             workflow = task_event.get('workflow_name', None)
-            src_platform = workflow.split('_')[0]
-            dest_platform = workflow.split('_')[2]
+            src_platform = task_event.get('src_platform', None)
+            dest_platform = task_event.get('dest_platform', None)
 
             product_info = self.parse_collect_product_info(task_input)
 

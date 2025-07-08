@@ -14,7 +14,6 @@ workflow = CeleryWorkflow()
 # 挂载product_api的路由
 api.include_router(product_router)
 
-
 @api.post("/workflow/run/copy")
 async def copy(request: Request, employee_access: dict = Depends(verify_employee_access_token)):
     """Copy and public product workflow"""
