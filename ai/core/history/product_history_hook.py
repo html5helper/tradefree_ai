@@ -224,8 +224,8 @@ class ProductHistoryHook:
         try:
             access = task_input.get('access',{})
             workflow = task_event.get('workflow_name', None)
-            src_platform = task_event.get('src_platform', None)
-            dest_platform = task_event.get('dest_platform', None)
+            src_platform = task_input.get('src_platform', None)
+            dest_platform = task_input.get('dest_platform', None)
 
             product_info = self.parse_collect_product_info(task_input)
 
