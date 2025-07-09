@@ -39,9 +39,15 @@ def after_task_run(sender=None, task_id=None,args=None, retval=None, **other):
     try:
         task_input = args[0] if args and isinstance(args[0], dict) else {}
         
+        # 添加简单日志确认状态更新被触发
+        if 'storage' in str(sender):
+            print(f"Storage task completed: {task_id}, updating generate_status to SUCCESS")
+        
         task_event = task_event_hook.success(task_id, sender, task_input,retval)
         if task_event:
             product_history = product_history_hook.success(task_event, task_input,retval)
+            if 'storage' in str(sender):
+                print(f"Storage task status update result: {product_history}")
         
     except Exception as e:
         print(f"Error recording task postrun: {e}")
