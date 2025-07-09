@@ -225,10 +225,15 @@ beat_schedule = {
 
 
 # 其他配置
-worker_prefetch_multiplier = 1
-worker_max_tasks_per_child = 1000
-task_time_limit = 3600  # 1小时
-task_soft_time_limit = 3000  # 50分钟 
+worker_prefetch_multiplier = 1 # 每个 Worker 只预取 1 个任务，确保任务分配更均匀
+worker_max_tasks_per_child = 500  # 每执行 500 个任务后重启 Worker 进程
+task_time_limit = 3600  # 任务硬超时时间（秒）,超时的任务不会触发 task_postrun 信号
+task_soft_time_limit = 3000  # 任务软超时时间（秒),比硬超时更优雅，可以保存中间结果
+
+# Worker 稳定性配置
+worker_max_memory_per_child = 200000  # Worker 子进程最大内存使用量（KB）
+worker_disable_rate_limits = False  # 是否禁用速率限制:False(启用速率限制)
+worker_send_task_events = True  # 控制是否向监控系统发送任务状态事件(支持 Flower 监控、任务状态跟踪)
 
 # 根据环境导入对应的配置
 if ENV == "production":
