@@ -1,8 +1,52 @@
 $2a$10$PjZWSjsjxvwmHEgp0npbkO7Qi5oDo6xP7yU5hv3Wpp76DYHfyA/AS
 
 
-{"trace_id": "8ec5d4f4-0cdc-4a86-a688-d313e0c1787e", "template_id": null, "product_type": "sticker", "title": "\u5e93\u6d1b\u7c733d\u7acb\u4f53\u956d\u5c04\u8d34\u7eb8\u5973\u5b69\u513f\u7ae5\u5361\u901a\u53ef\u7231\u9ad8\u989c\u503c\u5495\u5361\u624b\u8d26\u624b\u5e10\u7d20\u6750\u8d34\u8d34\u7eb8\u8d34\u753b\u88c5\u9970\u5c0f\u56fe\u6848\u5e7c\u513f\u56ed\u5956\u52b1", "shot_description": "\u5e93\u6d1b\u7c733D\u956d\u5c04\u5361\u901a\u8d34\u7eb8\uff0c\u91c7\u7528\u7acb\u4f53\u5370\u5237\u4e0e\u956d\u5c04\u5de5\u827a\uff0c\u8272\u5f69\u70ab\u4e3d\uff0c\u56fe\u6848\u53ef\u7231\uff0c\u73af\u4fdd\u5b89\u5168\u3002\u5c3a\u5bf8\u9002\u4e2d\uff0c\u6613\u6495\u53d6\u4e0d\u7559\u6b8b\u80f6\uff0c\u9002\u7528\u4e8e\u624b\u8d26\u3001\u7b14\u8bb0\u672c\u3001\u6587\u5177\u76d2\u7b49\u591a\u79cd\u573a\u666f\u3002\u9002\u5408\u513f\u7ae5\u5956\u52b1\u3001\u624b\u5de5DIY\u53ca\u6536\u85cf\u4f7f\u7528\u3002", "product_name": "\u5e93\u6d1b\u7c733D\u956d\u5c04\u5361\u901a\u8d34\u7eb8", "tags": "", "reference_product": "https://detail.tmall.com/item.htm?detail_redpacket_pop=true&id=784751278807&ltk2=1751690557104zwo8kfe4h1um29m5o5fir&ns=1&priceTId=213e00d417516905549372227e1953&query=%E8%B4%B4%E7%BA%B8&skuId=5360749353655&spm=a21n57.1.hoverItem.4&utparam=%7B%22aplus_abtest%22%3A%22fe50b45832ca7c40bffb21b64b244386%22%7D&xxc=ad_ztc", "reference_product_platform": "taobao", "moq": "200", "price": "0.3", "delivery_time": "7 days", "img_url": ["https://img.alicdn.com/imgextra/i3/2212830973987/O1CN01WbOcDB1fK64UdRGS4_!!0-item_pic.jpg", "https://img.alicdn.com/imgextra/i1/2212830973987/O1CN01sJemjY1fK64VIsJsd_!!2212830973987.jpg", "https://img.alicdn.com/imgextra/i3/2212830973987/O1CN01Ya0oww1fK64VIqqOF_!!2212830973987.jpg", "https://img.alicdn.com/imgextra/i1/2212830973987/O1CN01eP84Nd1fK64V3n06p_!!2212830973987.jpg", "https://img.alicdn.com/imgextra/i1/2212830973987/O1CN01Ig8oNp1fK64QVhr7v_!!2212830973987.jpg"], "video_url": null, "shop_name": null}
-
+{
+    "src_title": "Feather-Shaped Metal Bookmarks with Chain, 4-Pack Vintage-Inspired Book Marks Set - Cute Unique Page Markers Gifts for Book Lovers, Readers, Writers, Reading Women, Men, Kids, Teens (Starry Wings)",
+    "src_description": "About this item 4 Unique Celestial & Fantasy Designs Discover 4 captivating themes: Emerald Enchantment (The Green Feather Fairy), Midnight Dream (Black Dream Feather), Mystic Lavender (Purple Illusion Feather), and Sky Breeze (Blue Light Feather) – each inspired by celestial beauty and nature’s magic. Durable Metal & Tangle-Free Chain Made with premium rust-resistant metal and a lightweight chain, these bookmarks stay securely in place without damaging pages or losing their shine over time. Perfect Gift for Readers & Collectors A thoughtful present for book clubs, birthdays, or holidays – combines literary charm with celestial artistry, ideal for fans of fantasy novels and vintage aesthetics. Lightweight & Elegant Feather Shape The delicate feather silhouette adds a whimsical touch to hardcovers, journals, or diaries, blending practicality with artistic flair. 4-Pack Versatility for Every Reading Mood Match different book genres or moods: pair Emerald Enchantment with adventure novels, Midnight Dream with mystery tales, Mystic Lavender with poetry, and Sky Breeze with calming reads. › See more product details",
+    "price": "0.80",
+    "moq": "200",
+    "src_image_urls": [
+        "https://m.media-amazon.com/images/I/91rtNSQEhIL._AC_SL1500_.jpg",
+        "https://m.media-amazon.com/images/I/91eWtSHpHqL._AC_SL1500_.jpg",
+        "https://m.media-amazon.com/images/I/91BsrPGQbCL._AC_SL1500_.jpg",
+        "https://m.media-amazon.com/images/I/91TIoK2zY2L._AC_SL1500_.jpg",
+        "https://m.media-amazon.com/images/I/814wgqrovaL._AC_SL1500_.jpg"
+    ],
+    "product_type": "bookmark",
+    "category_id": "201268782",
+    "shop_id": "2",
+    "delivery_time": "7 days",
+    "reference_product": "https://www.amazon.com/Fantasy-Sword-Bookmarks-Journals-Planners/dp/B0F1MPSGY5",
+    "workflow": "amz_to_ali",
+    "use_ai": "true",
+    "dest_platform": "ali",
+    "src_platform": "amz",
+    "employee_id": 15,
+    "trace_id": "3e73d260-ca77-4646-9490-24c05823e552",
+    "task_id": "bf946d8c-1f32-4536-bbec-4076d94fcca2",
+    "publish_title": "Feather Shaped Metal Bookmarks with Chain 4 Pack Vintage Inspired Celestial Fantasy Designs for Book Lovers Readers Writers Gift Set2",
+    "publish_description": "These feather-shaped metal bookmarks with chain are a perfect blend of elegance and functionality, designed to enhance the reading experience while adding a touch of artistic flair. Each bookmark in this 4-pack features a unique celestial and fantasy-inspired design, including Emerald Enchantment (The Green Feather Fairy), Midnight Dream (Black Dream Feather), Mystic Lavender (Purple Illusion Feather), and Sky Breeze (Blue Light Feather). These designs are inspired by nature's magic and celestial beauty, making them ideal for fans of fantasy novels, vintage aesthetics, and literary enthusiasts. Crafted from premium rust-resistant metal and paired with a lightweight chain, these bookmarks stay securely in place without damaging pages or losing their shine over time. The delicate feather silhouette adds a whimsical touch to hardcovers, journals, or diaries, blending practicality with artistic charm. The 4-pack allows you to match different book genres or moods: pair Emerald Enchantment with adventure novels, Midnight Dream with mystery tales, Mystic Lavender with poetry, and Sky Breeze with calming reads. Whether used as a personal reading companion or as a thoughtful gift for book clubs, birthdays, or holidays, these bookmarks combine literary charm with celestial artistry. Their lightweight and elegant design make them suitable for readers of all ages, from kids to teens and adults alike. The tangle-free chain ensures easy handling and prevents any inconvenience during use. This set is not only a functional tool but also a stylish accessory that complements any reading space or collection.",
+    "publish_shot_description": "Feather shaped metal bookmarks with tangle free chain featuring 4 celestial fantasy designs. Durable rust resistant metal construction ensures long lasting use. Perfect gift for book lovers readers and writers of all ages.",
+    "applicable_scenes": "",
+    "tags": "metal bookmarks with chain feather shaped bookmarks vintage inspired bookmarks celestial design bookmarks fantasy themed bookmarks book lover gifts reader accessories gift for book clubs decorative bookmarks for journals unique page markers durable metal bookmarks 4 pack bookmarks for women men and kids",
+    "product_name": "Feather Shaped Metal Bookmarks with Chain",
+    "code": 200,
+    "title": "",
+    "description": "",
+    "short_description": "",
+    "title_mask_count": 0,
+    "description_mask_count": 0,
+    "short_description_mask_count": 0,
+    "generate_image_str": "http://comfy.tradefree.ai/api/view?filename=a_00001_.png&type=output&subfolder=3e73d260-ca77-4646-9490-24c05823e552,http://comfy.tradefree.ai/api/view?filename=a_00002_.png&type=output&subfolder=3e73d260-ca77-4646-9490-24c05823e552,http://comfy.tradefree.ai/api/view?filename=a_00003_.png&type=output&subfolder=3e73d260-ca77-4646-9490-24c05823e552,http://comfy.tradefree.ai/api/view?filename=a_00004_.png&type=output&subfolder=3e73d260-ca77-4646-9490-24c05823e552,http://comfy.tradefree.ai/api/view?filename=a_00005_.png&type=output&subfolder=3e73d260-ca77-4646-9490-24c05823e552,http://comfy.tradefree.ai/api/view?filename=a_00006_.png&type=output&subfolder=3e73d260-ca77-4646-9490-24c05823e552",
+    "generate_image_urls": [
+        "http://comfy.tradefree.ai/api/view?filename=a_00001_.png&type=output&subfolder=3e73d260-ca77-4646-9490-24c05823e552",
+        "http://comfy.tradefree.ai/api/view?filename=a_00002_.png&type=output&subfolder=3e73d260-ca77-4646-9490-24c05823e552",
+        "http://comfy.tradefree.ai/api/view?filename=a_00003_.png&type=output&subfolder=3e73d260-ca77-4646-9490-24c05823e552",
+        "http://comfy.tradefree.ai/api/view?filename=a_00004_.png&type=output&subfolder=3e73d260-ca77-4646-9490-24c05823e552",
+        "http://comfy.tradefree.ai/api/view?filename=a_00006_.png&type=output&subfolder=3e73d260-ca77-4646-9490-24c05823e552"
+    ]
+}
 
 
 curl -X POST \
