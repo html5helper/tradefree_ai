@@ -36,6 +36,8 @@ def retry_chain_by_task_id(task_id: str):
 
     if not event:
         raise HTTPException(status_code=400, detail="No event found in task_input")
+    
+    print("event::::::::::: ", event)
 
     # 判断属于哪个chain
     chain_type = None
