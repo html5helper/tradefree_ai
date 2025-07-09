@@ -78,25 +78,8 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     product_type = data.get('product_type',None)
     employee_info = access['employee_info']
     employee_id = employee_info['employee_id']
-    start_date = data.get('start_date',None)
-    end_date = data.get('end_date',None)
 
-    # model: collect, generate, publish,published
-    model = data.get('model',"published")
-    model = "recent"
-    # print(f"--->model: {model},employee_id: {employee_id},platform: {platform},product_type: {product_type},start_date: {start_date},end_date: {end_date}")
-    if model == "collect":
-        product_publish_list = product_history_service.collect_list(employee_id=employee_id, platform=platform, product_type=product_type)
-    elif model == "generate":
-        product_publish_list = product_history_service.generate_list(employee_id=employee_id, platform=platform, product_type=product_type)
-    elif model == "publish":
-        product_publish_list = product_history_service.publish_list(employee_id=employee_id, platform=platform, product_type=product_type)
-    elif model == "published":
-        product_publish_list = product_history_service.published_list(employee_id=employee_id, platform=platform, product_type=product_type,start_date=start_date,end_date=end_date)
-    elif model == "recent":
-        product_publish_list = product_history_service.recent_list(employee_id=employee_id, platform=platform, product_type=product_type)
-    else:
-        product_publish_list = []
+    product_publish_list = product_history_service.recent_list(employee_id=employee_id, platform=platform, product_type=product_type)
 
     # products = []
     template_ids = []
