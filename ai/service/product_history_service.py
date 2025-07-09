@@ -251,7 +251,6 @@ class ProductHistoryService:
                 ProductHistory.employee_id == employee_id,
                 ProductHistory.dest_platform == platform,
                 ProductHistory.product_type == product_type,
-                ProductHistory.publish_status == 'SUCCESS',
                 ProductHistory.created_at >= start_time_str
             ).order_by(ProductHistory.created_at.desc()).limit(300)
             
