@@ -319,6 +319,9 @@ class ProductHistoryService:
             if product_history:
                 # Convert dictionary to JSON string before storing in Text field
                 product_history.generate_product = generate_product
+                product_history.generate_status = 'SUCCESS'
+                product_history.publish_status = 'PENDING'
+                product_history.publish_product = None
                 product_history.updated_at = datetime.now()
                 self.session.commit()
                 return True
