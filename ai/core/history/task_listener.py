@@ -1,10 +1,7 @@
 from celery.signals import task_prerun, task_postrun, task_failure, task_retry, task_revoked, task_sent
-from ai.dao.entity.task_event import TaskEvent
-from ai.dao.entity.product_history import ProductHistory
 from ai.core.history.task_event_hook import TaskEventHook
 from ai.core.history.product_history_hook import ProductHistoryHook
-from datetime import datetime
-import json
+
 
 task_event_hook = TaskEventHook()
 product_history_hook = ProductHistoryHook()
@@ -51,8 +48,7 @@ def after_task_run(sender=None, task_id=None,args=None, retval=None, **other):
         
     except Exception as e:
         print(f"Error recording task postrun: {e}")
-        import traceback
-        traceback.print_exc()
+
 
 
 @task_failure.connect

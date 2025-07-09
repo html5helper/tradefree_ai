@@ -44,13 +44,13 @@ enable_utc = True
 # 任务结果持久化配置
 result_expires = 86400  # 任务结果保存24小时
 task_track_started = True  # 跟踪任务开始状态
-task_ignore_result = False  # 不忽略任务结果
+task_ignore_result = False  # 不忽略任务结果，保持功能正常
 task_always_eager = False  # 不总是立即执行
 
 # 任务状态持久化
 task_annotations = {
     '*': {
-        'rate_limit': '10/m'  # 限制任务执行频率
+        'rate_limit': '10/s'  # 限制任务执行频率10次每秒 
     }
 }
 
