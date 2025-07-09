@@ -15,8 +15,6 @@ def retry_chain_by_task_id(task_id: str):
     # 更新 retried 字段
     task_event_service.update(task_id, {'retried': 1})
 
-    print(task_event)
-
     workflow = task_event['workflow_name']
     task_name = task_event['task_name']
     task_input = task_event['task_input']
@@ -37,8 +35,6 @@ def retry_chain_by_task_id(task_id: str):
     if not event:
         raise HTTPException(status_code=400, detail="No event found in task_input")
     
-    print("event::::::::::: ", event)
-
     # 判断属于哪个chain
     chain_type = None
     for key in CHAIN_MAP:
