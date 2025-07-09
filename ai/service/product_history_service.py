@@ -245,6 +245,7 @@ class ProductHistoryService:
             now = datetime.now()
             start_time = now - timedelta(days=7)
             start_time_str = start_time.strftime('%Y-%m-%d 00:00:00')
+            print(f"--->start_time_str: {start_time_str}")
             
             results = self.session.query(ProductHistory).filter(
                 ProductHistory.employee_id == employee_id,
