@@ -47,7 +47,7 @@ def after_task_run(sender=None, task_id=None,args=None, retval=None, **other):
         if task_event:
             product_history = product_history_hook.success(task_event, task_input,retval)
             if 'storage' in str(sender):
-                print(f"Storage task status update result: {product_history}")
+                print(f"Storage task status update result")
         
     except Exception as e:
         print(f"Error recording task postrun: {e}")
