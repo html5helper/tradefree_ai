@@ -242,6 +242,7 @@ class ProductHistoryHook:
                 publish_product=None,
                 src_platform=src_platform,
                 dest_platform=dest_platform,
+                shop_id=access.get('shop_id', None),
                 dest_shop_name=access.get('shop_name', '--'),
                 last_task_id=task_event.get('task_id'),
                 last_task_type=task_event.get('task_type'),

@@ -19,6 +19,7 @@ Base = declarative_base()
 #   `template_id` bigint(20) DEFAULT NULL COMMENT '发品模板编号',
 #   `src_platform` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '来源平台',
 #   `dest_platform` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '发品平台',
+#   `shop_id` bigint(20) NOT NULL COMMENT '店铺ID',
 #   `dest_shop_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '发品店铺名称',
 #   `last_task_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '最后执行的任务task_id',
 #   `last_task_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '-' COMMENT '最后执行的任务类型',
@@ -61,6 +62,7 @@ class ProductHistory(Base):
     publish_product = Column(Text)
     src_platform = Column(String(255), nullable=False)
     dest_platform = Column(String(255), nullable=False)
+    shop_id = Column(Integer, nullable=False)
     dest_shop_name = Column(String(255), nullable=False)
     last_task_id = Column(String(255), nullable=False)
     last_task_type = Column(String(255), nullable=False)
@@ -89,6 +91,7 @@ class ProductHistory(Base):
             'publish_product': self.publish_product,
             'src_platform': self.src_platform,
             'dest_platform': self.dest_platform,
+            'shop_id': self.shop_id,
             'dest_shop_name': self.dest_shop_name,
             'last_task_id': self.last_task_id,
             'last_task_type': self.last_task_type,

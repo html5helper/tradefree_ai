@@ -76,10 +76,12 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     data = await request.json()
     platform = data.get('platform',None)
     product_type = data.get('product_type',None)
+    shop_id = data.get('shop_id',17)
     employee_info = access['employee_info']
     employee_id = employee_info['employee_id']
+    
 
-    product_publish_list = product_history_service.recent_list(employee_id=employee_id, platform=platform, product_type=product_type)
+    product_publish_list = product_history_service.recent_list(employee_id=employee_id, platform=platform, product_type=product_type,shop_id=shop_id)
 
     # products = []
     template_ids = []

@@ -140,12 +140,13 @@ class ProductHistoryService:
         finally:
             self.session.close()
 
-    def recent_list(self, employee_id: str, platform: str, product_type: str) -> list[dict]:
+    def recent_list(self, employee_id: str, platform: str, product_type: str,shop_id: str) -> list[dict]:
         """根据员工ID和平台和产品类型获取最近7天接收列表，并根据开始时间和结束时间过滤
         Args:
             employee_id: 员工ID
             platform: 平台
             product_type: 产品类型
+            shop_id: 店铺ID
         Returns:    
             list[dict]: 发品历史数据字典列表
         """
@@ -158,6 +159,7 @@ class ProductHistoryService:
                 ProductHistory.employee_id == employee_id,
                 ProductHistory.dest_platform == platform,
                 ProductHistory.product_type == product_type,
+                ProductHistory.shop_id == shop_id,
                 ProductHistory.created_at >= start_time_str
             ).order_by(ProductHistory.created_at.desc()).limit(300)
             
