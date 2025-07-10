@@ -35,7 +35,8 @@ async def publish_tob_product(request: Request, publish_access: dict = Depends(v
             headers={"WWW-Authenticate": "Bearer"},
         )
     product_history = product_history_service.get_by_trace_id(trace_id=trace_id)
-    product_history_service.update(trace_id=trace_id,changes={'publish_status':'STARTED'})
+    updated_history = product_history_service.update(trace_id=trace_id,changes={'publish_status':'STARTED'})
+    print(f"updated_history: {updated_history}")
     if product_history == None or product_history.get("publish_product",None) == None:
        raise HTTPException(
             status_code=401,
