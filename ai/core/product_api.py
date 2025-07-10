@@ -80,7 +80,6 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     employee_info = access['employee_info']
     employee_id = employee_info['employee_id']
     
-
     product_publish_list = product_history_service.recent_list(employee_id=employee_id, platform=platform, product_type=product_type,shop_id=shop_id)
 
     # products = []
