@@ -186,7 +186,7 @@ class ProductHistoryService:
         finally:
             self.session.close()
 
-    def publish_success(self, trace_id: str,new_product_id: str) -> bool:
+    def publish_success(self, trace_id: str,dest_product_id: str) -> bool:
         """根据 trace_id 更新发品历史
         
         Args:
@@ -197,7 +197,7 @@ class ProductHistoryService:
             product_history = self.session.query(ProductHistory).filter_by(trace_id=trace_id).first()
             generate_product = product_history.generate_product
             generate_product_json = json.loads(generate_product)
-            generate_product_json['new_product_id'] = new_product_id
+            generate_product_json['dest_product_id'] = dest_product_id
             generate_product = json.dumps(generate_product_json)
             if product_history:
                 product_history.publish_status = 'SUCCESS'

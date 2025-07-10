@@ -122,9 +122,9 @@ async def product_publish_success(request: Request, access: dict = Depends(verif
     """Publish Product Success By trace_id"""
     data = await request.json()
     trace_id = data.get('trace_id',None)
-    new_product_id = data.get('new_product_id',None)
+    dest_product_id = data.get('dest_product_id',None)
    
-    result = product_history_service.publish_success(trace_id,new_product_id)
+    result = product_history_service.publish_success(trace_id,dest_product_id)
     return {"code": 200, "message": "success","data":{"trace_id":trace_id,"result":result}}
 
 #保存编辑后的产品信息（主要是图片）
