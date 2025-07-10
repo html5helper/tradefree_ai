@@ -25,8 +25,11 @@ class CeleryWorkflow:
     def create_publish_workflow(self, data: dict):
         """Helper function to create publish workflow chain"""
 
+        data['workflow'] = 'publish_to_b'
+        workflow_name = data.get("workflow",None)
+
         signatures = []
-        for task_name in CHAIN_MAP['publish_to_b']:
+        for task_name in CHAIN_MAP[workflow_name]:
             signatures.append(celery_app.signature(task_name))
         workflow = chain(*signatures)
         # 只给第一个任务传 event，转换为字典以确保可序列化
