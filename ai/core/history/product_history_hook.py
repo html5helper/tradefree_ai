@@ -174,54 +174,112 @@ class ProductHistoryHook:
         except Exception as e:
             print(f"Error parsing product info: {e}")
             return None
-        
-    def get_product_process_type(self, task_type: str,status_type: str) -> str:
-        """获取产品处理类型
-        Args:
-            task_event: 任务事件
-
-        Returns:
-            product_process_type: 产品处理类型
+    
+    def get_product_process_type(self, task_type: str, status_type: str) -> dict:
+        """
+        根据 task_type 和 status_type，返回当前环节(process_type)
+        以及需要更新到 product_history 表的 changes 字段
         """
         process_type = None
         changes = {}
-        if(task_type in ['resource']):
+
+        # Collect 阶段：资源存储
+        if task_type == 'resource':
             process_type = 'collect'
-            if(status_type == 'pending'):
+            if status_type == 'pending':
                 changes = {'collect_status': 'PENDING'}
-            elif(status_type == 'started'):
+            elif status_type == 'started':
                 changes = {'collect_status': 'STARTED'}
-            elif(status_type == 'success'):
-                changes = {'collect_status': 'SUCCESS','generate_status': None}
-            elif(status_type == 'failure'):
+            elif status_type == 'success':
+                changes = {'collect_status': 'SUCCESS', 'generate_status': None}
+            elif status_type == 'failure':
                 changes = {'collect_status': 'FAILURE'}
-        elif(task_type in ['listing', 'maskword','image', 'video','storage']):
+
+        # Generate 阶段：从 listing → maskword → image → storage
+        elif task_type in ['listing', 'maskword', 'image', 'storage']:
             process_type = 'generate'
-            if(status_type == 'failure'):
+            # 失败立即标记为 FAILURE
+            if status_type == 'failure':
                 changes = {'generate_status': 'FAILURE'}
-            elif(task_type == 'listing' and status_type == 'pending'):
+            # listing 首次进入时 pending
+            elif status_type == 'pending' and task_type == 'listing':
                 changes = {'generate_status': 'PENDING'}
-            elif(status_type == 'started'):
+            # 任一环节开始时，都标记为 STARTED
+            elif status_type == 'started':
                 changes = {'generate_status': 'STARTED'}
-            elif(task_type == 'storage' and status_type == 'success'):
-                changes = {'generate_status': 'SUCCESS','publish_status': None}
+            # 只有 storage 成功时，才标记整个生成阶段 SUCCESS
+            elif status_type == 'success' and task_type == 'storage':
+                changes = {'generate_status': 'SUCCESS', 'publish_status': None}
+            # 其他情况（如中间环节 success），不覆盖 generate_status
             else:
-                changes = {'generate_status': 'PENDING'}
-        elif(task_type in ['upload_img','upload_video','public']):
+                changes = {}
+
+        # Publish 阶段：download_img → upload_img → public
+        elif task_type in ['download_img', 'upload_img', 'public']:
             process_type = 'publish'
-            if(status_type == 'failure'):
+            if status_type == 'failure':
                 changes = {'publish_status': 'FAILURE'}
-            elif(task_type == 'upload_img' and status_type == 'pending'):
+            elif status_type == 'pending' and task_type == 'download_img':
                 changes = {'publish_status': 'PENDING'}
-            elif(status_type == 'started'):
+            elif status_type == 'started':
                 changes = {'publish_status': 'STARTED'}
-            elif(task_type == 'public' and status_type == 'success'):
+            elif status_type == 'success' and task_type == 'public':
                 changes = {'publish_status': 'SUCCESS'}
             else:
-                changes = {'publish_status': 'PENDING'}
+                changes = {}
+
+        return {
+            'process_type': process_type,
+            'changes': changes
+    }   
+
+    # def get_product_process_type(self, task_type: str,status_type: str) -> str:
+    #     """获取产品处理类型
+    #     Args:
+    #         task_event: 任务事件
+
+    #     Returns:
+    #         product_process_type: 产品处理类型
+    #     """
+    #     process_type = None
+    #     changes = {}
+    #     if(task_type in ['resource']):
+    #         process_type = 'collect'
+    #         if(status_type == 'pending'):
+    #             changes = {'collect_status': 'PENDING'}
+    #         elif(status_type == 'started'):
+    #             changes = {'collect_status': 'STARTED'}
+    #         elif(status_type == 'success'):
+    #             changes = {'collect_status': 'SUCCESS','generate_status': None}
+    #         elif(status_type == 'failure'):
+    #             changes = {'collect_status': 'FAILURE'}
+    #     elif(task_type in ['listing', 'maskword','image', 'video','storage']):
+    #         process_type = 'generate'
+    #         if(status_type == 'failure'):
+    #             changes = {'generate_status': 'FAILURE'}
+    #         elif(task_type == 'listing' and status_type == 'pending'):
+    #             changes = {'generate_status': 'PENDING'}
+    #         elif(status_type == 'started'):
+    #             changes = {'generate_status': 'STARTED'}
+    #         elif(task_type == 'storage' and status_type == 'success'):
+    #             changes = {'generate_status': 'SUCCESS','publish_status': None}
+    #         else:
+    #             changes = {'generate_status': 'PENDING'}
+    #     elif(task_type in ['upload_img','upload_video','public']):
+    #         process_type = 'publish'
+    #         if(status_type == 'failure'):
+    #             changes = {'publish_status': 'FAILURE'}
+    #         elif(task_type == 'upload_img' and status_type == 'pending'):
+    #             changes = {'publish_status': 'PENDING'}
+    #         elif(status_type == 'started'):
+    #             changes = {'publish_status': 'STARTED'}
+    #         elif(task_type == 'public' and status_type == 'success'):
+    #             changes = {'publish_status': 'SUCCESS'}
+    #         else:
+    #             changes = {'publish_status': 'PENDING'}
         
         
-        return {'process_type':process_type,'changes':changes}
+    #     return {'process_type':process_type,'changes':changes}
         
     def save_product_history(self,task_event: dict, task_input: dict) -> ProductHistory:
         """从数据解析发品历史（避免 Session 绑定问题）"""
