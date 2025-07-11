@@ -6,7 +6,6 @@ from celery.schedules import crontab
 # 环境配置
 ENV = os.getenv("ENV", "development")
 
-
 # 通用配置
 
 # Token Key 配置
@@ -172,73 +171,6 @@ CHAIN_MAP = {
     "amz_copy_ali": [
         'ai.business.resource.tasks.normal_store_resource',
         'ai.business.listing.tasks.listing_adapter',
-<<<<<<< HEAD
-        'ai.business.maskword.tasks.amz_to_ali_maskword_filter',
-        # 'ai.business.image.tasks.amz_to_ali_image',
-        # 'ai.business.upload_img.tasks.amz_to_ali_upload',
-        # 'ai.business.public.tasks.amz_to_ali_public',
-    ],
-    "amz_to_ali": [
-        'ai.business.resource.tasks.amz_to_ali_src',
-        'ai.business.listing.tasks.amz_to_ali_listing',
-        'ai.business.maskword.tasks.amz_to_ali_maskword_filter',
-        'ai.business.image.tasks.amz_to_ali_image',
-        'ai.business.upload_img.tasks.amz_to_ali_upload',
-        'ai.business.video.tasks.amz_to_ali_video',
-        'ai.business.upload_video.tasks.amz_to_ali_upload',
-        'ai.business.public.tasks.amz_to_ali_public', 
-    ],
-    "amz_to_1688": [
-        'ai.business.resource.tasks.amz_to_1688_src',
-        'ai.business.listing.tasks.amz_to_1688_listing',
-        'ai.business.maskword.tasks.amz_to_1688_maskword_filter',
-        'ai.business.image.tasks.amz_to_1688_image',
-        'ai.business.upload_img.tasks.amz_to_1688_upload',
-        'ai.business.video.tasks.amz_to_1688_video',
-        'ai.business.upload_video.tasks.amz_to_1688_upload',
-        'ai.business.public.tasks.amz_to_1688_public',
-    ],
-    "ali_to_1688": [
-        'ai.business.resource.tasks.ali_to_1688_src',
-        'ai.business.listing.tasks.ali_to_1688_listing',
-        'ai.business.maskword.tasks.ali_to_1688_maskword_filter',
-        'ai.business.image.tasks.ali_to_1688_image',
-        'ai.business.upload_img.tasks.ali_to_1688_upload',
-        'ai.business.video.tasks.ali_to_1688_video',
-        'ai.business.upload_video.tasks.ali_to_1688_upload',
-        'ai.business.public.tasks.ali_to_1688_public',
-    ],
-    "1688_to_1688": [
-        'ai.business.resource.tasks._1688_to_1688_src',
-        'ai.business.listing.tasks._1688_to_1688_listing',
-        'ai.business.maskword.tasks._1688_to_1688_maskword_filter',
-        'ai.business.image.tasks._1688_to_1688_image',
-        'ai.business.upload_img.tasks._1688_to_1688_upload',
-        'ai.business.video.tasks._1688_to_1688_video',
-        'ai.business.upload_video.tasks._1688_to_1688_upload',
-        'ai.business.public.tasks._1688_to_1688_public',
-    ],
-    "ali_to_ali": [
-        'ai.business.resource.tasks.ali_to_ali_src',
-        'ai.business.listing.tasks.ali_to_ali_listing',
-        'ai.business.maskword.tasks.ali_to_ali_maskword_filter',
-        'ai.business.image.tasks.ali_to_ali_image',
-        'ai.business.upload_img.tasks.ali_to_ali_upload',
-        'ai.business.video.tasks.ali_to_ali_video',
-        'ai.business.upload_video.tasks.ali_to_ali_upload',
-        'ai.business.public.tasks.ali_to_ali_public',
-    ],
-    "social_total": [
-        'ai.business.resource.tasks.social_to_ali_src'
-    ],
-    "social_pages": [
-        'ai.business.listing.tasks.social_to_ali_listing'
-    ],
-    "social_to_ali": [
-        'ai.business.maskword.tasks.social_to_ali_maskword_filter',
-        'ai.business.image.tasks.social_to_ali_image',
-        'ai.business.upload_img.tasks.social_to_ali_upload',
-        'ai.business.public.tasks.social_to_ali_public',
         'ai.business.maskword.tasks.normal_filter_maskword'
     ],
     # ToB 智能迁移工作流_接口发布
