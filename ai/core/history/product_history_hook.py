@@ -75,11 +75,11 @@ class ProductHistoryHook:
             data = self.parse_update_task_info({**changes, **{'collect_product': json.dumps(collect_product)}},task_event)
         elif(process_type == 'generate'):
             generate_product = self.parse_generate_product_info(task_output)
-            if(changes.get('publish_status') == 'PENDING' and changes.get('generate_status') == 'SUCCESS'):
-                publish_product = json.dumps(task_output)
-            else:
-                publish_product = None
-            data = self.parse_update_task_info({**changes, **{'generate_product': json.dumps(generate_product),'publish_product': publish_product}},task_event)
+            # if(changes.get('publish_status') == None and changes.get('generate_status') == 'SUCCESS'):
+            #     publish_product = json.dumps(task_output)
+            # else:
+            #     publish_product = None
+            data = self.parse_update_task_info({**changes, **{'generate_product': json.dumps(generate_product),'publish_product': None}},task_event)
         elif(process_type == 'publish'):
             publish_product = self.parse_publish_product_info(task_output)
             data = self.parse_update_task_info({**changes, **{'publish_product': json.dumps(publish_product)}},task_event)
@@ -192,7 +192,7 @@ class ProductHistoryHook:
             elif(status_type == 'started'):
                 changes = {'collect_status': 'STARTED'}
             elif(status_type == 'success'):
-                changes = {'collect_status': 'SUCCESS','generate_status': 'PENDING'}
+                changes = {'collect_status': 'SUCCESS','generate_status': None}
             elif(status_type == 'failure'):
                 changes = {'collect_status': 'FAILURE'}
         elif(task_type in ['listing', 'maskword','image', 'video','storage']):
@@ -202,9 +202,9 @@ class ProductHistoryHook:
             elif(task_type == 'listing' and status_type == 'pending'):
                 changes = {'generate_status': 'PENDING'}
             elif(task_type == 'storage' and status_type == 'success'):
-                changes = {'generate_status': 'SUCCESS','publish_status': 'PENDING'}
+                changes = {'generate_status': 'SUCCESS','publish_status': None}
             else:
-                changes = {'generate_status': 'STARTED'}
+                changes = {'generate_status': 'PENDING'}
         elif(task_type in ['upload_img','upload_video','public']):
             process_type = 'publish'
             if(status_type == 'failure'):
@@ -214,7 +214,7 @@ class ProductHistoryHook:
             elif(task_type == 'public' and status_type == 'success'):
                 changes = {'publish_status': 'SUCCESS'}
             else:
-                changes = {'publish_status': 'STARTED'}
+                changes = {'publish_status': 'PENDING'}
         
         
         return {'process_type':process_type,'changes':changes}

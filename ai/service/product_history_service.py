@@ -109,36 +109,6 @@ class ProductHistoryService:
         finally:
             self.session.close()
 
-    def collect_list(self, employee_id: str, platform: str, product_type: str) -> list[dict]:
-        """根据员工ID和平台和产品类型获取近7天采集列表
-        Args:
-            employee_id: 员工ID
-            platform: 平台
-            product_type: 产品类型
-        Returns:
-            list[dict]: 发品历史数据字典列表
-        """
-        try:
-            # 获取当前时间
-            now = datetime.now()
-            # 获取开始时间，减去7天
-            start_time = now - timedelta(days=7)
-
-            results = self.session.query(ProductHistory).filter(
-                ProductHistory.employee_id == employee_id,
-                ProductHistory.dest_platform == platform,
-                ProductHistory.product_type == product_type,
-                ProductHistory.collect_status != None,
-                ProductHistory.created_at >= start_time
-            ).order_by(ProductHistory.created_at.desc()).limit(200)
-            
-            # 在Session关闭前转换为字典列表
-            return [result.to_dict() for result in results]
-        except Exception as e:
-            print(f"Error getting product publish collect list: {str(e)}")
-            return []
-        finally:
-            self.session.close()
 
     def recent_list(self, employee_id: str, platform: str, product_type: str,shop_id: str) -> list[dict]:
         """根据员工ID和平台和产品类型获取最近7天接收列表，并根据开始时间和结束时间过滤
@@ -229,8 +199,8 @@ class ProductHistoryService:
                 # Convert dictionary to JSON string before storing in Text field
                 product_history.generate_product = generate_product
                 product_history.generate_status = 'SUCCESS'
-                product_history.publish_status = 'PENDING'
-                product_history.publish_product = generate_product
+                product_history.publish_status = None
+                product_history.publish_product = None
                 product_history.updated_at = datetime.now()
                 self.session.commit()
                 return True
