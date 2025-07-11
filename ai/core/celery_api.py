@@ -35,15 +35,14 @@ async def publish_tob_product(request: Request, publish_access: dict = Depends(v
             headers={"WWW-Authenticate": "Bearer"},
         )
     product_history = product_history_service.get_by_trace_id(trace_id=trace_id)
-    updated_history = product_history_service.update(trace_id=trace_id,changes={'publish_status':'PENDING'})
-    print(f"updated_history: {updated_history}")
-    if product_history == None or product_history.get("publish_product",None) == None:
+    if product_history == None or product_history.get("generate_product",None) == None:
        raise HTTPException(
             status_code=401,
             detail="Can not find product history with trace_id="+trace_id,
             headers={"WWW-Authenticate": "Bearer"},
         ) 
-    parameters = json.loads(product_history.get("publish_product","{}"))
+    product_history_service.update(trace_id=trace_id,changes={'publish_status':'PENDING'})
+    parameters = json.loads(product_history.get("generate_product","{}"))
     parameters['access'] = publish_access 
 
     return workflow.create_publish_workflow(parameters)
