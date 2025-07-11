@@ -201,6 +201,8 @@ class ProductHistoryHook:
                 changes = {'generate_status': 'FAILURE'}
             elif(task_type == 'listing' and status_type == 'pending'):
                 changes = {'generate_status': 'PENDING'}
+            elif(status_type == 'started'):
+                changes = {'generate_status': 'STARTED'}
             elif(task_type == 'storage' and status_type == 'success'):
                 changes = {'generate_status': 'SUCCESS','publish_status': None}
             else:
@@ -211,6 +213,8 @@ class ProductHistoryHook:
                 changes = {'publish_status': 'FAILURE'}
             elif(task_type == 'upload_img' and status_type == 'pending'):
                 changes = {'publish_status': 'PENDING'}
+            elif(status_type == 'started'):
+                changes = {'publish_status': 'STARTED'}
             elif(task_type == 'public' and status_type == 'success'):
                 changes = {'publish_status': 'SUCCESS'}
             else:
