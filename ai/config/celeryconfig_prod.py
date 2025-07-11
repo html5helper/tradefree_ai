@@ -54,6 +54,10 @@ DIFY_CONFIG = {
         "workflow_id": "fa1c6b8b-b85a-4410-a0e8-ad1a68dffc09",
         "api_key": "app-c7sGD7RM6q8cn4JaPqbk9Pqq"
     },
+    "img_square":{
+        "workflow_id": "adccdb5f-f83c-42b0-bc71-248e4b05ce16",
+        "api_key": "app-xSW7RsIEMZxVVRTG9NKQZJlz"
+    },
     "text2img2download": {
         "workflow_id": "469a5c98-88d9-491d-819b-54c6b0d2cd5f",
         "api_key": "app-2V0Qcu0azc8WHkxgoE7BoYk6"
@@ -61,6 +65,14 @@ DIFY_CONFIG = {
     "img2text2img2download": {
         "workflow_id": "401c549a-f85f-4f8f-ac12-745dd41b2d81",
         "api_key": "app-8ZEQ0dk4CQxvb0u3erw4n2Ea"
+    },
+    "download_image":{
+        "workflow_id": "2a8487c5-86d9-466e-b8f4-879a71eaf44f",
+        "api_key": "app-iEnJxF7WygSFcItxcV7I8yUN"
+    },
+    "img_inpaint":{
+        "workflow_id": "66153121-0883-45ac-9b9d-23670e471838",
+        "api_key": "app-WXlHyJIbJNOEsScbzjnWJdZe"
     },
     "img2video":{
         "workflow_id":"97b580a2-e800-4d92-bd1c-5cc4d6786ad7",

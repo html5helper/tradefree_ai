@@ -76,7 +76,7 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     data = await request.json()
     platform = data.get('platform',None)
     product_type = data.get('product_type',None)
-    shop_id = data.get('shop_id',17)
+    shop_id = data.get('shop_id',None)
     employee_info = access['employee_info']
     employee_id = employee_info['employee_id']
     
@@ -90,9 +90,6 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
             product_publish['collect_product'] = prod_item
         if product_publish.get('generate_product') and product_publish['generate_product'] != "":
             prod_item = json.loads(product_publish['generate_product'])
-            # 如果img_url为数组，则将其转化为逗号分隔的 string
-            if (prod_item.get('img_url') and isinstance(prod_item['img_url'], list)):
-                prod_item['img_url'] = ','.join(prod_item['img_url'])
             product_publish['generate_product'] = prod_item
         if product_publish.get('publish_product') and product_publish['publish_product'] != "":
             prod_item = json.loads(product_publish['publish_product'])
