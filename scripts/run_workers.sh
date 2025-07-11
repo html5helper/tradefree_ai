@@ -28,7 +28,7 @@ workers=(
     "download_image:product_download_image_queue -c 1 -n download_image_worker@%h-download_image"
     "upload_image:product_upload_image_queue -c 2 -n upload_image_worker@%h-upload_image"
     "upload_video:product_upload_video_queue -c 2 -n upload_video_worker@%h-upload_video"
-    "store:product_store_queue -c 1 -n store_worker@%h-store"
+    "store:product_store_queue -c 2 -n store_worker@%h-store"
     "publish:product_public_queue -c 2 -n publish_worker@%h-publish"
 )
 
