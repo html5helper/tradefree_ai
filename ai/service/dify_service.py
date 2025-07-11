@@ -1,5 +1,6 @@
 from ai.business.dify_client import DifyClient
 from ai.config.celeryconfig import DIFY_CONFIG, DIFY_BASE_URL
+import json
 
 class DifyService:
     def __init__(self):
@@ -16,27 +17,16 @@ class DifyService:
     
     def run_task(self,task_name:str,payload:dict) -> dict:
         """Run a dify task and return the output."""
-        # 将paylaod中的所有字段都转化为字符串类型，包括dict,list,tuple,set
-        # for key, value in payload.items():
-        #     if isinstance(value, dict):
-        #         payload[key] = json.dumps(value)
-        #     elif isinstance(value, list):
-        #         payload[key] = json.dumps(value)
-        #     elif isinstance(value, tuple):
-        #         payload[key] = json.dumps(value)
-        #     elif isinstance(value, set):
-        #         payload[key] = json.dumps(value)
-        #     else:
-        #         payload[key] = str(value)
-        # print("dify payload=",payload)
-        # 从配置中获取 workflow_id 和 api_key
+        input = payload.copy()
+        if 'access' in input:
+            input.pop('access')
 
         config = DIFY_CONFIG[task_name]
         # Send the request
         response = self.client.post(
             config['workflow_id'],
             config['api_key'],
-            payload
+            input
         )
         
         # Handle the response
@@ -53,4 +43,72 @@ class DifyService:
             raise ValueError(f"Task execution failed with code {output['code']}: {output}")
         
         return {**payload, **output} 
+    
+    # img_inpaint
+    def image_inpaint(self,payload:dict) -> dict:
+        """Run img_inpaint task with flat input parameters (not wrapped in data field)"""
+        input = payload.copy()
+        if 'access' in input:
+            input.pop('access')
+
+        config = DIFY_CONFIG['img_inpaint']
+        
+        # 为 img_inpaint 工作流创建特殊的请求格式（扁平参数）
+        headers = {
+            'Authorization': f'Bearer {config["api_key"]}',
+            'Content-Type': 'application/json'
+        }
+        payload_special = {
+            "workflow_id": config['workflow_id'],
+            "inputs": input,  # 直接传递输入，不包装在 data 字段中
+            "response_mode": "blocking",
+            "user": "celery_task"
+        }
+        
+        try:
+
+            import requests
+            response = requests.post(
+                f'{DIFY_BASE_URL}/workflows/run',
+                headers=headers,
+                json=payload_special,
+                timeout=900
+            )
+            
+            if response.status_code != 200:
+                response.raise_for_status()
+            
+            response_data = response.json()
+            
+            # 检查响应格式（参考 run_task 的处理方式）
+            if not isinstance(response_data, dict):
+                raise ValueError(f"Invalid response format: {response_data}")
+            
+            if 'data' not in response_data:
+                raise ValueError(f"Missing 'data' in response: {response_data}")
+            
+            if 'outputs' not in response_data['data']:
+                raise ValueError(f"Missing 'outputs' in response data: {response_data['data']}")
+            
+            output = response_data["data"]["outputs"]
+            
+            # 如果output为None，则抛出异常
+            if output is None:
+                raise Exception(f"Dify API returned None output for img_inpaint")
+
+            if 'code' not in output:
+                raise ValueError(f"Missing 'code' in response outputs: {output}")
+                
+            if output['code'] != 200:
+                raise ValueError(f"Task execution failed with code {output['code']}: {output}")
+            
+            return {**payload, **output}
+            
+        except Exception as e:
+            print(f"\n=== Dify API Exception (img_inpaint) ===")
+            print(f"Error: {str(e)}")
+            import traceback
+            print(f"Traceback: {traceback.format_exc()}")
+            print(f"=====================\n")
+            raise
  

@@ -6,31 +6,11 @@ service = DifyService()
 workflow = CeleryWorkflow()
 
 @app.task
-def amz_to_ali_public(data: dict):
+def api_publish_product(data: dict):
     data = workflow.build_payload_taskid(data)
     return service.run_task("publish_product",data)
 
 @app.task
-def amz_to_1688_public(data: dict):
+def test_publish_product(data: dict):
     data = workflow.build_payload_taskid(data)
-    return service.run_task("publish_product",data)
-
-@app.task
-def ali_to_1688_public(data: dict):
-    data = workflow.build_payload_taskid(data)
-    return service.run_task("publish_product",data)
-
-@app.task
-def _1688_to_1688_public(data: dict):
-    data = workflow.build_payload_taskid(data)
-    return service.run_task("publish_product",data)
-
-@app.task
-def ali_to_ali_public(data: dict):
-    data = workflow.build_payload_taskid(data) 
-    return service.run_task("publish_product",data)
-
-@app.task
-def social_to_ali_public(data: dict):
-    data = workflow.build_payload_taskid(data)
-    return service.run_task("publish_product",data)
+    return service.apply(data)

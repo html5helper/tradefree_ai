@@ -9,7 +9,7 @@ class EmployeeCacheService:
     def __init__(self):
         self.redis_client = redis.from_url(employee_catch, decode_responses=True)
         self.cache_prefix = "employee_access:"
-        self.cache_expire = 3600  # 1小时过期
+        self.cache_expire = 3600*24*365  # 1小时过期
 
     def _get_cache_key(self, token: str) -> str:
         """生成缓存键
@@ -106,7 +106,7 @@ class EmployeeCacheService:
                         "platform": str,
                         "category_id": str,
                         "shop_name": str,
-                        "action_flow_id": str
+                        "template_id": str
                     }
                 ]
             }

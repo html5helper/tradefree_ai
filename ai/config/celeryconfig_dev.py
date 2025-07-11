@@ -10,7 +10,6 @@ MYSQL_CONFIG = {
         'password': os.getenv("MYSQL_PASSWORD", "c1234%^5678C"),
         'database': 'celery_dev',
         'charset': 'utf8mb4',
-        # 'auth_plugin': 'mysql_native_password'
     },
     "manager_db": {
         'host': os.getenv("MYSQL_HOST", "127.0.0.1"),
@@ -19,12 +18,9 @@ MYSQL_CONFIG = {
         'password': os.getenv("MYSQL_PASSWORD", "c1234%^5678C"),
         'database': 'tf',
         'charset': 'utf8mb4',
-        # 'auth_plugin': 'mysql_native_password'
     }
 }
 
-# Dify API 配置
-DIFY_BASE_URL = "http://dify.tradefree.ai/v1"
 
 # Redis 配置
 REDIS_HOST = "127.0.0.1"
@@ -65,6 +61,10 @@ DIFY_CONFIG = {
         "workflow_id": "530c3d1e-56de-4e94-ae41-349707cbfb8e",
         "api_key": "app-qbYXlCBIOLvAG5vfmL618BKN"
     },
+    "img_square":{
+        "workflow_id": "43ddbaa8-6454-4f78-974b-6ab87eb578fd",
+        "api_key": "app-MzaXlkvilZkluXAFVuf7d6A7"
+    },
     "text2img2download": {
         "workflow_id": "58a2386c-4743-40cb-ab1f-6cf1611c0997",
         "api_key": "app-HqaViz4DyXoszmUXX7Ln1dxp"
@@ -72,6 +72,14 @@ DIFY_CONFIG = {
     "img2text2img2download": {
         "workflow_id": "15057dc0-bef6-40ef-b745-499c867a61f4",
         "api_key": "app-aHottX9s7ptJQLEeU6SOL1MA"
+    },
+    "download_image":{
+        "workflow_id": "b3312600-9a12-4cdc-9639-9085afe3b772",
+        "api_key": "app-cUVu3yHyHSxkijm2RjBNc7x5"
+    },
+    "img_inpaint":{
+        "workflow_id": "66153121-0883-45ac-9b9d-23670e471838",
+        "api_key": "app-WXlHyJIbJNOEsScbzjnWJdZe"
     },
     "img2video":{
         "workflow_id":"66194caf-3538-44d0-9a97-d72c97051476",

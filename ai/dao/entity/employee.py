@@ -14,8 +14,8 @@ Base = declarative_base()
 #   `created_at` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 #   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
 #   PRIMARY KEY (`id`),
-#   UNIQUE KEY `employee_unique` (`employee_name`)
-# ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+#   UNIQUE KEY `employer_unique` (`employee_name`)
+# ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 class Employee(Base):
     """员工模型
@@ -23,6 +23,7 @@ class Employee(Base):
     属性说明：
     - user_name: 所属用户
     - employee_name: 员工账号
+    - employee_cn_name: 员工姓名
     - employee_token: 员工账号token
     - is_enable: 是否启用
     - created_at: 创建时间
@@ -40,4 +41,4 @@ class Employee(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, comment='更新时间')
 
     def __repr__(self):
-        return f"<Employee(id={self.id}, user_name='{self.user_name}', employee_name='{self.employee_name}', is_enable={self.is_enable})>"
+        return f"<Employee(id={self.id}, user_name='{self.user_name}', employee_name='{self.employee_name}', employee_cn_name='{self.employee_cn_name}', employee_token='{self.employee_token}', is_enable={self.is_enable})>"

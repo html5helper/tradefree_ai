@@ -6,11 +6,11 @@ service = DifyService()
 workflow = CeleryWorkflow()
 
 @app.task
-def normal_filter_maskword(data: dict):
+def normal_storage(data: dict):
     data = workflow.build_payload_taskid(data)
-    return service.run_task("maskword_filter",data)
+    return service.apply(data)
 
 @app.task
-def test_maskword(data: dict):
+def test_storage(data: dict):
     data = workflow.build_payload_taskid(data)
     return service.apply(data)

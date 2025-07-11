@@ -46,7 +46,7 @@ http://localhost:8081/workflow/tasks/retry/71a6f198-6ff1-4204-bf44-75bacdfddb2c 
 -H 'Authorization: Bearer token2_def456'
 
 curl -X POST \
-https://www.tradefree.ai/workflow_dev/tasks/retry/a7029a6e-e5a7-4a45-917c-7fdc879eee73 \
+https://www.tradefree.ai/workflow_dev/tasks/retry/1bf635b0-38bf-4cb6-acd8-d462033c9a42 \
 -H 'Authorization: Bearer token2_def456'
 
 -- 开发环境服务地址
@@ -80,6 +80,3 @@ curl -X POST \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer tiuGlpGYG6olYLBaIfbvsKI7DIUv9Z3J' \
     -d '{"imgs":["https://m.media-amazon.com/images/I/71DZ2v9NLEL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/61MztRfbfTL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/61sWQSYf1KL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/71zC2XGqoKL._AC_SL1500_.jpg"],"product_type":"card","price":"19.90","description":"About this item The Angelique Bach Flower Card Game is a playful and intuitive way to choose the flower elixir or elixirs that suit you. Beautiful box of 38 cards with an explanatory booklet Angelica Bach Flower maps can help us choose the floral elixirs we need. The goal is to find the remedy that corresponds to the negative state of mind that afflicts us. Among these states of mind we can mention: fear, worries, discouragement, uncertainty, etc.;. With these cards, it is easier to pinpoint these states of mind. allows us to recognize the states of being and behavioral patterns that distance us from our true nature. › See more product details","prodid":"https://www.amazon.fr/-/en/Bach-Flower-Cards-ILLUSTRATED-intuitively/dp/B0CN1HKKHP","reference_product_platform":"amazon","title":"Bach Flower Cards - 38 ILLUSTRATED CARDS - Set of 38 cards to intuitively select your Bach flowers","employee":"Alice","published_shop":"ali_shop2"}'
-
-
-    

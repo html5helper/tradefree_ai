@@ -2,14 +2,13 @@ from sqlalchemy.orm import Session
 from typing import Dict, Any, Optional, List
 from ai.dao.entity.employee import Employee
 from ai.dao.entity.employee_access import EmployeeAccess
-from ai.dao.entity.action_flow import ActionFlow
 from ai.dao.entity.user import User
-from ai.dao.db.engine import workflow_engine
+from ai.dao.db.engine import manager_engine
 from ai.service.employee_catch_service import EmployeeCacheService
 
 class EmployeeService:
     def __init__(self):
-        self.session = Session(bind=workflow_engine)
+        self.session = Session(bind=manager_engine)
         self.cache_service = EmployeeCacheService()
 
     def refresh_employee_access_catch(self, employee_id: str) -> bool:
@@ -45,48 +44,37 @@ class EmployeeService:
                 EmployeeAccess.employee_id == employee.id,
                 EmployeeAccess.is_enable == True
             ).all()
-            
-            # 查询相关的工作流模板
-            action_flows = {}
+
+            employee_accesses = []
             for access in accesses:
-                action_flow = self.session.query(ActionFlow).filter(
-                    ActionFlow.id == access.action_flow_id,
-                    ActionFlow.is_enable == True
-                ).first()
-                if action_flow:
-                    action_flows[access.action_flow_id] = action_flow
+                employee_accesses.append(access.to_dict())
+            
+            # 查询相关的发品模板
+            # templates = {}
+            # for access in accesses:
+            #     template = self.session.query(access.template_id).first()
+            #     if template:
+            #         templates[access.template_id] = template
             
             # 构建返回数据
             result = {
-                "user_name": employee.user_name,
-                "user_group": user.user_group or "GENERATE",  # 如果user_group为空，使用默认值
                 "employee_token": employee.employee_token,
                 "user_info": {
-                    "user_name": employee.user_name,
-                    "user_group": user.user_group or "GENERATE",  # 如果user_group为空，使用默认值
+                    "user_id": user.id,
+                    "user_name": user.username,
+                    "user_cn_name": user.user_cn_name,
+                    "user_company": user.company,
+                    "user_group": user.user_group
                 },
                 "employee_info": {
-                    "employee_id": str(employee.id),
+                    "employee_id": employee.id,
                     "employee_name": employee.employee_name,
-                    "employee_cn_name": getattr(employee, 'employee_cn_name', '--')
+                    "employee_cn_name": employee.employee_cn_name,
+                    "employee_token": employee.employee_token
                 },
-                "employee_accesses": []
+                "employee_accesses": employee_accesses,
+                # "templates": templates
             }
-            
-            # 添加访问权限信息
-            for access in accesses:
-                action_flow = action_flows.get(access.action_flow_id)
-                if action_flow:
-                    result["employee_accesses"].append({
-                        "employee_id": str(access.employee_id),
-                        "workflow": access.workflow,
-                        "workflow_name": action_flow.name,
-                        "product_type": access.product_type,
-                        "platform": action_flow.platform,
-                        "category_id": action_flow.category_id,
-                        "shop_name": access.shop_name,
-                        "action_flow_id": str(access.action_flow_id)
-                    })
             
             # 将数据存入缓存
             self.cache_service.set_to_cache(employee.employee_token, result)

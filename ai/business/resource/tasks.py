@@ -6,27 +6,7 @@ service = DifyService()
 workflow = CeleryWorkflow()
 
 @app.task
-def amz_to_ali_src(data: dict):
-    data = workflow.build_payload_taskid(data)
-    return service.apply(data)
-
-@app.task
-def amz_to_1688_src(data: dict):
-    data = workflow.build_payload_taskid(data)
-    return service.apply(data)
-
-@app.task
-def ali_to_1688_src(data: dict):
-    data = workflow.build_payload_taskid(data)
-    return service.apply(data)
-
-@app.task
-def _1688_to_1688_src(data: dict):
-    data = workflow.build_payload_taskid(data)
-    return service.apply(data)
-
-@app.task
-def ali_to_ali_src(data: dict):
+def normal_store_resource(data: dict):
     data = workflow.build_payload_taskid(data)
     return service.apply(data)
 
@@ -48,3 +28,8 @@ def social_to_ali_src(data: dict):
         workflow.create_workflow("social_pages", data_copy)
 
     return total
+
+@app.task
+def test_store_resource(data: dict):
+    data = workflow.build_payload_taskid(data)
+    return service.apply(data)

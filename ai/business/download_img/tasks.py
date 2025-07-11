@@ -5,12 +5,8 @@ from ai.core.celery_workflow import CeleryWorkflow
 service = DifyService()
 workflow = CeleryWorkflow()
 
-@app.task
-def normal_filter_maskword(data: dict):
-    data = workflow.build_payload_taskid(data)
-    return service.run_task("maskword_filter",data)
 
 @app.task
-def test_maskword(data: dict):
+def normal_download_image(data: dict):
     data = workflow.build_payload_taskid(data)
-    return service.apply(data)
+    return service.run_task("download_image",data)

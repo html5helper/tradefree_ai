@@ -1,112 +1,135 @@
 from celery.signals import task_prerun, task_postrun, task_failure, task_retry, task_revoked, task_sent
-from sqlalchemy.orm import sessionmaker
-from ai.core.history.task_event import TaskEvent
-from ai.dao.db.engine import workflow_engine
-from datetime import datetime
-import json
+from ai.core.history.task_event_hook import TaskEventHook
+from ai.core.history.product_history_hook import ProductHistoryHook
 
-Session = sessionmaker(bind=workflow_engine)
 
-def parse_params(event):
-    """解析任务参数"""
-    params = {
-        'src_platform': event.get('reference_product_platform',''),
-        'src_product': event.get('reference_product',event.get('prodid','')),
-        'dest_shop': event.get('dest_shop',''),
-        'dest_product': event.get('dest_product',''),
-        'workflow_name': event.get('workflow_name','')
-    }
-    return params
+task_event_hook = TaskEventHook()
+product_history_hook = ProductHistoryHook()
 
 @task_sent.connect
-def on_task_sent(sender=None, task_id=None, task=None, args=None, kwargs=None, **other):
+def on_task_sent(sender=None, task_id=None, args=None, kwargs=None, **other):
     """任务创建时的初始状态"""
-    session = Session()
     try:
-        event = args[0] if args and isinstance(args[0], dict) else {}
-        trace_id = event.get('trace_id')
-        workflow_name = event.get('workflow_name')
-        employee = event.get('employee','system')
-
-        # params
-        task_params = parse_params(event)
+        task_input = args[0] if args and isinstance(args[0], dict) else {}
+        task_event = task_event_hook.pending(task_id, sender, task_input)
+        if task_event:
+            product_history = product_history_hook.pending(task_event, task_input)
         
-        task_event = TaskEvent(
-            task_id=task_id,
-            task_name=sender,
-            task_owner=employee,
-            task_input=args if args else None,
-            task_kwargs=kwargs if kwargs else None,
-            task_params=json.dumps(task_params),
-            task_status='PENDING',
-            trace_id=trace_id,
-            workflow_name=workflow_name,
-            created_at=datetime.utcnow()
-        )
-        session.add(task_event)
-        session.commit()
     except Exception as e:
-        session.rollback()
         print(f"Error recording task sent: {e}")
-    finally:
-        session.close()
 
 @task_prerun.connect
 def before_task_run(sender=None, task_id=None, task=None, args=None, kwargs=None, **other):
     """任务开始执行时的状态"""
-    session = Session()
     try:
-        history = session.query(TaskEvent).filter_by(task_id=task_id).first()
-        if history:
-            history.task_status = 'STARTED'
-            session.commit()
+        task_input = args[0] if args and isinstance(args[0], dict) else {}
+        task_event = task_event_hook.started(task_id, sender, task_input)
+        if task_event:
+            product_history = product_history_hook.started(task_event, task_input)
+        
     except Exception as e:
-        session.rollback()
         print(f"Error recording task prerun: {e}")
-    finally:
-        session.close()
+
 
 @task_postrun.connect
-def after_task_run(sender=None, task_id=None, retval=None, **other):
-    session = Session()
-    task_params = parse_params(retval) 
-    history = session.query(TaskEvent).filter_by(task_id=task_id).first()
-    if history:
-        history.task_status = 'SUCCESS'
-        history.task_params = json.dumps(task_params)
-        if isinstance(retval, dict):
-            history.task_output = json.dumps(retval)
-        else:
-            history.task_output = str(retval)
-        history.finished_at = datetime.utcnow()
-        session.commit()
-    session.close()
+def after_task_run(sender=None, task_id=None,args=None, retval=None, **other):
+    """任务执行完成后的状态更新"""
+    try:
+        # 添加简单日志确认状态更新被触发
+        if 'storage' in str(sender):
+            print(f"Storage task completed: {task_id}, updating generate_status to SUCCESS")
+        
+        task_input = args[0] if args and isinstance(args[0], dict) else {}
+        
+        # 第一步：更新任务事件状态
+        try:
+            task_event = task_event_hook.success(task_id, sender, task_input,retval)
+            if task_event:
+                print(f"Task event updated successfully for {task_id}")
+            else:
+                print(f"Warning: Task event update returned None for {task_id}")
+        except Exception as e:
+            print(f"Error updating task event for {task_id}: {e}")
+            import traceback
+            traceback.print_exc()
+            return  # 如果任务事件更新失败，不继续处理产品历史
+        
+        # 第二步：更新产品历史状态
+        if task_event:
+            try:
+                product_history = product_history_hook.success(task_event, task_input,retval)
+                if 'storage' in str(sender):
+                    print(f"Storage task status update result")
+                if product_history:
+                    print(f"Product history updated successfully for {task_id}")
+                else:
+                    print(f"Warning: Product history update returned None for {task_id}")
+            except Exception as e:
+                print(f"Error updating product history for {task_id}: {e}")
+                import traceback
+                traceback.print_exc()
+        
+    except Exception as e:
+        print(f"Critical error in task postrun for {task_id}: {e}")
+        import traceback
+        traceback.print_exc()
+
+
 
 @task_failure.connect
-def on_task_failure(sender=None, task_id=None, **other):
-    session = Session()
-    history = session.query(TaskEvent).filter_by(task_id=task_id).first()
-    if history:
-        history.task_status = 'FAILURE'
-        history.finished_at = datetime.utcnow()
-        session.commit()
-    session.close()
+def on_task_failure(sender=None, task_id=None, exception=None, traceback=None, **other):
+    """任务执行失败时的状态更新"""
+    try:
+        print(f"Task failed: {task_id}, exception: {exception}")
+        
+        # 更新任务事件状态为失败
+        try:
+            task_event = task_event_hook.failure(task_id, sender)
+            if task_event:
+                print(f"Task event failure status updated for {task_id}")
+            else:
+                print(f"Warning: Task event failure update returned None for {task_id}")
+        except Exception as e:
+            print(f"Error updating task event failure status for {task_id}: {e}")
+            import traceback
+            traceback.print_exc()
+            return
+        
+        # 更新产品历史状态为失败
+        if task_event:
+            try:
+                product_history = product_history_hook.failure(task_event)
+                if product_history:
+                    print(f"Product history failure status updated for {task_id}")
+                else:
+                    print(f"Warning: Product history failure update returned None for {task_id}")
+            except Exception as e:
+                print(f"Error updating product history failure status for {task_id}: {e}")
+                import traceback
+                traceback.print_exc()
+        
+    except Exception as e:
+        print(f"Critical error in task failure handler for {task_id}: {e}")
+        import traceback
+        traceback.print_exc()
 
 @task_retry.connect
 def on_task_retry(sender=None, task_id=None, **other):
-    session = Session()
-    history = session.query(TaskEvent).filter_by(task_id=task_id).first()
-    if history:
-        history.task_status = 'RETRY'
-        session.commit()
-    session.close()
+    try:
+        task_event = task_event_hook.retry(task_id, sender)
+        if task_event:
+            product_history = product_history_hook.retry(task_event)
+        
+    except Exception as e:
+        print(f"Error recording task retry: {e}")
 
 @task_revoked.connect
 def on_task_revoked(sender=None, task_id=None, **other):
-    session = Session()
-    history = session.query(TaskEvent).filter_by(task_id=task_id).first()
-    if history:
-        history.task_status = 'REVOKED'
-        history.finished_at = datetime.utcnow()
-        session.commit()
-    session.close()
+    try:
+        task_event = task_event_hook.revoked(task_id, sender)
+        if task_event:
+            product_history = product_history_hook.revoked(task_event)
+        
+    except Exception as e:
+        print(f"Error recording task revoked: {e}")
+
