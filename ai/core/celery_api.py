@@ -1,3 +1,4 @@
+from ai.core.logging_patch import patch_uvicorn_logging; patch_uvicorn_logging()
 from fastapi import FastAPI, Request, Depends, HTTPException
 from ai.core.history.task_retry import retry_chain_by_task_id
 from ai.core.celery_workflow import CeleryWorkflow
