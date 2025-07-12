@@ -63,7 +63,7 @@ async def employee_activate(request: Request, employee_info: dict = Depends(veri
     try:
         if not employee_info:
             return {"code": 404, "message": "Employee not found or token is invalid", "data": None}
-        print(f"employee active: {employee_info.employee_info.employee_name}")
+        # print(f"employee active: {employee_info.employee_info.employee_name}")
         
         return {"code": 200, "message": "success", "data": employee_info}
         
@@ -80,7 +80,7 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     shop_id = data.get('shop_id',None)
     employee_info = access['employee_info']
     employee_id = employee_info['employee_id']
-    print(f"product list: {employee_info.employee_info.employee_name}")
+    # print(f"product list: {employee_info.employee_name}")
     
     product_publish_list = product_history_service.recent_list(employee_id=employee_id, platform=platform, product_type=product_type,shop_id=shop_id)
 
