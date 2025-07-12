@@ -234,8 +234,12 @@ worker_max_memory_per_child = 200000  # Worker 子进程最大内存使用量（
 worker_disable_rate_limits = False  # 是否禁用速率限制:False(启用速率限制)
 # worker_send_task_events = True  # 控制是否向监控系统发送任务状态事件(支持 Flower 监控、任务状态跟踪)
 
+# 日志配置
+worker_log_format = '[%(asctime)s: %(levelname)s/%(processName)s] %(message)s'
+
 # 根据环境导入对应的配置
 if ENV == "production":
     from ai.config.celeryconfig_prod import *
 else:
     from ai.config.celeryconfig_dev import *
+
