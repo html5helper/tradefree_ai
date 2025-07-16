@@ -122,7 +122,7 @@ class ProductHistoryService:
         """
         try:
             now = datetime.now()
-            start_time = now - timedelta(days=7)
+            start_time = now - timedelta(days=3)
             start_time_str = start_time.strftime('%Y-%m-%d 00:00:00')
             
             results = self.session.query(ProductHistory).filter(

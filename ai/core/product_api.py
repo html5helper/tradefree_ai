@@ -87,15 +87,15 @@ async def product_list(request: Request, access: dict = Depends(verify_employee_
     # products = []
     template_ids = []
     for product_publish in product_publish_list:
-        if product_publish.get('collect_product') and product_publish['collect_product'] != "":
-            prod_item = json.loads(product_publish['collect_product'])
-            product_publish['collect_product'] = prod_item
+        # if product_publish.get('collect_product') and product_publish['collect_product'] != "":
+        #     prod_item = json.loads(product_publish['collect_product'])
+        product_publish['collect_product'] = None
         if product_publish.get('generate_product') and product_publish['generate_product'] != "":
             prod_item = json.loads(product_publish['generate_product'])
             product_publish['generate_product'] = prod_item
-        if product_publish.get('publish_product') and product_publish['publish_product'] != "":
-            prod_item = json.loads(product_publish['publish_product'])
-            product_publish['publish_product'] = prod_item
+        # if product_publish.get('publish_product') and product_publish['publish_product'] != "":
+        #     prod_item = json.loads(product_publish['publish_product'])
+        product_publish['publish_product'] = None
         if(not product_publish.get('template_id') in template_ids):
             template_ids.append(product_publish['template_id'])
 
