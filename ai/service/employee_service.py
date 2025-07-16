@@ -48,6 +48,23 @@ class EmployeeService:
             employee_accesses = []
             for access in accesses:
                 employee_accesses.append(access.to_dict())
+            temp = EmployeeAccess()
+            temp.user_id = user.id
+            temp.employee_id = employee.id
+            temp.workflow = "amz_product_verify"
+            temp.workflow_name = "亚马逊关键词有效性验证"
+            temp.src_platform = "amz"
+            temp.dest_platform = "sys"
+            temp.product_type = "verify"
+            temp.shop_id = None
+            temp.shop_name = None
+            temp.category_id = None
+            temp.template_id = None
+            temp.is_enable = True
+            temp.created_at = datetime.now()
+            temp.updated_at = datetime.now()
+
+            employee_accesses.append(temp)
             
             # 查询相关的发品模板
             # templates = {}

@@ -11,6 +11,11 @@ def normal_generate_listing(data: dict):
     return service.run_task("product_listing",data)
 
 @app.task
+def normal_verify_listing(data: dict):
+    data = workflow.build_payload_taskid(data)
+    return service.apply(data)
+
+@app.task
 def test_listing(data: dict):
     data = workflow.build_payload_taskid(data)
     return service.apply(data)
