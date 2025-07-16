@@ -52,10 +52,10 @@ class EmployeeService:
             temp = EmployeeAccess()
             temp.user_id = user.id
             temp.employee_id = employee.id
-            temp.workflow = "amz_product_verify"
-            temp.workflow_name = "亚马逊关键词有效性验证"
-            temp.src_platform = "amz"
-            temp.dest_platform = "sys"
+            temp.workflow = "verify_to_verify"
+            temp.workflow_name = "关键词有效性验证"
+            temp.src_platform = "verify"
+            temp.dest_platform = "verify"
             temp.product_type = "verify"
             temp.shop_id = None
             temp.shop_name = None

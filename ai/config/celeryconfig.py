@@ -145,7 +145,7 @@ task_routes = {
     },
 }
 # 链式工作流配置
-AMZ_VERIFY_WORKFLOW_CHAIN = [
+VERIFY_VERIFY_WORKFLOW_CHAIN = [
     'ai.business.resource.tasks.normal_store_resource',
     'ai.business.listing.tasks.normal_verify_listing',
     'ai.business.storage.tasks.normal_storage',
@@ -173,7 +173,7 @@ TOC_GENERATE_WORKFLOW_CHAIN = [
 ]
 CHAIN_MAP = {
     #商品有效性验证工作流
-    "amz_product_verify": AMZ_VERIFY_WORKFLOW_CHAIN,
+    "verify_to_verify": VERIFY_VERIFY_WORKFLOW_CHAIN,
     # 常规迁移工作流
     "amz_copy_ali": [
         'ai.business.resource.tasks.normal_store_resource',
