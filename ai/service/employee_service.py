@@ -57,10 +57,10 @@ class EmployeeService:
             temp.src_platform = "verify"
             temp.dest_platform = "verify"
             temp.product_type = "verify"
-            temp.shop_id = None
-            temp.shop_name = None
-            temp.category_id = None
-            temp.template_id = None
+            temp.shop_id = 10000000
+            temp.shop_name = "关键词验证"
+            temp.category_id = 10000000
+            temp.template_id = 10000000
             temp.is_enable = True
             temp.created_at = datetime.now()
             temp.updated_at = datetime.now()
