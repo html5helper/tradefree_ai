@@ -5,6 +5,7 @@ from ai.dao.entity.employee_access import EmployeeAccess
 from ai.dao.entity.user import User
 from ai.dao.db.engine import manager_engine
 from ai.service.employee_catch_service import EmployeeCacheService
+from datetime import datetime
 
 class EmployeeService:
     def __init__(self):
