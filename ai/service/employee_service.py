@@ -65,7 +65,7 @@ class EmployeeService:
             temp.created_at = datetime.now()
             temp.updated_at = datetime.now()
 
-            employee_accesses.append(temp.to_dict)
+            employee_accesses.append(temp.to_dict())
             
             # 查询相关的发品模板
             # templates = {}
