@@ -59,6 +59,12 @@ curl -X POST \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer tiuGlpGYG6olYLBaIfbvsKI7DIUv9Z3J'
 
+
+    curl -X POST \
+    https://www.tradefree.ai/workflow/employee/refresh_all \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer tiuGlpGYG6olYLBaIfbvsKI7DIUv9Z3J'
+
 curl -X POST \
     http://127.0.0.1:8081/workflow/image/inpaint \
     -H 'Content-Type: application/json' \

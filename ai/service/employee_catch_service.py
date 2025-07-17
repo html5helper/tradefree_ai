@@ -1,7 +1,7 @@
 import redis
 import json
 from typing import Dict, Any, Optional
-from ai.config.celeryconfig_dev import employee_catch
+from ai.config.celeryconfig import employee_catch
 
 class EmployeeCacheService:
     """员工信息缓存服务"""
