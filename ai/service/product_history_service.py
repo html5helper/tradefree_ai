@@ -122,7 +122,7 @@ class ProductHistoryService:
         """
         try:
             now = datetime.now()
-            start_time = now - timedelta(days=3)
+            start_time = now - timedelta(days=10)
             start_time_str = start_time.strftime('%Y-%m-%d 00:00:00')
             
             results = self.session.query(ProductHistory).filter(
@@ -131,7 +131,7 @@ class ProductHistoryService:
                 ProductHistory.product_type == product_type,
                 ProductHistory.shop_id == shop_id,
                 ProductHistory.created_at >= start_time_str
-            ).order_by(ProductHistory.created_at.desc()).limit(300)
+            ).order_by(ProductHistory.created_at.desc()).limit(500)
             
             # 在Session关闭前转换为字典列表
             return [result.to_dict() for result in results]
