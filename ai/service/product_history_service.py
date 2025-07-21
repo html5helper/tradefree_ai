@@ -188,6 +188,34 @@ class ProductHistoryService:
         finally:
             self.session.close()
 
+    def verify_success(self, trace_id: str,tags: list[str]) -> bool:
+        """根据 trace_id 更新发品历史
+        
+        Args:
+            trace_id: Product History trace_id
+            tags: 标签列表
+        """
+        try:
+            product_history = self.session.query(ProductHistory).filter_by(trace_id=trace_id).first()
+            generate_product = product_history.generate_product
+            generate_product_json = json.loads(generate_product)
+            generate_product_json['verify_tags'] = json.dumps(tags)
+            generate_product = json.dumps(generate_product_json)
+            if product_history:
+                product_history.publish_status = 'SUCCESS'
+                product_history.publish_product = generate_product
+                product_history.updated_at = datetime.now()
+                self.session.commit()
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.session.rollback()
+            print(f"Error updating product history publish success: {str(e)}")
+            return False
+        finally:
+            self.session.close()
+
     def update_generate_product_by_trace_id(self, trace_id: str, generate_product: str) -> bool:
         """根据 trace_id 更新发品历史
         

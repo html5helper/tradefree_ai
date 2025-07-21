@@ -127,6 +127,18 @@ async def product_publish_success(request: Request, access: dict = Depends(verif
     result = product_history_service.publish_success(trace_id,dest_product_id)
     return {"code": 200, "message": "success","data":{"trace_id":trace_id,"result":result}}
 
+#tag验证成功通知
+@api.post("/workflow/product/verify_success")
+async def product_verify_success(request: Request, access: dict = Depends(verify_employee_token)):
+    """Verify Product Success By trace_id"""
+    data = await request.json()
+    trace_id = data.get('trace_id',None)
+    tags = data.get('tags','')
+    tags_list = tags.split(',')
+   
+    result = product_history_service.verify_success(trace_id,tags_list)
+    return {"code": 200, "message": "success","data":{"trace_id":trace_id,"result":result}}
+
 #保存编辑后的产品信息（主要是图片）
 @api.post("/workflow/product/update_generate_product")
 async def product_update_generate_product(request: Request, access: dict = Depends(verify_employee_token)):
