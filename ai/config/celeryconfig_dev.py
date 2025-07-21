@@ -52,6 +52,10 @@ DIFY_CONFIG = {
         "workflow_id": "b7b7e631-e5c0-4fa9-b105-17d2137f0b88",
         "api_key": "app-H0aaAlTrthGMrabomhiVGDVl"
     },
+    "check_hotwords": {
+        "workflow_id": "8a086d07-aec1-4626-8b3d-4f68fabf8d9c",
+        "api_key": "app-4KWMzLNpy5zpI8OnQqHHIXzo"
+    },
     "maskword_filter": {
         "workflow_id": "530c3d1e-56de-4e94-ae41-349707cbfb8e",
         "api_key": "app-qbYXlCBIOLvAG5vfmL618BKN"
