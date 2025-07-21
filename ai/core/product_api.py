@@ -134,6 +134,8 @@ async def product_verify_success(request: Request, access: dict = Depends(verify
     data = await request.json()
     trace_id = data.get('trace_id',None)
     tags = data.get('tags','')
+    print(f"trace_id: {trace_id}, tags: {tags}")
+
     tags_list = tags.split(',')
    
     result = product_history_service.verify_success(trace_id,tags_list)
