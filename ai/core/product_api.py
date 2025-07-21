@@ -135,10 +135,8 @@ async def product_verify_success(request: Request, access: dict = Depends(verify
     trace_id = data.get('trace_id',None)
     tags = data.get('tags','')
     print(f"trace_id: {trace_id}, tags: {tags}")
-
-    tags_list = tags.split(',')
    
-    result = product_history_service.verify_success(trace_id,tags_list)
+    result = product_history_service.verify_success(trace_id,tags)
     return {"code": 200, "message": "success","data":{"trace_id":trace_id,"result":result}}
 
 #保存编辑后的产品信息（主要是图片）
