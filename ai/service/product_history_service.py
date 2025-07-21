@@ -124,6 +124,8 @@ class ProductHistoryService:
             now = datetime.now()
             start_time = now - timedelta(days=10)
             start_time_str = start_time.strftime('%Y-%m-%d 00:00:00')
+
+            print(f"employee_id: {employee_id}, platform: {platform}, product_type: {product_type}, shop_id: {shop_id}, start_time_str: {start_time_str}")
             
             results = self.session.query(ProductHistory).filter(
                 ProductHistory.employee_id == employee_id,
