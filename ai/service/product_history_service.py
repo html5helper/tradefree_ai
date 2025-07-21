@@ -195,6 +195,7 @@ class ProductHistoryService:
             trace_id: Product History trace_id
             tags: 标签列表
         """
+        print(f"trace_id: {trace_id}, tags: {tags}")
         try:
             product_history = self.session.query(ProductHistory).filter_by(trace_id=trace_id).first()
             generate_product = product_history.generate_product
