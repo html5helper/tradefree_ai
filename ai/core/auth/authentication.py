@@ -146,6 +146,7 @@ async def verify_employee_access_token(request: Request, credentials: HTTPAuthor
 
     have_access = False
     employee_access = None
+    print(f"workflow: {workflow}, product_type: {product_type}, shop_id: {shop_id}")
     for item in access:
         if item.get("workflow") == workflow and item.get("product_type") == product_type and item.get("shop_id") == shop_id:
             have_access = True
