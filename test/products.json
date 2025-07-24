@@ -40,8 +40,13 @@ curl -X POST \
     -H 'Authorization: Bearer tiuGlpGYG6olYLBaIfbvsKI7DIUv9Z3J'
 
 
-    curl -X POST \
+curl -X POST \
     https://www.tradefree.ai/workflow/employee/refresh_all \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer tiuGlpGYG6olYLBaIfbvsKI7DIUv9Z3J'
+
+curl -X POST \
+    http://admin.tradefree.ai/workflow/employee/refresh_all \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer tiuGlpGYG6olYLBaIfbvsKI7DIUv9Z3J'
 

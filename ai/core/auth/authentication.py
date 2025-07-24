@@ -139,6 +139,7 @@ async def verify_employee_access_token(request: Request, credentials: HTTPAuthor
     workflow = event.get("workflow", None)
     product_type = event.get("product_type", None)
     shop_id = event.get("shop_id", None)
+    shop_id = int(shop_id)
 
     user_info = catch_info.get("user_info", {})
     access = catch_info.get("employee_accesses", [])
