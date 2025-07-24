@@ -2,6 +2,7 @@ from fastapi import HTTPException, Security, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from ai.config.celeryconfig import USER_TOKEN_CONFIG
 from ai.service.employee_catch_service import EmployeeCacheService
+from datetime import datetime, timedelta
 
 # 创建安全依赖
 security = HTTPBearer()
@@ -139,17 +140,23 @@ async def verify_employee_access_token(request: Request, credentials: HTTPAuthor
     workflow = event.get("workflow", None)
     product_type = event.get("product_type", None)
     shop_id = event.get("shop_id", None)
+    shop_name = event.get("shop_name", None)
     shop_id = int(shop_id)
 
     user_info = catch_info.get("user_info", {})
     access = catch_info.get("employee_accesses", [])
     employee_info = catch_info.get("employee_info", {})
+    employee_name = employee_info.get("employee_name", "")
+
+    now = datetime.now()
+    start_time = now - timedelta(days=10)
+    start_time_str = start_time.strftime('%Y-%m-%d 00:00:00')
+
+    print(f"{start_time_str}:: employee_name: {employee_name}, workflow: {workflow}, product_type: {product_type}, shop_name: {shop_name}")
 
     have_access = False
     employee_access = None
-    print(f"workflow: {workflow}, product_type: {product_type}, shop_id: {shop_id}")
     for item in access:
-        print(f"item: {item}")
         if item.get("workflow") == workflow and item.get("product_type") == product_type and item.get("shop_id") == shop_id:
             have_access = True
             employee_access =  {**user_info, **employee_info, **item}
