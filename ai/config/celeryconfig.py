@@ -190,6 +190,10 @@ CHAIN_MAP = {
     # ToC   智能迁移工作流_浏览器插件发布
     "taobao_to_jd_plugin": TOC_GENERATE_WORKFLOW_CHAIN,
     "1688_to_jd_plugin": TOC_GENERATE_WORKFLOW_CHAIN,
+    "taobao_to_pdd_plugin": TOC_GENERATE_WORKFLOW_CHAIN,
+    "1688_to_pdd_plugin": TOC_GENERATE_WORKFLOW_CHAIN,
+    "pdd_to_pdd_plugin": TOC_GENERATE_WORKFLOW_CHAIN,
+    "pdd_to_jd_plugin": TOC_GENERATE_WORKFLOW_CHAIN,
         # "social_total": [
     #     'ai.business.resource.tasks.normal_store_resource'
     # ],
