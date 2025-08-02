@@ -165,7 +165,6 @@ async def retry_product_task(request: Request,access: dict = Depends(verify_empl
     """Retry a failed task and its downstream tasks"""
     data = await request.json()
     task_id = data.get('task_id',None)
-    print(f"retry_product_task: {task_id}")
     return {"task_id": retry_chain_by_task_id(task_id)}
 
 #图片修复

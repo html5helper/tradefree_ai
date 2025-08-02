@@ -36,9 +36,7 @@ class TaskEventService:
             dict: 任务事件数据字典
         """
         try:
-            print(f"Getting task event for task_id: {task_id}")
             result = self.session.query(TaskEvent).filter_by(task_id=task_id).first()
-            print(f"Result: {result}")
             if result:
                 # 在Session关闭前转换为字典
                 return result.to_dict()
