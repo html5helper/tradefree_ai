@@ -4,8 +4,8 @@ import os
 # MySQL 配置
 MYSQL_CONFIG = {
     "workflow_db": {
-        'host': os.getenv("MYSQL_HOST", "47.253.40.62"),
-        # 'host': os.getenv("MYSQL_HOST", "127.0.0.1"),
+        # 'host': os.getenv("MYSQL_HOST", "47.253.40.62"),
+        'host': os.getenv("MYSQL_HOST", "127.0.0.1"),
         'port': os.getenv("MYSQL_PORT", "3306"),
         'user':  os.getenv("MYSQL_USER", "tradefree"),
         'password': os.getenv("MYSQL_PASSWORD", "c1234%^5678C"),
@@ -13,8 +13,8 @@ MYSQL_CONFIG = {
         'charset': 'utf8mb4',
     },
     "manager_db": {
-        'host': os.getenv("MYSQL_HOST", "47.253.40.62"),
-        # 'host': os.getenv("MYSQL_HOST", "127.0.0.1"),
+        # 'host': os.getenv("MYSQL_HOST", "47.253.40.62"),
+        'host': os.getenv("MYSQL_HOST", "127.0.0.1"),
         'port': os.getenv("MYSQL_PORT", "3306"),
         'user':  os.getenv("MYSQL_USER", "tradefree"),
         'password': os.getenv("MYSQL_PASSWORD", "c1234%^5678C"),
