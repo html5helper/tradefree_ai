@@ -8,6 +8,7 @@ import json
 task_event_service = TaskEventService()
 
 def retry_chain_by_task_id(task_id: str):
+    print(f"retry_chain_by_task_id: {task_id}")
     task_event = task_event_service.get(task_id)
     if not task_event:
         raise HTTPException(status_code=404, detail="Task history not found")
