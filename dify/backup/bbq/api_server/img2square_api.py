@@ -11,6 +11,15 @@ from urllib.parse import urlparse
 from flask import request, jsonify
 from config import output_dir
 
+PROXY_USERNAME = os.getenv('PROXY_USERNAME')
+PROXY_PASSWORD = os.getenv('PROXY_PASSWORD')
+PROXY_URL = os.getenv('PROXY_URL')
+PROXY = f"http://{PROXY_USERNAME}:{PROXY_PASSWORD}@{PROXY_URL}"
+PROXIES = {
+    'http': PROXY,
+    'https': PROXY
+}
+
 # 定义输出目录
 # output_dir = os.environ.get("OUTPUT_DIR", "/tmp")
 
@@ -95,10 +104,10 @@ def convert_to_square(image_path, output_path=None, background_color=(255, 255, 
         logging.info(f"图片尺寸: {width}x{height}")
 
         # 检查图片是否已经是正方形
-        if width == height:
-            logging.info(f"图片已经是正方形，无需转换: {image_path} ({width}x{height})")
-            # 如果指定了输出路径且与输入不同，则复制文件
-            return "xxx"
+        # if width == height:
+        #     logging.info(f"图片已经是正方形，无需转换: {image_path} ({width}x{height})")
+        #     # 如果指定了输出路径且与输入不同，则复制文件
+        #     return "xxx"
 
         # 确定正方形边长（取长宽中较大的值）
         square_size = max(width, height)
@@ -287,7 +296,7 @@ def _collect_images_from_urls(image_urls, temp_dir):
 
                 # 使用随机请求头发送请求
                 logging.debug(f"发送GET请求到 {url}")
-                response = requests.get(url, headers=headers, timeout=30, stream=True)
+                response = requests.get(url, headers=headers, timeout=30, stream=True, proxies=PROXIES)
                 response.raise_for_status()
 
                 # 获取文件名
