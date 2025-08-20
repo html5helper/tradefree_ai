@@ -10,6 +10,13 @@ import shutil
 from urllib.parse import urlparse
 from flask import request, jsonify
 from config import output_dir
+from tools.upload2oss import OSSUploader
+
+# 初始化 OSS 上传器
+uploader = OSSUploader(
+    endpoint='https://oss-cn-shenzhen.aliyuncs.com',  # 根据实际情况修改
+    bucket_name='tradefree-images'  # 使用实际的bucket名称
+)
 
 PROXY_USERNAME = os.getenv('PROXY_USERNAME')
 PROXY_PASSWORD = os.getenv('PROXY_PASSWORD')
@@ -483,7 +490,6 @@ def process_images_to_square_route():
         for i, image_path in enumerate(image_paths):
             try:
                 # 生成输出文件名
-                # output_filename = f"square_{i:03d}_{os.path.basename(image_path)}"
                 output_filename = f"square_{os.path.basename(image_path)}"
                 output_path = os.path.join(output_dir, run_id, output_filename)
                 os.makedirs(os.path.dirname(output_path), exist_ok=True)
@@ -498,9 +504,29 @@ def process_images_to_square_route():
                 if converted_path == "xxx":
                     output_urls.append(image_urls[i])
                 else:
-                    output_urls.append(
-                        f"http://dify.html5core.com/svg/{run_id}/{output_filename}"
-                    )
+                    # 上传到 OSS 并获取 HTTP URL
+                    try:
+                        # 生成 OSS 路径
+                        from datetime import datetime
+                        date_str = datetime.now().strftime('%Y%m%d')
+                        oss_path = f"comfyui/{date_str}/img2square/{run_id}/{output_filename}"
+                        
+                        # 上传文件并获取 URL
+                        upload_result = uploader.upload_file_with_url(
+                            local_file_path=converted_path,
+                            oss_file_path=oss_path
+                        )
+                        
+                        # 将 HTTP URL 添加到结果列表
+                        output_urls.append(upload_result['http_url'])
+                        logging.info(f"图片已上传到 OSS: {upload_result['http_url']}")
+                        
+                    except Exception as e:
+                        logging.error(f"OSS 上传失败 {converted_path}: {e}")
+                        # 如果 OSS 上传失败，回退到原来的 HTTP 地址
+                        output_urls.append(
+                            f"http://dify.html5core.com/svg/{run_id}/{output_filename}"
+                        )
             except Exception as e:
                 logging.error(f"处理图片失败 {image_path}: {e}")
                 continue
@@ -541,7 +567,8 @@ def process_images_to_square_route():
 # 使用示例：
 if __name__ == "__main__":
     # 示例用法1：转换单个图片
-    convert_to_square("/Users/qinbinbin/Desktop/tttt.jpg", "output.jpg")
+    x = convert_to_square("/Users/huahua/Desktop/bbq/lbuicdnn.png", "output.jpg")
+    print(x)
 
     # 示例用法2：批量转换文件夹中的所有图片
     # batch_convert_to_square("input_images", "output_images")
