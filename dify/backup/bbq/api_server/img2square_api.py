@@ -7,6 +7,8 @@ import random
 import time
 import logging
 import shutil
+from datetime import datetime
+from urllib.parse import quote
 from urllib.parse import urlparse
 from flask import request, jsonify
 from config import output_dir
@@ -507,7 +509,6 @@ def process_images_to_square_route():
                     # 上传到 OSS 并获取 HTTP URL
                     try:
                         # 生成 OSS 路径
-                        from datetime import datetime
                         date_str = datetime.now().strftime('%Y%m%d')
                         oss_path = f"comfyui/{date_str}/img2square/{run_id}/{output_filename}"
                         
@@ -518,7 +519,7 @@ def process_images_to_square_route():
                         )
                         
                         # 将 HTTP URL 添加到结果列表
-                        output_urls.append(upload_result['http_url'])
+                        output_urls.append(quote(upload_result['http_url'], safe=':/?=&'))
                         logging.info(f"图片已上传到 OSS: {upload_result['http_url']}")
                         
                     except Exception as e:
