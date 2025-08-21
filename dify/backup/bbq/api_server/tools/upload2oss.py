@@ -30,6 +30,7 @@ class OSSUploader:
         # 保存endpoint和bucket_name用于生成HTTP地址
         self.endpoint = endpoint
         self.bucket_name = bucket_name
+        self.host = os.getenv('OSS_HOST') or "http://image.html5core.com"
         
     def get_file_url(self, oss_file_path: str) -> str:
         """
@@ -41,8 +42,10 @@ class OSSUploader:
         Returns:
             str: 文件的HTTP访问地址
         """
+        if self.host.startswith('http'):
+            base_url = self.host
         # 处理endpoint格式
-        if self.endpoint.startswith('http'):
+        elif self.endpoint.startswith('http'):
             # 如果endpoint已包含协议，替换为bucket域名格式
             base_url = self.endpoint.replace('://', f'://{self.bucket_name}.')
         else:
@@ -170,11 +173,17 @@ url = uploader.upload_bytes(
 if __name__ == '__main__':
     # 初始化 OSS 上传器
     uploader = OSSUploader(
-        endpoint='https://oss-us-east-1.aliyuncs.com',  # 根据实际情况修改
-        bucket_name='tradefree'  # 使用实际的bucket名称
+        endpoint='https://oss-cn-shenzhen.aliyuncs.com',  # 根据实际情况修改
+        bucket_name='tradefree-images'  # 使用实际的bucket名称
     )
+    headers = {
+    # 'Content-Type': 'image/jpeg',
+    'Content-Type': 'image/png',
+    'Content-Disposition': 'inline'
+    }
     url = uploader.upload_file_with_url(
         local_file_path='/Users/huahua/Desktop/bbq/lbuicdnn.png',
-        oss_file_path='images/test.jpg'
+        oss_file_path='images/test2.jpg',
+        # headers=headers
     )
     print(url)
