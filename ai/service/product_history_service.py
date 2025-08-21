@@ -188,19 +188,20 @@ class ProductHistoryService:
         finally:
             self.session.close()
 
-    def verify_success(self, trace_id: str,tags: str) -> bool:
+    def verify_success(self, trace_id: str,tags: str,new_amz_asin: str) -> bool:
         """根据 trace_id 更新发品历史
         
         Args:
             trace_id: Product History trace_id
             tags: 标签列表
         """
-        print(f"trace_id: {trace_id}, tags: {tags}")
+        print(f"trace_id: {trace_id}, tags: {tags}, new_amz_asin: {new_amz_asin}")
         try:
             product_history = self.session.query(ProductHistory).filter_by(trace_id=trace_id).first()
             generate_product = product_history.generate_product
             generate_product_json = json.loads(generate_product)
             generate_product_json['verify_tags'] = tags
+            generate_product_json['new_amz_asin'] = new_amz_asin
             generate_product = json.dumps(generate_product_json)
             if product_history:
                 product_history.publish_status = 'SUCCESS'

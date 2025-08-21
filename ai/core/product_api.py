@@ -134,9 +134,10 @@ async def product_verify_success(request: Request, access: dict = Depends(verify
     data = await request.json()
     trace_id = data.get('trace_id',None)
     tags = data.get('tags','')
-    print(f"trace_id: {trace_id}, tags: {tags}")
+    new_amz_asin = data.get('new_amz_asin','')
+    # print(f"trace_id: {trace_id}, tags: {tags}, new_amz_asin: {new_amz_asin}")
    
-    result = product_history_service.verify_success(trace_id,tags)
+    result = product_history_service.verify_success(trace_id,tags,new_amz_asin)
     return {"code": 200, "message": "success","data":{"trace_id":trace_id,"result":result}}
 
 #保存编辑后的产品信息（主要是图片）
