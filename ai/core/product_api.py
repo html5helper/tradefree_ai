@@ -132,6 +132,7 @@ async def product_publish_success(request: Request, access: dict = Depends(verif
 async def product_verify_success(request: Request, access: dict = Depends(verify_employee_token)):
     """Verify Product Success By trace_id"""
     data = await request.json()
+    print(f"product verify success: {data}")
     trace_id = data.get('trace_id',None)
     tags = data.get('tags','')
     new_amz_asin = data.get('new_amz_asin','')
