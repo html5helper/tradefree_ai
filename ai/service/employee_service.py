@@ -59,7 +59,7 @@ class EmployeeService:
                     'id':10000000
                 },
                 {
-                    'src_platform':'veryfy_amz',
+                    'src_platform':'verify_amz',
                     'dest_platform':'verify_amz',
                     'template_id':10000000,
                     'id':10000000
