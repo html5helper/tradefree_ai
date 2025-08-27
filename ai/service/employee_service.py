@@ -51,21 +51,42 @@ class EmployeeService:
                 employee_accesses.append(access.to_dict())
 
             # 添加关键词有效性验证的访问权限
-            src_platforms = ['amz','jd','taobao']
-            for item in src_platforms:
+            platform_map = [
+                {
+                    'src_platform':'verify',
+                    'dest_platform':'verify',
+                    'template_id':10000000
+                },
+                {
+                    'src_platform':'amz',
+                    'dest_platform':'verify_amz',
+                    'template_id':10000000
+                },
+                {
+                    'src_platform':'taobao',
+                    'dest_platform':'verify_taobao',
+                    'template_id':10000019
+                },
+                {
+                    'src_platform':'jd',
+                    'dest_platform':'verify_jd',
+                    'template_id':10000020
+                }
+            ]
+            for item in platform_map:
                 temp = EmployeeAccess()
                 temp.id = 10000000
                 temp.user_id = user.id
                 temp.employee_id = employee.id
                 temp.workflow = "verify_to_verify"
                 temp.workflow_name = "关键词有效性验证"
-                temp.src_platform = item
-                temp.dest_platform = "verify"
+                temp.src_platform = item.src_platform
+                temp.dest_platform = item.dest_platform
                 temp.product_type = "verify"
                 temp.shop_id = 10000000
                 temp.shop_name = "关键词验证"
                 temp.category_id = 10000000
-                temp.template_id = 10000000
+                temp.template_id = item.template_id
                 temp.is_enable = True
                 temp.created_at = datetime.now()
                 temp.updated_at = datetime.now()
