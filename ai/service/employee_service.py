@@ -58,17 +58,17 @@ class EmployeeService:
                     'template_id':10000000
                 },
                 {
-                    'src_platform':'amz',
+                    'src_platform':'veryfy_amz',
                     'dest_platform':'verify_amz',
                     'template_id':10000000
                 },
                 {
-                    'src_platform':'taobao',
+                    'src_platform':'verify_taobao',
                     'dest_platform':'verify_taobao',
                     'template_id':10000019
                 },
                 {
-                    'src_platform':'jd',
+                    'src_platform':'verify_jd',
                     'dest_platform':'verify_jd',
                     'template_id':10000020
                 }
@@ -80,13 +80,13 @@ class EmployeeService:
                 temp.employee_id = employee.id
                 temp.workflow = "verify_to_verify"
                 temp.workflow_name = "关键词有效性验证"
-                temp.src_platform = item.src_platform
-                temp.dest_platform = item.dest_platform
+                temp.src_platform = item['src_platform']
+                temp.dest_platform = item['dest_platform']
                 temp.product_type = "verify"
                 temp.shop_id = 10000000
                 temp.shop_name = "关键词验证"
                 temp.category_id = 10000000
-                temp.template_id = item.template_id
+                temp.template_id = item['template_id']
                 temp.is_enable = True
                 temp.created_at = datetime.now()
                 temp.updated_at = datetime.now()
