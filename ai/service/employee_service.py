@@ -55,27 +55,31 @@ class EmployeeService:
                 {
                     'src_platform':'verify',
                     'dest_platform':'verify',
-                    'template_id':10000000
+                    'template_id':10000000,
+                    'id':10000000
                 },
                 {
                     'src_platform':'veryfy_amz',
                     'dest_platform':'verify_amz',
-                    'template_id':10000000
+                    'template_id':10000000,
+                    'id':10000000
                 },
                 {
                     'src_platform':'verify_taobao',
                     'dest_platform':'verify_taobao',
-                    'template_id':10000019
+                    'template_id':10000019,
+                    'id':10000019
                 },
                 {
                     'src_platform':'verify_jd',
                     'dest_platform':'verify_jd',
-                    'template_id':10000020
+                    'template_id':10000020,
+                    'id':10000020
                 }
             ]
             for item in platform_map:
                 temp = EmployeeAccess()
-                temp.id = 10000000
+                temp.id = item['id']
                 temp.user_id = user.id
                 temp.employee_id = employee.id
                 temp.workflow = "verify_to_verify"
