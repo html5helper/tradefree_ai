@@ -55,24 +55,28 @@ class EmployeeService:
                 {
                     'src_platform':'verify',
                     'dest_platform':'verify',
+                    'workflow':'verify_to_verify',
                     'template_id':10000000,
                     'id':10000000
                 },
                 {
                     'src_platform':'verify_amz',
                     'dest_platform':'verify_amz',
+                    'workflow':'amz_to_verify',
                     'template_id':10000000,
                     'id':10000000
                 },
                 {
                     'src_platform':'verify_taobao',
                     'dest_platform':'verify_taobao',
+                    'workflow':'taobao_to_verify',
                     'template_id':10000019,
                     'id':10000019
                 },
                 {
                     'src_platform':'verify_jd',
                     'dest_platform':'verify_jd',
+                    'workflow':'jd_to_verify',
                     'template_id':10000020,
                     'id':10000020
                 }
@@ -82,7 +86,7 @@ class EmployeeService:
                 temp.id = item['id']
                 temp.user_id = user.id
                 temp.employee_id = employee.id
-                temp.workflow = "verify_to_verify"
+                temp.workflow = item['workflow']
                 temp.workflow_name = "关键词有效性验证"
                 temp.src_platform = item['src_platform']
                 temp.dest_platform = item['dest_platform']

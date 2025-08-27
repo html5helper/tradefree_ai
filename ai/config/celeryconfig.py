@@ -174,6 +174,9 @@ TOC_GENERATE_WORKFLOW_CHAIN = [
 CHAIN_MAP = {
     #商品有效性验证工作流
     "verify_to_verify": VERIFY_VERIFY_WORKFLOW_CHAIN,
+    "amz_to_verify": VERIFY_VERIFY_WORKFLOW_CHAIN,
+    "taobao_to_verify": VERIFY_VERIFY_WORKFLOW_CHAIN,
+    "jd_to_verify": VERIFY_VERIFY_WORKFLOW_CHAIN,
     # 常规迁移工作流
     "amz_copy_ali": [
         'ai.business.resource.tasks.normal_store_resource',
