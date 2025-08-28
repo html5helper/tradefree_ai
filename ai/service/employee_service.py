@@ -52,13 +52,13 @@ class EmployeeService:
 
             # 添加关键词有效性验证的访问权限
             platform_map = [
-                {
-                    'src_platform':'verify',
-                    'dest_platform':'verify',
-                    'workflow':'verify_to_verify',
-                    'template_id':10000000,
-                    'id':10000000
-                },
+                # {
+                #     'src_platform':'verify',
+                #     'dest_platform':'verify',
+                #     'workflow':'verify_to_verify',
+                #     'template_id':10000000,
+                #     'id':10000000
+                # },
                 {
                     'src_platform':'verify_amz',
                     'dest_platform':'verify_amz',
