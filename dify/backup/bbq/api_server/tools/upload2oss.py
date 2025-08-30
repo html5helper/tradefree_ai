@@ -1,3 +1,4 @@
+from ast import main
 import os
 import oss2
 from typing import Optional
@@ -26,6 +27,32 @@ class OSSUploader:
             raise ValueError("Access Key ID and Secret must be set as environment variables")
         self.auth = oss2.Auth(access_key_id, access_key_secret)
         self.bucket = oss2.Bucket(self.auth, endpoint, bucket_name)
+        # 保存endpoint和bucket_name用于生成HTTP地址
+        self.endpoint = endpoint
+        self.bucket_name = bucket_name
+        self.host = os.getenv('OSS_HOST') or "http://image.html5core.com"
+        
+    def get_file_url(self, oss_file_path: str) -> str:
+        """
+        根据OSS文件路径生成HTTP访问地址
+        
+        Args:
+            oss_file_path: OSS上的文件路径
+            
+        Returns:
+            str: 文件的HTTP访问地址
+        """
+        if self.host.startswith('http'):
+            base_url = self.host
+        # 处理endpoint格式
+        elif self.endpoint.startswith('http'):
+            # 如果endpoint已包含协议，替换为bucket域名格式
+            base_url = self.endpoint.replace('://', f'://{self.bucket_name}.')
+        else:
+            # 如果endpoint不包含协议，添加https协议和bucket前缀
+            base_url = f"https://{self.bucket_name}.{self.endpoint}"
+        
+        return f"{base_url}/{oss_file_path}"
         
     def upload_file(self,
                     local_file_path: str,
@@ -55,6 +82,29 @@ class OSSUploader:
         # 返回OSS路径
         return oss_file_path
         
+    def upload_file_with_url(self,
+                            local_file_path: str,
+                            oss_file_path: Optional[str] = None,
+                            headers: Optional[dict] = None) -> dict:
+        """
+        上传文件到OSS并返回路径和HTTP地址
+        
+        Args:
+            local_file_path: 本地文件路径
+            oss_file_path: OSS上的文件路径,默认使用本地文件名
+            headers: 上传时的HTTP头部,可选
+            
+        Returns:
+            dict: 包含oss_path和http_url的字典
+        """
+        oss_path = self.upload_file(local_file_path, oss_file_path, headers)
+        http_url = self.get_file_url(oss_path)
+        
+        return {
+            "oss_path": oss_path,
+            "http_url": http_url
+        }
+        
     def upload_bytes(self,
                     file_content: bytes,
                     oss_file_path: str,
@@ -72,6 +122,29 @@ class OSSUploader:
         """
         self.bucket.put_object(oss_file_path, file_content, headers=headers)
         return oss_file_path
+        
+    def upload_bytes_with_url(self,
+                             file_content: bytes,
+                             oss_file_path: str,
+                             headers: Optional[dict] = None) -> dict:
+        """
+        上传二进制内容到OSS并返回路径和HTTP地址
+        
+        Args:
+            file_content: 文件二进制内容
+            oss_file_path: OSS上的文件路径
+            headers: 上传时的HTTP头部,可选
+            
+        Returns:
+            dict: 包含oss_path和http_url的字典
+        """
+        oss_path = self.upload_bytes(file_content, oss_file_path, headers)
+        http_url = self.get_file_url(oss_path)
+        
+        return {
+            "oss_path": oss_path,
+            "http_url": http_url
+        }
 
 # 使用示例:
 """
@@ -96,3 +169,21 @@ url = uploader.upload_bytes(
     oss_file_path='test.txt'
 )
 """
+
+if __name__ == '__main__':
+    # 初始化 OSS 上传器
+    uploader = OSSUploader(
+        endpoint='https://oss-cn-shenzhen.aliyuncs.com',  # 根据实际情况修改
+        bucket_name='tradefree-images'  # 使用实际的bucket名称
+    )
+    headers = {
+    # 'Content-Type': 'image/jpeg',
+    'Content-Type': 'image/png',
+    'Content-Disposition': 'inline'
+    }
+    url = uploader.upload_file_with_url(
+        local_file_path='/Users/huahua/Desktop/bbq/lbuicdnn.png',
+        oss_file_path='images/test2.jpg',
+        # headers=headers
+    )
+    print(url)
