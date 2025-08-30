@@ -141,15 +141,18 @@ def convert_to_square(image_path, output_path=None, background_color=(255, 255, 
 
         # 保存图片，尝试保持原始格式
         try:
-            if format and format.lower() in ["jpeg", "jpg"]:
-                square_image.save(output_path, format=format, quality=95)
-            elif format and format.lower() == "png":
-                square_image.save(output_path, format=format, optimize=True)
-            elif format and format.lower() == "webp":
-                square_image.save(output_path, format=format, quality=95)
-            else:
-                # 默认使用JPEG格式
-                square_image.save(output_path, format="JPEG", quality=95)
+            # if format and format.lower() in ["jpeg", "jpg"]:
+            #     square_image.save(output_path, format=format, quality=95)
+            # elif format and format.lower() == "png":
+            #     square_image.save(output_path, format=format, optimize=True)
+            # elif format and format.lower() == "webp":
+            #     square_image.save(output_path, format=format, quality=95)
+            # else:
+            #     # 默认使用JPEG格式
+            #     square_image.save(output_path, format="JPEG", quality=95)
+            
+            # 都使用JPEG格式
+            square_image.save(output_path, format="JPEG", quality=95)
 
             logging.info(
                 f"已转换: {image_path} -> {output_path} ({width}x{height} -> {square_size}x{square_size})"
@@ -297,15 +300,17 @@ def _collect_images_from_urls(image_urls, temp_dir):
 
         while retry_count < max_retries:
             try:
+                proxies = None
                 # 添加随机延迟，避免请求过于频繁
                 if i > 0:  # 第一个请求不延迟
                     delay = random.uniform(1, 3)  # 随机1-3秒延迟
                     logging.info(f"请求延迟 {delay:.2f} 秒...")
                     time.sleep(delay)
+                    proxies=PROXIES
 
                 # 使用随机请求头发送请求
                 logging.debug(f"发送GET请求到 {url}")
-                response = requests.get(url, headers=headers, timeout=30, stream=True, proxies=PROXIES)
+                response = requests.get(url, headers=headers, timeout=30, stream=True, proxies=proxies)
                 response.raise_for_status()
 
                 # 获取文件名
@@ -493,10 +498,11 @@ def process_images_to_square_route():
             try:
                 # 生成输出文件名
                 output_filename = f"square_{os.path.basename(image_path)}"
+                output_filename_jpeg = f"{output_filename}.jpeg"
                 output_path = os.path.join(output_dir, run_id, output_filename)
                 os.makedirs(os.path.dirname(output_path), exist_ok=True)
                 logging.info(
-                    f"处理图片 [{i+1}/{len(image_paths)}]: {image_path} -> {output_path}"
+                    f"处理图片 [{i+1}/{len(image_paths)}]: {image_path} -> {output_path} -> {output_filename_jpeg}"
                 )
 
                 # 转换为正方形
@@ -510,7 +516,8 @@ def process_images_to_square_route():
                     try:
                         # 生成 OSS 路径
                         date_str = datetime.now().strftime('%Y%m%d')
-                        oss_path = f"comfyui/{date_str}/img2square/{run_id}/{output_filename}"
+                        # oss_path = f"comfyui/{date_str}/img2square/{run_id}/{output_filename}"
+                        oss_path = f"comfyui/{date_str}/img2square/{run_id}/{output_filename_jpeg}"
                         
                         # 上传文件并获取 URL
                         upload_result = uploader.upload_file_with_url(
