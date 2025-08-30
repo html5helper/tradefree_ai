@@ -5,6 +5,7 @@ from oss_api import upload_file_to_oss_route
 from img2video_api import process_images_to_video_route
 from svg2cmyk_api import convert_svg_to_cmyk_pdf_route
 from img2square_api import process_images_to_square_route
+from sticker_stats_api import analyze_sticker_data_route
 
 app = Flask(__name__)
 
@@ -27,6 +28,11 @@ app.add_url_rule(
 app.add_url_rule(
     "/convert_to_square",
     view_func=process_images_to_square_route,
+    methods=["POST"],
+)
+app.add_url_rule(
+    "/analyze_sticker_data",
+    view_func=analyze_sticker_data_route,
     methods=["POST"],
 )
 
