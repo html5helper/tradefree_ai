@@ -51,7 +51,13 @@ class DifyConfig:
 class DifyClient:
     """Dify API客户端类"""
 
-    def __init__(self, api_key: str = None, user_id: str = None, debug: bool = False):
+    def __init__(
+        self,
+        api_key: str = None,
+        user_id: str = None,
+        debug: bool = False,
+        base_url: str = None,
+    ):
         """初始化Dify客户端
 
         参数:
@@ -61,6 +67,7 @@ class DifyClient:
         """
         self.api_key = api_key or DifyConfig.DEFAULT_API_KEY
         self.user_id = user_id or DifyConfig.DEFAULT_USER_ID
+        self.base_url = base_url or DifyConfig.BASE_URL
         self.debug = debug
 
     def upload_file(self, file_path: str, user: str = None) -> Optional[str]:
@@ -73,7 +80,7 @@ class DifyClient:
         返回:
             成功返回文件ID，失败返回None
         """
-        upload_url = f"{DifyConfig.BASE_URL}{DifyConfig.ENDPOINTS['file_upload']}"
+        upload_url = f"{self.base_url}{DifyConfig.ENDPOINTS['file_upload']}"
         headers = {
             "Authorization": f"Bearer {self.api_key}",
         }
@@ -143,7 +150,7 @@ class DifyClient:
                 "message": f"Invalid response_mode: {response_mode}. Must be one of {DifyConfig.RESPONSE_MODES}",
             }
 
-        workflow_url = f"{DifyConfig.BASE_URL}{DifyConfig.ENDPOINTS['workflow_run']}"
+        workflow_url = f"{self.base_url}{DifyConfig.ENDPOINTS['workflow_run']}"
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
@@ -376,6 +383,53 @@ def xie_workflow(image_url, steps=20):
     print(json.dumps(result, indent=2, ensure_ascii=False))
 
 
+def nanobanana_workflow(
+    imgs: List[str] = [
+        "/Users/qinbinbin/Desktop/鞋/xie_base/xie_22.png",
+        "https://safc.oss-cn-hangzhou.aliyuncs.com/safc/test/xie_mask.png",
+    ],
+    query: str = "Replace the blue area with the white slip-on shoe sole while keeping the collar style, original shape, and texture details unchanged, emphasizing that the shoe is a slip-on design",
+):
+    dify_client = DifyClient(
+        api_key="app-YqSxhz5fntwlo7qorsuWXcy6",  # 替换为您的API密钥
+        user_id="difyuser",  # 替换为您的用户ID
+        debug=True,  # 开启调试模式
+        base_url="http://dify.tradefree.ai",
+    )
+
+    workflow_inputs_imgs = []
+    for img in imgs:
+        if img.startswith("http"):
+            workflow_inputs_imgs.append(
+                {
+                    "transfer_method": "remote_url",
+                    "url": img,
+                    "type": "image",
+                }
+            )
+        elif os.path.exists(img):
+            file_id = dify_client.upload_file(img)
+            if file_id:
+                workflow_inputs_imgs.append(
+                    {
+                        "transfer_method": "local_file",
+                        "upload_file_id": file_id,
+                        "type": "image",
+                    }
+                )
+        else:
+            print(f"文件不存在: {img}")
+            continue
+    workflow_inputs = {
+        "imgs": workflow_inputs_imgs,
+        "query": query,
+    }
+
+    # 执行工作流
+    result = dify_client.run_workflow(workflow_inputs)
+    print(json.dumps(result, indent=2, ensure_ascii=False))
+
+
 def download_image(url, save_path):
     response = requests.get(url)
     response.raise_for_status()
@@ -385,6 +439,8 @@ def download_image(url, save_path):
 
 # 主函数
 if __name__ == "__main__":
+    nanobanana_workflow()
+    exit()
     # 从指定目录读取所有图片文件
     base_dir = "/Users/qinbinbin/Desktop/xxx/xinglix/三叉戟"
     image_files = [
