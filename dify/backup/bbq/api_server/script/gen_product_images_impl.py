@@ -16,7 +16,7 @@ import argparse
 import requests
 import io
 import uuid
-import time
+from datetime import datetime
 from PIL import Image
 from typing import List, Dict, Any, Optional, Tuple
 import logging
@@ -28,7 +28,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from dify_exec_workflow import nanobanana_workflow, x4_workflow
 from image_split import split_image, remove_background
 
-# from ..tools.upload2oss import OSSUploader
+from tools.upload2oss import OSSUploader
 
 # 配置日志
 logging.basicConfig(
@@ -47,7 +47,10 @@ class ProductImageGenerator:
             output_dir: 输出目录
         """
         self.output_dir = output_dir
-        # self.oss_uploader = OSSUploader()
+        self.oss_uploader = OSSUploader(
+            endpoint="https://oss-cn-shenzhen.aliyuncs.com",  # 根据实际情况修改
+            bucket_name="tradefree-images",  # 使用实际的bucket名称
+        )
 
         # 创建输出目录
         os.makedirs(output_dir, exist_ok=True)
@@ -161,25 +164,36 @@ class ProductImageGenerator:
 
     #     return result_paths
 
-    def upload_to_oss(self, image_paths: List[str]) -> List[str]:
+    def upload_to_oss(self, image_dir: str) -> List[str]:
         """上传图片至OSS
 
         Args:
-            image_paths: 图片路径列表
+            image_dir: 图片目录
 
         Returns:
             List[str]: OSS URL列表
         """
-        logger.info(f"开始上传{len(image_paths)}张图片至OSS")
+        logger.info(f"开始上传{len(image_dir)}张图片至OSS")
 
         oss_urls = []
+        # 遍历文件夹image_dir，并将下面所有的文件上传至oss
+        image_paths = []
+        for root, dirs, files in os.walk(image_dir):
+            for file in files:
+                image_paths.append(os.path.join(root, file))
+
+        date_str = datetime.now().strftime("%Y%m%d")
+
         for i, image_path in enumerate(image_paths):
             try:
                 # 获取文件名
                 file_name = os.path.basename(image_path)
+                # 生成 OSS 路径
+                # oss_path = f"comfyui/{date_str}/img2square/{run_id}/{output_filename}"
+                oss_path = f"product/{date_str}/{file_name}"
 
                 # 上传到OSS
-                oss_url = self.oss_uploader.upload_file(image_path, file_name)
+                oss_url = self.oss_uploader.upload_file(image_path, oss_path)
 
                 oss_urls.append(oss_url)
                 logger.info(f"成功上传图片至OSS [{i+1}/{len(image_paths)}]：{oss_url}")
@@ -233,8 +247,8 @@ class ProductImageGenerator:
                 # result["nobg_images"].extend(nobg_paths)
 
                 # # 4. 上传至OSS
-                # oss_urls = self.upload_to_oss(nobg_paths)
-                # result["oss_urls"].extend(oss_urls)
+                oss_urls = self.upload_to_oss(split_paths)
+                result["oss_urls"].extend(oss_urls)
 
             logger.info("图片生成流程处理完成")
             return result
