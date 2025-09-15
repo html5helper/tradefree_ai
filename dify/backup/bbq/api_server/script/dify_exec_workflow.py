@@ -428,6 +428,10 @@ def nanobanana_workflow(
     # 执行工作流
     result = dify_client.run_workflow(workflow_inputs)
     print(json.dumps(result, indent=2, ensure_ascii=False))
+    try:
+        return result.get("data").get("outputs").get("imgs")[0]["url"]
+    except:
+        return None
 
 
 def download_image(url, save_path):
@@ -439,7 +443,8 @@ def download_image(url, save_path):
 
 # 主函数
 if __name__ == "__main__":
-    nanobanana_workflow()
+    x = nanobanana_workflow()
+    print(x)
     exit()
     # 从指定目录读取所有图片文件
     base_dir = "/Users/qinbinbin/Desktop/xxx/xinglix/三叉戟"
