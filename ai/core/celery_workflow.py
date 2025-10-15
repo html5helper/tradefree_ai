@@ -15,6 +15,8 @@ class CeleryWorkflow:
         workflow = data.get("workflow", None)
         auto_publish = data.get("auto_publish", 0)
 
+        print(f"auto_publish: {auto_publish}")
+
         signatures = []
         CHAIN_MAP_TEMP = []
         if auto_publish == 1:
