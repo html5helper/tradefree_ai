@@ -15,12 +15,12 @@ class CeleryWorkflow:
         workflow = data.get("workflow", None)
         auto_publish = data.get("auto_publish", 0)
 
-        print(f"auto_publish: {auto_publish}")
+        print(f"auto_publish: {auto_publish}, workflow: {workflow}")
 
         signatures = []
         CHAIN_MAP_TEMP = []
         if auto_publish == 1:
-            CHAIN_MAP_TEMP = CHAIN_MAP[workflow] + CHAIN_MAP[TOB_PUBLISH_WORKFLOW_CHAIN]
+            CHAIN_MAP_TEMP = CHAIN_MAP[workflow] + TOB_PUBLISH_WORKFLOW_CHAIN
         else:
             CHAIN_MAP_TEMP = CHAIN_MAP[workflow]
 
