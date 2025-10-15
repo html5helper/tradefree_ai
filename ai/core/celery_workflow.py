@@ -1,6 +1,6 @@
 from celery import chain
 from ai.core.celery_app import app as celery_app
-from ai.config.celeryconfig import CHAIN_MAP
+from ai.config.celeryconfig import CHAIN_MAP,TOB_PUBLISH_WORKFLOW_CHAIN
 from celery import current_task
 import uuid
 
@@ -13,9 +13,16 @@ class CeleryWorkflow:
         if not data.get("trace_id"):
             data['trace_id'] = str(uuid.uuid4())
         workflow = data.get("workflow", None)
+        auto_publish = data.get("auto_publish", 0)
 
         signatures = []
-        for task_name in CHAIN_MAP[workflow]:
+        CHAIN_MAP_TEMP = []
+        if auto_publish == 1:
+            CHAIN_MAP_TEMP = CHAIN_MAP[workflow] + CHAIN_MAP[TOB_PUBLISH_WORKFLOW_CHAIN]
+        else:
+            CHAIN_MAP_TEMP = CHAIN_MAP[workflow]
+
+        for task_name in CHAIN_MAP_TEMP:
             signatures.append(celery_app.signature(task_name))
         workflow = chain(*signatures)
         # 只给第一个任务传 event，转换为字典以确保可序列化
