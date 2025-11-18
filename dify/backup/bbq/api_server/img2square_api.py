@@ -34,6 +34,7 @@ def get_random_proxy():
     port = random.randint(PROXY_PORT_START, PROXY_PORT_END)
     proxy = f"http://{PROXY_USERNAME}:{PROXY_PASSWORD}@{PROXY_URL}:{port}"
     proxies = {"http": proxy, "https": proxy}
+    logging.info(f"使用代理: {proxy}")
     return proxies
 
 
