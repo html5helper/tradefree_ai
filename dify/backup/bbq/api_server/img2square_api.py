@@ -16,18 +16,26 @@ from tools.upload2oss import OSSUploader
 
 # 初始化 OSS 上传器
 uploader = OSSUploader(
-    endpoint='https://oss-cn-shenzhen.aliyuncs.com',  # 根据实际情况修改
-    bucket_name='tradefree-images'  # 使用实际的bucket名称
+    endpoint="https://oss-cn-shenzhen.aliyuncs.com",  # 根据实际情况修改
+    bucket_name="tradefree-images",  # 使用实际的bucket名称
 )
 
-PROXY_USERNAME = os.getenv('PROXY_USERNAME')
-PROXY_PASSWORD = os.getenv('PROXY_PASSWORD')
-PROXY_URL = os.getenv('PROXY_URL')
-PROXY = f"http://{PROXY_USERNAME}:{PROXY_PASSWORD}@{PROXY_URL}"
-PROXIES = {
-    'http': PROXY,
-    'https': PROXY
-}
+PROXY_USERNAME = os.getenv("PROXY_USERNAME")
+PROXY_PASSWORD = os.getenv("PROXY_PASSWORD")
+PROXY_URL = os.getenv("PROXY_URL")
+PROXY_PORT_START = int(os.getenv("PROXY_PORT_START"))
+PROXY_PORT_END = int(os.getenv("PROXY_PORT_END"))
+# PROXY = f"http://{PROXY_USERNAME}:{PROXY_PASSWORD}@{PROXY_URL}"
+# PROXIES = {"http": PROXY, "https": PROXY}
+
+
+def get_random_proxy():
+    """获取随机代理"""
+    port = random.randint(PROXY_PORT_START, PROXY_PORT_END)
+    proxy = f"http://{PROXY_USERNAME}:{PROXY_PASSWORD}@{PROXY_URL}:{port}"
+    proxies = {"http": proxy, "https": proxy}
+    return proxies
+
 
 # 定义输出目录
 # output_dir = os.environ.get("OUTPUT_DIR", "/tmp")
@@ -150,7 +158,7 @@ def convert_to_square(image_path, output_path=None, background_color=(255, 255, 
             # else:
             #     # 默认使用JPEG格式
             #     square_image.save(output_path, format="JPEG", quality=95)
-            
+
             # 都使用JPEG格式
             square_image.save(output_path, format="JPEG", quality=95)
 
@@ -300,17 +308,23 @@ def _collect_images_from_urls(image_urls, temp_dir):
 
         while retry_count < max_retries:
             try:
-                proxies = None
+                # proxies = None
                 # 添加随机延迟，避免请求过于频繁
                 if i > 0:  # 第一个请求不延迟
                     delay = random.uniform(1, 3)  # 随机1-3秒延迟
                     logging.info(f"请求延迟 {delay:.2f} 秒...")
                     time.sleep(delay)
-                    proxies=PROXIES
+                    # proxies = get_random_proxy()
 
                 # 使用随机请求头发送请求
                 logging.debug(f"发送GET请求到 {url}")
-                response = requests.get(url, headers=headers, timeout=30, stream=True, proxies=proxies)
+                response = requests.get(
+                    url,
+                    headers=headers,
+                    timeout=30,
+                    stream=True,
+                    proxies=get_random_proxy(),
+                )
                 response.raise_for_status()
 
                 # 获取文件名
@@ -515,20 +529,21 @@ def process_images_to_square_route():
                     # 上传到 OSS 并获取 HTTP URL
                     try:
                         # 生成 OSS 路径
-                        date_str = datetime.now().strftime('%Y%m%d')
+                        date_str = datetime.now().strftime("%Y%m%d")
                         # oss_path = f"comfyui/{date_str}/img2square/{run_id}/{output_filename}"
                         oss_path = f"comfyui/{date_str}/img2square/{run_id}/{output_filename_jpeg}"
-                        
+
                         # 上传文件并获取 URL
                         upload_result = uploader.upload_file_with_url(
-                            local_file_path=converted_path,
-                            oss_file_path=oss_path
+                            local_file_path=converted_path, oss_file_path=oss_path
                         )
-                        
+
                         # 将 HTTP URL 添加到结果列表
-                        output_urls.append(quote(upload_result['http_url'], safe=':/?=&'))
+                        output_urls.append(
+                            quote(upload_result["http_url"], safe=":/?=&")
+                        )
                         logging.info(f"图片已上传到 OSS: {upload_result['http_url']}")
-                        
+
                     except Exception as e:
                         logging.error(f"OSS 上传失败 {converted_path}: {e}")
                         # 如果 OSS 上传失败，回退到原来的 HTTP 地址
